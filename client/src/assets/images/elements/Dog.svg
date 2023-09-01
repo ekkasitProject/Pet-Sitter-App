@@ -1,0 +1,12 @@
+<svg width="253" height="253" viewBox="0 0 253 253" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g clip-path="url(#clip0_1_663)">
+<path d="M126.5 0C147.303 2.48074e-07 167.785 5.13047 186.132 14.937C204.478 24.7434 220.123 38.9233 231.681 56.2204C243.238 73.5175 250.352 93.3979 252.391 114.101C254.43 134.804 251.332 155.69 243.371 174.909C235.41 194.129 222.832 211.088 206.751 224.286C190.67 237.483 171.582 246.511 151.179 250.569C130.776 254.628 109.686 253.592 89.779 247.553C69.8717 241.514 51.761 230.659 37.051 215.949L126.5 126.5V0Z" fill="#FFCA62"/>
+<rect y="-23" width="261" height="276" fill="url(#pattern0)"/>
+</g>
+<defs>
+<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+<use xlink:href="#image0_1_663" transform="matrix(0.000258172 0 0 0.000244141 -0.000336746 0)"/>
+</pattern>
+<clipPath id="clip0_1_663">
+<rect width="253" height="253" rx="126.5" fill="white"/>
+</clipPath>
