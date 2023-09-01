@@ -10,12 +10,12 @@ function PetSitterList() {
         className="pet-sitter-page-wrapper w-screen h-[1570px] "
         style={{ fontFamily: "Satoshi-Bold" }}
       >
-        <header className="w-screen h-auto bg-slate-200 py-5 px-10">
+        <header className="w-screen h-auto  py-10 mb-10 px-16">
           <h1 className="text-2xl text-primaryGray2">Search For Pet Sitter</h1>
         </header>
         <div className="pet-sitter-list-wrapper w-full h-full flex flex-row relative">
           <div className="pet-sitter-filter w-1/3 h-full ">
-            <div className="pet-sitter-list-box rounded-lg shadow-custom w-3/12 h-3/5 fixed top-[90px] left-[60px] p-5 pt-7 ">
+            <div className="pet-sitter-list-box rounded-lg shadow-custom w-10/12 h-1/4 sticky top-[130px] left-[60px] p-5 pt-7 ">
               <div className="w-full h-1/4 ">
                 <label htmlFor="search for pet sitter">
                   <h1>Search</h1>
