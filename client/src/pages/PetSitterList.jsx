@@ -152,7 +152,7 @@ function PetSitterList() {
                   <div className="inline-flex items-center border border-secondaryPink1 rounded-full px-3 py-1 text-secondaryPink1 bg-secondaryPink2">
                     <span class="text-sm font-semibold">Cat</span>
                   </div>
-                  <div className="inline-flex items-center border border-secondaryBlue1 rounded-full px-3 py-1 text-secondaryBlue1 bg-blue-secondaryBlue2">
+                  <div className="inline-flex items-center border border-secondaryBlue1 rounded-full px-3 py-1 text-secondaryBlue1 bg-secondaryBlue2">
                     <span class="text-sm font-semibold">Bird</span>
                   </div>
                   <div className="inline-flex items-center border border-primaryOrange3 rounded-full px-3 py-1 text-primaryOrange3 bg-primaryOrange6">
