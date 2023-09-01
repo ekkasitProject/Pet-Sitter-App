@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 /*import { useDebouncedCallback } from "use-debounce";*/
-import Button from "@mui/material/Button";
 
 function PetSitterList() {
   return (
@@ -96,27 +95,40 @@ function PetSitterList() {
             </div>
           </div>
           {/* Pet Sitter List Section */}
-          <div className="pet-sitter-list-section h-full w-2/3 bg-green-500 flex flex-col items-center">
-            <div className="pet-sitter-list-card w-11/12 h-2/12 bg-green-300 my-10 p-5 rounded-md flex flex-row">
-              <div className="pet-sitter-image-card bg-pink-400 w-1/3 h-full">
+          <div className="pet-sitter-list-section px-6 h-full w-3/5 flex flex-col items-center">
+            <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-10 p-5 rounded-md flex flex-row">
+              <div className="pet-sitter-image-card  w-1/3 h-full">
                 <img
                   src="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
                   className="rounded-lg w-[300px] h-[250px]"
                 />
               </div>
-              <div className="pet-sitter-image-card bg-pink-200 w-2/3 h-full pl-6">
-                <div className="flex flex-row">
+              <div className="pet-sitter-image-card w-2/3 h-full pl-10 flex flex-col justify-around">
+                <div className="flex flex-row gap-5">
                   <img
                     src="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
-                    className="rounded-full w-[50px] h-[50px]"
+                    className="rounded-full w-[60px] h-[60px]"
                   />
-                  <div>
-                    <h1>Pet Sitter Shop Name</h1>
-                    <h2>Pet Sitter Fullname</h2>
+                  <div className="flex flex-col justify-center">
+                    <h1 className="text-lg">Pet Sitter Shop Name</h1>
+                    <h3 className="text-sm">By Pet Sitter Fullname</h3>
                   </div>
                 </div>
-                <div>Location</div>
-                <div>Pet Type</div>
+                <div className="text-zinc-400">icon District, Province </div>
+                <div className="flex flex-row gap-2">
+                  <div className="inline-flex items-center border border-green-500 rounded-full px-3 py-1 text-green-500 bg-green-100">
+                    <span class="text-sm font-semibold">Dog</span>
+                  </div>
+                  <div className="inline-flex items-center border border-pink-500 rounded-full px-3 py-1 text-pink-500 bg-pink-100">
+                    <span class="text-sm font-semibold">Cat</span>
+                  </div>
+                  <div className="inline-flex items-center border border-blue-500 rounded-full px-3 py-1 text-blue-500 bg-blue-100">
+                    <span class="text-sm font-semibold">Bird</span>
+                  </div>
+                  <div className="inline-flex items-center border border-orange-500 rounded-full px-3 py-1 text-orange-500 bg-orange-100">
+                    <span class="text-sm font-semibold">Rabbit</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
