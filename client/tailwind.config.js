@@ -38,5 +38,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  /*plugins: [require("@tailwindcss/forms")]  ใส่เพื่อสไตล์checkboxได้ ,*/
 };
