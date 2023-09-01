@@ -1,8 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  /* important: "#root", ใช้injectFirstแทนแล้ว*/
-  /*ใส่ css variable ในส่วนfontsizeเพิ่ม*/
+  /* important: "#root", ไม่ต้องใส่ใช้injectFirstหากแทนแล้ว*/
+  /*ใส่ css variable ในส่วนfontsizeเพิ่มแล้ว*/
   theme: {
     extend: {
       colors: {
@@ -36,7 +36,19 @@ export default {
         custom2:
           "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;",
       },
+      fontFamily: {
+        satoshi: ["Satoshi-Medium", "sans-serif"],
+      },
+      fontSize: {
+        headLine1: ["56px", { lineHeight: "64px", fontWeight: "700" }],
+        headLine2: ["36px", { lineHeight: "44px", fontWeight: "700" }],
+        headLine3: ["24px", { lineHeight: "32px", fontWeight: "700" }],
+        headLine4: ["18px", { lineHeight: "64px", fontWeight: "700" }],
+        body1: ["18px", { lineHeight: "26px", fontWeight: "500" }],
+        body2: ["16px", { lineHeight: "28px", fontWeight: "500" }],
+        body3: ["14px", { lineHeight: "24px", fontWeight: "500" }],
+        display: ["88px", { lineHeight: "96px", fontWeight: "900" }],
+      },
     },
   },
-  /*plugins: [require("@tailwindcss/forms")]  ใส่เพื่อสไตล์checkboxได้ ,*/
 };
