@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  /* important: "#root", ใช้injectFirstแทนแล้ว*/
+  /*ใส่ css variable ในส่วนfontsizeเพิ่ม*/
   theme: {
     extend: {
       colors: {
