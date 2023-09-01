@@ -15,21 +15,83 @@ function PetSitterList() {
         </header>
         <div className="pet-sitter-list-wrapper w-full h-full flex flex-row relative">
           <div className="pet-sitter-filter w-1/3 h-full ">
-            <div className="pet-sitter-list-box rounded-lg shadow-lg w-3/12 h-4/5 fixed top-[90px] left-[60px] p-5">
+            <div className="pet-sitter-list-box rounded-lg shadow-custom w-3/12 h-3/5 fixed top-[90px] left-[60px] p-5 pt-7 ">
               <div className="w-full h-1/4 ">
-                <h1>Search</h1>
+                <label htmlFor="search for pet sitter">
+                  <h1>Search</h1>
+                </label>
+                <input
+                  type="text"
+                  value=""
+                  className="border-gray-200 border-2 rounded-lg w-full h-[45px]"
+                />
               </div>
-              <div className="w-full h-1/4 bg-pink-300">
+              <div className="w-full h-1/4 ">
                 <h1>Pet Type:</h1>
+                <div className="flex flex-row justify-evenly mt-3">
+                  <div className="flex flex-row gap-2 items-center">
+                    <input
+                      type="checkbox"
+                      id="dog"
+                      name="dog"
+                      className="h-4 w-4 "
+                    />
+                    <label for="dog">Dog</label>
+                  </div>
+                  <div className="flex flex-row gap-2 items-center">
+                    <input
+                      type="checkbox"
+                      id="cat"
+                      name="cat"
+                      className="h-4 w-4 "
+                    />
+                    <label for="dog">Cat</label>
+                  </div>
+                  <div className="flex flex-row gap-2 items-center">
+                    <input
+                      type="checkbox"
+                      id="bird"
+                      name="bird"
+                      className="h-4 w-4 "
+                    />
+                    <label for="dog">Bird</label>
+                  </div>
+                  <div className="flex flex-row gap-2 items-center">
+                    <input
+                      type="checkbox"
+                      id="rabbit"
+                      name="rabbit"
+                      className="h-4 w-4 "
+                    />
+                    <label for="dog">Rabbit</label>
+                  </div>
+                </div>
               </div>
               {/*<div className="w-full h-1/5 bg-pink-300">
                 <h1>Rating:</h1>
   </div>*/}
-              <div className="w-full h-1/4 bg-pink-300">
-                <h1>Experience</h1>
+              <div className="w-full h-1/4">
+                <label for="dropdown">
+                  <h1>Experience:</h1>
+                </label>
+                <select
+                  id="experience"
+                  name="experience"
+                  class=" border-gray-200 border-2 rounded-lg w-full py-2 px-3 mt-3"
+                >
+                  <option value="option1">Option 1</option>
+                  <option value="option2">Option 2</option>
+                  <option value="option3">Option 3</option>
+                  <option value="option4">Option 4</option>
+                </select>
               </div>
-              <div className="w-full h-1/4 bg-pink-300">
-                <h1>Button</h1>
+              <div className="w-full h-1/4 flex flex-row gap-2 justify-center items-center">
+                <button class="w-[150px] h-[50px] py-2  bg-orange-100 rounded-full hover:bg-orange-600 text-orange-500">
+                  Clear
+                </button>
+                <button class="w-[150px] h-[50px] py-2 bg-orange-500 rounded-full hover:bg-orange-600 text-white">
+                  Search
+                </button>
               </div>
             </div>
           </div>
