@@ -168,8 +168,8 @@ const PetCareSlogan = () => {
               onChange={handleChangeExperience} // Use the correct handleChange function
               value={experience} // Set the value to the experience state
             >
-              <MenuItem value={1}>1 Year</MenuItem>
-              <MenuItem value={2}>2 Year</MenuItem>
+              <MenuItem value={1}>0 Year</MenuItem>
+              <MenuItem value={2}>1 Year</MenuItem>
               <MenuItem value={3}>2 Year</MenuItem>
             </Select>
           </FormControl>
