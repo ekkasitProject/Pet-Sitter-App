@@ -43,16 +43,19 @@ petOwnerUser.post("/register", async (req, res) => {
         phone,
         password: hashedPassword,
         emailVerificationToken: verificationToken,
+        image_profile:
+          "https://dwnbqmdvggdkkisogmfy.supabase.co/storage/v1/object/public/avatar/Frame%20427321095.png",
       },
     });
 
     // Send an email with the verification link
     const verificationLink = `http://localhost:4000/petowneruser/verify?token=${verificationToken}`;
+
     await transporter.sendMail({
       from: "admin@gmail.com",
       to: email,
       subject: "ยืนยันอีเมล",
-      html: `คลิกลิงก์เพื่อยืนยันอีเมลของคุณ: <a href="${verificationLink}">กดสิ่ครับรอไร</a>`,
+      html: `คลิกลิงก์เพื่อยืนยันอีเมลของคุณ: <a href="${verificationLink}">คลิ๊ก!!!</a>`,
     });
 
     res.status(200).json({
@@ -79,10 +82,10 @@ petOwnerUser.get("/verify", async (req, res) => {
       return res.status(404).json({ message: "โทเค็นยืนยันไม่ถูกต้อง" });
     }
 
-    // Mark the email as verified
+    // แก้คอลัมน์ email_verification เป็น true
     await prisma.petOwnerUser.update({
       where: { petowner_id: user.petowner_id },
-      data: { email_verification: true }, // Change to email_verification
+      data: { email_verification: true }, // แก้เป็น email_verification
     });
 
     res.status(200).json({ message: "การยืนยันอีเมลสำเร็จ" });
