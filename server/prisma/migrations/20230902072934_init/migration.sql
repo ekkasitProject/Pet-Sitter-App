@@ -9,6 +9,7 @@ CREATE TABLE "PetOwnerUser" (
     "id_card_number" TEXT,
     "date_of_birth" TIMESTAMP(3),
     "email_verification" BOOLEAN NOT NULL DEFAULT false,
+    "emailVerificationToken" TEXT,
 
     CONSTRAINT "PetOwnerUser_pkey" PRIMARY KEY ("petowner_id")
 );
