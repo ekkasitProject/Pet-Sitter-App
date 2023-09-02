@@ -10,6 +10,8 @@ CREATE TABLE "PetOwnerUser" (
     "date_of_birth" TIMESTAMP(3),
     "email_verification" BOOLEAN NOT NULL DEFAULT false,
     "emailVerificationToken" TEXT,
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "PetOwnerUser_pkey" PRIMARY KEY ("petowner_id")
 );

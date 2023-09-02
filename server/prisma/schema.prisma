@@ -20,4 +20,6 @@ model PetOwnerUser {
   date_of_birth   DateTime?
   email_verification Boolean @default(false)
   emailVerificationToken String? 
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
 }
