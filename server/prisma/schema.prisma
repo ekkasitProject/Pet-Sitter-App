@@ -42,17 +42,58 @@ model PetDetail {
   owner_id Int
 }
 
+// model PetSitterUser {
+//   petsitter_id Int @id @default(autoincrement())
+//   image_profile          String?
+//   username               String?
+//   email                  String  @unique
+//   password               String
+//   phone                  String
+//   experience             String?
+//   id_card_number         String?
+//   introduction           String?
+//   email_verification     Boolean @default(false)
+//   emailVerificationToken String?
+// }
+
 model PetSitterUser {
-  petsitter_id Int @id @default(autoincrement())
+  petsitter_id           Int         @id @default(autoincrement())
   image_profile          String?
   username               String?
-  email                  String  @unique
+  email                  String      @unique
   password               String
   phone                  String
   experience             String?
   id_card_number         String?
   introduction           String?
-  status_validate        Boolean
-  email_verification     Boolean @default(false)
+  email_verification     Boolean     @default(false)
   emailVerificationToken String?
+  petsisterdetail        PetSisterDetail[]
+  addresses              Address[]
+}
+
+model PetSisterDetail {
+  petsisterdetail_id Int            @id @default(autoincrement())
+  petsister          PetSitterUser  @relation(fields: [petsister_id], references: [petsitter_id])
+  petsister_id       Int
+  pet_sister_name    String
+  pet_type           String
+  services           String
+  my_place           String
+  image_gallery      String?
+  createAt           DateTime       @default(now())
+  updateAt           DateTime       @updatedAt
+}
+
+model Address {
+  address_id       Int            @id @default(autoincrement())
+  petsister        PetSitterUser  @relation(fields: [petsister_id], references: [petsitter_id])
+  petsister_id     Int
+  address_detail   String
+  district         String
+  sub_district     String
+  province         String
+  post_code        String?
+  createAt         DateTime       @default(now())
+  updateAt         DateTime       @updatedAt
 }
