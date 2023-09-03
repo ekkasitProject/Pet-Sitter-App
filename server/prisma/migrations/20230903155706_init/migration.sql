@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "PetOwnerUser" (
-    "petowner_id" SERIAL NOT NULL,
+    "petowner_id" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "image_profile" TEXT,
     "email" TEXT NOT NULL,
@@ -18,7 +18,7 @@ CREATE TABLE "PetOwnerUser" (
 
 -- CreateTable
 CREATE TABLE "PetDetail" (
-    "pet_id" SERIAL NOT NULL,
+    "pet_id" TEXT NOT NULL,
     "petname" TEXT NOT NULL,
     "image_profile" TEXT NOT NULL,
     "pettype" TEXT NOT NULL,
@@ -30,14 +30,14 @@ CREATE TABLE "PetDetail" (
     "about" TEXT NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
-    "owner_id" INTEGER NOT NULL,
+    "owner_id" TEXT NOT NULL,
 
     CONSTRAINT "PetDetail_pkey" PRIMARY KEY ("pet_id")
 );
 
 -- CreateTable
 CREATE TABLE "PetSitterUser" (
-    "petsitter_id" SERIAL NOT NULL,
+    "petsitter_id" TEXT NOT NULL,
     "image_profile" TEXT,
     "username" TEXT,
     "email" TEXT NOT NULL,
@@ -54,8 +54,8 @@ CREATE TABLE "PetSitterUser" (
 
 -- CreateTable
 CREATE TABLE "PetSisterDetail" (
-    "petsisterdetail_id" SERIAL NOT NULL,
-    "petsister_id" INTEGER NOT NULL,
+    "petsisterdetail_id" TEXT NOT NULL,
+    "petsister_id" TEXT NOT NULL,
     "pet_sister_name" TEXT NOT NULL,
     "pet_type" TEXT NOT NULL,
     "services" TEXT NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE "PetSisterDetail" (
 -- CreateTable
 CREATE TABLE "Address" (
     "address_id" SERIAL NOT NULL,
-    "petsister_id" INTEGER NOT NULL,
+    "petsister_id" TEXT NOT NULL,
     "address_detail" TEXT NOT NULL,
     "district" TEXT NOT NULL,
     "sub_district" TEXT NOT NULL,

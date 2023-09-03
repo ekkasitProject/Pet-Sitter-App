@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model PetOwnerUser {
-  petowner_id     Int      @id @default(autoincrement())
+  petowner_id     String      @id @default(uuid())
   username        String
   image_profile   String?
   email           String   @unique
@@ -26,7 +26,7 @@ model PetOwnerUser {
 }
 
 model PetDetail {
-  pet_id Int @id @default(autoincrement())
+  pet_id  String      @id @default(uuid())
   petname String
   image_profile String
   pettype String
@@ -39,25 +39,12 @@ model PetDetail {
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
   owner PetOwnerUser @relation(fields: [owner_id], references: [petowner_id])
-  owner_id Int
+  owner_id String
 }
 
-// model PetSitterUser {
-//   petsitter_id Int @id @default(autoincrement())
-//   image_profile          String?
-//   username               String?
-//   email                  String  @unique
-//   password               String
-//   phone                  String
-//   experience             String?
-//   id_card_number         String?
-//   introduction           String?
-//   email_verification     Boolean @default(false)
-//   emailVerificationToken String?
-// }
 
 model PetSitterUser {
-  petsitter_id           Int         @id @default(autoincrement())
+  petsitter_id           String      @id @default(uuid())
   image_profile          String?
   username               String?
   email                  String      @unique
@@ -73,9 +60,9 @@ model PetSitterUser {
 }
 
 model PetSisterDetail {
-  petsisterdetail_id Int            @id @default(autoincrement())
+  petsisterdetail_id String      @id @default(uuid())
   petsister          PetSitterUser  @relation(fields: [petsister_id], references: [petsitter_id])
-  petsister_id       Int
+  petsister_id       String
   pet_sister_name    String
   pet_type           String
   services           String
@@ -88,7 +75,7 @@ model PetSisterDetail {
 model Address {
   address_id       Int            @id @default(autoincrement())
   petsister        PetSitterUser  @relation(fields: [petsister_id], references: [petsitter_id])
-  petsister_id     Int
+  petsister_id     String
   address_detail   String
   district         String
   sub_district     String
