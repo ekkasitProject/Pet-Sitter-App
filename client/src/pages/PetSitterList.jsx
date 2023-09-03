@@ -2,6 +2,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useFilter from "../hooks/useFilter";
+import PetSitterCard from "../components/PetSitterCard.jsx";
+import Checkbox from "../components/Checkbox.jsx";
+import {
+  ChipsOrange,
+  ChipsPink,
+  ChipsGreen,
+  ChipsBlue,
+} from "../components/Chips.jsx";
 
 function PetSitterList() {
   const navigate = useNavigate();
@@ -9,6 +17,7 @@ function PetSitterList() {
   const [petType, setPetType] = useState([]);
   const [keywords, setKeywords] = useState("");
   const [experience, setExperience] = useState("");
+  const [isSearch, setIsSearch] = useState(true);
   const {
     petSitterLists,
     totalPages,
@@ -25,11 +34,19 @@ function PetSitterList() {
   useEffect(() => {
     console.log(petType);
     getPetSitterLists({ petType, keywords, experience, page });
-  }, [petType, keywords, experience, page]);
+  }, [isSearch]);
+
+  const handleSearch = () => {
+    if (isSearch === true) {
+      setIsSearch(false);
+    } else {
+      setIsSearch(true);
+    }
+    console.log(isSearch);
+  };
 
   const handlePetType = (value, id) => {
     console.log(`${value}`);
-
     const activeData = document.getElementById(id).checked;
     console.log(activeData);
     let newData = [...petType];
@@ -41,6 +58,21 @@ function PetSitterList() {
       newData = petType.filter((item) => item !== value);
       setPetType(newData);
       //setPetType(petType.filter((item) => item !== value));
+    }
+  };
+
+  const handleChip = (pet) => {
+    if (pet === "dog") {
+      return <ChipsGreen petType="Dog" />;
+    }
+    if (pet === "cat") {
+      return <ChipsPink petType="Cat" />;
+    }
+    if (pet === "bird") {
+      return <ChipsBlue petType="Bird" />;
+    }
+    if (pet === "rabbit") {
+      return <ChipsOrange petType="Rabbit" />;
     }
   };
 
@@ -168,16 +200,46 @@ function PetSitterList() {
                 >
                   Clear
                 </button>
-                <button className="w-[150px] h-[50px] py-2 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3">
+                <button
+                  onClick={() => {
+                    handleSearch();
+                  }}
+                  className="w-[150px] h-[50px] py-2 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3"
+                >
                   Search
                 </button>
               </div>
             </div>
           </div>
-          {/* Pet Sitter List Section 
-          {petSitterLists.map(list)=>{ return ()}}
-          */}
+          {/* Pet Sitter List Section */}
           <div className="pet-sitter-list-section px-6 h-full w-3/5 flex flex-col items-center">
+            {isError ? <h1>Request failed</h1> : null}
+            {isLoading ? <h1>Loading ....</h1> : null}
+            {/* {petSitterLists.map((petSitter) => {
+              return (
+                <PetSitterCard
+                  petSitterName="Test"
+                  petSitterFullName="test"
+                  district="t"
+                  province="p"
+                  petSitterImage="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
+                  petSitterProfileImage="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
+                  onClick={() =>
+                    navigate(`/petsitterProfile/view/${petSitter.petsitter_id}`)
+                  }
+                >
+                  {petSitter.pet_type.map((pet) => {
+                    return (
+                      <>
+                      {handleChip(pet)}
+                      </>
+                    );
+                  })}
+                </PetSitterCard>
+              );
+            })}
+*/}
+
             <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-10 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4">
               <div
                 onClick={() =>
