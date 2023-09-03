@@ -22,4 +22,37 @@ model PetOwnerUser {
   emailVerificationToken String? 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
+  pets PetDetail[]
+}
+
+model PetDetail {
+  pet_id Int @id @default(autoincrement())
+  petname String
+  image_profile String
+  pettype String
+  breed String
+  sex String
+  age String
+  color String
+  weight String
+  about String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  owner PetOwnerUser @relation(fields: [owner_id], references: [petowner_id])
+  owner_id Int
+}
+
+model PetSitterUser {
+  petsitter_id Int @id @default(autoincrement())
+  image_profile          String?
+  username               String?
+  email                  String  @unique
+  password               String
+  phone                  String
+  experience             String?
+  id_card_number         String?
+  introduction           String?
+  status_validate        Boolean
+  email_verification     Boolean @default(false)
+  emailVerificationToken String?
 }
