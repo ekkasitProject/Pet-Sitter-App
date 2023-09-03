@@ -1,8 +1,30 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import useFilter from "../hooks/useFilter";
 /*import { useDebouncedCallback } from "use-debounce";*/
 
 function PetSitterList() {
+  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
+  const [petType, setPetType] = useState("");
+  const [keywords, setKeywords] = useState("");
+  const [experience, setExperience] = useState("");
+  const {
+    petSitterLists,
+    totalPages,
+    getPetSitterLists,
+    getPetSitterById,
+    isError,
+    isLoading,
+  } = useFilter();
+
+  console.log(totalPages);
+
+  useEffect(() => {
+    getPetSitterLists({ petType, keywords, experience, page });
+  }, [petType, keywords, experience, page]);
+
   return (
     <>
       <div className="pet-sitter-page-wrapper w-screen h-[1570px] font-satoshi">
@@ -31,8 +53,8 @@ function PetSitterList() {
                   className="fill-primaryGray4 absolute top-11 right-3"
                 >
                   <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
+                    fillRule="evenodd"
+                    clipRule="evenodd"
                     d="M11 4C7.13401 4 4 7.13401 4 11C4 14.866 7.13401 18 11 18C12.8844 18 14.5949 17.2554 15.8533 16.0443C15.8806 16.0085 15.9106 15.9741 15.9433 15.9413C15.9759 15.9087 16.0103 15.8788 16.046 15.8516C17.2561 14.5934 18 12.8836 18 11C18 7.13401 14.866 4 11 4ZM18.0328 16.6166C19.2639 15.0771 20 13.1245 20 11C20 6.02944 15.9706 2 11 2C6.02944 2 2 6.02944 2 11C2 15.9706 6.02944 20 11 20C13.1255 20 15.0789 19.2632 16.6188 18.031L20.2933 21.7055C20.6838 22.0961 21.317 22.0961 21.7075 21.7055C22.098 21.315 22.098 20.6819 21.7075 20.2913L18.0328 16.6166Z"
                   />
                 </svg>
@@ -92,7 +114,9 @@ function PetSitterList() {
                 <select
                   id="experience"
                   name="experience"
-                  class=" border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-3 focus:border-primaryOrange2 focus:outline-none"
+                  className=" border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-3 focus:border-primaryOrange2 focus:outline-none"
+                  value={experience}
+                  onChange={(e) => setExperience(e.target.value)}
                 >
                   <option value="option1">Option 1</option>
                   <option value="option2">Option 2</option>
@@ -101,10 +125,10 @@ function PetSitterList() {
                 </select>
               </div>
               <div className="w-full h-1/4 flex flex-row gap-2 justify-center items-center">
-                <button class="w-[150px] h-[50px] py-2  bg-primaryOrange6 rounded-full active:text-primaryOrange1 text-primaryOrange2 hover:text-primaryOrange3 disabled:bg-primaryGray6 disabled:text-primaryGray5">
+                <button className="w-[150px] h-[50px] py-2  bg-primaryOrange6 rounded-full active:text-primaryOrange1 text-primaryOrange2 hover:text-primaryOrange3 disabled:bg-primaryGray6 disabled:text-primaryGray5">
                   Clear
                 </button>
-                <button class="w-[150px] h-[50px] py-2 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3">
+                <button className="w-[150px] h-[50px] py-2 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3">
                   Search
                 </button>
               </div>
@@ -113,7 +137,12 @@ function PetSitterList() {
           {/* Pet Sitter List Section */}
           <div className="pet-sitter-list-section px-6 h-full w-3/5 flex flex-col items-center">
             <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-10 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4">
-              <div className="pet-sitter-image-card  w-1/3 h-full">
+              <div
+                onClick={() =>
+                  navigate(`/petsitterProfile/view/${petSitter.petsitter_id}`)
+                }
+                className="pet-sitter-image-card  w-1/3 h-full cursor-pointer"
+              >
                 <img
                   src="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
                   className="rounded-lg w-[300px] h-[250px] object-fill "
@@ -147,16 +176,16 @@ function PetSitterList() {
                 </div>
                 <div className="flex flex-row gap-2">
                   <div className="inline-flex items-center border border-secondaryGreen1 rounded-full px-3 py-1 text-secondaryGreen1 bg-secondaryGreen2">
-                    <span class="text-sm font-semibold">Dog</span>
+                    <span className="text-sm font-semibold">Dog</span>
                   </div>
                   <div className="inline-flex items-center border border-secondaryPink1 rounded-full px-3 py-1 text-secondaryPink1 bg-secondaryPink2">
-                    <span class="text-sm font-semibold">Cat</span>
+                    <span className="text-sm font-semibold">Cat</span>
                   </div>
                   <div className="inline-flex items-center border border-secondaryBlue1 rounded-full px-3 py-1 text-secondaryBlue1 bg-secondaryBlue2">
-                    <span class="text-sm font-semibold">Bird</span>
+                    <span className="text-sm font-semibold">Bird</span>
                   </div>
                   <div className="inline-flex items-center border border-primaryOrange3 rounded-full px-3 py-1 text-primaryOrange3 bg-primaryOrange6">
-                    <span class="text-sm font-semibold">Rabbit</span>
+                    <span className="text-sm font-semibold">Rabbit</span>
                   </div>
                 </div>
               </div>
