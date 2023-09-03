@@ -20,11 +20,20 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const PetCareSlogan = () => {
-  const [animal, setAnimal] = useState("");
+  const [selectedAnimals, setSelectedAnimals] = useState([]);
   const [experience, setExperience] = useState(""); // Initialize experience state
 
-  const handleChangeAnimal = (event) => {
-    setAnimal(event.target.value);
+  const handleToggleAnimal = (value) => {
+    // Check if the selected animal is already in the array
+    const isAnimalSelected = selectedAnimals.includes(value);
+
+    if (isAnimalSelected) {
+      // If selected, remove it from the array
+      setSelectedAnimals(selectedAnimals.filter((animal) => animal !== value));
+    } else {
+      // If not selected, add it to the array
+      setSelectedAnimals([...selectedAnimals, value]);
+    }
   };
 
   const handleChangeExperience = (event) => {
@@ -86,13 +95,13 @@ const PetCareSlogan = () => {
       <div className="w-[60%] mx-auto  mt-8 mb-8  rounded-xl  shadow-sm shadow-slate-700/20 ">
         <div className="">
           <div className="w-[100%] flex items-center bg-[#F6F6F9] py-4 px-4">
-            <p className="mr-4">Pet type: </p>
+            <p className="mr-4">Pet type:</p>
             <FormControlLabel
               control={
                 <Checkbox
                   {...label}
-                  checked={animal === "dog"}
-                  onChange={handleChangeAnimal}
+                  checked={selectedAnimals.includes("dog")}
+                  onChange={() => handleToggleAnimal("dog")}
                   sx={{
                     color: "#DCDFED",
                     "&.Mui-checked": {
@@ -108,8 +117,8 @@ const PetCareSlogan = () => {
               control={
                 <Checkbox
                   {...label}
-                  checked={animal === "cat"}
-                  onChange={handleChangeAnimal}
+                  checked={selectedAnimals.includes("cat")}
+                  onChange={() => handleToggleAnimal("cat")}
                   sx={{
                     color: "#DCDFED",
                     "&.Mui-checked": {
@@ -125,8 +134,8 @@ const PetCareSlogan = () => {
               control={
                 <Checkbox
                   {...label}
-                  checked={animal === "bird"}
-                  onChange={handleChangeAnimal}
+                  checked={selectedAnimals.includes("bird")}
+                  onChange={() => handleToggleAnimal("bird")}
                   sx={{
                     color: "#DCDFED",
                     "&.Mui-checked": {
@@ -142,8 +151,8 @@ const PetCareSlogan = () => {
               control={
                 <Checkbox
                   {...label}
-                  checked={animal === "rabbit"}
-                  onChange={handleChangeAnimal}
+                  checked={selectedAnimals.includes("rabbit")}
+                  onChange={() => handleToggleAnimal("rabbit")}
                   sx={{
                     color: "#DCDFED",
                     "&.Mui-checked": {
@@ -165,8 +174,8 @@ const PetCareSlogan = () => {
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               label="animal"
-              onChange={handleChangeExperience} // Use the correct handleChange function
-              value={experience} // Set the value to the experience state
+              onChange={handleChangeExperience}
+              value={experience}
             >
               <MenuItem value={1}>0 Year</MenuItem>
               <MenuItem value={2}>1 Year</MenuItem>
