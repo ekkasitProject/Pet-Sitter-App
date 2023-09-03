@@ -7,13 +7,13 @@ import nodemailer from "nodemailer";
 const prisma = new PrismaClient();
 const petOwnerUser = Router();
 // Configuration for Nodemailer
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: "ekkasitprivate@gmail.com",
-    pass: "faggqqokgctujwxa",
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: "ekkasitprivate@gmail.com",
+//     pass: "faggqqokgctujwxa",
+//   },
+// });
 
 // register
 petOwnerUser.post("/register", async (req, res) => {
@@ -51,12 +51,12 @@ petOwnerUser.post("/register", async (req, res) => {
     // Send an email with the verification link
     const verificationLink = `http://localhost:4000/petowneruser/verify?token=${verificationToken}`;
 
-    await transporter.sendMail({
-      from: "admin@gmail.com",
-      to: email,
-      subject: "ยืนยันอีเมล",
-      html: `คลิกลิงก์เพื่อยืนยันอีเมลของคุณ: <a href="${verificationLink}">คลิ๊ก!!!</a>`,
-    });
+    // await transporter.sendMail({
+    //   from: "admin@gmail.com",
+    //   to: email,
+    //   subject: "ยืนยันอีเมล",
+    //   html: `คลิกลิงก์เพื่อยืนยันอีเมลของคุณ: <a href="${verificationLink}">คลิ๊ก!!!</a>`,
+    // });
 
     res.status(200).json({
       message:
@@ -178,22 +178,38 @@ petOwnerUser.put("/:id", async (req, res) => {
 
 // delete users
 petOwnerUser.delete("/:id", async (req, res) => {
-  const userId = parseInt(req.params.id); // แปลงรหัสผู้ใช้เป็นตัวเลข
+  const ownerId = parseInt(req.params.id); // แปลงรหัสเจ้าของสัตว์เลี้ยงเป็นตัวเลข
   try {
-    const existingUser = await prisma.petOwnerUser.findUnique({
-      where: { petowner_id: userId },
+    // ค้นหาเจ้าของสัตว์เลี้ยง
+    const owner = await prisma.petOwnerUser.findUnique({
+      where: { petowner_id: ownerId },
+      include: {
+        pets: true, // รวมข้อมูลสัตว์เลี้ยงของเจ้าของ
+      },
     });
 
-    if (!existingUser) {
-      return res.status(404).json({ message: "ไม่พบผู้ใช้" });
+    if (!owner) {
+      return res.status(404).json({ message: "ไม่พบเจ้าของสัตว์เลี้ยง" });
     }
 
-    await prisma.petOwnerUser.delete({
-      where: { petowner_id: userId },
+    // ลบสัตว์เลี้ยงของเจ้าของ
+    await prisma.petDetail.deleteMany({
+      where: { owner_id: ownerId },
     });
-    res.status(200).json({ message: "ลบบัญชีผู้ใช้งานสำเร็จ" });
+
+    // ลบเจ้าของสัตว์เลี้ยง
+    await prisma.petOwnerUser.delete({
+      where: { petowner_id: ownerId },
+    });
+
+    res
+      .status(200)
+      .json({ message: "ลบเจ้าของสัตว์เลี้ยงและสัตว์เลี้ยงของเจ้าของสำเร็จ" });
   } catch (error) {
-    res.status(500).json({ message: "ลบบัญชีผู้ใช้งานไม่สำเร็จ" });
+    console.error(error);
+    res
+      .status(500)
+      .json({ message: "การลบเจ้าของสัตว์เลี้ยงและสัตว์เลี้ยงล้มเหลว" });
   }
 });
 
