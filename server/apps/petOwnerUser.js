@@ -138,13 +138,63 @@ petOwnerUser.post("/login", async (req, res) => {
   }
 });
 
-// update profile
-petOwnerUser.put("/edit", async (req, res) => {});
+petOwnerUser.put("/:id", async (req, res) => {
+  const userId = parseInt(req.params.id); // แปลงรหัสผู้ใช้เป็นตัวเลข
+
+  try {
+    const { username, phone, date_of_birth, id_card_number, image_profile } =
+      req.body;
+
+    // ตรวจสอบว่าผู้ใช้มีอยู่หรือไม่
+    const existingUser = await prisma.petOwnerUser.findUnique({
+      where: { petowner_id: userId },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
+    }
+
+    // สร้างข้อมูลที่จะอัปเดต
+    const updateData = {
+      username,
+      phone,
+      date_of_birth,
+      id_card_number,
+      image_profile,
+    };
+
+    // ทำการอัปเดตข้อมูลผู้ใช้
+    const updatedUser = await prisma.petOwnerUser.update({
+      where: { petowner_id: userId },
+      data: updateData,
+    });
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "การอัปเดตข้อมูลล้มเหลว" });
+  }
+});
 
 // delete users
-petOwnerUser.delete("/", async (req, res) => {
-  const deleteUser = await prisma.petOwnerUser.deleteMany();
-  return res.json(deleteUser);
+petOwnerUser.delete("/:id", async (req, res) => {
+  const userId = parseInt(req.params.id); // แปลงรหัสผู้ใช้เป็นตัวเลข
+  try {
+    const existingUser = await prisma.petOwnerUser.findUnique({
+      where: { petowner_id: userId },
+    });
+
+    if (!existingUser) {
+      return res.status(404).json({ message: "ไม่พบผู้ใช้" });
+    }
+
+    await prisma.petOwnerUser.delete({
+      where: { petowner_id: userId },
+    });
+    res.status(200).json({ message: "ลบบัญชีผู้ใช้งานสำเร็จ" });
+  } catch (error) {
+    res.status(500).json({ message: "ลบบัญชีผู้ใช้งานไม่สำเร็จ" });
+  }
 });
 
 export default petOwnerUser;
