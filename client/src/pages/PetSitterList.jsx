@@ -14,7 +14,7 @@ import {
 function PetSitterList() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [petType, setPetType] = useState([]);
+  const [petType, setPetType] = useState("");
   const [keywords, setKeywords] = useState("");
   const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
@@ -44,7 +44,8 @@ function PetSitterList() {
     }
     console.log(isSearch);
   };
-
+  {
+    /* หาก petTypeเป็นarray
   const handlePetType = (value, id) => {
     console.log(`${value}`);
     const activeData = document.getElementById(id).checked;
@@ -53,11 +54,27 @@ function PetSitterList() {
     if (activeData == true) {
       newData.push(value);
       setPetType(newData);
-      // setPetType((oldData) => [...oldData, value]);
     } else {
       newData = petType.filter((item) => item !== value);
       setPetType(newData);
-      //setPetType(petType.filter((item) => item !== value));
+    }
+  };
+*/
+  }
+
+  const handlePetType = (value, id) => {
+    let newData = petType;
+    const activeData = document.getElementById(id).checked;
+    if (activeData === true) {
+      if (newData === "") {
+        setPetType(`${value}`);
+      } else {
+        setPetType("");
+        setPetType(newData + ` ${value}`);
+      }
+    } else {
+      let tempData = newData.replaceAll(value, "");
+      setPetType(tempData);
     }
   };
 
