@@ -10,6 +10,7 @@ async function init() {
 
   app.use(cors());
   app.use(bodyParser.json());
+
   app.use("/petOwnerUser", petOwnerUser);
   app.use("/petOwnerUser/petdetail", petDetail);
   app.use("/petSitterUser", petSitterUser);
