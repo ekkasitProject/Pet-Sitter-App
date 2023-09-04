@@ -14,7 +14,7 @@ import {
 function PetSitterList() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [petType, setPetType] = useState("");
+  const [petType, setPetType] = useState([]);
   const [keywords, setKeywords] = useState("");
   const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
@@ -29,29 +29,23 @@ function PetSitterList() {
 
   // console.log(totalPages);
 
-  /* ต้องแก้ให้ปุ่มsearchทำงานด้วย เช่นกดปุ่มsearchแล้วเป็นtoggle เมื่อstate searchเปลี่ยน useEffectจะทำงาน หรือปุ่มแล้วfunc getPetSitterLists ทำงาน*/
-
   useEffect(() => {
     console.log(petType);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
 
   const handleSearch = () => {
-    if (isSearch === true) {
+    if (isSearch) {
       setIsSearch(false);
     } else {
       setIsSearch(true);
     }
-    console.log(isSearch);
   };
-  {
-    /* หาก petTypeเป็นarray
+
   const handlePetType = (value, id) => {
-    console.log(`${value}`);
     const activeData = document.getElementById(id).checked;
-    console.log(activeData);
     let newData = [...petType];
-    if (activeData == true) {
+    if (activeData) {
       newData.push(value);
       setPetType(newData);
     } else {
@@ -59,9 +53,9 @@ function PetSitterList() {
       setPetType(newData);
     }
   };
-*/
-  }
 
+  {
+    /*
   const handlePetType = (value, id) => {
     let newData = petType;
     const activeData = document.getElementById(id).checked;
@@ -77,6 +71,8 @@ function PetSitterList() {
       setPetType(tempData);
     }
   };
+  */
+  }
 
   const handleChip = (pet) => {
     if (pet === "dog") {
@@ -232,7 +228,8 @@ function PetSitterList() {
           <div className="pet-sitter-list-section px-6 h-full w-3/5 flex flex-col items-center">
             {isError ? <h1>Request failed</h1> : null}
             {isLoading ? <h1>Loading ....</h1> : null}
-            {/* {petSitterLists.map((petSitter) => {
+            {/* โค้ดจริงที่จะใช้เพื่อmap
+            {petSitterLists.map((petSitter) => {
               return (
                 <PetSitterCard
                   petSitterName="Test"
