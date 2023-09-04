@@ -3,7 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useFilter from "../hooks/useFilter";
 import PetSitterCard from "../components/PetSitterCard.jsx";
+import Pagination from "@mui/material/Pagination";
 import Checkbox from "../components/Checkbox.jsx";
+
 import {
   ChipsOrange,
   ChipsPink,
@@ -18,6 +20,7 @@ function PetSitterList() {
   const [keywords, setKeywords] = useState("");
   const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
+
   const {
     petSitterLists,
     totalPages,
@@ -87,6 +90,10 @@ function PetSitterList() {
     if (pet === "rabbit") {
       return <ChipsOrange petType="Rabbit" />;
     }
+  };
+
+  const handlePage = (e, p) => {
+    setPage(p);
   };
 
   return (
@@ -253,7 +260,6 @@ function PetSitterList() {
               );
             })}
 */}
-
             <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-10 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4">
               <div
                 onClick={() =>
@@ -308,6 +314,13 @@ function PetSitterList() {
                 </div>
               </div>
             </div>
+            test current page is {page}
+            <Pagination
+              color="warning"
+              count={10} // ต้องใส่total page ที่รับข้อมูลมาจากฝั่งserver
+              // page={page}
+              onChange={handlePage}
+            ></Pagination>
           </div>
         </div>
       </div>
