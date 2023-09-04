@@ -69,7 +69,7 @@ CREATE TABLE "PetSisterDetail" (
 
 -- CreateTable
 CREATE TABLE "Address" (
-    "address_id" SERIAL NOT NULL,
+    "address_id" TEXT NOT NULL,
     "petsister_id" TEXT NOT NULL,
     "address_detail" TEXT NOT NULL,
     "district" TEXT NOT NULL,

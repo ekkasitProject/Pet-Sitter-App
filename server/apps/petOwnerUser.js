@@ -44,7 +44,7 @@ petOwnerUser.post("/register", async (req, res) => {
         password: hashedPassword,
         emailVerificationToken: verificationToken,
         image_profile:
-          "https://dwnbqmdvggdkkisogmfy.supabase.co/storage/v1/object/public/avatar/Frame%20427321095.png",
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
       },
     });
 
