@@ -3,17 +3,15 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
+import { createClient } from "@supabase/supabase-js";
 const prisma = new PrismaClient();
 const petOwnerUser = Router();
-// Configuration for Nodemailer
-// const transporter = nodemailer.createTransport({
-//   service: "gmail",
-//   auth: {
-//     user: "ekkasitprivate@gmail.com",
-//     pass: "faggqqokgctujwxa",
-//   },
-// });
+
+const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
+const supabaseKey = process.env.SUPABASE_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // register
 petOwnerUser.post("/register", async (req, res) => {
@@ -50,13 +48,6 @@ petOwnerUser.post("/register", async (req, res) => {
 
     // Send an email with the verification link
     const verificationLink = `http://localhost:4000/petowneruser/verify?token=${verificationToken}`;
-
-    // await transporter.sendMail({
-    //   from: "admin@gmail.com",
-    //   to: email,
-    //   subject: "ยืนยันอีเมล",
-    //   html: `คลิกลิงก์เพื่อยืนยันอีเมลของคุณ: <a href="${verificationLink}">คลิ๊ก!!!</a>`,
-    // });
 
     res.status(200).json({
       message:
@@ -138,38 +129,57 @@ petOwnerUser.post("/login", async (req, res) => {
   }
 });
 
+// Route สำหรับแก้ไขข้อมูลส่วนตัว
 petOwnerUser.put("/:id", async (req, res) => {
-  const userId = parseInt(req.params.id); // แปลงรหัสผู้ใช้เป็นตัวเลข
+  const userId = req.params.id;
 
   try {
-    const { username, phone, date_of_birth, id_card_number, image_profile } =
-      req.body;
+    const { username, phone, date_of_birth, id_card_number } = req.body;
+    const file = req.files ? req.files.file : null; // ตรวจสอบว่ามีฟิลด์ "file" ในคำขอหรือไม่
 
-    // ตรวจสอบว่าผู้ใช้มีอยู่หรือไม่
-    const existingUser = await prisma.petOwnerUser.findUnique({
-      where: { petowner_id: userId },
-    });
+    // ตรวจสอบว่ามีไฟล์รูปภาพที่อัปโหลดหรือไม่
+    if (file) {
+      // สร้างชื่อไฟล์รูปภาพโปรไฟล์ใหม่
+      const fileExtension = file.name.split(".").pop(); // ดึงนามสกุลไฟล์
+      const fileName = `profile_${userId}_${Date.now()}.${fileExtension}`;
 
-    if (!existingUser) {
-      return res.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
+      // Upload ไฟล์ลงใน Supabase Storage
+      const { data, error } = await supabase.storage
+        .from("public")
+        .upload(`profile/${fileName}`, file.data);
+
+      if (error) {
+        return res.status(500).json({ message: "การอัปโหลดรูปภาพล้มเหลว" });
+      }
+
+      // รับ URL ของรูปภาพที่อัปโหลด
+      const imageUrl = data.Key;
+
+      // อัปเดต URL ในฐานข้อมูลของ PetOwnerUser
+      await prisma.petOwnerUser.update({
+        where: { petowner_id: userId },
+        data: {
+          image_profile: imageUrl,
+          username,
+          phone,
+          date_of_birth,
+          id_card_number,
+        },
+      });
+    } else {
+      // ถ้าไม่มีการอัปโหลดรูปภาพ ให้อัปเดตข้อมูลส่วนตัวโดยไม่รวม URL รูปภาพ
+      await prisma.petOwnerUser.update({
+        where: { petowner_id: userId },
+        data: {
+          username,
+          phone,
+          date_of_birth,
+          id_card_number,
+        },
+      });
     }
 
-    // สร้างข้อมูลที่จะอัปเดต
-    const updateData = {
-      username,
-      phone,
-      date_of_birth,
-      id_card_number,
-      image_profile,
-    };
-
-    // ทำการอัปเดตข้อมูลผู้ใช้
-    const updatedUser = await prisma.petOwnerUser.update({
-      where: { petowner_id: userId },
-      data: updateData,
-    });
-
-    res.status(200).json(updatedUser);
+    res.status(200).json({ message: "อัปเดตข้อมูลส่วนตัวสำเร็จ" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "การอัปเดตข้อมูลล้มเหลว" });
@@ -178,7 +188,7 @@ petOwnerUser.put("/:id", async (req, res) => {
 
 // delete users
 petOwnerUser.delete("/:id", async (req, res) => {
-  const ownerId = parseInt(req.params.id); // แปลงรหัสเจ้าของสัตว์เลี้ยงเป็นตัวเลข
+  const ownerId = req.params.id;
   try {
     // ค้นหาเจ้าของสัตว์เลี้ยง
     const owner = await prisma.petOwnerUser.findUnique({
