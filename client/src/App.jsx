@@ -1,3 +1,6 @@
+import React from "react";
+import RegistrationForm from "./pages/Registerpage";
+
 const App = () => {
   return (
     <div
@@ -9,6 +12,7 @@ const App = () => {
         Perfect <br />
         For Your Pet
       </h1>
+      <RegistrationForm />
     </div>
   );
 };
