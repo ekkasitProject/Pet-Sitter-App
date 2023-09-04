@@ -40,7 +40,7 @@ petSitterUser.post("/register", async (req, res) => {
         password: hashedPassword,
         emailVerificationToken: verificationToken,
         image_profile:
-          "https://dwnbqmdvggdkkisogmfy.supabase.co/storage/v1/object/public/avatar/Frame%20427321095.png",
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
       },
     });
 
@@ -102,6 +102,69 @@ petSitterUser.post("/login", async (req, res) => {
   }
 });
 
+//Section 4: Update
+petSitterUser.put("/:id", async (req, res) => {
+  const petsisterId = req.params.id;
+  try {
+    const {
+      username,
+      password,
+      email,
+      image_profile,
+      phone,
+      id_card_number,
+      experience,
+      introduction,
+    } = req.body;
+    const existingUser = await prisma.petSitterUser.findUnique({
+      where: { petsitter_id: petsisterId },
+    });
+    if (!existingUser) {
+      return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
+    }
+
+    const updateData = {
+      username,
+      password,
+      email,
+      image_profile,
+      phone,
+      id_card_number,
+      experience,
+      introduction,
+    };
+    const updatePetsisterUserData = await prisma.petSitterUser.update({
+      where: { petsitter_id: petsisterId },
+      data: updateData,
+    });
+    return res.status(200).json(updatePetsisterUserData);
+  } catch (error) {
+    return res.status(500).json({ message: `การอัปเดตข้อมูลล้มเหลว ${error}` });
+  }
+});
+
 //Section 3: Delete pet sister by petsitter_id (delete included address and details)
+petSitterUser.delete("/:id", async (req, res) => {
+  const petsisterId = req.params.id;
+  try {
+    const deletedUser = await prisma.petSitterUser.delete({
+      where: { petsitter_id: petsisterId },
+      include: {
+        addresses: true,
+        petsisterdetail: true,
+      },
+    });
+    res
+      .status(200)
+      .json({ message: "PetSitterUser ถูกลบเรียบร้อยแล้ว", deletedUser });
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการลบ PetSitterUser:", error);
+    res
+      .status(500)
+      .json({ error: `เกิดข้อผิดพลาดในการลบ PetSitterUser ${error}` });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
 
 export default petSitterUser;
