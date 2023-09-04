@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 const petSisterDetail = Router();
 
 petSisterDetail.get("/:userId/users", async (req, res) => {
-  const petsisterId = req.params.userId; // แปลง userId เป็น integer
+  const petsisterId = req.params.userId;
   try {
     const user = await prisma.petSitterUser.findUnique({
       where: {
@@ -29,12 +29,12 @@ petSisterDetail.post("/:userId/create", async (req, res) => {
   try {
     const { pet_sister_name, pet_type, services, my_place, image_gallery } =
       req.body;
-    const userId = req.params.userId; // แปลง userId เป็น integer
+    const userId = req.params.userId;
 
     // ตรวจสอบว่า userId มีอยู่จริงในระบบหรือไม่
     const user = await prisma.petSitterUser.findUnique({
       where: {
-        petsistter_id: userId,
+        petsitter_id: userId,
       },
       include: {
         petsisterdetail: true,
@@ -53,9 +53,9 @@ petSisterDetail.post("/:userId/create", async (req, res) => {
         services,
         my_place,
         image_gallery,
-        user: {
+        petsister: {
           connect: {
-            petsistter_id: petsister_id,
+            petsitter_id: userId,
           },
         },
       },
@@ -63,13 +63,13 @@ petSisterDetail.post("/:userId/create", async (req, res) => {
 
     return res.status(201).json({
       message: "สร้างรายละเอียดของสัตว์เลี้ยงสำเร็จ",
-      pet: createdPet,
+      petDetail: createdPet,
     });
   } catch (error) {
     console.error("เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง", error);
-    return res
-      .status(500)
-      .json({ message: "เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง" });
+    return res.status(500).json({
+      message: "เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง",
+    });
   }
 });
 

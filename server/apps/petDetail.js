@@ -6,9 +6,9 @@ dotenv.config();
 const prisma = new PrismaClient();
 const petDetail = Router();
 
-const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
+// const supabaseKey = process.env.SUPABASE_KEY;
+// const supabase = createClient(supabaseUrl, supabaseKey);
 // owner สามารถดูสัตว์เลี้ยงของตัวเองได้
 petDetail.get("/:ownerId", async (req, res) => {
   const ownerId = req.params.ownerId;

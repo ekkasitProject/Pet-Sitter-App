@@ -9,9 +9,9 @@ import { createClient } from "@supabase/supabase-js";
 const prisma = new PrismaClient();
 const petOwnerUser = Router();
 
-const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
-const supabaseKey = process.env.SUPABASE_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
+// const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
+// const supabaseKey = process.env.SUPABASE_KEY;
+// const supabase = createClient(supabaseUrl, supabaseKey);
 
 // register
 petOwnerUser.post("/register", async (req, res) => {
