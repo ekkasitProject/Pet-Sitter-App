@@ -12,7 +12,19 @@ const petOwnerUser = Router();
 // const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
 // const supabaseKey = process.env.SUPABASE_KEY;
 // const supabase = createClient(supabaseUrl, supabaseKey);
-
+petOwnerUser.get("/", async (req, res) => {
+  const petOwnerUser = await prisma.petOwnerUser.findMany();
+  return res.json(petOwnerUser);
+});
+petOwnerUser.get("/:id", async (req, res) => {
+  const userId = req.params.id;
+  const petOwnerUser = await prisma.petOwnerUser.findUnique({
+    where: {
+      petowner_id: userId,
+    },
+  });
+  return res.json({ petOwnerUser });
+});
 // register
 petOwnerUser.post("/register", async (req, res) => {
   try {
@@ -137,6 +149,18 @@ petOwnerUser.put("/:id", async (req, res) => {
     const { username, phone, date_of_birth, id_card_number } = req.body;
     const file = req.files ? req.files.file : null; // ตรวจสอบว่ามีฟิลด์ "file" ในคำขอหรือไม่
 
+    // ตรวจสอบว่ามีรหัส petowner_id ในฐานข้อมูลหรือไม่
+    const existingPetOwner = await prisma.petOwnerUser.findUnique({
+      where: { petowner_id: userId },
+    });
+
+    if (!existingPetOwner) {
+      return res.status(404).json({ message: "ไม่พบรายการที่ต้องการอัปเดต" });
+    }
+
+    // แปลงค่า date_of_birth เป็น ISO-8601 DateTime
+    const isoDateOfBirth = new Date(date_of_birth).toISOString();
+
     // ตรวจสอบว่ามีไฟล์รูปภาพที่อัปโหลดหรือไม่
     if (file) {
       // สร้างชื่อไฟล์รูปภาพโปรไฟล์ใหม่
@@ -162,7 +186,7 @@ petOwnerUser.put("/:id", async (req, res) => {
           image_profile: imageUrl,
           username,
           phone,
-          date_of_birth,
+          date_of_birth: isoDateOfBirth,
           id_card_number,
         },
       });
@@ -173,7 +197,7 @@ petOwnerUser.put("/:id", async (req, res) => {
         data: {
           username,
           phone,
-          date_of_birth,
+          date_of_birth: isoDateOfBirth,
           id_card_number,
         },
       });
