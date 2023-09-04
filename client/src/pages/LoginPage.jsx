@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Frame_427321178 from "../assets/images/elements/Frame_427321178.svg"
 import Frame_427320934 from "../assets/images/elements/Frame_427320934.svg";
+import Facebook_logo from"../assets/images/elements/Facebook_logo.svg"
+import google_logo from "../assets/images/elements/google_logo.svg"
+
 
 function LoginPage() {
   const [formData, setFormData] = useState({
@@ -28,7 +31,7 @@ function LoginPage() {
         <img src={Frame_427321178} alt="" />
       </div>
 
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 ">
+      <div className="min-h-screen flex items-center justify-center bg-white py-12 px-4 sm:px-6 lg:px-8 ">
         <div className="max-w-md w-full space-y-8 ">
           <div>
             <h1 className="mt-6 text-center text-5xl font-black text-gray-900">
@@ -40,9 +43,7 @@ function LoginPage() {
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div>
-              <h2>
-                Email
-              </h2>
+              <h2>Email</h2>
               <label htmlFor="email" className="sr-only">
                 Email address
               </label>
@@ -59,9 +60,7 @@ function LoginPage() {
               />
             </div>
             <div>
-              <h2>
-                Password
-              </h2>
+              <h2>Password</h2>
               <label htmlFor="password" className="sr-only">
                 Password
               </label>
@@ -119,13 +118,14 @@ function LoginPage() {
             <div className="flex justify-center mt-2">
               <button
                 type="button"
-                className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-full text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
-                Facebook
+               <icon src={Facebook_logo} alt="" /> Facebook
               </button>
               <button
+                src={google_logo}
                 type="button"
-                className="ml-3 group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                className="ml-3 group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-full text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
                 Gmail
               </button>
