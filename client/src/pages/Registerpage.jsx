@@ -6,16 +6,28 @@ import Frame_427320934 from "../assets/images/elements/Frame_427320934.svg";
 function RegistrationForm() {
   const [formData, setFormData] = useState({
     email: "",
+    userName: "",
     phoneNumber: "",
     password: "",
+    petOwner: false, // Initially set to false
+    petSitter: false, // Initially set to false
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    const { name, value, type, checked } = e.target;
+
+    // If the input is a checkbox, handle it differently
+    if (type === "checkbox") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: checked,
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -40,6 +52,25 @@ function RegistrationForm() {
             </h2>
           </div>
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label
+                htmlFor="userName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name:
+              </label>
+              <input
+                id="userName"
+                name="userName"
+                type="userName"
+                value={formData.userName}
+                onChange={handleChange}
+                placeholder="your username "
+                required
+                className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+
             <div>
               <label
                 htmlFor="email"
@@ -94,6 +125,35 @@ function RegistrationForm() {
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
+
+            <div className="flex items-center mt-4 space-x-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Role Selection:
+              </label>
+              <div className="flex space-x-2">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="petOwner"
+                    checked={formData.petOwner}
+                    onChange={handleChange}
+                    className="form-checkbox h-4 w-4 text-indigo-600"
+                  />
+                  <span className="ml-2 text-sm text-gray-600">Pet Owner</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    name="petSitter"
+                    checked={formData.petSitter}
+                    onChange={handleChange}
+                    className="form-checkbox h-4 w-4 text-indigo-600"
+                  />
+                  <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
+                </label>
+              </div>
+            </div>
+
             <div className="mt-6">
               <button
                 type="submit"
