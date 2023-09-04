@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+import { avatarUpload } from "../utils.js/avatar.js";
+import { supabaseUpload } from "../utils.js/supabaseUpload.js";
 const prisma = new PrismaClient();
 const petSitterUser = Router();
 
@@ -102,47 +104,6 @@ petSitterUser.post("/login", async (req, res) => {
   }
 });
 
-//Section 4: Update
-petSitterUser.put("/:id", async (req, res) => {
-  const petsisterId = req.params.id;
-  try {
-    const {
-      username,
-      password,
-      email,
-      image_profile,
-      phone,
-      id_card_number,
-      experience,
-      introduction,
-    } = req.body;
-    const existingUser = await prisma.petSitterUser.findUnique({
-      where: { petsitter_id: petsisterId },
-    });
-    if (!existingUser) {
-      return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
-    }
-
-    const updateData = {
-      username,
-      password,
-      email,
-      image_profile,
-      phone,
-      id_card_number,
-      experience,
-      introduction,
-    };
-    const updatePetsisterUserData = await prisma.petSitterUser.update({
-      where: { petsitter_id: petsisterId },
-      data: updateData,
-    });
-    return res.status(200).json(updatePetsisterUserData);
-  } catch (error) {
-    return res.status(500).json({ message: `การอัปเดตข้อมูลล้มเหลว ${error}` });
-  }
-});
-
 //Section 3: Delete pet sister by petsitter_id (delete included address and details)
 petSitterUser.delete("/:id", async (req, res) => {
   const petsisterId = req.params.id;
@@ -164,6 +125,95 @@ petSitterUser.delete("/:id", async (req, res) => {
       .json({ error: `เกิดข้อผิดพลาดในการลบ PetSitterUser ${error}` });
   } finally {
     await prisma.$disconnect();
+  }
+});
+
+//Section 4: Update
+// petSitterUser.put("/:id", async (req, res) => {
+//   const petsisterId = req.params.id;
+//   try {
+//     const {
+//       username,
+//       password,
+//       email,
+//       image_profile,
+//       phone,
+//       id_card_number,
+//       experience,
+//       introduction,
+//     } = req.body;
+//     const existingUser = await prisma.petSitterUser.findUnique({
+//       where: { petsitter_id: petsisterId },
+//     });
+//     if (!existingUser) {
+//       return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
+//     }
+
+//     const updateData = {
+//       username,
+//       password,
+//       email,
+//       image_profile,
+//       phone,
+//       id_card_number,
+//       experience,
+//       introduction,
+//     };
+//     const updatePetsisterUserData = await prisma.petSitterUser.update({
+//       where: { petsitter_id: petsisterId },
+//       data: updateData,
+//     });
+//     return res.status(200).json(updatePetsisterUserData);
+//   } catch (error) {
+//     return res.status(500).json({ message: `การอัปเดตข้อมูลล้มเหลว ${error}` });
+//   }
+// });
+
+//Section 4: Update with image
+petSitterUser.put("/:id", avatarUpload, async (req, res) => {
+  const petsisterId = req.params.id;
+  try {
+    const {
+      username,
+      password,
+      email,
+      phone,
+      id_card_number,
+      experience,
+      introduction,
+    } = req.body;
+
+    const existingUser = await prisma.petSitterUser.findUnique({
+      where: { petsitter_id: petsisterId },
+    });
+
+    if (!existingUser) {
+      return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
+    }
+
+    // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase
+    const avatarUrls = await supabaseUpload(req.files);
+
+    // อัปเดตข้อมูล User รวมถึง URL ของรูปภาพโปรไฟล์
+    const updateData = {
+      username,
+      password,
+      email,
+      phone,
+      id_card_number,
+      experience,
+      introduction,
+      image_profile: avatarUrls.length > 0 ? avatarUrls[0].url : null, // เลือก URL ของรูปภาพแรก
+    };
+
+    const updatePetsisterUserData = await prisma.petSitterUser.update({
+      where: { petsitter_id: petsisterId },
+      data: updateData,
+    });
+
+    return res.status(200).json(updatePetsisterUserData);
+  } catch (error) {
+    return res.status(500).json({ message: `การอัปเดตข้อมูลล้มเหลว ${error}` });
   }
 });
 
