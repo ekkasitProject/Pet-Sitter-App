@@ -73,7 +73,7 @@ model PetSisterDetail {
 }
 
 model Address {
-  address_id       Int            @id @default(autoincrement())
+  address_id       String      @id @default(uuid())
   petsister        PetSitterUser  @relation(fields: [petsister_id], references: [petsitter_id])
   petsister_id     String
   address_detail   String
