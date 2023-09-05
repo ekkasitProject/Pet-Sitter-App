@@ -205,10 +205,9 @@ function PetSitterList() {
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
                 >
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                  <option value="option4">Option 4</option>
+                  <option value={0}>0 Year</option>
+                  <option value={1}>1 Year</option>
+                  <option value={2}>2 Year</option>
                 </select>
               </div>
               <div className="w-full h-1/4 flex flex-row gap-2 justify-center items-center mt-7 mb-3">
