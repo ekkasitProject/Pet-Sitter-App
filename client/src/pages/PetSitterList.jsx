@@ -5,6 +5,8 @@ import useFilter from "../hooks/useFilter";
 import PetSitterCard from "../components/PetSitterCard.jsx";
 import Pagination from "@mui/material/Pagination";
 import Checkbox from "../components/Checkbox.jsx";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 import {
   ChipsOrange,
@@ -98,6 +100,7 @@ function PetSitterList() {
 
   return (
     <>
+      <Header />
       <div className="pet-sitter-page-wrapper w-screen h-auto font-satoshi flex flex-col ">
         <header className="w-screen h-auto  py-10 mb-10 px-16">
           <h1 className="text-headLine3 text-primaryGray2">
@@ -315,14 +318,17 @@ function PetSitterList() {
             </div>
           </div>
         </div>
+
         <Pagination
-          className="flex items-center justify-center mt-10"
+          className="flex items-center justify-center my-16"
           color="warning"
           count={10} // ต้องใส่total page ที่รับข้อมูลมาจากฝั่งserver
           // page={page}
           onChange={handlePage}
         ></Pagination>
       </div>
+
+      <Footer />
     </>
   );
 }
