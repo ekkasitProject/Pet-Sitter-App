@@ -104,9 +104,9 @@ function PetSitterList() {
             Search For Pet Sitter
           </h1>
         </header>
-        <div className="pet-sitter-list-wrapper w-full h-full flex flex-row relative justify-center gap-1">
-          <div className="pet-sitter-filter w-1/3 h-full ">
-            <div className="pet-sitter-list-box rounded-lg shadow-custom w-10/12 h-1/4 sticky top-[130px] left-[60px] p-5 pt-7">
+        <div className="pet-sitter-list-wrapper w-full h-full flex flex-row relative justify-center ">
+          <div className="pet-sitter-filter w-1/4 h-full flex justify-center">
+            <div className="pet-sitter-list-box rounded-lg shadow-custom w-10/12 h-1/4 sticky top-[130px] left-[60px] p-5 pt-5 ">
               <div className="w-full h-1/4 relative">
                 <label htmlFor="search for pet sitter">
                   <h1>Search</h1>
@@ -137,7 +137,7 @@ function PetSitterList() {
               <div className="w-full h-1/4 mt-4">
                 <h1>Pet Type:</h1>
                 <div className="flex flex-row justify-evenly mt-3">
-                  <div className="flex flex-row gap-2 items-center">
+                  <div className="flex flex-row gap-1 items-center">
                     <input
                       type="checkbox"
                       id="dog"
@@ -150,7 +150,7 @@ function PetSitterList() {
                     />
                     <label htmlFor="dog">Dog</label>
                   </div>
-                  <div className="flex flex-row gap-2 items-center">
+                  <div className="flex flex-row gap-1 items-center">
                     <input
                       type="checkbox"
                       id="cat"
@@ -163,7 +163,7 @@ function PetSitterList() {
                     />
                     <label htmlFor="cat">Cat</label>
                   </div>
-                  <div className="flex flex-row gap-2 items-center">
+                  <div className="flex flex-row gap-1 items-center">
                     <input
                       type="checkbox"
                       id="bird"
@@ -176,7 +176,7 @@ function PetSitterList() {
                     />
                     <label htmlFor="bird">Bird</label>
                   </div>
-                  <div className="flex flex-row gap-2 items-center">
+                  <div className="flex flex-row gap-1 items-center">
                     <input
                       type="checkbox"
                       id="rabbit"
