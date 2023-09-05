@@ -98,7 +98,7 @@ function PetSitterList() {
 
   return (
     <>
-      <div className="pet-sitter-page-wrapper w-screen h-[1570px] font-satoshi">
+      <div className="pet-sitter-page-wrapper w-screen h-auto font-satoshi flex flex-col ">
         <header className="w-screen h-auto  py-10 mb-10 px-16">
           <h1 className="text-headLine3 text-primaryGray2">
             Search For Pet Sitter
@@ -314,15 +314,15 @@ function PetSitterList() {
                 </div>
               </div>
             </div>
-            test current page is {page}
-            <Pagination
-              color="warning"
-              count={10} // ต้องใส่total page ที่รับข้อมูลมาจากฝั่งserver
-              // page={page}
-              onChange={handlePage}
-            ></Pagination>
           </div>
         </div>
+        <Pagination
+          className="flex items-center justify-center"
+          color="warning"
+          count={10} // ต้องใส่total page ที่รับข้อมูลมาจากฝั่งserver
+          // page={page}
+          onChange={handlePage}
+        ></Pagination>
       </div>
     </>
   );
