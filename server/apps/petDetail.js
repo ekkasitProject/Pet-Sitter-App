@@ -2,10 +2,11 @@ import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
+import { protect } from "../Auth/tokenProtected";
 dotenv.config();
 const prisma = new PrismaClient();
 const petDetail = Router();
-
+petDetail.use(protect);
 // const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
 // const supabaseKey = process.env.SUPABASE_KEY;
 // const supabase = createClient(supabaseUrl, supabaseKey);

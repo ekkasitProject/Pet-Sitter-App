@@ -6,17 +6,19 @@ import crypto from "crypto";
 import dotenv from "dotenv";
 dotenv.config();
 import { createClient } from "@supabase/supabase-js";
+import { generateRandomToken } from "../Auth/genToken.js";
+import { protect } from "../Auth/tokenProtected.js";
 const prisma = new PrismaClient();
 const petOwnerUser = Router();
 
 // const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
 // const supabaseKey = process.env.SUPABASE_KEY;
 // const supabase = createClient(supabaseUrl, supabaseKey);
-petOwnerUser.get("/", async (req, res) => {
+petOwnerUser.get("/", protect, async (req, res) => {
   const petOwnerUser = await prisma.petOwnerUser.findMany();
   return res.json(petOwnerUser);
 });
-petOwnerUser.get("/:id", async (req, res) => {
+petOwnerUser.get("/:id", protect, async (req, res) => {
   const userId = req.params.id;
   const petOwnerUser = await prisma.petOwnerUser.findUnique({
     where: {
@@ -99,9 +101,9 @@ petOwnerUser.get("/verify", async (req, res) => {
 });
 
 // Function to generate a random token
-function generateRandomToken(length) {
-  return crypto.randomBytes(length).toString("hex");
-}
+// function generateRandomToken(length) {
+//   return crypto.randomBytes(length).toString("hex");
+// }
 
 // login
 petOwnerUser.post("/login", async (req, res) => {
@@ -142,7 +144,7 @@ petOwnerUser.post("/login", async (req, res) => {
 });
 
 // Route สำหรับแก้ไขข้อมูลส่วนตัว
-petOwnerUser.put("/:id", async (req, res) => {
+petOwnerUser.put("/:id", protect, async (req, res) => {
   const userId = req.params.id;
 
   try {
@@ -211,7 +213,7 @@ petOwnerUser.put("/:id", async (req, res) => {
 });
 
 // delete users
-petOwnerUser.delete("/:id", async (req, res) => {
+petOwnerUser.delete("/:id", protect, async (req, res) => {
   const ownerId = req.params.id;
   try {
     // ค้นหาเจ้าของสัตว์เลี้ยง
