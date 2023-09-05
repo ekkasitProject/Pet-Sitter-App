@@ -321,7 +321,7 @@ function PetSitterList() {
 
         <Pagination
           className="flex items-center justify-center my-16"
-          color="warning"
+          color="secondary"
           count={10} // ต้องใส่total page ที่รับข้อมูลมาจากฝั่งserver
           // page={page}
           onChange={handlePage}
