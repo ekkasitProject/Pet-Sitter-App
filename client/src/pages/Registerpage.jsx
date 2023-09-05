@@ -1,38 +1,46 @@
 import React, { useState } from "react";
 import Frame_427321178 from "../assets/images/elements/Frame_427321178.svg";
 import Frame_427320934 from "../assets/images/elements/Frame_427320934.svg";
-
+import { useAuth } from "../context/authentication";
 
 function RegistrationForm() {
-  const [formData, setFormData] = useState({
-    email: "",
-    userName: "",
-    phoneNumber: "",
-    password: "",
-    petOwner: false, // Initially set to false
-    petSitter: false, // Initially set to false
-  });
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [petOwner, setPetOwner] = useState(false);
+  const [petSitter, setPetSitter] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const { register } = useAuth();
 
-    // If the input is a checkbox, handle it differently
-    if (type === "checkbox") {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: checked,
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+  const handlePetOwnerChange = (e) => {
+    setPetOwner(e.target.checked);
+  };
+
+  const handlePetSitterChange = (e) => {
+    setPetSitter(e.target.checked);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
+
+    const data = {
+      username,
+      email,
+      phone,
+      password,
+      petOwner,
+      petSitter,
+    };
+    register(data);
+
+    if (petOwner) {
+      console.log("User selected Pet Owner role");
+    }
+
+    if (petSitter) {
+      console.log("User selected Pet Sitter role");
+    }
   };
 
   return (
@@ -63,8 +71,8 @@ function RegistrationForm() {
                 id="userName"
                 name="userName"
                 type="userName"
-                value={formData.userName}
-                onChange={handleChange}
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
                 placeholder="your username "
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -82,8 +90,8 @@ function RegistrationForm() {
                 id="email"
                 name="email"
                 type="email"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
                 placeholder="example@email.com"
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -100,8 +108,8 @@ function RegistrationForm() {
                 id="phoneNumber"
                 name="phoneNumber"
                 type="tel"
-                value={formData.phoneNumber}
-                onChange={handleChange}
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
                 placeholder="Your phone number"
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -118,8 +126,8 @@ function RegistrationForm() {
                 id="password"
                 name="password"
                 type="password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
                 placeholder="Create your password..."
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -135,8 +143,8 @@ function RegistrationForm() {
                   <input
                     type="checkbox"
                     name="petOwner"
-                    checked={formData.petOwner}
-                    onChange={handleChange}
+                    checked={petOwner}
+                    onChange={handlePetOwnerChange}
                     className="form-checkbox h-4 w-4 text-indigo-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Owner</span>
@@ -145,8 +153,8 @@ function RegistrationForm() {
                   <input
                     type="checkbox"
                     name="petSitter"
-                    checked={formData.petSitter}
-                    onChange={handleChange}
+                    checked={petSitter}
+                    onChange={handlePetSitterChange}
                     className="form-checkbox h-4 w-4 text-indigo-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
