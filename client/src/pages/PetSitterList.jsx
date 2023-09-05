@@ -275,7 +275,7 @@ function PetSitterList() {
                   alt="pet sitter picture"
                 />
               </div>
-              <div className="pet-sitter-image-card w-2/3 h-full pl-10 flex flex-col justify-around">
+              <div className="pet-sitter-profile w-2/3 h-auto pl-10 flex flex-col justify-around">
                 <div className="flex flex-row gap-5">
                   <img
                     src="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"

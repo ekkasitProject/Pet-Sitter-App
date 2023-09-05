@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 function PetSitterCard(props) {
   const navigate = useNavigate();
   return (
-    <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-5 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4">
+    <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12 my-5 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4">
       <div className="pet-sitter-image-card  w-1/3 h-full cursor-pointer">
         <img
           src={props.petSitterImage}
@@ -11,7 +11,7 @@ function PetSitterCard(props) {
           alt="pet sitter picture"
         />
       </div>
-      <div className="pet-sitter-image-card w-2/3 h-full pl-10 flex flex-col justify-around">
+      <div className="pet-sitter-profile w-2/3 h-auto pl-10 flex flex-col justify-around">
         <div className="flex flex-row gap-5">
           <img
             src={props.petSitterProfileImage}
