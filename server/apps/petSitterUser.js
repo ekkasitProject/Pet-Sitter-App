@@ -6,14 +6,12 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 import { avatarUpload } from "../utils.js/avatar.js";
 import { supabaseUpload } from "../utils.js/supabaseUpload.js";
+import { generateRandomToken } from "../Auth/genToken.js";
+import { protect } from "../Auth/tokenProtected.js";
 const prisma = new PrismaClient();
 const petSitterUser = Router();
 
-function generateRandomToken(length) {
-  return crypto.randomBytes(length).toString("hex");
-}
-
-//Section 1: Register pet sister
+//Section 1.1: Register pet sister
 petSitterUser.post("/register", async (req, res) => {
   try {
     const { username, email, phone, password } = req.body;
@@ -65,7 +63,29 @@ petSitterUser.post("/register", async (req, res) => {
     res.status(500).json({ message: `การลงทะเบียนล้มเหลว ${error}` });
   }
 });
+//Section 1.2: verify route after receiving confirmation email
+petSitterUser.get("/verify", async (req, res) => {
+  const { token } = req.query;
 
+  try {
+    const user = await prisma.petSitterUser.findFirst({
+      where: { emailVerificationToken: token },
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "โทเค็นยืนยันไม่ถูกต้อง" });
+    }
+    await prisma.petSitterUser.update({
+      where: { petsitter_id: user.petsitter_id },
+      data: { email_verification: true },
+    });
+
+    res.status(200).json({ message: "การยืนยันอีเมลสำเร็จ" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "การยืนยันอีเมลล้มเหลว" });
+  }
+});
 //Section 2: Login pet sister
 petSitterUser.post("/login", async (req, res) => {
   try {
@@ -91,7 +111,7 @@ petSitterUser.post("/login", async (req, res) => {
 
     // สร้าง token
     const token = jwt.sign(
-      { userId: user.petowner_id, email: user.email },
+      { userId: user.petsitter_id, email: user.email },
       process.env.SECRET_KEY,
       { expiresIn: "1h" }
     );
@@ -105,7 +125,7 @@ petSitterUser.post("/login", async (req, res) => {
 });
 
 //Section 3: Delete pet sister by petsitter_id (delete included address and details)
-petSitterUser.delete("/:id", async (req, res) => {
+petSitterUser.delete("/:id", protect, async (req, res) => {
   const petsisterId = req.params.id;
   try {
     const deletedUser = await prisma.petSitterUser.delete({
@@ -170,7 +190,7 @@ petSitterUser.delete("/:id", async (req, res) => {
 // });
 
 //Section 4: Update with image
-petSitterUser.put("/:id", avatarUpload, async (req, res) => {
+petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
   const petsisterId = req.params.id;
   try {
     const {
@@ -217,4 +237,28 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
   }
 });
 
+//Section 5: Get all data
+petSitterUser.get("/", protect, async (req, res) => {
+  try {
+    const petSitterUser = await prisma.petSitterUser.findMany();
+    return res.json({ petSitterUser });
+  } catch (error) {
+    return res.status(404).json({ message: `${error}` });
+  }
+});
+
+//Section 6: Get data by id
+petSitterUser.get("/:id", protect, async (req, res) => {
+  const petsisterId = req.params.id;
+  try {
+    const petSitterUser = await prisma.petSitterUser.findUnique({
+      where: {
+        petsitter_id: petsisterId,
+      },
+    });
+    return res.json({ petSitterUser });
+  } catch (error) {
+    return res.status(404).json({ message: `${error}` });
+  }
+});
 export default petSitterUser;
