@@ -2,7 +2,8 @@ import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
-import { protect } from "../Auth/tokenProtected";
+import { protect } from "../Auth/tokenProtected.js";
+
 dotenv.config();
 const prisma = new PrismaClient();
 const petDetail = Router();

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
-import { protect } from "../Auth/tokenProtected";
+import { protect } from "../Auth/tokenProtected.js";
 const prisma = new PrismaClient();
 const petSisterDetail = Router();
 petSisterDetail.use(protect);
