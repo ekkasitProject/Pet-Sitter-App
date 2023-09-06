@@ -18,7 +18,7 @@ import {
 function PetSitterList() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [petType, setPetType] = useState([]);
+  const [petType, setPetType] = useState("");
   const [keywords, setKeywords] = useState("");
   const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
@@ -45,8 +45,13 @@ function PetSitterList() {
     } else {
       setIsSearch(true);
     }
+    if (petType.charAt(0) === " ") {
+      let tempData = petType.slice(1);
+      setPetType(tempData);
+    }
   };
-
+  {
+    /*
   const handlePetType = (value, id) => {
     const activeData = document.getElementById(id).checked;
     let newData = [...petType];
@@ -58,26 +63,28 @@ function PetSitterList() {
       setPetType(newData);
     }
   };
+ */
+  }
 
-  {
-    /*
   const handlePetType = (value, id) => {
     let newData = petType;
     const activeData = document.getElementById(id).checked;
-    if (activeData === true) {
+    if (activeData) {
       if (newData === "") {
         setPetType(`${value}`);
+      } else if (newData.charAt(0) === " ") {
+        let tempData = newData.slice(1);
+        setPetType(tempData + ` ${value}`);
       } else {
-        setPetType("");
         setPetType(newData + ` ${value}`);
       }
     } else {
-      let tempData = newData.replaceAll(value, "");
+      let tempData = newData
+        .replaceAll(` ${value}`, "")
+        .replaceAll(`${value}`, "");
       setPetType(tempData);
     }
   };
-  */
-  }
 
   const handleChip = (pet) => {
     if (pet === "dog") {
