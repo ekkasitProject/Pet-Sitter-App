@@ -35,7 +35,8 @@ function PetSitterList() {
   // console.log(totalPages);
 
   useEffect(() => {
-    console.log(petType);
+    //console.log(petType);
+    console.log(petSitterLists);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
 
@@ -252,31 +253,25 @@ function PetSitterList() {
           <div className="pet-sitter-list-section px-6 h-full w-3/5 flex flex-col items-center">
             {isError ? <h1>Request failed</h1> : null}
             {isLoading ? <h1>Loading ....</h1> : null}
-            {/* โค้ดจริงที่จะใช้เพื่อmap
+
             {petSitterLists.map((petSitter) => {
               return (
                 <PetSitterCard
-                  petSitterName="Test"
-                  petSitterFullName="test"
-                  district="t"
-                  province="p"
-                  petSitterImage="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
-                  petSitterProfileImage="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
+                  petSitterName={petSitter.pet_sister_name}
+                  province={petSitter.my_place}
+                  petSitterImage={petSitter.image_gallery[1]}
+                  petSitterProfileImage={petSitter.image_gallery[0]}
                   onClick={() =>
-                    navigate(`/petsitterProfile/view/${petSitter.petsitter_id}`)
+                    navigate(`/petsitterProfile/view/${petSitter.petsister_id}`)
                   }
                 >
                   {petSitter.pet_type.map((pet) => {
-                    return (
-                      <>
-                      {handleChip(pet)}
-                      </>
-                    );
+                    return <>{handleChip(pet)}</>;
                   })}
                 </PetSitterCard>
               );
             })}
-*/}
+            {/* 
             <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-10 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4">
               <div
                 onClick={() =>
@@ -331,6 +326,7 @@ function PetSitterList() {
                 </div>
               </div>
             </div>
+             */}
           </div>
         </div>
 
