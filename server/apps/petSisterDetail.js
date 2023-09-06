@@ -9,7 +9,7 @@ const petSisterDetail = Router();
 
 petSisterDetail.get("/alldetail", async (req, res) => {
   try {
-    const { pet_type, experience, pet_sister_name, my_place } = req.query;
+    const { pet_type, experience, keywords } = req.query;
 
     // สร้างตัวแปรสำหรับเก็บเงื่อนไขการกรองข้อมูล
     const filterOptions = {};
@@ -28,12 +28,11 @@ petSisterDetail.get("/alldetail", async (req, res) => {
       filterOptions.experience = { contains: experience };
     }
 
-    if (pet_sister_name) {
-      filterOptions.pet_sister_name = { contains: pet_sister_name };
-    }
-
-    if (my_place) {
-      filterOptions.my_place = { contains: my_place };
+    if (keywords) {
+      filterOptions.OR = [
+        { pet_sister_name: { contains: keywords } },
+        { my_place: { contains: keywords } },
+      ];
     }
 
     // ดึงข้อมูลจากฐานข้อมูลโดยใช้เงื่อนไขการกรองข้อมูล
