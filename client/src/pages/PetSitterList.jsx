@@ -98,6 +98,16 @@ function PetSitterList() {
     setPage(p);
   };
 
+  const handleClear = () => {
+    setKeywords(""); // Clear the keywords input
+    setExperience(""); // Clear the experience dropdown
+    setPetType([]); // Clear the petType checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+  };
+
   return (
     <>
       <Header />
@@ -215,9 +225,7 @@ function PetSitterList() {
               </div>
               <div className="w-full h-1/4 flex flex-row gap-2 justify-center items-center mt-7 mb-3">
                 <button
-                  onClick={() => {
-                    window.location.reload();
-                  }}
+                  onClick={handleClear}
                   className="w-[150px] h-[50px] py-2  bg-primaryOrange6 rounded-full active:text-primaryOrange1 text-primaryOrange2 hover:text-primaryOrange3 disabled:bg-primaryGray6 disabled:text-primaryGray5"
                 >
                   Clear
