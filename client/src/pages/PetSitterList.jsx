@@ -35,7 +35,8 @@ function PetSitterList() {
   // console.log(totalPages);
 
   useEffect(() => {
-    console.log(petType);
+    //console.log(petType);
+    //console.log(petSitterLists);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
 
