@@ -43,7 +43,6 @@ CREATE TABLE "PetSitterUser" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
-    "experience" TEXT,
     "id_card_number" TEXT,
     "introduction" TEXT,
     "email_verification" BOOLEAN NOT NULL DEFAULT false,
@@ -61,6 +60,7 @@ CREATE TABLE "PetSisterDetail" (
     "services" TEXT NOT NULL,
     "my_place" TEXT NOT NULL,
     "image_gallery" TEXT[],
+    "experience" TEXT,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
 

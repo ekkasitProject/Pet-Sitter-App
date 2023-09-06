@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import { protect } from "../Auth/tokenProtected.js";
 const prisma = new PrismaClient();
 const petSisterDetail = Router();
-petSisterDetail.use(protect);
+// petSisterDetail.use(protect);
 
 //get ข้อมูล pettsitterdetail ทั้งหมด
 
@@ -15,14 +15,12 @@ petSisterDetail.get("/alldetail", async (req, res) => {
     const filterOptions = {};
 
     if (pet_type) {
-      // ถ้า pet_type เป็น array ใช้ in แทน contains
-      const petTypes = pet_type.split(",");
+      // ถ้า pet_type เป็น array ใช้ in แทน contains]
+      console.log(pet_type);
+      const petTypes = pet_type.split("_");
+      console.log(petTypes);
       filterOptions.pet_type = {
-        hasSome: {
-          pet_type: {
-            in: petTypes,
-          },
-        },
+        hasSome: petTypes,
       };
     }
 
@@ -55,7 +53,7 @@ petSisterDetail.get("/alldetail", async (req, res) => {
       error
     );
     return res.status(500).json({
-      message: "เกิดข้อผิดพลาดในการดึงรายละเอียดพี่เลี้ยงสัตว์ทั้งหมด",
+      message: `เกิดข้อผิดพลาดในการดึงรายละเอียดพี่เลี้ยงสัตว์ทั้งหมด ${error}`,
     });
   }
 });
