@@ -2,59 +2,16 @@ import React, { useState } from "react";
 import Star2 from "../assets/icons/Star_2.svg";
 import LocationIcon from "../assets/icons/icon_location.svg";
 import Frame427321006 from "../assets/images/elements/Frame_427321006.svg";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Import carousel styles
-import { Carousel } from "react-responsive-carousel"; // Import the Carousel component
+import AdvancedCarousel from "../components/Carousel"
+import Header from "../components/Header"
 
 const PetSitterDetail = () => {
-  const [selectedSlide, setSelectedSlide] = useState(0);
-
-  const handlePrevSlide = () => {
-    setSelectedSlide((prevSlide) =>
-      prevSlide > 0 ? prevSlide - 1 : prevSlide
-    );
-  };
-
-  const handleNextSlide = () => {
-    setSelectedSlide((prevSlide) =>
-      prevSlide < 2 ? prevSlide + 1 : prevSlide
-    );
-  };
 
   return (
     <div className="flex-row">
+  <Header />
       <div>
-        <Carousel
-          showThumbs={false}
-          showStatus={false}
-          infiniteLoop={true}
-          selectedItem={selectedSlide}
-          dynamicHeight={true} // disable dynamic height for fixed image size
-          // emulateTouch={true} // Enable touch swipe on mobile devices
-        >
-          {/* Add your image slides here */}
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1589802829985-817e51171b92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"
-              alt="Slide 1"
-              className="w-32 h-32"
-            />
-          </div>
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1589802829985-817e51171b92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"
-              alt="Slide 2"
-              className="w-32 h-32"
-            />
-          </div>
-          <div>
-            <img
-              src="https://images.unsplash.com/photo-1589802829985-817e51171b92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NXx8fGVufDB8fHx8fA%3D%3D&w=1000&q=80"
-              alt="Slide 3"
-              className="w-32 h-32"
-            />
-          </div>
-          {/* Add more slides as needed */}
-        </Carousel>
+        <AdvancedCarousel />
       </div>
 
       <div className="flex p-10 bg-white">
