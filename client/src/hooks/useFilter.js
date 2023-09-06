@@ -21,7 +21,7 @@ const useFilter = () => {
       setIsError(false);
       setIsLoading(true);
       const results = await axios.get(
-        `http://localhost:4000/petSitterUser/petsisterdetail/?${params.toString()}` //edit
+        `http://localhost:4000/petSitterUser/petsisterdetail/alldetail?${params.toString()}` //edit
       );
       console.log(results);
       setPetSitterLists(results.data.data.rows); //edit
