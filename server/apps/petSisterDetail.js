@@ -127,16 +127,22 @@ petSisterDetail.post("/:userId", async (req, res) => {
   }
 });
 
-petSisterDetail.put("/:detailId", async (req, res) => {
-  const detailId = req.params.detailId; // ดึง detailId จากพารามิเตอร์ URL
+petSisterDetail.put("/:userId", async (req, res) => {
+  const userId = req.params.userId; // ดึง userId จากพารามิเตอร์ URL
   try {
-    const { pet_sister_name, pet_type, services, my_place, image_gallery } =
-      req.body;
+    const {
+      pet_sister_name,
+      pet_type,
+      services,
+      my_place,
+      image_gallery,
+      experience,
+    } = req.body;
 
-    // ตรวจสอบว่าพี่เลี้ยงสัตว์ที่มีรายละเอียดที่ระบุด้วย detailId มีอยู่หรือไม่
+    // ตรวจสอบว่าพี่เลี้ยงสัตว์ที่มีรายละเอียดที่ระบุด้วย userId มีอยู่หรือไม่
     const existingDetail = await prisma.petSisterDetail.findUnique({
       where: {
-        petsisterdetail_id: detailId,
+        petsitter_id: userId,
       },
     });
 
@@ -147,7 +153,7 @@ petSisterDetail.put("/:detailId", async (req, res) => {
     // อัพเดทรายละเอียดพี่เลี้ยงสัตว์ด้วยข้อมูลใหม่
     const updatedDetail = await prisma.petSisterDetail.update({
       where: {
-        petsisterdetail_id: detailId,
+        petsitter_id: userId,
       },
       data: {
         pet_sister_name,
@@ -155,6 +161,7 @@ petSisterDetail.put("/:detailId", async (req, res) => {
         services,
         my_place,
         image_gallery,
+        experience,
       },
     });
 
@@ -169,14 +176,13 @@ petSisterDetail.put("/:detailId", async (req, res) => {
       .json({ message: "เกิดข้อผิดพลาดในการอัพเดทรายละเอียดพี่เลี้ยง" });
   }
 });
-
-petSisterDetail.delete("/:detailId", async (req, res) => {
-  const detailId = req.params.detailId; // ดึง detailId จากพารามิเตอร์ URL
+petSisterDetail.delete("/:userId", async (req, res) => {
+  const userId = req.params.userId; // ดึง userId จากพารามิเตอร์ URL
   try {
-    // ตรวจสอบว่ารายละเอียดพี่เลี้ยงสัตว์ที่ระบุด้วย detailId มีอยู่หรือไม่
+    // ตรวจสอบว่ารายละเอียดพี่เลี้ยงสัตว์ที่ระบุด้วย userId มีอยู่หรือไม่
     const existingDetail = await prisma.petSisterDetail.findUnique({
       where: {
-        petsisterdetail_id: detailId,
+        petsitter_id: userId,
       },
     });
 
@@ -187,7 +193,7 @@ petSisterDetail.delete("/:detailId", async (req, res) => {
     // ลบรายละเอียดพี่เลี้ยงสัตว์
     await prisma.petSisterDetail.delete({
       where: {
-        petsisterdetail_id: detailId,
+        petsitter_id: userId,
       },
     });
 
