@@ -81,8 +81,14 @@ petSisterDetail.get("/:userId", async (req, res) => {
 
 petSisterDetail.post("/:userId", async (req, res) => {
   try {
-    const { pet_sister_name, pet_type, services, my_place, image_gallery } =
-      req.body;
+    const {
+      pet_sister_name,
+      pet_type,
+      services,
+      my_place,
+      image_gallery,
+      experience,
+    } = req.body;
     const userId = req.params.userId;
 
     // ตรวจสอบว่า userId มีอยู่จริงในระบบหรือไม่
@@ -107,6 +113,7 @@ petSisterDetail.post("/:userId", async (req, res) => {
         services,
         my_place,
         image_gallery,
+        experience,
         petsister: {
           connect: {
             petsitter_id: userId,
