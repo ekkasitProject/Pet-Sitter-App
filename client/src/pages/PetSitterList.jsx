@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import useFilter from "../hooks/useFilter";
+import useFilter from "../hooks/useFilter.js";
 import PetSitterCard from "../components/PetSitterCard.jsx";
 import Pagination from "@mui/material/Pagination";
 import Checkbox from "../components/Checkbox.jsx";
