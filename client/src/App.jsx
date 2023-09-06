@@ -14,18 +14,20 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-      <AuthProvider>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/register" element={<RegistrationForm />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/petsitterlist" element={<PetSitterList />} />
-          <Route path="/petsister_id" element={<PetSitterDetail />} />
-        </Routes>
-      </AuthProvider>
-    </Router>
-</ThemeProvider>
-
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/register" element={<RegistrationForm />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/petsitterlist" element={<PetSitterList />} />
+            <Route
+              path="/petsitter/view/:petsister_id"
+              element={<PetSitterDetail />}
+            />
+          </Routes>
+        </AuthProvider>
+      </Router>
+    </ThemeProvider>
   );
 };
 
