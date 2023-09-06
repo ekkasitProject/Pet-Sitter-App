@@ -257,16 +257,17 @@ function PetSitterList() {
             {petSitterLists.map((petSitter) => {
               return (
                 <PetSitterCard
-                  petSitterName={petSitter.pet_sister_name}
+                  key={petSitter.petsister_id}
+                  petSitterName={petSitter.petsister.username}
                   province={petSitter.my_place}
-                  petSitterImage={petSitter.image_gallery[1]}
-                  petSitterProfileImage={petSitter.image_gallery[0]}
+                  petSitterImage={petSitter.image_gallery[0]}
+                  petSitterProfileImage={petSitter.petsister.image_profile}
                   onClick={() =>
-                    navigate(`/petsitter/view/${petSitter.petsister_id}`)
+                    navigate(`/petsitter/view/${getPetSitterById.petsister_id}`)
                   }
                 >
-                  {petSitter.pet_type.map((pet) => {
-                    return <>{handleChip(pet)}</>;
+                  {petSitter.pet_type.map((pet, index) => {
+                    return <span key={index}>{handleChip(pet)}</span>;
                   })}
                 </PetSitterCard>
               );
