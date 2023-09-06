@@ -36,7 +36,7 @@ function PetSitterList() {
 
   useEffect(() => {
     //console.log(petType);
-    //console.log(petSitterLists);
+    console.log(petSitterLists);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
 

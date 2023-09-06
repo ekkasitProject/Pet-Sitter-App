@@ -24,7 +24,7 @@ const useFilter = () => {
         `http://localhost:4000/petSitterUser/petsisterdetail/alldetail?${params.toString()}` //edit
       );
       console.log(results);
-      setPetSitterLists(results.data.data); //edit
+      setPetSitterLists(results.data); //edit
       console.log(petSitterLists);
       setTotalPages(results.data.total_pages); //edit
       setIsLoading(false);
