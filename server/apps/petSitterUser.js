@@ -238,7 +238,7 @@ petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
 });
 
 //Section 5: Get all data
-petSitterUser.get("/", protect, async (req, res) => {
+petSitterUser.get("/", async (req, res) => {
   try {
     const petSitterUser = await prisma.petSitterUser.findMany();
     return res.json({ petSitterUser });

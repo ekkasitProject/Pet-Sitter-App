@@ -21,7 +21,8 @@ const useFilter = () => {
       setIsError(false);
       setIsLoading(true);
       const results = await axios.get(
-        `http://localhost:4000/petSitterUser/petsisterdetail/alldetail?${params.toString()}` //edit
+        // `http://localhost:4000/petSitterUser/petsisterdetail/alldetail?${params.toString()}` //edit
+        `http://localhost:4000/petsitteruser/petsisterdetail/843b2435-b54d-4511-a27f-6225eaa8d7ec`
       );
       console.log(results);
       setPetSitterLists(results.data); //edit
