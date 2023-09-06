@@ -50,7 +50,6 @@ model PetSitterUser {
   email                  String            @unique
   password               String
   phone                  String
-  experience             String?
   id_card_number         String?
   introduction           String?
   email_verification     Boolean           @default(false)
@@ -68,6 +67,7 @@ model PetSisterDetail {
   services           String
   my_place           String
   image_gallery      String[]
+  experience         String?
   createAt           DateTime      @default(now())
   updateAt           DateTime      @updatedAt
 }
