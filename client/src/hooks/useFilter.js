@@ -41,7 +41,9 @@ const useFilter = () => {
       const result = await axios.get(
         `http://localhost:4000/petsitteruser/petsisterdetail/${petSitterId}` //edit
       );
+      console.log(result);
       setPetSitter(result.data); //edit
+
       setIsLoading(false);
     } catch (error) {
       setIsError(true);

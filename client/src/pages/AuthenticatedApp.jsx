@@ -16,7 +16,10 @@ const AuthenticatedApp = () => {
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/petsitterlist" element={<PetSitterList />} />
-        <Route path="/petsister_id" element={<PetSitterDetail />} />
+        <Route
+          path="/petsitterlist/view/:petsister_id"
+          element={<PetSitterDetail />}
+        />
       </Routes>
     </ThemeProvider>
   );
