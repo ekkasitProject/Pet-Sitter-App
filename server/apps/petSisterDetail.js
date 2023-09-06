@@ -14,12 +14,6 @@ petSisterDetail.get("/alldetail", async (req, res) => {
     // สร้างตัวแปรสำหรับเก็บเงื่อนไขการกรองข้อมูล
     const filterOptions = {};
 
-    // if (pet_type) {
-    //   // ถ้า pet_type เป็น array ใช้ in แทน contains
-    //   filterOptions.pet_type = { in: pet_type.split(",") };
-    //   console.log(pet_type);
-    // }
-
     if (pet_type) {
       // ถ้า pet_type เป็น array ใช้ in แทน contains
       const petTypes = pet_type.split(",");
