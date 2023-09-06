@@ -4,6 +4,23 @@ import { protect } from "../Auth/tokenProtected.js";
 const prisma = new PrismaClient();
 const petSisterDetail = Router();
 petSisterDetail.use(protect);
+
+//get ข้อมูล pettsitterdetail ทั้งหมด
+petSisterDetail.get("/", async (req, res) => {
+  try {
+    const postSitter = await prisma.petSisterDetail.findMany();
+    return res.json({ postSitter });
+  } catch (error) {
+    console.error(
+      "เกิดข้อผิดพลาดในการดึงรายละเอียดพี่เลี้ยงสัตว์ทั้งหมด",
+      error
+    );
+    return res.status(500).json({
+      message: "เกิดข้อผิดพลาดในการดึงรายละเอียดพี่เลี้ยงสัตว์ทั้งหมด",
+    });
+  }
+});
+
 petSisterDetail.get("/:userId/users", async (req, res) => {
   const petsisterId = req.params.userId;
   try {

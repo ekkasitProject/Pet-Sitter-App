@@ -64,10 +64,10 @@ model PetSisterDetail {
   petsister          PetSitterUser @relation(fields: [petsister_id], references: [petsitter_id])
   petsister_id       String
   pet_sister_name    String
-  pet_type           String
+  pet_type           String[]
   services           String
   my_place           String
-  image_gallery      String?
+  image_gallery      String[]
   createAt           DateTime      @default(now())
   updateAt           DateTime      @updatedAt
 }
