@@ -43,6 +43,10 @@ const Header = () => {
     navigate("/");
   };
 
+  const handleToFindAPetSitter =() =>{
+    navigate("/petsitterlist");
+  };
+
   return (
     <header className="">
       <nav className="flex justify-between items-center w-[80%] mx-auto h-[80px] ">
@@ -62,7 +66,7 @@ const Header = () => {
                 </button>
               ) : null}
               {isDropdownOpen && (
-                <div className="absolute top-10 right-[-1.7rem] mt-2 bg-white border rounded shadow-md px-10 pb-4 pt-2">
+                <div className="absolute top-10 right-[-1.7rem] mt-2 bg-white border rounded shadow-md px-10 pb-4 pt-2 z-50">
                   {/* Dropdown menu contents here */}
                   <ul>
                     <li className="">
@@ -80,7 +84,7 @@ const Header = () => {
               Login
             </button>
           )}
-          <button className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium">
+          <button className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium " onClick={handleToFindAPetSitter}>
             Find A Pet Sitter
           </button>
         </div>
