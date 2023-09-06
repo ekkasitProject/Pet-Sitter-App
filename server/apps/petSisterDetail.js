@@ -112,7 +112,9 @@ petSisterDetail.post("/:userId", async (req, res) => {
         pet_type,
         services,
         my_place,
-        image_gallery,
+        image_gallery: [
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petsisteruserdetail/4_3.2.png",
+        ],
         experience,
         petsister: {
           connect: {
