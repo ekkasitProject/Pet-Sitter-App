@@ -118,7 +118,7 @@ function LoginPage() {
               </button>
             </div>
           </form>
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
               Or continue with
             </p>
@@ -137,15 +137,15 @@ function LoginPage() {
                 Gmail
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
-              Already have an account?{" "}
+              Didn't have an account?{" "}
               <a
-                href="/login"
+                href="/register"
                 className="font-medium text-orange-600 hover:text-orange-500"
               >
-                Login
+                Register
               </a>
             </p>
           </div>
