@@ -262,7 +262,7 @@ function PetSitterList() {
                   petSitterImage={petSitter.image_gallery[1]}
                   petSitterProfileImage={petSitter.image_gallery[0]}
                   onClick={() =>
-                    navigate(`/petsitterProfile/view/${petSitter.petsister_id}`)
+                    navigate(`/petsitter/view/${petSitter.petsister_id}`)
                   }
                 >
                   {petSitter.pet_type.map((pet) => {
