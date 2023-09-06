@@ -139,12 +139,12 @@ function LoginPage() {
           </div>
           <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
-              Already have an account?{" "}
+              Dit not have an account?{" "}
               <a
-                href="/login"
+                href="/register"
                 className="font-medium text-orange-600 hover:text-orange-500"
               >
-                Login
+                Register
               </a>
             </p>
           </div>

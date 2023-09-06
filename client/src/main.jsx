@@ -5,7 +5,7 @@ import "./index.css";
 import { StyledEngineProvider } from "@mui/material";
 import jwtInterceptor from "./utils/jwtInterceptors.js";
 
-export default jwtInterceptor;
+jwtInterceptor();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
