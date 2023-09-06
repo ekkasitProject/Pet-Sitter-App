@@ -29,6 +29,7 @@ const useFilter = () => {
       setTotalPages(results.data.total_pages); //edit
       setIsLoading(false);
     } catch (error) {
+      setPetSitterLists([]);
       setIsError(true);
       setIsLoading(false);
     }
@@ -43,7 +44,6 @@ const useFilter = () => {
       );
       console.log(result);
       setPetSitter(result.data); //edit
-
       setIsLoading(false);
     } catch (error) {
       setIsError(true);

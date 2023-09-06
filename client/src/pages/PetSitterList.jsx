@@ -35,8 +35,8 @@ function PetSitterList() {
   // console.log(totalPages);
 
   useEffect(() => {
-    //console.log(petType);
-    console.log(petSitterLists);
+    console.log(petType);
+    // console.log(petSitterLists);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
 
@@ -109,7 +109,7 @@ function PetSitterList() {
   const handleClear = () => {
     setKeywords(""); // Clear the keywords input
     setExperience(""); // Clear the experience dropdown
-    setPetType([]); // Clear the petType checkboxes
+    setPetType(""); // Clear the petType checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
       checkbox.checked = false;
