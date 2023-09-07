@@ -71,7 +71,6 @@ const Header = () => {
               ) : null}
               {isDropdownOpen && (
                 <div className="absolute top-12 right-[-10rem] mt-2 bg-white border rounded shadow-md w-[186px]     z-50">
-                  {/* Dropdown menu contents here */}
                   <div className="">
                     <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
                       <img className="ml-4 " src={profile_user} alt="" />
@@ -94,10 +93,6 @@ const Header = () => {
                       <span className="ml-4">Log Out</span>
                     </div>
                   </div>
-
-                  {/* <li className="mt-2">
-                      <a onClick={() => logout()}>Logout</a>
-                    </li> */}
                 </div>
               )}
             </div>

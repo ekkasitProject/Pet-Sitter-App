@@ -2,6 +2,7 @@ import React from "react";
 import circleYellow from "../assets/images/elements/circleyellow.svg";
 import greenStar from "../assets/images/elements/greenstar.svg";
 import circleBlue from "../assets/images/elements/halfcircleblue.svg";
+import { Link } from "react-router-dom";
 
 const PetSitterBanner = () => {
   return (
@@ -19,9 +20,12 @@ const PetSitterBanner = () => {
           <h1 className="text-[3rem] text-center font-medium leading-11">
             Perfect Pet Sitter <br /> For Your Pet
           </h1>
-          <button className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium text-center w-[50%] mt-8">
+          <Link
+            to="/petsitterlist"
+            className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium text-center w-[50%] mt-8"
+          >
             Find A Pet Sitter
-          </button>
+          </Link>
         </div>
       </div>
     </div>
