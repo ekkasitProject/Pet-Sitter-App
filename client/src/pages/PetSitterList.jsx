@@ -256,6 +256,22 @@ function PetSitterList() {
 
             {petSitterLists.map((petSitter) => {
               return (
+<<<<<<< HEAD
+                <PetSitterCard
+                  key={petSitter.petsister_id}
+                  petSitterName={petSitter.petsister.username}
+                  province={petSitter.my_place}
+                  petSitterImage={petSitter.image_gallery[0]}
+                  petSitterProfileImage={petSitter.petsister.image_profile}
+                  onClick={() =>
+                    navigate(`/petsitter/view/${getPetSitterById.petsister_id}`)
+                  }
+                >
+                  {petSitter.pet_type.map((pet, index) => {
+                    return <span key={index}>{handleChip(pet)}</span>;
+                  })}
+                </PetSitterCard>
+=======
                 <div
                   onClick={() =>
                     navigate(`/petsitterlist/view/${petSitter.petsister_id}`)
@@ -273,6 +289,7 @@ function PetSitterList() {
                     })}
                   </PetSitterCard>
                 </div>
+>>>>>>> main
               );
             })}
             {/*

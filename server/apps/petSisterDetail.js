@@ -30,7 +30,7 @@ petSisterDetail.get("/alldetail", async (req, res) => {
 
     if (keywords) {
       filterOptions.OR = [
-        { pet_sister_name: { contains: keywords } },
+        { petsister: { username: { contains: keywords } } },
         { my_place: { contains: keywords } },
       ];
     }
@@ -38,6 +38,9 @@ petSisterDetail.get("/alldetail", async (req, res) => {
     // ดึงข้อมูลจากฐานข้อมูลโดยใช้เงื่อนไขการกรองข้อมูล
     const petSitter = await prisma.petSisterDetail.findMany({
       where: filterOptions,
+      include: {
+        petsister: true,
+      },
     });
 
     // ตรวจสอบว่าพบข้อมูลที่ตรงกับเงื่อนไขหรือไม่
