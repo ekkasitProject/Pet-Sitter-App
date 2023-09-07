@@ -14,7 +14,7 @@ const PetSitterDetail = () => {
 
   const getPost = async () => {
     const results = await axios(
-      `http://localhost:4000/petsitteruser/petsisteruser/${params.petSitterId}`
+      `http://localhost:4000/petsitteruser/${params.petSitterId}`
     );
     setPost(results.data.data);
   };
