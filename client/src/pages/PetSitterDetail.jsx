@@ -1,11 +1,27 @@
-import React, { useState } from "react";
 import Star2 from "../assets/icons/Star_2.svg";
 import LocationIcon from "../assets/icons/icon_location.svg";
 import Frame427321006 from "../assets/images/elements/Frame_427321006.svg";
-import AdvancedCarousel from "../components/Carousel"
-import Header from "../components/Header"
+import AdvancedCarousel from "../components/Carousel";
+import Header from "../components/Header";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const PetSitterDetail = () => {
+  const [post, setPost] = useState({});
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const getPost = async () => {
+    const results = await axios(
+      `http://localhost:4000/petsitteruser/petsisteruser/${params.petSitterId}`
+    );
+    setPost(results.data.data);
+  };
+
+  useEffect(() => {
+    getPost();
+  }, []);
 
   return (
     <div className="flex-row">
@@ -16,33 +32,20 @@ const PetSitterDetail = () => {
 
       <div className="flex p-10 bg-white">
         <div className="flex-1 py-8 bg-white p-10">
-          <h1 className="text-5xl font-bold text-black">Happy House!</h1>
+          <h1 className="text-5xl font-bold text-black">
+            {post.petSitterTitle}
+          </h1>
           <section className="mt-4">
             <h2 className="text-xl font-semibold">Introduction</h2>
-            <p className="text-gray-700 mt-2">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iure
-              dolorem accusantium quidem labore beatae similique officiis
-              laboriosam explicabo illum! Quia soluta inventore ea saepe
-              quibusdam earum. Explicabo hic est tempore?
-            </p>
+            <p className="text-gray-700 mt-2">{post.petSitterIntro}</p>
           </section>
           <section className="mt-8">
             <h2 className="text-xl font-semibold">Service</h2>
-            <p className="text-gray-700 mt-2">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Odit
-              culpa vero, minima laudantium atque temporibus sed voluptate illo
-              debitis quam eius facere tempora quisquam sunt facilis. Quibusdam
-              fugiat quae optio!
-            </p>
+            <p className="text-gray-700 mt-2">{post.petSitterService}</p>
           </section>
           <section className="mt-8">
             <h3 className="text-xl font-semibold">My Place</h3>
-            <p className="text-gray-700 mt-2">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil
-              nisi quibusdam ducimus nulla, iusto reiciendis inventore sed,
-              illo, omnis velit quaerat ipsa vitae amet mollitia. Deserunt,
-              distinctio? Sunt, blanditiis similique.
-            </p>
+            <p className="text-gray-700 mt-2">{post.petSitterPlace}</p>
           </section>
         </div>
 
@@ -50,16 +53,17 @@ const PetSitterDetail = () => {
           <div className="flex-2 bg-white py-6 p-5 ">
             <div className="flex items-center justify-center">
               <img
-                src={Frame427321006}
+                src={post.petSitterProfileImage}
                 alt="profileImg"
                 className="w-32 h-32"
               />
             </div>
             <div className="text-center mt-4">
-              <h1 className="text-2xl font-semibold">Happy House!</h1>
+              <h1 className="text-2xl font-semibold">{post.petSitterTitle}</h1>
               <div className="mt-2">
-                <h2 className="text-lg">Jane Maison</h2>
-                <h2 className="text-sm">1.5 Years Exp.</h2>
+                <h1 className="text-lg">{post.petSitterName}</h1>
+                <h3 className="text-sm">{post.petSitterFullName}</h3>
+                <h2 className="text-sm">{post.PetSitterExperience}</h2>
               </div>
               <div className="flex justify-center mt-2">
                 {[1, 2, 3, 4, 5].map((_, index) => (
@@ -72,11 +76,18 @@ const PetSitterDetail = () => {
                   alt="locationIcon"
                   className="w-5 h-5"
                 />
-                <h3 className="text-gray-700 ml-2">Senanikom, Bangkok</h3>
+                <h3 className="text-gray-700 ml-2">
+                  {post.district} {post.province}
+                </h3>
               </div>
               <div className="mt-4">
-                <button className="px-4 py-2 mx-1 bg-green-300 text-white rounded-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                  Dog
+                <button
+                  className="px-4 py-2 mx-1 bg-green-300 text-white rounded-full hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  {post.hasSome}
                 </button>
                 <button className="px-4 py-2 mx-1 bg-red-300 text-white rounded-full hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                   Cat

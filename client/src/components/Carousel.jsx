@@ -15,7 +15,7 @@ const AdvancedCarousel = () => {
     <div className="relative">
       <ul
         ref={scrollRef}
-        className="flex justify-between overflow-x-auto scroll-snap-type-x-mandatory z-0 "
+        className="flex justify-between overflow-x-auto scroll-snap-type-x-mandatory "
       >
         <li className="w-550 h-413 flex-shrink-0">
           <img src={dog2} alt="Image 1" className="w-full h-full" />
