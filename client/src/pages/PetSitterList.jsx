@@ -7,6 +7,7 @@ import Pagination from "@mui/material/Pagination";
 import Checkbox from "../components/Checkbox.jsx";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useParams } from "react-router-dom";
 
 import {
   ChipsOrange,
@@ -22,7 +23,7 @@ function PetSitterList() {
   const [keywords, setKeywords] = useState("");
   const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
-
+  const { petsister_id } = useParams();
   const {
     petSitterLists,
     totalPages,
@@ -258,14 +259,12 @@ function PetSitterList() {
               return (
                 <PetSitterCard
                   key={petSitter.petsister_id}
+                  petsisterId={petSitter.petsister_id}
                   petSitterName={petSitter.pet_sister_name}
                   petSitterusername={petSitter.petsister.username}
                   province={petSitter.my_place}
                   petSitterImage={petSitter.image_gallery[0]}
                   petSitterProfileImage={petSitter.petsister.image_profile}
-                  onClick={() =>
-                    navigate(`/petsitter/view/${getPetSitterById.petsister_id}`)
-                  }
                 >
                   {petSitter.pet_type.map((pet, index) => {
                     return <span key={index}>{handleChip(pet)}</span>;
@@ -273,6 +272,7 @@ function PetSitterList() {
                 </PetSitterCard>
               );
             })}
+
             {/*
             <div
               onClick={() => console.log(`888`)}

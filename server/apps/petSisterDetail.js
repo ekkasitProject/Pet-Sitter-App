@@ -64,9 +64,13 @@ petSisterDetail.get("/alldetail", async (req, res) => {
 petSisterDetail.get("/:userId", async (req, res) => {
   const petsisterId = req.params.userId;
   try {
+    // ดึงข้อมูลของ petsitterdetail และ user จากฐานข้อมูล
     const user = await prisma.petSitterUser.findUnique({
       where: {
         petsitter_id: petsisterId,
+      },
+      include: {
+        petsisterdetail: true,
       },
     });
 
@@ -74,7 +78,7 @@ petSisterDetail.get("/:userId", async (req, res) => {
       return res.status(404).json({ message: "ไม่พบข้อมูลพี่เลี้ยง" });
     }
 
-    return res.json({ user });
+    return res.json(user);
   } catch (error) {
     console.error("เกิดข้อผิดพลาดในการค้นหาข้อมูลพี่เลี้ยง", error);
     return res
