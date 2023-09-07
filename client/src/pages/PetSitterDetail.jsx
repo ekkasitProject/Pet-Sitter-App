@@ -10,6 +10,9 @@ import {
   ChipsGreen,
   ChipsBlue,
 } from "../components/Chips.jsx";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const PetSitterDetail = () => {
   const { petsister_id } = useParams();
@@ -43,6 +46,12 @@ const PetSitterDetail = () => {
     if (pet === "rabbit") {
       return <ChipsOrange petType="Rabbit" />;
     }
+    
+  const getPost = async () => {
+    const results = await axios(
+      `http://localhost:4000/petsitteruser/${params.petSitterId}`
+    );
+    setPost(results.data.data);
   };
   if (loading) {
     // Optionally, you can render a loading indicator here
@@ -59,6 +68,10 @@ const PetSitterDetail = () => {
   }
 
   const petSisterDetail = petSitter.petsisterdetail[0];
+
+  useEffect(() => {
+    getPost();
+  }, []);
 
   return (
     <div className="flex-row">
@@ -133,5 +146,6 @@ const PetSitterDetail = () => {
     </div>
   );
 };
+}
 
 export default PetSitterDetail;

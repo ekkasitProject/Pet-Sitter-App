@@ -84,7 +84,7 @@ function LoginPage() {
               />
             </div>
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <input
                   id="rememberMe"
                   name="rememberMe"
@@ -107,7 +107,7 @@ function LoginPage() {
                 >
                   Forgot your password?
                 </a>
-              </div>
+              </div> */}
             </div>
             <div>
               <button

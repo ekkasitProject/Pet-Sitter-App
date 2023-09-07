@@ -10,6 +10,7 @@ function RegistrationForm() {
   const [password, setPassword] = useState("");
   const [petOwner, setPetOwner] = useState(false);
   const [petSitter, setPetSitter] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const { register } = useAuth();
 
@@ -21,25 +22,56 @@ function RegistrationForm() {
     setPetSitter(e.target.checked);
   };
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate Name
+    if (username.length < 6 || username.length > 20) {
+      newErrors.username = "Username must be between 6 and 20 characters";
+    }
+
+    // Validate Email
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!email.match(emailPattern)) {
+      newErrors.email = "Invalid email format";
+    }
+
+    // Validate Phone
+    const phonePattern = /^0[0-9]{9}$/;
+    if (!phone.match(phonePattern)) {
+      newErrors.phone = "Invalid phone number format";
+    }
+
+    // Validate Password
+    if (password.length <= 12) {
+      newErrors.password = "Password must be longer than 12 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const data = {
-      username,
-      email,
-      phone,
-      password,
-      petOwner,
-      petSitter,
-    };
-    register(data);
+    if (validateForm()) {
+      const data = {
+        username,
+        email,
+        phone,
+        password,
+        petOwner,
+        petSitter,
+      };
+      register(data);
 
-    if (petOwner) {
-      console.log("User selected Pet Owner role");
-    }
+      if (petOwner) {
+        console.log("User selected Pet Owner role");
+      }
 
-    if (petSitter) {
-      console.log("User selected Pet Sitter role");
+      if (petSitter) {
+        console.log("User selected Pet Sitter role");
+      }
     }
   };
 
@@ -77,6 +109,9 @@ function RegistrationForm() {
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+              {errors.username && (
+                <p className="mt-2 text-sm text-red-600">{errors.username}</p>
+              )}
             </div>
 
             <div>
@@ -96,6 +131,9 @@ function RegistrationForm() {
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+              {errors.email && (
+                <p className="mt-2 text-sm text-red-600">{errors.email}</p>
+              )}
             </div>
             <div>
               <label
@@ -114,6 +152,9 @@ function RegistrationForm() {
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+              {errors.phone && (
+                <p className="mt-2 text-sm text-red-600">{errors.phone}</p>
+              )}
             </div>
             <div>
               <label
@@ -132,6 +173,9 @@ function RegistrationForm() {
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
+              {errors.password && (
+                <p className="mt-2 text-sm text-red-600">{errors.password}</p>
+              )}
             </div>
 
             <div className="flex items-center mt-4 space-x-4">
