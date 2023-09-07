@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import LocationIcon from "../assets/icons/icon_location.svg";
 import Header from "../components/Header";
 import AdvancedCarousel from "../components/Carousel";
-import { useParams } from "react-router-dom";
 import useFilter from "../hooks/useFilter";
 import {
   ChipsOrange,
@@ -10,7 +9,6 @@ import {
   ChipsGreen,
   ChipsBlue,
 } from "../components/Chips.jsx";
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
