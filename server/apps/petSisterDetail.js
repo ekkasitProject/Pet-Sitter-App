@@ -17,7 +17,7 @@ petSisterDetail.get("/alldetail", async (req, res) => {
     if (pet_type) {
       // ถ้า pet_type เป็น array ใช้ in แทน contains]
       console.log(pet_type);
-      const petTypes = pet_type.split("_");
+      const petTypes = pet_type.split(" ");
       console.log(petTypes);
       filterOptions.pet_type = {
         hasSome: petTypes,
