@@ -41,7 +41,6 @@ function AuthProvider(props) {
   };
 
   const isAuthenticated = Boolean(localStorage.getItem("token"));
-  console.log(isAuthenticated);
 
   return (
     <AuthContext.Provider

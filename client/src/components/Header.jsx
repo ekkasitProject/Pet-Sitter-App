@@ -3,10 +3,14 @@ import logo from "../assets/images/elements/logo.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/authentication";
+import profile_user from "../assets/icons/profile.svg";
+import pet from "../assets/icons/pet1.svg";
+import history from "../assets/icons/history.svg";
+import logout_user from "../assets/icons/logout.svg";
+import { dropdown } from "../data/dropdownprofile";
 
 const Header = () => {
   const { logout } = useAuth();
-
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -66,16 +70,34 @@ const Header = () => {
                 </button>
               ) : null}
               {isDropdownOpen && (
-                <div className="absolute top-10 right-[-1.7rem] mt-2 bg-white border rounded shadow-md px-10 pb-4 pt-2 z-50">
+                <div className="absolute top-12 right-[-10rem] mt-2 bg-white border rounded shadow-md w-[186px]     z-50">
                   {/* Dropdown menu contents here */}
-                  <ul>
-                    <li className="">
-                      <a href="/profile">Profile</a>
-                    </li>
-                    <li className="mt-2">
+                  <div className="">
+                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                      <img className="ml-4 " src={profile_user} alt="" />
+                      <span className="ml-4 ">Profile</span>
+                    </div>
+                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                      <img className="ml-4" src={pet} alt="" />
+                      <span className="ml-4">Your Pet</span>
+                    </div>
+                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                      <img className="ml-4" src={history} alt="" />
+                      <span className="ml-4">History</span>
+                    </div>
+                    <hr className="" />
+                    <div
+                      className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
+                      onClick={() => logout()}
+                    >
+                      <img className="ml-4" src={logout_user} alt="" />
+                      <span className="ml-4">Log Out</span>
+                    </div>
+                  </div>
+
+                  {/* <li className="mt-2">
                       <a onClick={() => logout()}>Logout</a>
-                    </li>
-                  </ul>
+                    </li> */}
                 </div>
               )}
             </div>
