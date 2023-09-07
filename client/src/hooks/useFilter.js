@@ -29,6 +29,7 @@ const useFilter = () => {
       setTotalPages(results.data.total_pages); //edit
       setIsLoading(false);
     } catch (error) {
+      setPetSitterLists([]);
       setIsError(true);
       setIsLoading(false);
     }
@@ -41,6 +42,7 @@ const useFilter = () => {
       const result = await axios.get(
         `http://localhost:4000/petsitteruser/petsisterdetail/${petSitterId}` //edit
       );
+      console.log(result);
       setPetSitter(result.data); //edit
       setIsLoading(false);
     } catch (error) {

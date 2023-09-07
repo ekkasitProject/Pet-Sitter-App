@@ -35,8 +35,8 @@ function PetSitterList() {
   // console.log(totalPages);
 
   useEffect(() => {
-    //console.log(petType);
-    console.log(petSitterLists);
+    console.log(petType);
+    // console.log(petSitterLists);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
 
@@ -109,7 +109,7 @@ function PetSitterList() {
   const handleClear = () => {
     setKeywords(""); // Clear the keywords input
     setExperience(""); // Clear the experience dropdown
-    setPetType([]); // Clear the petType checkboxes
+    setPetType(""); // Clear the petType checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
       checkbox.checked = false;
@@ -256,6 +256,7 @@ function PetSitterList() {
 
             {petSitterLists.map((petSitter) => {
               return (
+<<<<<<< HEAD
                 <PetSitterCard
                   key={petSitter.petsister_id}
                   petSitterName={petSitter.petsister.username}
@@ -270,16 +271,33 @@ function PetSitterList() {
                     return <span key={index}>{handleChip(pet)}</span>;
                   })}
                 </PetSitterCard>
+=======
+                <div
+                  onClick={() =>
+                    navigate(`/petsitterlist/view/${petSitter.petsister_id}`)
+                  }
+                >
+                  <PetSitterCard
+                    key={petSitter.petsister_id}
+                    petSitterName={petSitter.pet_sister_name}
+                    province={petSitter.my_place}
+                    petSitterImage={petSitter.image_gallery[1]}
+                    petSitterProfileImage={petSitter.image_gallery[0]}
+                  >
+                    {petSitter.pet_type.map((pet) => {
+                      return <>{handleChip(pet)}</>;
+                    })}
+                  </PetSitterCard>
+                </div>
+>>>>>>> main
               );
             })}
-            {/* 
-            <div className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-10 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4">
-              <div
-                onClick={() =>
-                  navigate(`/petsitterProfile/view/${petSitter.petsitter_id}`)
-                }
-                className="pet-sitter-image-card  w-1/3 h-full cursor-pointer"
-              >
+            {/*
+            <div
+              onClick={() => console.log(`888`)}
+              className="pet-sitter-list-card shadow-custom2 w-full h-2/12  my-10 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4"
+            >
+              <div className="pet-sitter-image-card  w-1/3 h-full cursor-pointer">
                 <img
                   src="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
                   className="rounded-lg w-[300px] h-[250px] object-fill "
@@ -327,7 +345,7 @@ function PetSitterList() {
                 </div>
               </div>
             </div>
-             */}
+            */}
           </div>
         </div>
 

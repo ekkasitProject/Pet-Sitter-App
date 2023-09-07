@@ -171,7 +171,7 @@ function RegistrationForm() {
               </button>
             </div>
           </form>
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
               Or continue with
             </p>
@@ -189,13 +189,13 @@ function RegistrationForm() {
                 Gmail
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
               Already have an account?{" "}
               <a
                 href="/login"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
+                className="font-medium text-orange-600 hover:text-orange-100"
               >
                 Login
               </a>

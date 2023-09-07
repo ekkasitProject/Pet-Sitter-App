@@ -15,38 +15,47 @@ const AdvancedCarousel = () => {
     <div className="relative">
       <ul
         ref={scrollRef}
-        className="flex justify-between overflow-x-auto scroll-snap-type-x-mandatory "
+        className="flex justify-between overflow-x-auto scroll-snap-type-x-mandatory z-0 "
       >
-        <li className="w-250 h-250 flex-shrink-0">
+        <li className="w-550 h-413 flex-shrink-0">
           <img src={dog2} alt="Image 1" className="w-full h-full" />
         </li>
-        <li className="w-250 h-250 flex-shrink-0">
+        <li className="w-550 h-413 flex-shrink-0">
           <img src={dog1} alt="Image 2" className="w-full h-full" />
         </li>
-        <li className="w-250 h-250 flex-shrink-0">
+        <li className="w-550 h-413 flex-shrink-0">
+          <img src={dog3} alt="Image 3" className="w-full h-full" />
+        </li>
+        <li className="w-550 h-413 flex-shrink-0">
+          <img src={dog2} alt="Image 1" className="w-full h-full" />
+        </li>
+        <li className="w-550 h-413 flex-shrink-0">
+          <img src={dog1} alt="Image 2" className="w-full h-full" />
+        </li>
+        <li className="w-550 h-413 flex-shrink-0">
           <img src={dog3} alt="Image 3" className="w-full h-full" />
         </li>
         {/* Add more images as needed */}
       </ul>
 
-      <div className="absolute top- left-0 w-full flex justify-between">
+      <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center ">
         <button
           onClick={() => prev()}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg ml-2 absolute left-0 transform -translate-y-1/2 top-1/2"
+          className="bg-white text-gray-500 px-4 py-2 rounded-full ml-2 absolute left-10 transform -translate-y-1/2 top-1/2"
         >
-          Prev
+          «
         </button>
         <button
           onClick={() => next()}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg ml-2 absolute right-0 transform -translate-y-1/2 top-1/2"
+          className="bg-white text-gray-500 px-4 py-2 rounded-full ml-2 absolute right-10 transform -translate-y-1/2 top-1/2"
         >
-          Next
+          »
         </button>
       </div>
-      <div>
+      {/* <div>
         {activePageIndex + 1} / {pages.length}
-      </div>
-      <ol className="flex">
+      </div> */}
+      {/* <ol className="flex">
         {pages.map((_, i) => (
           <li key={i}>
             <button
@@ -60,7 +69,7 @@ const AdvancedCarousel = () => {
             </button>
           </li>
         ))}
-      </ol>
+      </ol> */}
     </div>
   );
 };

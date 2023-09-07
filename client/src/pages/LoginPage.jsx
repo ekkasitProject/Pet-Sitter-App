@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import Frame_427321178 from "../assets/images/elements/Frame_427321178.svg"
+import Frame_427321178 from "../assets/images/elements/Frame_427321178.svg";
 import Frame_427320934 from "../assets/images/elements/Frame_427320934.svg";
-// import Facebook_logo from"../assets/images/elements/Facebook_logo.svg"
-import google_logo from "../assets/images/elements/google_logo.svg"
+import Facebook_logo from "../assets/images/elements/Facebook_logo.svg";
+import google_logo from "../assets/images/elements/google_logo.svg";
 import { useAuth } from "../context/authentication";
 
 function LoginPage() {
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("")
-  const [rememberMe, setRememberMe] = useState(false)
-
-
   const { login } = useAuth();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,11 +23,13 @@ function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const { email, password } = formData;
+    console.log(email);
+    console.log(password);
     login({
       email,
       password,
     });
-    
   };
 
   return (
@@ -59,8 +60,8 @@ function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                value={formData.email}
+                onChange={handleChange}
                 className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
               />
@@ -76,9 +77,9 @@ function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                value={formData.password}
+                onChange={handleChange}
+                className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
               />
             </div>
@@ -89,8 +90,8 @@ function LoginPage() {
                   name="rememberMe"
                   type="checkbox"
                   className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  checked={rememberMe}
-                  onChange={(event) => setRememberMe(event.target.value)}
+                  checked={formData.rememberMe}
+                  onChange={handleChange}
                 />
                 <label
                   htmlFor="rememberMe"
@@ -117,7 +118,7 @@ function LoginPage() {
               </button>
             </div>
           </form>
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
               Or continue with
             </p>
@@ -126,7 +127,7 @@ function LoginPage() {
                 type="button"
                 className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-full text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
-                Facebook
+                <icon src={Facebook_logo} alt="" /> Facebook
               </button>
               <button
                 src={google_logo}
@@ -136,15 +137,15 @@ function LoginPage() {
                 Gmail
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
-              Already have an account?{" "}
+              Didn't have an account?{" "}
               <a
-                href="/login"
+                href="/register"
                 className="font-medium text-orange-600 hover:text-orange-500"
               >
-                Login
+                Register
               </a>
             </p>
           </div>
