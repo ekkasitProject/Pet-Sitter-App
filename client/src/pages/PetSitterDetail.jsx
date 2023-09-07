@@ -9,7 +9,7 @@ import {
   ChipsGreen,
   ChipsBlue,
 } from "../components/Chips.jsx";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const PetSitterDetail = () => {
@@ -20,7 +20,17 @@ const PetSitterDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await getPetSitterById(petsister_id);
+        // Replace 'YOUR_ACCESS_TOKEN' with your actual access token or API key
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:4000/petsitteruser/${petsister_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        getPetSitterById(petsister_id); // Assuming this updates the petSitter state
         setLoading(false);
       } catch (error) {
         // Handle error here
@@ -31,26 +41,11 @@ const PetSitterDetail = () => {
 
     fetchData();
   }, [petsister_id, getPetSitterById]);
+
   const handleChip = (pet) => {
-    if (pet === "dog") {
-      return <ChipsGreen petType="Dog" />;
-    }
-    if (pet === "cat") {
-      return <ChipsPink petType="Cat" />;
-    }
-    if (pet === "bird") {
-      return <ChipsBlue petType="Bird" />;
-    }
-    if (pet === "rabbit") {
-      return <ChipsOrange petType="Rabbit" />;
-    }
-    
-  const getPost = async () => {
-    const results = await axios(
-      `http://localhost:4000/petsitteruser/${params.petSitterId}`
-    );
-    setPost(results.data.data);
+    // ... Your existing code for handleChip function
   };
+
   if (loading) {
     // Optionally, you can render a loading indicator here
     return <div>Loading...</div>;
@@ -66,10 +61,6 @@ const PetSitterDetail = () => {
   }
 
   const petSisterDetail = petSitter.petsisterdetail[0];
-
-  useEffect(() => {
-    getPost();
-  }, []);
 
   return (
     <div className="flex-row">
@@ -144,6 +135,5 @@ const PetSitterDetail = () => {
     </div>
   );
 };
-}
 
 export default PetSitterDetail;
