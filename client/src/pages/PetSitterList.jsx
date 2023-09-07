@@ -126,7 +126,7 @@ function PetSitterList() {
             Search For Pet Sitter
           </h1>
         </header>
-        <div className="pet-sitter-list-wrapper w-full h-full flex flex-row relative justify-center ">
+        <div className="pet-sitter-list-wrapper mb-10 w-full h-full flex flex-row relative justify-center ">
           <div className="pet-sitter-filter w-1/4 h-full flex justify-center">
             <div className="pet-sitter-list-box rounded-lg shadow-custom w-10/12 h-1/4 sticky top-[130px] left-[60px] p-5 pt-5 ">
               <div className="w-full h-1/4 relative">
@@ -329,7 +329,7 @@ function PetSitterList() {
             */}
           </div>
         </div>
-
+        {/* 
         <Pagination
           className="flex items-center justify-center my-16"
           color="secondary"
@@ -337,6 +337,7 @@ function PetSitterList() {
           // page={page}
           onChange={handlePage}
         ></Pagination>
+        */}
       </div>
 
       <Footer />
