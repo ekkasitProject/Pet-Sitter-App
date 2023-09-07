@@ -329,7 +329,7 @@ function PetSitterList() {
             */}
           </div>
         </div>
-
+        {/* 
         <Pagination
           className="flex items-center justify-center my-16"
           color="secondary"
@@ -337,6 +337,7 @@ function PetSitterList() {
           // page={page}
           onChange={handlePage}
         ></Pagination>
+        */}
       </div>
 
       <Footer />
