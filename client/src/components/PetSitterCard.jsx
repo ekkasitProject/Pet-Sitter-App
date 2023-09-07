@@ -20,6 +20,7 @@ function PetSitterCard(props) {
           />
           <div className="flex flex-col justify-center">
             <h1 className="text-lg">{props.petSitterName}</h1>
+            <h1 className="text-sm">By {props.petSitterusername}</h1>
             <h3 className="text-sm">{props.petSitterFullName}</h3>
           </div>
         </div>

@@ -31,6 +31,7 @@ petSisterDetail.get("/alldetail", async (req, res) => {
     if (keywords) {
       filterOptions.OR = [
         { petsister: { username: { contains: keywords } } },
+        { pet_sister_name: { contains: keywords } },
         { my_place: { contains: keywords } },
       ];
     }

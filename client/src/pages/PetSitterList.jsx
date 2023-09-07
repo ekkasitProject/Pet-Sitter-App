@@ -256,10 +256,10 @@ function PetSitterList() {
 
             {petSitterLists.map((petSitter) => {
               return (
-<<<<<<< HEAD
                 <PetSitterCard
                   key={petSitter.petsister_id}
-                  petSitterName={petSitter.petsister.username}
+                  petSitterName={petSitter.pet_sister_name}
+                  petSitterusername={petSitter.petsister.username}
                   province={petSitter.my_place}
                   petSitterImage={petSitter.image_gallery[0]}
                   petSitterProfileImage={petSitter.petsister.image_profile}
@@ -271,25 +271,6 @@ function PetSitterList() {
                     return <span key={index}>{handleChip(pet)}</span>;
                   })}
                 </PetSitterCard>
-=======
-                <div
-                  onClick={() =>
-                    navigate(`/petsitterlist/view/${petSitter.petsister_id}`)
-                  }
-                >
-                  <PetSitterCard
-                    key={petSitter.petsister_id}
-                    petSitterName={petSitter.pet_sister_name}
-                    province={petSitter.my_place}
-                    petSitterImage={petSitter.image_gallery[1]}
-                    petSitterProfileImage={petSitter.image_gallery[0]}
-                  >
-                    {petSitter.pet_type.map((pet) => {
-                      return <>{handleChip(pet)}</>;
-                    })}
-                  </PetSitterCard>
-                </div>
->>>>>>> main
               );
             })}
             {/*
