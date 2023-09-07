@@ -6,7 +6,7 @@ import { useAuth } from "../context/authentication";
 
 const Header = () => {
   const { logout } = useAuth();
-  console.log(logout);
+
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -43,7 +43,7 @@ const Header = () => {
     navigate("/");
   };
 
-  const handleToFindAPetSitter =() =>{
+  const handleToFindAPetSitter = () => {
     navigate("/petsitterlist");
   };
 
@@ -84,7 +84,10 @@ const Header = () => {
               Login
             </button>
           )}
-          <button className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium " onClick={handleToFindAPetSitter}>
+          <button
+            className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium "
+            onClick={handleToFindAPetSitter}
+          >
             Find A Pet Sitter
           </button>
         </div>
