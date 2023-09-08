@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useFilter from "../hooks/useFilter.js";
 import PetSitterCard from "../components/PetSitterCard.jsx";
 import Pagination from "@mui/material/Pagination";
-import Checkbox from "../components/Checkbox.jsx";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
+{
+  /*
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
+const label = { inputProps: { "aria-label": "Checkbox demo" } };
+ */
+}
 import {
   ChipsOrange,
   ChipsPink,
@@ -156,8 +165,85 @@ function PetSitterList() {
                   />
                 </svg>
               </div>
-              <div className="w-full h-1/4 mt-4">
+              <div className="w-full h-1/4 mt-4 ">
                 <h1>Pet Type:</h1>
+                {/*
+                <div className="flex items-center">
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...label}
+                        onChange={(e) => {
+                          handlePetType(e.target.value, e.target.value);
+                        }}
+                        sx={{
+                          color: "#DCDFED",
+                          "&.Mui-checked": {
+                            color: "#FF7037",
+                          },
+                        }}
+                        value="dog"
+                      />
+                    }
+                    label="Dog"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...label}
+                        onChange={(e) => {
+                          handlePetType(e.target.value, e.target.value);
+                        }}
+                        sx={{
+                          color: "#DCDFED",
+                          "&.Mui-checked": {
+                            color: "#FF7037",
+                          },
+                        }}
+                        value="cat"
+                      />
+                    }
+                    label="Cat"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...label}
+                        onChange={(e) => {
+                          handlePetType(e.target.value, e.target.value);
+                        }}
+                        sx={{
+                          color: "#DCDFED",
+                          "&.Mui-checked": {
+                            color: "#FF7037",
+                          },
+                        }}
+                        value="bird"
+                      />
+                    }
+                    label="Bird"
+                  />
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        {...label}
+                        onChange={(e) => {
+                          handlePetType(e.target.value, e.target.value);
+                        }}
+                        sx={{
+                          color: "#DCDFED",
+                          "&.Mui-checked": {
+                            color: "#FF7037",
+                          },
+                        }}
+                        value="rabbit"
+                      />
+                    }
+                    label="Rabbit"
+                  />
+                </div>
+                */}
+
                 <div className="flex flex-row justify-evenly mt-3">
                   <div className="flex flex-row gap-1 items-center">
                     <input
