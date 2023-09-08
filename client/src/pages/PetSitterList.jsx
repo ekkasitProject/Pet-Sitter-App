@@ -36,8 +36,8 @@ function PetSitterList() {
   // console.log(totalPages);
 
   useEffect(() => {
-    console.log(petType);
-    // console.log(petSitterLists);
+    //console.log(petType);
+    console.log(petSitterLists);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
 
@@ -227,9 +227,9 @@ function PetSitterList() {
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
                 >
-                  <option value={0}>0 Year</option>
-                  <option value={1}>1 Year</option>
-                  <option value={2}>2 Year</option>
+                  <option value="0-2 Years">0-2 Years</option>
+                  <option value="3-5 Years">3-5 Years</option>
+                  <option value="5+ Years">5+ Years</option>
                 </select>
               </div>
               <div className="w-full h-1/4 flex flex-row gap-2 justify-center items-center mt-7 mb-3">
@@ -262,6 +262,7 @@ function PetSitterList() {
                   petsisterId={petSitter.petsister_id}
                   petSitterName={petSitter.pet_sister_name}
                   petSitterusername={petSitter.petsister.username}
+                  experience={petSitter.experience}
                   province={petSitter.my_place}
                   petSitterImage={petSitter.image_gallery[0]}
                   petSitterProfileImage={petSitter.petsister.image_profile}

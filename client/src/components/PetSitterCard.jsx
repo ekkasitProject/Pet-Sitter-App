@@ -4,7 +4,7 @@ function PetSitterCard(props) {
   return (
     <Link
       to={`/petsitterlist/view/${props.petsisterId}`}
-      className="pet-sitter-list-card shadow-custom2 w-full h-2/12 my-5 p-5 rounded-md flex flex-row cursor-pointer hover:border-2 hover:border-primaryOrange4"
+      className="pet-sitter-list-card shadow-custom2 w-full h-2/12 my-5 p-5 rounded-md flex flex-row cursor-pointer border-2 border-white hover:border-primaryOrange4"
     >
       <div className="pet-sitter-image-card  w-1/3 h-full cursor-pointer">
         <img
@@ -20,10 +20,13 @@ function PetSitterCard(props) {
             className="rounded-full w-[60px] h-[60px]"
             alt="pet sitter profile picture"
           />
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center w-2/3">
             <h1 className="text-lg">{props.petSitterName}</h1>
             <h1 className="text-sm">By {props.petSitterusername}</h1>
             <h3 className="text-sm">{props.petSitterFullName}</h3>
+          </div>
+          <div className="w-full h-full text-secondaryGreen1 flex justify-end items-center pr-5">
+            {props.experience}
           </div>
         </div>
         <div className="text-primaryGray3 flex flex-row items-center gap-2">
