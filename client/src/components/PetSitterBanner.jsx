@@ -1,6 +1,6 @@
 import React from "react";
 import circleYellow from "../assets/images/elements/circleyellow.svg";
-import greenStar from "../assets/images/elements/greenstar.svg";
+import greenStar from "../assets/star/greenstar.svg";
 import circleBlue from "../assets/images/elements/halfcircleblue.svg";
 import { Link } from "react-router-dom";
 
@@ -13,7 +13,11 @@ const PetSitterBanner = () => {
         alt=""
         style={{ clipPath: "circle(50%)" }} // เพิ่มคุณสมบัติ clipPath เพื่อควบคุมการแสดงผลของวงกลมสีเหลือง
       />
-      <img className="absolute top-[28%] right-[10%]" src={greenStar} alt="" />
+      <img
+        className="absolute w-[191px] top-[28%] right-[12%]"
+        src={greenStar}
+        alt=""
+      />
       <img className="absolute bottom-0 left-0" src={circleBlue} alt="" />
       <div className="absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%]">
         <div className="flex flex-col justify-center items-center">
