@@ -88,11 +88,12 @@ function UserProfile() {
             </div>
           </div>
           <div className="flex justify-end items-center ">
-            <Button2
+            <button
               type="submit"
-              button="Update Profile"
-              className="w-[150px]"
-            ></Button2>
+              className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3"
+            >
+              Update Profile
+            </button>
           </div>
         </form>
       </div>

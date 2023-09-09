@@ -1,7 +1,29 @@
 import Header from "../components/Header";
 import UserProfile from "../components/UserProfile";
+import React, { useEffect, useState } from "react";
+import YourPet from "../components/YourPet";
 
 function UserManagement() {
+  const [toggleProfile, setToggleProfile] = useState(true);
+  const [toggleYourPet, setToggleYourPet] = useState(false);
+  const [toggleBooking, setToggleBooking] = useState(false);
+
+  const handleToggleProfile = () => {
+    setToggleProfile(true);
+    setToggleYourPet(false);
+    setToggleBooking(false);
+  };
+  const handleToggleYourPet = () => {
+    setToggleProfile(false);
+    setToggleYourPet(true);
+    setToggleBooking(false);
+  };
+  const handleToggleBooking = () => {
+    setToggleProfile(false);
+    setToggleYourPet(false);
+    setToggleBooking(true);
+  };
+
   return (
     <>
       <Header />
@@ -11,7 +33,10 @@ function UserManagement() {
             <div className="text-headLine4 flex justify-start items-center  pl-7">
               Account
             </div>
-            <button className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2">
+            <button
+              onClick={handleToggleProfile}
+              className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
+            >
               <svg
                 width="24"
                 height="24"
@@ -23,7 +48,10 @@ function UserManagement() {
               </svg>
               Profile
             </button>
-            <button className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2">
+            <button
+              onClick={handleToggleYourPet}
+              className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
+            >
               <svg
                 width="24"
                 height="24"
@@ -44,7 +72,10 @@ function UserManagement() {
               </svg>
               Your Pet
             </button>
-            <button className="text-headLine5 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2">
+            <button
+              onClick={handleToggleBooking}
+              className="text-headLine5 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
+            >
               <svg
                 width="24"
                 height="24"
@@ -59,7 +90,9 @@ function UserManagement() {
           </div>
         </div>
         <div className="w-full flex justify-center  mr-20 mt-11 mb-20">
-          <UserProfile />
+          {toggleProfile ? <UserProfile /> : null}
+          {toggleYourPet ? <YourPet /> : null}
+          {toggleBooking ? null : null}
         </div>
       </div>
     </>
