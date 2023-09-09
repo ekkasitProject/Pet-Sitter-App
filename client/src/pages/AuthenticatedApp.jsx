@@ -14,10 +14,21 @@ export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
+  const [toggleDeletePet, setToggleDeletePet] = useState(false);
+  const [toggleViewPet, setToggleViewPet] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
-      <ToggleContext.Provider value={{ toggleCreatePet, setToggleCreatePet }}>
+      <ToggleContext.Provider
+        value={{
+          toggleCreatePet,
+          setToggleCreatePet,
+          toggleDeletePet,
+          setToggleDeletePet,
+          toggleViewPet,
+          setToggleViewPet,
+        }}
+      >
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/register" element={<RegistrationForm />} />

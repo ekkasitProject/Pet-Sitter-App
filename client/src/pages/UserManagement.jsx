@@ -1,13 +1,20 @@
 import Header from "../components/Header";
 import UserProfile from "../components/UserProfile";
-import React, { useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 import YourPet from "../components/YourPet";
 import BookingHistory from "../components/BookingHistory";
+import DeleteModal from "../components/DeleteModal";
 
 function UserManagement() {
   const [toggleProfile, setToggleProfile] = useState(true);
   const [toggleYourPet, setToggleYourPet] = useState(false);
   const [toggleBooking, setToggleBooking] = useState(false);
+  const { toggleDeletePet, setToggleDeletePet } = useContext(ToggleContext);
+
+  const toggleDeleteModal = () => {
+    setToggleDeletePet(true);
+  };
 
   const handleToggleProfile = () => {
     setToggleProfile(true);
@@ -28,6 +35,8 @@ function UserManagement() {
   return (
     <>
       <Header />
+      {toggleDeletePet ? <DeleteModal /> : null}
+
       <div className="w-full h-full flex mt-10 font-satoshi">
         <div className="  w-2/5 h-full flex justify-center p-11">
           <div className=" shadow-custom3 w-[300px] h-2/12 rounded-xl  ml-10 flex flex-col flex-wrap leading-[3rem]">

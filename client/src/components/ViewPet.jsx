@@ -2,19 +2,29 @@ import { Button2 } from "./Button";
 import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
+import DeleteModal from "../components/DeleteModal";
 
-function CreatePet() {
-  const { toggleCreatePet, setToggleCreatePet } = useContext(ToggleContext);
+function ViewPet() {
+  const {
+    toggleViewPet,
+    setToggleViewPet,
+    toggleDeletePet,
+    setToggleDeletePet,
+  } = useContext(ToggleContext);
 
-  const handleToggleCreatePet = () => {
-    setToggleCreatePet(false);
+  const handleToggleViewPet = () => {
+    setToggleViewPet(false);
+  };
+
+  const toggleDeleteModal = () => {
+    setToggleDeletePet(true);
   };
 
   return (
     <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
       <div className="flex gap-5">
-        <button onClick={handleToggleCreatePet}>X</button>
-        <div className="text-headLine3">Your Pet</div>
+        <button onClick={handleToggleViewPet}>X</button>
+        <div className="text-headLine3">View Your Pet</div>
       </div>
 
       <form onSubmit="" className="flex flex-col gap-10">
@@ -100,13 +110,14 @@ function CreatePet() {
         <div className="flex justify-end items-center ">
           <Button2
             type="submit"
-            button="Create Pet"
+            button="Update Profile"
             className="w-[150px]"
           ></Button2>
         </div>
       </form>
+      <button onClick={toggleDeleteModal}>x</button>
     </div>
   );
 }
 
-export default CreatePet;
+export default ViewPet;
