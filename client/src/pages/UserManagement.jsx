@@ -58,7 +58,7 @@ function UserManagement() {
             </button>
           </div>
         </div>
-        <div className="w-full flex justify-center  mr-20 mt-11">
+        <div className="w-full flex justify-center  mr-20 mt-11 mb-20">
           <UserProfile />
         </div>
       </div>
