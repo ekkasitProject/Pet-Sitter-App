@@ -1,14 +1,19 @@
 import { Button2 } from "./Button";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 
 function CreatePet() {
-  const [toggleCreatePet, setToggleCreatePet] = useState(false);
+  const { toggleCreatePet, setToggleCreatePet } = useContext(ToggleContext);
+
+  const handleToggleCreatePet = () => {
+    setToggleCreatePet(false);
+  };
 
   return (
     <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
-      <div className="">
-        <button>X</button>
+      <div className="flex gap-5">
+        <button onClick={handleToggleCreatePet}>X</button>
         <div className="text-headLine3">Your Pet</div>
       </div>
 

@@ -1,10 +1,11 @@
 import { Button2 } from "./Button";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import CreatePet from "./CreatePet";
 
 function YourPet() {
-  const [toggleCreatePet, setToggleCreatePet] = useState(false);
+  const { toggleCreatePet, setToggleCreatePet } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
     setToggleCreatePet(true);
