@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import UserProfile from "../components/UserProfile";
 import React, { useEffect, useState } from "react";
 import YourPet from "../components/YourPet";
+import BookingHistory from "../components/BookingHistory";
 
 function UserManagement() {
   const [toggleProfile, setToggleProfile] = useState(true);
@@ -92,7 +93,7 @@ function UserManagement() {
         <div className="w-full flex justify-center  mr-20 mt-11 mb-20">
           {toggleProfile ? <UserProfile /> : null}
           {toggleYourPet ? <YourPet /> : null}
-          {toggleBooking ? null : null}
+          {toggleBooking ? <BookingHistory /> : null}
         </div>
       </div>
     </>
