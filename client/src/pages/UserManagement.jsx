@@ -36,7 +36,7 @@ function UserManagement() {
     <>
       <Header />
       {toggleDeletePet ? <DeleteModal /> : null}
-
+      <button onClick={toggleDeleteModal}>x</button>
       <div className="w-full h-full flex mt-10 font-satoshi">
         <div className="  w-2/5 h-full flex justify-center p-11">
           <div className=" shadow-custom3 w-[300px] h-2/12 rounded-xl  ml-10 flex flex-col flex-wrap leading-[3rem]">
