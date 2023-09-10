@@ -109,7 +109,7 @@ function UserProfile() {
               onChange={(event) => setUsername(event.target.value)}
               placeholder="your username "
               required
-              className=" border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+              className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
             />
             {errors.username && (
               <p className="mt-2 text-sm text-red-600">{errors.username}</p>
