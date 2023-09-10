@@ -7,6 +7,8 @@ function UserProfile() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [idNumber, setIDNumber] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState();
+
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
@@ -61,14 +63,15 @@ function UserProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(dateOfBirth);
 
     if (validateForm()) {
       const data = {
         username,
         email,
         phone,
-        password,
         id_card_number: idNumber,
+        date_of_birth: dateOfBirth,
       };
       // register(data);
     }
@@ -168,7 +171,8 @@ function UserProfile() {
                 type="date"
                 id="dateOfBirth"
                 name="dateOfBirth"
-                onChange=""
+                value={dateOfBirth}
+                onChange={(event) => setDateOfBirth(event.target.value)}
                 className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
               />
             </div>
