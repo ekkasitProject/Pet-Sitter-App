@@ -45,7 +45,7 @@ export default {
         headLine1: ["56px", { lineHeight: "64px", fontWeight: "700" }],
         headLine2: ["36px", { lineHeight: "44px", fontWeight: "700" }],
         headLine3: ["24px", { lineHeight: "32px", fontWeight: "700" }],
-        headLine4: ["18px", { lineHeight: "64px", fontWeight: "700" }],
+        headLine4: ["18px", { lineHeight: "32px", fontWeight: "700" }],
         headLine5: ["16px", { lineHeight: "32px", fontWeight: "700" }],
         body1: ["18px", { lineHeight: "26px", fontWeight: "500" }],
         body2: ["16px", { lineHeight: "28px", fontWeight: "500" }],
