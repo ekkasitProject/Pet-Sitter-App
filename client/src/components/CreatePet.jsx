@@ -66,7 +66,7 @@ function CreatePet() {
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
         <div className="flex gap-5">
           <button onClick={handleToggleCreatePet}>X</button>
-          <div className="text-headLine3">Your Pet</div>
+          <div className="text-headLine3">Create Your Pet</div>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
