@@ -76,6 +76,10 @@ function UserProfile() {
       // register(data);
     }
   };
+  // Disable future date
+  const currentDate = new Date().toISOString().split("T")[0];
+  // Set the max attribute of the date input to the current date
+  document.getElementById("dateOfBirth").setAttribute("max", currentDate);
 
   return (
     <>
@@ -171,9 +175,10 @@ function UserProfile() {
                 type="date"
                 id="dateOfBirth"
                 name="dateOfBirth"
+                max="YYYY-MM-DD"
                 value={dateOfBirth}
                 onChange={(event) => setDateOfBirth(event.target.value)}
-                className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 px-3 focus:outline-none focus:border-primaryOrange3"
               />
             </div>
           </div>
