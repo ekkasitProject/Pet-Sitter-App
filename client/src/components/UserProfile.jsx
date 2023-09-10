@@ -17,44 +17,44 @@ function UserProfile() {
     // Validate Name
     if (username.length < 6 || username.length > 20) {
       newErrors.username = "Username must be between 6 and 20 characters";
-      let button = document.getElementById(`userName`);
-      button.classList.add("border-red-500");
+      let input = document.getElementById(`userName`);
+      input.classList.add("border-red-500");
     } else {
-      let button = document.getElementById(`userName`);
-      button.classList.remove("border-red-500");
+      let input = document.getElementById(`userName`);
+      input.classList.remove("border-red-500");
     }
 
     // Validate Email
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!email.match(emailPattern)) {
       newErrors.email = "Invalid email format";
-      let button = document.getElementById(`email`);
-      button.classList.add("border-red-500");
+      let input = document.getElementById(`email`);
+      input.classList.add("border-red-500");
     } else {
-      let button = document.getElementById(`email`);
-      button.classList.remove("border-red-500");
+      let input = document.getElementById(`email`);
+      input.classList.remove("border-red-500");
     }
 
     // Validate Phone
     const phonePattern = /^0[0-9]{9}$/;
     if (!phone.match(phonePattern)) {
       newErrors.phone = "Invalid phone number format";
-      let button = document.getElementById(`phoneNumber`);
-      button.classList.add("border-red-500");
+      let input = document.getElementById(`phoneNumber`);
+      input.classList.add("border-red-500");
     } else {
-      let button = document.getElementById(`phoneNumber`);
-      button.classList.remove("border-red-500");
+      let input = document.getElementById(`phoneNumber`);
+      input.classList.remove("border-red-500");
     }
 
     // Validate ID Number
     const idNumberPattern = /^\d{13}$/;
     if (!idNumberPattern.test(idNumber)) {
       newErrors.idNumber = "ID Number must be 13 characters";
-      let button = document.getElementById(`idNumber`);
-      button.classList.add("border-red-500");
+      let input = document.getElementById(`idNumber`);
+      input.classList.add("border-red-500");
     } else {
-      let button = document.getElementById(`idNumber`);
-      button.classList.remove("border-red-500");
+      let input = document.getElementById(`idNumber`);
+      input.classList.remove("border-red-500");
     }
 
     setErrors(newErrors);

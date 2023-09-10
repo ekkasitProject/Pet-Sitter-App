@@ -115,7 +115,9 @@ function ViewPet() {
           ></Button2>
         </div>
       </form>
-      <button onClick={toggleDeleteModal}>x</button>
+      <button onClick={toggleDeleteModal} className="text-primaryOrange2">
+        Delete Pet
+      </button>
     </div>
   );
 }
