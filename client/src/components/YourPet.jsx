@@ -45,8 +45,20 @@ function YourPet() {
           <div className="pet-wrapper py-12">
             <div
               onClick={handleToggleViewPet}
-              className="cursor-pointer border-2 border-primaryGray5 w-[250px] h-[280px] rounded-xl flex flex-col"
-            ></div>
+              className="pet-card cursor-pointer border-2 border-primaryGray5 w-[250px] h-[280px] rounded-3xl flex flex-col justify-evenly items-center"
+            >
+              <img
+                src={profile_user}
+                className="rounded-full w-[130px] h-[130px] mt-4"
+                alt="pet sitter profile picture"
+              />
+              <h1 className="text-headLine3">Name</h1>
+              Type
+              {/*  {petSitter.pet_type.map((pet, index) => {
+                    return <span key={index}>{handleChip(pet)}</span>;
+                  })}
+                  */}
+            </div>
           </div>
         </div>
       )}
