@@ -3,11 +3,82 @@ import React, { useState } from "react";
 import profile_user from "../assets/icons/profile.svg";
 
 function UserProfile() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [idNumber, setIDNumber] = useState("");
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate Name
+    if (username.length < 6 || username.length > 20) {
+      newErrors.username = "Username must be between 6 and 20 characters";
+      let button = document.getElementById(`userName`);
+      button.classList.add("border-red-500");
+    } else {
+      let button = document.getElementById(`userName`);
+      button.classList.remove("border-red-500");
+    }
+
+    // Validate Email
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!email.match(emailPattern)) {
+      newErrors.email = "Invalid email format";
+      let button = document.getElementById(`email`);
+      button.classList.add("border-red-500");
+    } else {
+      let button = document.getElementById(`email`);
+      button.classList.remove("border-red-500");
+    }
+
+    // Validate Phone
+    const phonePattern = /^0[0-9]{9}$/;
+    if (!phone.match(phonePattern)) {
+      newErrors.phone = "Invalid phone number format";
+      let button = document.getElementById(`phoneNumber`);
+      button.classList.add("border-red-500");
+    } else {
+      let button = document.getElementById(`phoneNumber`);
+      button.classList.remove("border-red-500");
+    }
+
+    // Validate ID Number
+    const idNumberPattern = /^\d{13}$/;
+    if (!idNumberPattern.test(idNumber)) {
+      newErrors.idNumber = "ID Number must be 13 characters";
+      let button = document.getElementById(`idNumber`);
+      button.classList.add("border-red-500");
+    } else {
+      let button = document.getElementById(`idNumber`);
+      button.classList.remove("border-red-500");
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      const data = {
+        username,
+        email,
+        phone,
+        password,
+        id_card_number: idNumber,
+      };
+      // register(data);
+    }
+  };
+
   return (
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
         <div className="text-headLine3">Profile</div>
-        <form onSubmit="" className="flex flex-col gap-10">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img className="object-fit" src={profile_user} alt="" />
             <button className="w-[60px] h-[60px] rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
@@ -26,41 +97,53 @@ function UserProfile() {
             </button>
           </div>
           <div className="flex flex-col gap-1">
-            <label htmlFor="name">Your Name*</label>
+            <label htmlFor="userName">Your Name*</label>
             <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="your name"
-              value=""
-              onChange=""
-              className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+              id="userName"
+              name="userName"
+              type="userName"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder="your username "
+              required
+              className=" border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
             />
+            {errors.username && (
+              <p className="mt-2 text-sm text-red-600">{errors.username}</p>
+            )}
           </div>
           <div className="flex gap-8 flex-1 ">
             <div className="flex flex-col gap-1 flex-1">
               <label htmlFor="email">Email*</label>
               <input
-                type="email"
                 id="email"
                 name="email"
-                placeholder="email"
-                value=""
-                onChange=""
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="example@email.com"
+                required
                 className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
               />
+              {errors.email && (
+                <p className="mt-2 text-sm text-red-600">{errors.email}</p>
+              )}
             </div>
             <div className="flex flex-col gap-1 flex-1">
               <label htmlFor="phoneNumber">Phone*</label>
               <input
-                type="tel"
                 id="phoneNumber"
                 name="phoneNumber"
-                placeholder="phoneNumber"
-                value=""
-                onChange=""
+                type="tel"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+                placeholder="Your phone number"
+                required
                 className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
               />
+              {errors.phone && (
+                <p className="mt-2 text-sm text-red-600">{errors.phone}</p>
+              )}
             </div>
           </div>
           <div className="flex gap-8 flex-1 ">
@@ -71,10 +154,13 @@ function UserProfile() {
                 id="idNumber"
                 name="idNumber"
                 placeholder="Enter your ID number"
-                value=""
-                onChange=""
+                value={idNumber}
+                onChange={(event) => setIDNumber(event.target.value)}
                 className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
               />
+              {errors.idNumber && (
+                <p className="mt-2 text-sm text-red-600">{errors.idNumber}</p>
+              )}
             </div>
             <div className="flex flex-col gap-1 flex-1">
               <label htmlFor="dateOfBirth">Date Of Birth</label>
