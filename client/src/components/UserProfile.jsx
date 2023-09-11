@@ -77,11 +77,11 @@ function UserProfile() {
     }
   };
 
-  // Disable future date
+  /*// Disable future date
   const currentDate = new Date().toISOString().split("T")[0];
   // Set the max attribute of the date input to the current date
   document.getElementById("dateOfBirth").setAttribute("max", currentDate);
-
+*/
   return (
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">

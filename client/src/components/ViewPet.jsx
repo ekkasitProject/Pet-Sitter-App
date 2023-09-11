@@ -31,7 +31,7 @@ function ViewPet() {
   const handleToggleCreatePet = () => {
     setToggleCreatePet(false);
   };
-
+  /*
   const validateForm = () => {
     const newErrors = {};
 
@@ -58,11 +58,11 @@ function ViewPet() {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  };*/
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    /*
     if (validateForm()) {
       const data = {
         petname,
@@ -72,7 +72,7 @@ function ViewPet() {
         age,
       };
       // register(data);
-    }
+    }*/
   };
 
   return (
