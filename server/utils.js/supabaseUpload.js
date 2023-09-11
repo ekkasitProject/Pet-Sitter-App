@@ -12,18 +12,25 @@ const supabase = createClient(supabaseUrl, supabaseKey, {
 });
 
 const supabaseUpload = async (files) => {
-  const fileUrls = [];
+  const fileUrls = "";
 
   for (let file of files.avatar) {
     try {
       const { data, error } = await supabase.storage
         .from("petsisterAvatar") // เปลี่ยนเป็นชื่อ bucket ของคุณ
-        .upload(file.path, {
-          cacheControl: "3600", // ตั้งค่าแคชไว้ 1 ชั่วโมง (หรือตามต้องการ)
-        });
+        .upload(
+          file.path,
+          file.buffer,
+          {
+            contentType: file.mimetype,
+          },
+          {
+            cacheControl: "3600", // ตั้งค่าแคชไว้ 1 ชั่วโมง (หรือตามต้องการ)
+          }
+        );
 
       if (error) {
-        console.error("Error uploading file:", error);
+        console.error("Error uploading file:", error.message);
         continue; // หากเกิดข้อผิดพลาดในการอัพโหลดไฟล์ จะข้ามไฟล์นี้และทำไฟล์ถัดไป
       }
 
@@ -34,7 +41,7 @@ const supabaseUpload = async (files) => {
 
       await fs.unlink(file.path);
     } catch (error) {
-      console.error("Error processing file:", error);
+      console.error("Error processing file:", error.message);
     }
   }
 

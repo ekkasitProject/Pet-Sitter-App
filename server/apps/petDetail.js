@@ -7,7 +7,7 @@ import { protect } from "../Auth/tokenProtected.js";
 dotenv.config();
 const prisma = new PrismaClient();
 const petDetail = Router();
-petDetail.use(protect);
+//petDetail.use(protect);
 // const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
 // const supabaseKey = process.env.SUPABASE_KEY;
 // const supabase = createClient(supabaseUrl, supabaseKey);
@@ -54,34 +54,35 @@ petDetail.post("/:ownerId", async (req, res) => {
       return res.status(404).json({ message: "เจ้าของสัตว์เลี้ยงไม่พบ" });
     }
 
-    // ตรวจสอบว่ามีการอัปโหลดไฟล์ในคำขอหรือไม่
-    if (!req.files || !req.files.file) {
-      return res
-        .status(400)
-        .json({ message: "กรุณาอัปโหลดรูปภาพของสัตว์เลี้ยง" });
-    }
+    // // ตรวจสอบว่ามีการอัปโหลดไฟล์ในคำขอหรือไม่
+    // if (!req.files || !req.files.file) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: "กรุณาอัปโหลดรูปภาพของสัตว์เลี้ยง" });
+    // }
 
-    // จัดการการอัปโหลดไฟล์ใน req.files.file และกำหนดค่า file เป็น URL ของรูปที่อัปโหลด
-    const file = req.files.file;
-    // โค้ดของคุณสำหรับการอัปโหลดและกำหนดค่า URL ของ image_profile ที่นี่
+    // // จัดการการอัปโหลดไฟล์ใน req.files.file และกำหนดค่า file เป็น URL ของรูปที่อัปโหลด
+    // const file = req.files.file;
+    // // โค้ดของคุณสำหรับการอัปโหลดและกำหนดค่า URL ของ image_profile ที่นี่
 
-    // ตัวอย่างโค้ดสำหรับการอัปโหลดไปยัง Supabase
-    const { data, error } = await supabase.storage
-      .from("public")
-      .upload(`profilePet/${file.name}`, file.data);
+    // // ตัวอย่างโค้ดสำหรับการอัปโหลดไปยัง Supabase
+    // const { data, error } = await supabase.storage
+    //   .from("public")
+    //   .upload(`profilePet/${file.name}`, file.data);
 
-    if (error) {
-      return res.status(500).json({ message: "การอัปโหลดรูปภาพล้มเหลว" });
-    }
+    // if (error) {
+    //   return res.status(500).json({ message: "การอัปโหลดรูปภาพล้มเหลว" });
+    // }
 
-    // กำหนดค่า image_profile เป็น URL ของรูปที่อัปโหลด
-    const image_profile = data.Key;
+    // // กำหนดค่า image_profile เป็น URL ของรูปที่อัปโหลด
+    // const image_profile = data.Key;
 
     // สร้างรายละเอียดของสัตว์เลี้ยงพร้อมกับ image_profile ที่อัปเดต
     const createdPet = await prisma.petDetail.create({
       data: {
         petname,
-        image_profile,
+        image_profile:
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
         pettype,
         breed,
         sex,
@@ -110,7 +111,57 @@ petDetail.post("/:ownerId", async (req, res) => {
 });
 
 // owner สามารถแก้ไขรายละเอียดสัตว์เลี้ยงของตัวเองได้
-petDetail.put("/:ownerId", async (req, res) => {});
+petDetail.put("/:ownerId/pet/:petId", async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const petId = req.params.petId;
+    const { petname, pettype, breed, sex, age, color, weight, about } =
+      req.body;
+
+    // ตรวจสอบว่าพี่เจ้าของสัตว์ที่มีรายละเอียดที่ระบุด้วย ownerId มีอยู่หรือไม่
+    const existingDetail = await prisma.petOwnerUser.findUnique({
+      where: {
+        petowner_id: ownerId,
+      },
+    });
+    if (!existingDetail) {
+      return res.status(404).json({ message: "ไม่พบรายละเอียดพี่เลี้ยง" });
+    }
+
+    const updatedDetail = await prisma.petDetail.update({
+      where: {
+        pet_id: petId,
+      },
+      data: {
+        petname,
+        image_profile:
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
+        pettype,
+        breed,
+        sex,
+        age,
+        color,
+        weight,
+        about,
+        owner: {
+          connect: {
+            petowner_id: ownerId,
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      message: "อัพเดทรายละเอียดสัตว์เลี้ยงสำเร็จ",
+      petDetail: updatedDetail,
+    });
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการอัพเดทรายละเอียดสัตว์เลี้ยง", error);
+    return res
+      .status(500)
+      .json({ message: "เกิดข้อผิดพลาดในการอัพเดทรายละเอียดสัตว์เลี้ยง" });
+  }
+});
 // owner สามารถลบสัตว์เลี้ยงของตัวเองได้
 petDetail.delete("/:ownerId/pet/:petId", async (req, res) => {
   try {
