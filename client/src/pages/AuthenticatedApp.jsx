@@ -40,7 +40,11 @@ const AuthenticatedApp = () => {
             path="/petsitterlist/view/:petsister_id"
             element={<PetSitterDetail />}
           />
-          <Route path="/usermanagement" element={<UserManagement />} />
+          <Route path="/user">
+            <Route path="/user/profile/:userId" element={<UserManagement />} />
+            <Route path="/user/yourpet/:userId" element={<UserManagement />} />
+            <Route path="/user/history/:userId" element={<UserManagement />} />
+          </Route>
         </Routes>
       </ToggleContext.Provider>
     </ThemeProvider>

@@ -1,6 +1,6 @@
 import Header from "../components/Header";
 import UserProfile from "../components/UserProfile";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import YourPet from "../components/YourPet";
 import BookingHistory from "../components/BookingHistory";
@@ -11,6 +11,7 @@ function UserManagement() {
   const [toggleProfile, setToggleProfile] = useState(true);
   const [toggleYourPet, setToggleYourPet] = useState(false);
   const [toggleBooking, setToggleBooking] = useState(false);
+  const [currentURL, setCurrentURL] = useState(null);
   const {
     toggleDeletePet,
     setToggleDeletePet,
@@ -47,7 +48,7 @@ function UserManagement() {
       <Header />
       {toggleDeletePet ? <DeleteModal /> : null}
       {toggleViewBooking ? <BookingModal /> : null}
-      <button onClick={toggleDeleteModal}>x</button>
+
       <div className="w-full h-full flex mt-10 font-satoshi">
         <div className="  w-2/5 h-full flex justify-center p-11">
           <div className=" shadow-custom3 w-[300px] h-2/12 rounded-xl  ml-10 flex flex-col flex-wrap leading-[3rem]">

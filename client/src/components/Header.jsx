@@ -72,15 +72,24 @@ const Header = () => {
               {isDropdownOpen && (
                 <div className="absolute top-12 right-[-10rem] mt-2 bg-white border rounded shadow-md w-[186px]     z-50">
                   <div className="">
-                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                    <div
+                      onClick={() => navigate(`/user/profile/:userId`)}
+                      className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
+                    >
                       <img className="ml-4 " src={profile_user} alt="" />
                       <span className="ml-4 ">Profile</span>
                     </div>
-                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                    <div
+                      onClick={() => navigate(`/user/yourpet/:userId`)}
+                      className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
+                    >
                       <img className="ml-4" src={pet} alt="" />
                       <span className="ml-4">Your Pet</span>
                     </div>
-                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                    <div
+                      onClick={() => navigate(`/user/history/:userId`)}
+                      className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
+                    >
                       <img className="ml-4" src={history} alt="" />
                       <span className="ml-4">History</span>
                     </div>
