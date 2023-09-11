@@ -9,6 +9,8 @@ import theme from "../theme.js";
 import PetSitterDetail from "./PetSitterDetail";
 import UserManagement from "./UserManagement";
 import { createContext } from "react";
+import YourPet from "./YourPet";
+import BookingHistory from "./BookingHistory";
 
 export const ToggleContext = React.createContext();
 
@@ -42,8 +44,8 @@ const AuthenticatedApp = () => {
           />
           <Route path="/user">
             <Route path="/user/profile/:userId" element={<UserManagement />} />
-            <Route path="/user/yourpet/:userId" element={<UserManagement />} />
-            <Route path="/user/history/:userId" element={<UserManagement />} />
+            <Route path="/user/yourpet/:userId" element={<YourPet />} />
+            <Route path="/user/history/:userId" element={<BookingHistory />} />
           </Route>
         </Routes>
       </ToggleContext.Provider>
