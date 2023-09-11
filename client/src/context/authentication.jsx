@@ -11,6 +11,7 @@ function AuthProvider(props) {
     error: null,
     user: null,
   });
+  const [petOwnerID, setPetOwnerID] = useState("");
 
   const register = async (data) => {
     await axios.post("http://localhost:4000/petOwnerUser/register", data);
@@ -24,7 +25,10 @@ function AuthProvider(props) {
         data
       );
       const token = result.data.token;
+      const id = result.data.user.petowner_id;
+      setPetOwnerID(id);
       localStorage.setItem("token", token);
+
       const userDataFromToken = jwtDecode(token);
       setState({ ...state, user: userDataFromToken });
       navigate("/");
@@ -44,7 +48,7 @@ function AuthProvider(props) {
 
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, register, isAuthenticated }}
+      value={{ state, login, logout, register, isAuthenticated, petOwnerID }}
     >
       {props.children}
     </AuthContext.Provider>

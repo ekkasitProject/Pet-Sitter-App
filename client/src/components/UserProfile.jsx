@@ -1,5 +1,5 @@
 import { Button2 } from "./Button";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import profile_user from "../assets/icons/profile.svg";
 
 function UserProfile() {

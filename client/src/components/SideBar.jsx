@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authentication";
 
 function SideBar() {
+  const { petOwnerID } = useAuth();
   const navigate = useNavigate();
   const profileRef = useRef(null);
   const yourpetRef = useRef(null);
@@ -34,7 +36,7 @@ function SideBar() {
           </div>
           <button
             ref={profileRef}
-            onClick={() => navigate(`/user/profile/:userId`)}
+            onClick={() => navigate(`/user/profile/${petOwnerID}`)}
             className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
           >
             <svg
@@ -50,7 +52,7 @@ function SideBar() {
           </button>
           <button
             ref={yourpetRef}
-            onClick={() => navigate(`/user/yourpet/:userId`)}
+            onClick={() => navigate(`/user/yourpet/${petOwnerID}`)}
             className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
           >
             <svg
@@ -75,7 +77,7 @@ function SideBar() {
           </button>
           <button
             ref={historyRef}
-            onClick={() => navigate(`/user/history/:userId`)}
+            onClick={() => navigate(`/user/history/${petOwnerID}`)}
             className="text-headLine5 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
           >
             <svg
