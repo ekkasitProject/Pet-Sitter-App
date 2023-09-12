@@ -12,6 +12,7 @@ import { createContext } from "react";
 import YourPet from "./YourPet";
 import BookingHistory from "./BookingHistory";
 import BookingInformation from "./BookingInformation";
+import BookingPayment from "./BookingPayment";
 
 export const ToggleContext = React.createContext();
 
@@ -25,6 +26,7 @@ const AuthenticatedApp = () => {
   const [toggleViewBooking, setToggleViewBooking] = useState(false);
   return (
     <ThemeProvider theme={theme}>
+<<<<<<< HEAD
       <ToggleContext.Provider
         value={{
           toggleCreatePet,
@@ -54,6 +56,20 @@ const AuthenticatedApp = () => {
           </Route>
         </Routes>
       </ToggleContext.Provider>
+=======
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/register" element={<RegistrationForm />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/petsitterlist" element={<PetSitterList />} />
+        <Route
+          path="/petsitterlist/view/:petsister_id"
+          element={<PetSitterDetail />}
+        />
+        <Route path="/booking/information" element={<BookingInformation />} />
+        <Route path="/booking/payment" element={<BookingPayment />} />
+      </Routes>
+>>>>>>> bookingpayment
     </ThemeProvider>
   );
 };
