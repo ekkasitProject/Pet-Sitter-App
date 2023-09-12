@@ -7,10 +7,7 @@ import { protect } from "../Auth/tokenProtected.js";
 dotenv.config();
 const prisma = new PrismaClient();
 const petDetail = Router();
-//petDetail.use(protect);
-// const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
-// const supabaseKey = process.env.SUPABASE_KEY;
-// const supabase = createClient(supabaseUrl, supabaseKey);
+
 // owner สามารถดูสัตว์เลี้ยงของตัวเองได้
 petDetail.get("/:ownerId", async (req, res) => {
   const ownerId = req.params.ownerId;
@@ -107,6 +104,35 @@ petDetail.post("/:ownerId", async (req, res) => {
     return res
       .status(500)
       .json({ message: "เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง" });
+  }
+});
+// owner สามารถดูรายละเอียดสัตว์เลี้ยงรายตัวได้
+// owner สามารถดูรายละเอียดสัตว์เลี้ยงรายตัวได้
+petDetail.get("/:ownerId/pet/:petId", async (req, res) => {
+  try {
+    const ownerId = req.params.ownerId;
+    const petId = req.params.petId;
+
+    // ค้นหาข้อมูลสัตว์เลี้ยงตาม ownerId และ petId
+    const pet = await prisma.petDetail.findUnique({
+      where: {
+        pet_id: petId,
+      },
+      include: {
+        owner: true,
+      },
+    });
+
+    if (!pet || pet.owner.petowner_id !== ownerId) {
+      return res.status(404).json({ message: "ไม่พบรายละเอียดสัตว์เลี้ยง" });
+    }
+
+    return res.json({ pet });
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการค้นหารายละเอียดสัตว์เลี้ยง", error);
+    return res
+      .status(500)
+      .json({ message: "เกิดข้อผิดพลาดในการค้นหารายละเอียดสัตว์เลี้ยง" });
   }
 });
 
