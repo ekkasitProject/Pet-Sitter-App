@@ -57,7 +57,6 @@ const BookingYourPet = () => {
               </form>
             </div>
           </div>
-
           <div className="w-1/4 mt-6 h-[484px] bg-white rounded-xl overflow-hidden">
             <h2 className="text-2xl font-medium px-8 pt-4">Booking Detail</h2>
             <hr className="mt-4" />
