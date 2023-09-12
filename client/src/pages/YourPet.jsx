@@ -17,15 +17,8 @@ import {
 } from "../components/Chips.jsx";
 
 function YourPet() {
-  const {
-    getAllPets,
-    allpets,
-    setAllpets,
-    isError,
-    isLoading,
-    petID,
-    setPetID,
-  } = fetchUserData();
+  const { getAllPets, allpets, setAllpets, isError, isLoading } =
+    fetchUserData();
   const navigate = useNavigate();
   const {
     toggleCreatePet,
@@ -34,20 +27,24 @@ function YourPet() {
     setToggleDeletePet,
     toggleViewPet,
     setToggleViewPet,
+    petID,
+    setPetID,
   } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
     setToggleCreatePet(true);
   };
 
-  const handleToggleViewPet = () => {
+  const handleToggleViewPet = (id) => {
+    setPetID(id);
     setToggleViewPet(true);
+    console.log(petID);
   };
 
   useEffect(() => {
     getAllPets();
     console.log(allpets);
-  }, [toggleViewPet]);
+  }, [allpets]);
 
   const handleChip = (pet) => {
     if (pet === "dog") {
@@ -90,7 +87,7 @@ function YourPet() {
               {isError ? <h1>Request failed</h1> : null}
               {isLoading ? <h1>Loading ....</h1> : null}
               <div
-                onClick={handleToggleViewPet}
+                onClick={() => handleToggleViewPet("id")}
                 className="pet-card cursor-pointer border-2 border-primaryGray5 w-[250px] h-[280px] rounded-3xl flex flex-col justify-evenly items-center"
               >
                 <img
@@ -105,7 +102,7 @@ function YourPet() {
                 return (
                   <div
                     key={pet.pet_id}
-                    onClick={handleToggleViewPet}
+                    onClick={() => handleToggleViewPet(pet.pet_id)}
                     className="pet-card cursor-pointer mb-5 border-2 border-primaryGray5 w-[250px] h-[280px] rounded-3xl flex flex-col justify-evenly items-center"
                   >
                     <img

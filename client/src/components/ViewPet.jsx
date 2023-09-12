@@ -3,8 +3,10 @@ import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import DeleteModal from "../components/DeleteModal";
+import fetchUserData from "../hooks/fetchUserData";
 
 function ViewPet() {
+  const { getAllPets } = fetchUserData();
   const [petname, setPetname] = useState("");
   const [petType, setPetType] = useState("");
   const [breed, setBreed] = useState("");
@@ -22,15 +24,14 @@ function ViewPet() {
 
   const handleToggleViewPet = () => {
     setToggleViewPet(false);
+    getAllPets();
   };
 
   const toggleDeleteModal = () => {
     setToggleDeletePet(true);
+    getAllPets();
   };
 
-  const handleToggleCreatePet = () => {
-    setToggleCreatePet(false);
-  };
   /*
   const validateForm = () => {
     const newErrors = {};
@@ -62,6 +63,8 @@ function ViewPet() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    getAllPets();
     /*
     if (validateForm()) {
       const data = {
