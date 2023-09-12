@@ -2,8 +2,11 @@ import { Button2 } from "./Button";
 import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
+import fetchUserData from "../hooks/fetchUserData";
 
 function CreatePet() {
+  const { createPet } = fetchUserData();
+
   const [petname, setPetname] = useState("");
   const [petType, setPetType] = useState("");
   const [breed, setBreed] = useState("");
@@ -11,12 +14,31 @@ function CreatePet() {
   const [age, setAge] = useState("");
   const [color, setColor] = useState("");
   const [weight, setWeight] = useState("");
+  const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
   const { toggleCreatePet, setToggleCreatePet } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
     setToggleCreatePet(false);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      petname,
+      pettype: petType,
+      breed,
+      sex,
+      age,
+      color,
+      weight,
+      about,
+    };
+    console.log(data);
+    createPet(data);
+    handleToggleCreatePet();
+  };
+
   /*
   const validateForm = () => {
     const newErrors = {};
@@ -45,21 +67,6 @@ function CreatePet() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };*/
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    /*
-    if (validateForm()) {
-      const data = {
-        petname,
-        pettype: petType,
-        breed,
-        sex,
-        age,
-      };
-      // register(data);
-    }*/
-  };
 
   return (
     <>
@@ -218,6 +225,8 @@ function CreatePet() {
               type="text"
               cols={20}
               rows={6}
+              value={about}
+              onChange={(event) => setAbout(event.target.value)}
               name="about"
               id="about"
               placeholder="Describe more about your pet"

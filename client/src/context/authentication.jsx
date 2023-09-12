@@ -25,7 +25,7 @@ function AuthProvider(props) {
         data
       );
       const token = result.data.token;
-      // console.log(result);
+      console.log(result);
       const id = result.data.user.petowner_id;
       setPetOwnerID(id);
       localStorage.setItem("token", token);
