@@ -157,9 +157,15 @@ const PetSitterDetail = () => {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-560 h-438 bg-white border rounded-lg shadow-md p-4 ">
-                    <div>
+                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-560 h-438 bg-white border rounded-lg shadow-md p-4">
+                    <div className="flex justify-between items-center">
                       <h1 className="text-2xl font-bold mb-4">Booking</h1>
+                      <button
+                        onClick={handleClose}
+                        className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                      >
+                        X
+                      </button>
                     </div>
                     <hr className="border-gray-300 my-4" />
                     <div>
@@ -167,7 +173,7 @@ const PetSitterDetail = () => {
                         Select a date and time for your booking
                       </h2>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={["DatePiker"]}>
                           <DatePicker
@@ -180,12 +186,12 @@ const PetSitterDetail = () => {
                       </LocalizationProvider>
                       <TimeRangePicker />
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-4 py-5 right-0">
                       <button
                         className="w-full bg-gradient-to-r from-primaryOrange2 to-primaryOrange3 hover:from-primaryOrange1 hover:to-primaryOrange2 text-white py-2 rounded-md font-semibold hover:shadow-md transition duration-300 ease-in-out"
                         onClick={() => {
                           handleClose();
-                          navigate("/booking");
+                          navigate("/booking/yourPet");
                         }}
                       >
                         Continue
