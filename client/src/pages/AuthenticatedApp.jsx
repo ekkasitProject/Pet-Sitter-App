@@ -11,8 +11,12 @@ import UserManagement from "./UserManagement";
 import { createContext } from "react";
 import YourPet from "./YourPet";
 import BookingHistory from "./BookingHistory";
+import BookingInformation from "./BookingInformation";
 
 export const ToggleContext = React.createContext();
+
+
+
 
 const AuthenticatedApp = () => {
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
@@ -38,6 +42,7 @@ const AuthenticatedApp = () => {
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/petsitterlist" element={<PetSitterList />} />
+          <Route path="/booking/information" element={<BookingInformation />} />
           <Route
             path="/petsitterlist/view/:petsister_id"
             element={<PetSitterDetail />}

@@ -57,7 +57,7 @@ const Header = () => {
 
   return (
     <header className="">
-      <nav className="flex justify-between items-center w-[80%] mx-auto h-[80px] ">
+      <nav className="flex justify-between items-center w-[90%] mx-auto h-[80px] ">
         <div>
           <img onClick={handleToHome} src={logo} alt="logo" />
         </div>

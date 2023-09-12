@@ -24,6 +24,7 @@ model PetOwnerUser {
   createAt               DateTime    @default(now())
   updateAt               DateTime    @updatedAt
   pets                   PetDetail[]
+  Bookings               Booking[]
 }
 
 model PetDetail {
@@ -41,6 +42,7 @@ model PetDetail {
   updateAt      DateTime     @updatedAt
   owner         PetOwnerUser @relation(fields: [owner_id], references: [petowner_id])
   owner_id      String
+  bookings               Booking[]
 }
 
 model PetSitterUser {
@@ -56,6 +58,7 @@ model PetSitterUser {
   emailVerificationToken String?
   petsisterdetail        PetSisterDetail[]
   addresses              Address[]
+  bookings               Booking[] 
 }
 
 model PetSisterDetail {
@@ -70,6 +73,7 @@ model PetSisterDetail {
   experience         String?
   createAt           DateTime      @default(now())
   updateAt           DateTime      @updatedAt
+  
 }
 
 model Address {
@@ -83,4 +87,25 @@ model Address {
   post_code      String?
   createAt       DateTime      @default(now())
   updateAt       DateTime      @updatedAt
+}
+model Booking {
+  booking_id     String   @id @default(uuid())
+  datetime       DateTime
+  startTime      DateTime
+  endTime        DateTime
+  additional_message String?
+  createAt       DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  petdetail      PetDetail @relation(fields: [petdetail_id], references: [pet_id])
+  petsitter      PetSitterUser @relation(fields: [petsitter_id], references: [petsitter_id])
+  petowner       PetOwnerUser @relation(fields: [petowner_id], references: [petowner_id])
+  petdetail_id   String
+  petsitter_id   String
+  petowner_id    String
+  status_booking  StatusBookingEnum
+}
+enum StatusBookingEnum {
+  waiting_for_comfirm
+  in_service
+  success
 }
