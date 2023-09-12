@@ -157,7 +157,7 @@ const PetSitterDetail = () => {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 bg-white border rounded-lg shadow-md p-4">
+                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-560 h-438 bg-white border rounded-lg shadow-md p-4 ">
                     <div>
                       <h1 className="text-2xl font-bold mb-4">Booking</h1>
                     </div>
