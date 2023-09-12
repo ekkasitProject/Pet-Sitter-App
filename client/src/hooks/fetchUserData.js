@@ -38,7 +38,6 @@ const fetchUserData = () => {
     try {
       const token = localStorage.getItem("token");
 
-      setIsError(false);
       setIsLoading(true);
       await axios.put(
         `http://localhost:4000/petOwnerUser/${petOwnerID}`,
@@ -52,8 +51,7 @@ const fetchUserData = () => {
       setIsLoading(false);
       navigate(`/user/profile/${petOwnerID}`);
     } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
+      console.log(error);
     }
   };
 

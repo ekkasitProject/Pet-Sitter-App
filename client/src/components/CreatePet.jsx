@@ -5,7 +5,7 @@ import profile_user from "../assets/icons/profile.svg";
 import fetchUserData from "../hooks/fetchUserData";
 
 function CreatePet() {
-  const { createPet } = fetchUserData();
+  const { createPet, getAllPets } = fetchUserData();
 
   const [petname, setPetname] = useState("");
   const [petType, setPetType] = useState("");
@@ -36,6 +36,7 @@ function CreatePet() {
     };
     console.log(data);
     createPet(data);
+    getAllPets();
     handleToggleCreatePet();
   };
 
