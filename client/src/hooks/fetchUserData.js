@@ -46,7 +46,30 @@ const fetchUserData = () => {
         }
       );
       setIsLoading(false);
-      navigate(`/user/history/${petOwnerID}`);
+      navigate(`/user/profile/${petOwnerID}`);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
+
+  const createPet = async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      setIsError(false);
+      setIsLoading(true);
+      await axios.post(
+        `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsLoading(false);
+      navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -120,6 +143,7 @@ const fetchUserData = () => {
     petOwnerProfile,
     setPetOwnerProfile,
     updatePetOwnerProfile,
+    createPet,
     allpets,
     setAllpets,
     petDetail,

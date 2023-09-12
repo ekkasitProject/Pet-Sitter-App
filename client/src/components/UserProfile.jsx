@@ -122,7 +122,11 @@ function UserProfile() {
         <div className="text-headLine3">Profile</div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
-            <img className="object-fit" src={profile_user} alt="" />
+            <img
+              className="object-fit"
+              src={petOwnerProfile.image_profile}
+              alt=""
+            />
             <button className="w-[60px] h-[60px] rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
               <svg
                 width="24"
