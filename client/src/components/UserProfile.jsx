@@ -2,18 +2,37 @@ import { Button2 } from "./Button";
 import React, { useState, useEffect } from "react";
 import profile_user from "../assets/icons/profile.svg";
 import { useParams } from "react-router-dom";
-import fetchData from "../hooks/fetchData";
+import fetchUserData from "../hooks/fetchUserData";
 
 function UserProfile() {
-  const { getProfile, profile } = fetchData();
+  const {
+    getPetOwnerProfile,
+    petOwnerProfile,
+    setPetOwnerProfile,
+    updatePetOwnerProfile,
+  } = fetchUserData();
   const params = useParams();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [idNumber, setIDNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState();
-
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    getPetOwnerProfile();
+    console.log(petOwnerProfile);
+  }, []);
+
+  useEffect(() => {
+    if (petOwnerProfile) {
+      setUsername(petOwnerProfile.username);
+      setEmail(petOwnerProfile.email);
+      setPhone(petOwnerProfile.phone);
+      setIDNumber(petOwnerProfile.id_card_number);
+      setDateOfBirth(petOwnerProfile.date_of_birth);
+    }
+  }, [petOwnerProfile]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -67,7 +86,7 @@ function UserProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(dateOfBirth);
+    //console.log(dateOfBirth);
 
     if (validateForm()) {
       const data = {
@@ -77,15 +96,11 @@ function UserProfile() {
         id_card_number: idNumber,
         date_of_birth: dateOfBirth,
       };
-      // register(data);
+      console.log(data);
+      updatePetOwnerProfile(data);
     }
   };
 
-  /*// Disable future date
-  const currentDate = new Date().toISOString().split("T")[0];
-  // Set the max attribute of the date input to the current date
-  document.getElementById("dateOfBirth").setAttribute("max", currentDate);
-*/
   return (
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
