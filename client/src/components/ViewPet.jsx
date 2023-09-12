@@ -245,7 +245,7 @@ function ViewPet() {
           </div>
           <div className="flex justify-between items-center ">
             <button
-              onClick={handleToggleCreatePet}
+              onClick={handleToggleViewPet}
               className="px-8 py-3 bg-primaryOrange6 rounded-full active:text-primaryOrange1 text-primaryOrange2 hover:text-primaryOrange3 disabled:bg-primaryGray6 disabled:text-primaryGray5"
             >
               Cancel
