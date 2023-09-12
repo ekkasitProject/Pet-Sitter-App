@@ -1,8 +1,12 @@
 import { Button2 } from "./Button";
 import React, { useState, useEffect } from "react";
 import profile_user from "../assets/icons/profile.svg";
+import { useParams } from "react-router-dom";
+import fetchData from "../hooks/fetchData";
 
 function UserProfile() {
+  const { getProfile, profile } = fetchData();
+  const params = useParams();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
