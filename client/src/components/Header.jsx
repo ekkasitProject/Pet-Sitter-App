@@ -10,7 +10,7 @@ import logout_user from "../assets/icons/logout.svg";
 import { dropdown } from "../data/dropdownprofile";
 
 const Header = () => {
-  const { logout } = useAuth();
+  const { logout, petOwnerID } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profile, setProfile] = useState(null);
@@ -19,12 +19,16 @@ const Header = () => {
     try {
       const token = localStorage.getItem("token");
 
-      const result = await axios.get("http://localhost:4000/petOwnerUser", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProfile(result.data[0]);
+      const result = await axios.get(
+        `http://localhost:4000/petOwnerUser/${petOwnerID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setProfile(result.data.petOwnerUser);
+      //setProfile(result.data[0]);
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
@@ -72,15 +76,24 @@ const Header = () => {
               {isDropdownOpen && (
                 <div className="absolute top-12 right-[-10rem] mt-2 bg-white border rounded shadow-md w-[186px]     z-50">
                   <div className="">
-                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                    <div
+                      onClick={() => navigate(`/user/profile/${petOwnerID}`)}
+                      className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
+                    >
                       <img className="ml-4 " src={profile_user} alt="" />
                       <span className="ml-4 ">Profile</span>
                     </div>
-                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                    <div
+                      onClick={() => navigate(`/user/yourpet/${petOwnerID}`)}
+                      className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
+                    >
                       <img className="ml-4" src={pet} alt="" />
                       <span className="ml-4">Your Pet</span>
                     </div>
-                    <div className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer">
+                    <div
+                      onClick={() => navigate(`/user/history/${petOwnerID}`)}
+                      className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
+                    >
                       <img className="ml-4" src={history} alt="" />
                       <span className="ml-4">History</span>
                     </div>
