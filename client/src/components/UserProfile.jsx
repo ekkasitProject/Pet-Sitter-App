@@ -10,6 +10,8 @@ function UserProfile() {
     petOwnerProfile,
     setPetOwnerProfile,
     updatePetOwnerProfile,
+    isError,
+    isLoading,
   } = fetchUserData();
   const params = useParams();
   const [username, setUsername] = useState("");
@@ -120,12 +122,14 @@ function UserProfile() {
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
         <div className="text-headLine3">Profile</div>
+        {isError ? <h1>Request failed</h1> : null}
+        {isLoading ? <h1>Loading ....</h1> : null}
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img
               className="object-fit"
-              // src={profile_user}
-              src={petOwnerProfile.image_profile}
+              src={profile_user}
+              //src={petOwnerProfile.image_profile}
               alt=""
             />
             <button className="w-[60px] h-[60px] rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">

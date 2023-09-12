@@ -7,7 +7,7 @@ const fetchUserData = () => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
-  const [allpets, setAllpets] = useState(null);
+  const [allpets, setAllpets] = useState([]);
   const [petDetail, setPetDetail] = useState(null);
 
   const { petOwnerID } = useAuth();
@@ -15,7 +15,8 @@ const fetchUserData = () => {
   const getPetOwnerProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-
+      setIsError(false);
+      setIsLoading(true);
       const result = await axios.get(
         `http://localhost:4000/petOwnerUser/${petOwnerID}`,
         {
@@ -24,8 +25,11 @@ const fetchUserData = () => {
           },
         }
       );
+      setIsLoading(false);
       setPetOwnerProfile(result.data.petOwnerUser);
     } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
       console.log(error);
     }
   };
@@ -69,6 +73,7 @@ const fetchUserData = () => {
         }
       );
       setIsLoading(false);
+      setIsLoading(false);
       navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
@@ -79,7 +84,8 @@ const fetchUserData = () => {
   const getAllPets = async () => {
     try {
       const token = localStorage.getItem("token");
-
+      setIsError(false);
+      // setIsLoading(true);
       const result = await axios.get(
         `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}`,
         {
@@ -90,7 +96,10 @@ const fetchUserData = () => {
       );
       //console.log(result);
       setAllpets(result.data.owner.pets);
+      //setIsLoading(false);
     } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
       console.log(error);
     }
   };

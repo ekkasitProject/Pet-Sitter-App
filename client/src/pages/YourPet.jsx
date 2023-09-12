@@ -17,7 +17,15 @@ import {
 } from "../components/Chips.jsx";
 
 function YourPet() {
-  const { getAllPets, allpets, setAllpets } = fetchUserData();
+  const {
+    getAllPets,
+    allpets,
+    setAllpets,
+    isError,
+    isLoading,
+    petID,
+    setPetID,
+  } = fetchUserData();
   const navigate = useNavigate();
   const {
     toggleCreatePet,
@@ -39,7 +47,7 @@ function YourPet() {
   useEffect(() => {
     getAllPets();
     console.log(allpets);
-  }, [allpets]);
+  }, [toggleViewPet]);
 
   const handleChip = (pet) => {
     if (pet === "dog") {
@@ -79,6 +87,20 @@ function YourPet() {
             </div>
 
             <div className="pet-wrapper py-12 grid grid-cols-3 gap-4 mt-5">
+              {isError ? <h1>Request failed</h1> : null}
+              {isLoading ? <h1>Loading ....</h1> : null}
+              <div
+                onClick={handleToggleViewPet}
+                className="pet-card cursor-pointer border-2 border-primaryGray5 w-[250px] h-[280px] rounded-3xl flex flex-col justify-evenly items-center"
+              >
+                <img
+                  src={profile_user}
+                  className="rounded-full w-[130px] h-[130px] mt-4"
+                  alt="pet sitter profile picture"
+                />
+                <h1 className="text-headLine3">Name</h1>
+                Type
+              </div>
               {allpets.map((pet) => {
                 return (
                   <div
