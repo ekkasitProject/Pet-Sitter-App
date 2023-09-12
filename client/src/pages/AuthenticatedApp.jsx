@@ -21,11 +21,7 @@ const AuthenticatedApp = () => {
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
   const [toggleViewPet, setToggleViewPet] = useState(false);
   const [toggleViewBooking, setToggleViewBooking] = useState(false);
-<<<<<<< HEAD
   const [petID, setPetID] = useState("");
-=======
-  const [petID, setPetID] = useState(null);
->>>>>>> bc139d69e81aac8c0be7417e3316bc655df19e85
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
