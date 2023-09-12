@@ -124,6 +124,7 @@ function UserProfile() {
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img
               className="object-fit"
+              // src={profile_user}
               src={petOwnerProfile.image_profile}
               alt=""
             />

@@ -76,6 +76,25 @@ const fetchUserData = () => {
     }
   };
 
+  const getAllPets = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const result = await axios.get(
+        `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      //console.log(result);
+      setAllpets(result.data.owner.pets);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /*
   const getPetSitterById = async (petSitterId) => {
     try {
@@ -144,6 +163,7 @@ const fetchUserData = () => {
     setPetOwnerProfile,
     updatePetOwnerProfile,
     createPet,
+    getAllPets,
     allpets,
     setAllpets,
     petDetail,

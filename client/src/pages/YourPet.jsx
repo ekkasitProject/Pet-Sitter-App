@@ -1,5 +1,5 @@
 import { Button2 } from "../components/Button";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import CreatePet from "../components/CreatePet";
@@ -8,8 +8,16 @@ import ViewPet from "../components/ViewPet";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
 import Header from "../components/Header";
+import fetchUserData from "../hooks/fetchUserData";
+import {
+  ChipsOrange,
+  ChipsPink,
+  ChipsGreen,
+  ChipsBlue,
+} from "../components/Chips.jsx";
 
 function YourPet() {
+  const { getAllPets, allpets, setAllpets } = fetchUserData();
   const navigate = useNavigate();
   const {
     toggleCreatePet,
@@ -28,6 +36,26 @@ function YourPet() {
     setToggleViewPet(true);
   };
 
+  useEffect(() => {
+    getAllPets();
+    console.log(allpets);
+  }, [allpets]);
+
+  const handleChip = (pet) => {
+    if (pet === "dog") {
+      return <ChipsGreen petType="Dog" />;
+    }
+    if (pet === "cat") {
+      return <ChipsPink petType="Cat" />;
+    }
+    if (pet === "bird") {
+      return <ChipsBlue petType="Bird" />;
+    }
+    if (pet === "rabbit") {
+      return <ChipsOrange petType="Rabbit" />;
+    }
+  };
+
   return (
     <>
       <Header />
@@ -39,7 +67,7 @@ function YourPet() {
         ) : toggleViewPet ? (
           <ViewPet />
         ) : (
-          <div className="z-1 w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
+          <div className="z-1 w-full h-full flex flex-col mr-10 justify-start shadow-custom3 rounded-lg p-12">
             <div className="flex justify-between">
               <div className="text-headLine3">Your Pet</div>
               <button
@@ -50,23 +78,24 @@ function YourPet() {
               </button>
             </div>
 
-            <div className="pet-wrapper py-12">
-              <div
-                onClick={handleToggleViewPet}
-                className="pet-card cursor-pointer border-2 border-primaryGray5 w-[250px] h-[280px] rounded-3xl flex flex-col justify-evenly items-center"
-              >
-                <img
-                  src={profile_user}
-                  className="rounded-full w-[130px] h-[130px] mt-4"
-                  alt="pet sitter profile picture"
-                />
-                <h1 className="text-headLine3">Name</h1>
-                Type
-                {/*  {petSitter.pet_type.map((pet, index) => {
-                    return <span key={index}>{handleChip(pet)}</span>;
-                  })}
-                  */}
-              </div>
+            <div className="pet-wrapper py-12 grid grid-cols-3 gap-4 mt-5">
+              {allpets.map((pet) => {
+                return (
+                  <div
+                    key={pet.pet_id}
+                    onClick={handleToggleViewPet}
+                    className="pet-card cursor-pointer mb-5 border-2 border-primaryGray5 w-[250px] h-[280px] rounded-3xl flex flex-col justify-evenly items-center"
+                  >
+                    <img
+                      src={pet.image_profile}
+                      className="rounded-full w-[130px] h-[130px] mt-4"
+                      alt="pet sitter profile picture"
+                    />
+                    <h1 className="text-headLine3">{pet.petname}</h1>
+                    {handleChip(pet.pettype)}
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
