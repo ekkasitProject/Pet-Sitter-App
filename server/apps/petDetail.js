@@ -3,11 +3,14 @@ import { PrismaClient } from "@prisma/client";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 import { protect } from "../Auth/tokenProtected.js";
+import { petProfileUpload } from "../utils.js/petProfileUpload.js";
+import multer from "multer";
 
 dotenv.config();
 const prisma = new PrismaClient();
 const petDetail = Router();
-
+const multerUpload = multer({ storage: multer.memoryStorage() });
+const avatarUpload = multerUpload.fields([{ name: "avatar" }]);
 // owner สามารถดูสัตว์เลี้ยงของตัวเองได้
 petDetail.get("/:ownerId", async (req, res) => {
   const ownerId = req.params.ownerId;
@@ -137,7 +140,7 @@ petDetail.get("/:ownerId/pet/:petId", async (req, res) => {
 });
 
 // owner สามารถแก้ไขรายละเอียดสัตว์เลี้ยงของตัวเองได้
-petDetail.put("/:ownerId/pet/:petId", async (req, res) => {
+petDetail.put("/:ownerId/pet/:petId", avatarUpload, async (req, res) => {
   try {
     const ownerId = req.params.ownerId;
     const petId = req.params.petId;
@@ -154,14 +157,18 @@ petDetail.put("/:ownerId/pet/:petId", async (req, res) => {
       return res.status(404).json({ message: "ไม่พบรายละเอียดพี่เลี้ยง" });
     }
 
+    let avatarUrls = null;
+    // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase
+    if (req.files && req.files.avatar) {
+      avatarUrls = await petProfileUpload(req.files);
+    }
     const updatedDetail = await prisma.petDetail.update({
       where: {
         pet_id: petId,
       },
       data: {
         petname,
-        image_profile:
-          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
+        image_profile: avatarUrls,
         pettype,
         breed,
         sex,
