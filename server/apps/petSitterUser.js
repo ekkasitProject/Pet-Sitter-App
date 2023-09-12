@@ -113,7 +113,7 @@ petSitterUser.post("/login", async (req, res) => {
     const token = jwt.sign(
       { userId: user.petsitter_id, email: user.email },
       process.env.SECRET_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: 3600000 }
     );
 
     // ส่ง token กลับให้ผู้ใช้
