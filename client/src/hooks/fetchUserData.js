@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 
 const fetchUserData = () => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
   const [allpets, setAllpets] = useState([]);
-  const [petDetail, setPetDetail] = useState(null);
-
+  const [petDetail, setPetDetail] = useState({});
+  const { petID, setPetID } = useContext(ToggleContext);
   const { petOwnerID } = useAuth();
 
   const getPetOwnerProfile = async () => {
@@ -102,6 +103,29 @@ const fetchUserData = () => {
     }
   };
 
+  const getPetByID = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      setIsError(false);
+      // setIsLoading(true);
+      const result = await axios.get(
+        `http://localhost:4000/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(result);
+      setPetDetail(result.data.pet);
+      //setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+
   /*
   const getPetSitterById = async (petSitterId) => {
     try {
@@ -173,6 +197,7 @@ const fetchUserData = () => {
     getAllPets,
     allpets,
     setAllpets,
+    getPetByID,
     petDetail,
     setPetDetail,
     isError,

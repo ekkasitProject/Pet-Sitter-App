@@ -1,12 +1,12 @@
 import { Button2 } from "./Button";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import DeleteModal from "../components/DeleteModal";
 import fetchUserData from "../hooks/fetchUserData";
 
 function ViewPet() {
-  const { getAllPets } = fetchUserData();
+  const { getPetByID, petDetail, setPetDetail } = fetchUserData();
   const [petname, setPetname] = useState("");
   const [petType, setPetType] = useState("");
   const [breed, setBreed] = useState("");
@@ -14,12 +14,15 @@ function ViewPet() {
   const [age, setAge] = useState("");
   const [color, setColor] = useState("");
   const [weight, setWeight] = useState("");
+  const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
   const {
     toggleViewPet,
     setToggleViewPet,
     toggleDeletePet,
     setToggleDeletePet,
+    petID,
+    setPetID,
   } = useContext(ToggleContext);
 
   const handleToggleViewPet = () => {
@@ -32,50 +35,29 @@ function ViewPet() {
     getAllPets();
   };
 
-  /*
-  const validateForm = () => {
-    const newErrors = {};
+  useEffect(() => {
+    getPetByID();
+    console.log(petID);
+    console.log(petDetail);
+  }, [petID]);
 
-    // Validate Name
-    if (petname.length < 3) {
-      newErrors.petname = "Petname must be more than 3 characters";
-      let input = document.getElementById(`petname`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`petname`);
-      input.classList.remove("border-red-500");
+  useEffect(() => {
+    if (petDetail) {
+      setPetname(petDetail.petname);
+      setPetType(petDetail.pettype);
+      setBreed(petDetail.breed);
+      setSex(petDetail.sex);
+      setAge(petDetail.age);
+      setColor(petDetail.color);
+      setWeight(petDetail.weight);
+      setAbout(petDetail.about);
     }
-
-    // Validate Pet Age
-
-    if (age <= 0 || age >= 100) {
-      newErrors.age = "age must be not more than 2 characters";
-      let input = document.getElementById(`age`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`age`);
-      input.classList.remove("border-red-500");
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };*/
+  }, [petDetail]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    getAllPets();
-    /*
-    if (validateForm()) {
-      const data = {
-        petname,
-        pettype: petType,
-        breed,
-        sex,
-        age,
-      };
-      // register(data);
-    }*/
+    getPetByID();
   };
 
   return (
@@ -235,6 +217,8 @@ function ViewPet() {
               type="text"
               cols={20}
               rows={6}
+              value={about}
+              onChange={(event) => setAbout(event.target.value)}
               name="about"
               id="about"
               placeholder="Describe more about your pet"
