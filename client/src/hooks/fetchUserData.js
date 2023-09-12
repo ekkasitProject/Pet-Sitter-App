@@ -5,6 +5,7 @@ import { useAuth } from "../context/authentication";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 
 const fetchUserData = () => {
+  const navigate = useNavigate();
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
@@ -126,6 +127,46 @@ const fetchUserData = () => {
     }
   };
 
+  const updatePet = async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:4000/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deletePet = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      setIsLoading(true);
+      await axios.delete(
+        `http://localhost:4000/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   /*
   const getPetSitterById = async (petSitterId) => {
     try {
@@ -200,6 +241,8 @@ const fetchUserData = () => {
     getPetByID,
     petDetail,
     setPetDetail,
+    updatePet,
+    deletePet,
     isError,
     isLoading,
   };

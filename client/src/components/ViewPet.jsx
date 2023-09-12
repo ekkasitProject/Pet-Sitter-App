@@ -6,7 +6,8 @@ import DeleteModal from "../components/DeleteModal";
 import fetchUserData from "../hooks/fetchUserData";
 
 function ViewPet() {
-  const { getPetByID, petDetail, setPetDetail } = fetchUserData();
+  const { getPetByID, petDetail, setPetDetail, updatePet, getAllPets } =
+    fetchUserData();
   const [petname, setPetname] = useState("");
   const [petType, setPetType] = useState("");
   const [breed, setBreed] = useState("");
@@ -27,18 +28,16 @@ function ViewPet() {
 
   const handleToggleViewPet = () => {
     setToggleViewPet(false);
-    getAllPets();
   };
 
   const toggleDeleteModal = () => {
     setToggleDeletePet(true);
-    getAllPets();
   };
 
   useEffect(() => {
     getPetByID();
-    console.log(petID);
-    console.log(petDetail);
+    // console.log(petID);
+    // console.log(petDetail);
   }, [petID]);
 
   useEffect(() => {
@@ -56,8 +55,19 @@ function ViewPet() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    getPetByID();
+    const data = {
+      petname,
+      pettype: petType,
+      breed,
+      sex,
+      age,
+      color,
+      weight,
+      about,
+    };
+    console.log(data);
+    updatePet(data);
+    setToggleViewPet(false);
   };
 
   return (

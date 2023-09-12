@@ -44,7 +44,7 @@ function YourPet() {
   useEffect(() => {
     getAllPets();
     console.log(allpets);
-  }, []);
+  }, [allpets]);
 
   const handleChip = (pet) => {
     if (pet === "dog") {

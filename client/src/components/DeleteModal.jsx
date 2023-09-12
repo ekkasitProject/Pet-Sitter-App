@@ -1,12 +1,34 @@
 import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import { Button1, Button2 } from "./Button";
+import fetchUserData from "../hooks/fetchUserData";
 
 export default function DeleteModal() {
-  const { toggleDeletePet, setToggleDeletePet } = useContext(ToggleContext);
+  const {
+    toggleDeletePet,
+    setToggleDeletePet,
+    petID,
+    setPetID,
+    setToggleViewPet,
+  } = useContext(ToggleContext);
+  const {
+    getPetByID,
+    petDetail,
+    setPetDetail,
+    updatePet,
+    getAllPets,
+    deletePet,
+  } = fetchUserData();
 
   const toggleDeleteModal = () => {
     setToggleDeletePet(false);
+    setToggleViewPet(true);
+  };
+
+  const handleDeletePet = () => {
+    deletePet();
+    setToggleDeletePet(false);
+    setToggleViewPet(false);
   };
   return (
     <>
@@ -25,7 +47,7 @@ export default function DeleteModal() {
             <div onClick={toggleDeleteModal}>
               <Button1 button="Cancel" />
             </div>
-            <div onClick="">
+            <div onClick={handleDeletePet}>
               <Button2 button="Delete" />
             </div>
           </div>
