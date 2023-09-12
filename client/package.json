@@ -12,16 +12,19 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.7",
+    "@mui/material": "^5.14.8",
+    "@mui/x-date-pickers": "^6.13.0",
     "@tailwindcss/forms": "^0.5.6",
     "axios": "^1.5.0",
+    "dayjs": "^1.11.9",
     "jwt-decode": "^3.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.4",
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.15.0",
-    "react-snap-carousel": "^0.3.2"
+    "react-snap-carousel": "^0.3.2",
+    "react-time-range": "^1.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
