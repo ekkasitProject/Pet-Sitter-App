@@ -8,6 +8,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme.js";
 import PetSitterDetail from "./PetSitterDetail";
 import BookingInformation from "./BookingInformation";
+import BookingPayment from "./BookingPayment";
 
 const AuthenticatedApp = () => {
   return (
@@ -22,6 +23,7 @@ const AuthenticatedApp = () => {
           element={<PetSitterDetail />}
         />
         <Route path="/booking/information" element={<BookingInformation />} />
+        <Route path="/booking/payment" element={<BookingPayment />} />
       </Routes>
     </ThemeProvider>
   );

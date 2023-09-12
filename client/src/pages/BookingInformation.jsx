@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
+import { Link } from "react-router-dom";
 
 const BookingInformation = () => {
   return (
@@ -81,13 +82,15 @@ const BookingInformation = () => {
                   />
                 </div>
                 <div className="mt-[8rem] flex justify-between">
-                  <div className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
+                  <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
                     Back
-                  </div>
+                  </button>
 
-                  <div className=" bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">
-                    Next
-                  </div>
+                  <Link to="/booking/payment">
+                    <button className=" bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">
+                      Next
+                    </button>
+                  </Link>
                 </div>
               </form>
             </div>
