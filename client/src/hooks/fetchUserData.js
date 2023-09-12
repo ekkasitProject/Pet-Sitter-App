@@ -1,16 +1,21 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authentication";
 
-const fetchData = () => {
+const fetchUserData = () => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [petOwnerProfile, setPetOwnerProfile] = useState(null);
   const [allpets, setAllpets] = useState(null);
   const [petDetail, setPetDetail] = useState(null);
 
-  const getProfile = async () => {
+  const { petOwnerID } = useAuth();
+
+  const getPetOwnerProfile = async () => {
     try {
+      const token = localStorage.getItem("token");
+
       const result = await axios.get(
         `http://localhost:4000/petOwnerUser/${petOwnerID}`,
         {
@@ -19,10 +24,32 @@ const fetchData = () => {
           },
         }
       );
-      setProfile(result.data.petOwnerUser);
-      console.log(profile);
+      setPetOwnerProfile(result.data.petOwnerUser);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+    }
+  };
+
+  const updatePetOwnerProfile = async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      setIsError(false);
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:4000/petOwnerUser/${petOwnerID}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setIsLoading(false);
+      navigate(`/user/history/${petOwnerID}`);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
     }
   };
 
@@ -57,21 +84,6 @@ const fetchData = () => {
     }
   };
 */
-  const updatePetsitterById = async (petSitterId, data) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.put(
-        `http://localhost:4000/petsitterProfile/${petSitterId}`,
-        data
-      );
-      setIsLoading(false);
-      navigate("/");
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
 
   /*
   const deletePetsitter = async (petSitterId) => {
@@ -89,11 +101,25 @@ const fetchData = () => {
       setIsLoading(false);
     }
   };
+
+  const updatePostById = async (postId, data) => {
+    try {
+      setIsError(false);
+      setIsLoading(true);
+      await axios.put(`http://localhost:4000/posts/${postId}`, data);
+      setIsLoading(false);
+      navigate("/");
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+    }
+  };
 */
   return {
-    getProfile,
-    profile,
-    setProfile,
+    getPetOwnerProfile,
+    petOwnerProfile,
+    setPetOwnerProfile,
+    updatePetOwnerProfile,
     allpets,
     setAllpets,
     petDetail,
@@ -103,4 +129,4 @@ const fetchData = () => {
   };
 };
 
-export default fetchData;
+export default fetchUserData;
