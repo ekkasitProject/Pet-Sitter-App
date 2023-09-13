@@ -10,7 +10,6 @@ function SideBar() {
   const historyRef = useRef(null);
 
   const currentURL = window.location.href;
-  console.log(currentURL);
   const checkURL = () => {
     if (currentURL.includes("profile")) {
       profileRef.current.focus();

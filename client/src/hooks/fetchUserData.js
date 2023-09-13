@@ -11,7 +11,8 @@ const fetchUserData = () => {
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
   const [allpets, setAllpets] = useState([]);
   const [petDetail, setPetDetail] = useState({});
-  const { petID, setPetID } = useContext(ToggleContext);
+  const { petID, setPetID, isAllPetChange, setIsAllPetChange } =
+    useContext(ToggleContext);
   const { petOwnerID } = useAuth();
 
   const getPetOwnerProfile = async () => {
@@ -72,7 +73,7 @@ const fetchUserData = () => {
           },
         }
       );
-      setIsLoading(false);
+      setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
       navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
@@ -96,6 +97,7 @@ const fetchUserData = () => {
       );
       //console.log(result);
       setAllpets(result.data.owner.pets);
+      //console.log(allpets);
       //setIsLoading(false);
     } catch (error) {
       setIsError(true);
@@ -141,6 +143,7 @@ const fetchUserData = () => {
           },
         }
       );
+      setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -158,9 +161,18 @@ const fetchUserData = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            petID,
           },
         }
       );
+      console.log(petID);
+      const newPetLists = allpets.filter((pet) => {
+        return pet.pet_id !== petID;
+      });
+      console.log(allpets);
+      console.log(newPetLists);
+      setAllpets(newPetLists);
+      setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
     } catch (error) {
       console.log(error);

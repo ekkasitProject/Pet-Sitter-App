@@ -10,6 +10,8 @@ export default function DeleteModal() {
     petID,
     setPetID,
     setToggleViewPet,
+    isAllPetChange,
+    setIsAllPetChange,
   } = useContext(ToggleContext);
   const {
     getPetByID,
@@ -29,6 +31,7 @@ export default function DeleteModal() {
     deletePet();
     setToggleDeletePet(false);
     setToggleViewPet(false);
+    setIsAllPetChange(!isAllPetChange);
   };
   return (
     <>

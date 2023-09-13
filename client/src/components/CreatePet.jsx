@@ -16,7 +16,12 @@ function CreatePet() {
   const [weight, setWeight] = useState("");
   const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
-  const { toggleCreatePet, setToggleCreatePet } = useContext(ToggleContext);
+  const {
+    toggleCreatePet,
+    setToggleCreatePet,
+    isAllPetChange,
+    setIsAllPetChange,
+  } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
     setToggleCreatePet(false);
@@ -34,9 +39,8 @@ function CreatePet() {
       weight,
       about,
     };
-    console.log(data);
+    //console.log(data);
     createPet(data);
-    getAllPets();
     handleToggleCreatePet();
   };
 

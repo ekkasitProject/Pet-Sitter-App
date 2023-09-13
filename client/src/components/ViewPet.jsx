@@ -24,6 +24,8 @@ function ViewPet() {
     setToggleDeletePet,
     petID,
     setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
   } = useContext(ToggleContext);
 
   const handleToggleViewPet = () => {
@@ -65,7 +67,7 @@ function ViewPet() {
       weight,
       about,
     };
-    console.log(data);
+    // console.log(data);
     updatePet(data);
     // setToggleViewPet(false);
   };
