@@ -3,11 +3,16 @@ import { PrismaClient } from "@prisma/client";
 import { createClient } from "@supabase/supabase-js";
 import dotenv from "dotenv";
 import { protect } from "../Auth/tokenProtected.js";
+import { petProfileUpload } from "../utils.js/petProfileUpload.js";
+import multer from "multer";
+import { deleteOldProfileImage } from "../utils.js/deleteOldProfileImage.js";
 
 dotenv.config();
 const prisma = new PrismaClient();
 const petDetail = Router();
 
+const multerUpload = multer({ storage: multer.memoryStorage() });
+const avatarUpload = multerUpload.fields([{ name: "avatar" }]);
 // owner สามารถดูสัตว์เลี้ยงของตัวเองได้
 petDetail.get("/:ownerId", async (req, res) => {
   const ownerId = req.params.ownerId;
@@ -51,35 +56,12 @@ petDetail.post("/:ownerId", async (req, res) => {
       return res.status(404).json({ message: "เจ้าของสัตว์เลี้ยงไม่พบ" });
     }
 
-    // // ตรวจสอบว่ามีการอัปโหลดไฟล์ในคำขอหรือไม่
-    // if (!req.files || !req.files.file) {
-    //   return res
-    //     .status(400)
-    //     .json({ message: "กรุณาอัปโหลดรูปภาพของสัตว์เลี้ยง" });
-    // }
-
-    // // จัดการการอัปโหลดไฟล์ใน req.files.file และกำหนดค่า file เป็น URL ของรูปที่อัปโหลด
-    // const file = req.files.file;
-    // // โค้ดของคุณสำหรับการอัปโหลดและกำหนดค่า URL ของ image_profile ที่นี่
-
-    // // ตัวอย่างโค้ดสำหรับการอัปโหลดไปยัง Supabase
-    // const { data, error } = await supabase.storage
-    //   .from("public")
-    //   .upload(`profilePet/${file.name}`, file.data);
-
-    // if (error) {
-    //   return res.status(500).json({ message: "การอัปโหลดรูปภาพล้มเหลว" });
-    // }
-
-    // // กำหนดค่า image_profile เป็น URL ของรูปที่อัปโหลด
-    // const image_profile = data.Key;
-
     // สร้างรายละเอียดของสัตว์เลี้ยงพร้อมกับ image_profile ที่อัปเดต
     const createdPet = await prisma.petDetail.create({
       data: {
-        petname,
         image_profile:
-          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/default-image/pet-profile-default",
+        petname,
         pettype,
         breed,
         sex,
@@ -137,10 +119,11 @@ petDetail.get("/:ownerId/pet/:petId", async (req, res) => {
 });
 
 // owner สามารถแก้ไขรายละเอียดสัตว์เลี้ยงของตัวเองได้
-petDetail.put("/:ownerId/pet/:petId", async (req, res) => {
+petDetail.put("/:ownerId/pet/:petId", avatarUpload, async (req, res) => {
+  const ownerId = req.params.ownerId;
+  const petId = req.params.petId;
+  const oldImageUrl = req.body.oldImageUrl;
   try {
-    const ownerId = req.params.ownerId;
-    const petId = req.params.petId;
     const { petname, pettype, breed, sex, age, color, weight, about } =
       req.body;
 
@@ -154,38 +137,71 @@ petDetail.put("/:ownerId/pet/:petId", async (req, res) => {
       return res.status(404).json({ message: "ไม่พบรายละเอียดพี่เลี้ยง" });
     }
 
-    const updatedDetail = await prisma.petDetail.update({
-      where: {
-        pet_id: petId,
-      },
-      data: {
-        petname,
-        image_profile:
-          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
-        pettype,
-        breed,
-        sex,
-        age,
-        color,
-        weight,
-        about,
-        owner: {
-          connect: {
-            petowner_id: ownerId,
+    let avatarUrls = null;
+    // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase และตรวจสอบว่ามีไฟล์รูปภาพที่อัปโหลดหรือไม่
+    if (req.files && req.files.avatar) {
+      avatarUrls = await petProfileUpload(req.files);
+      // อัปเดต URL ในฐานข้อมูลของ Pet
+      let updateData = await prisma.petDetail.update({
+        where: {
+          pet_id: petId,
+        },
+        data: {
+          petname,
+          image_profile: avatarUrls,
+          pettype,
+          breed,
+          sex,
+          age,
+          color,
+          weight,
+          about,
+          owner: {
+            connect: {
+              petowner_id: ownerId,
+            },
           },
         },
-      },
-    });
+      });
 
-    return res.status(200).json({
-      message: "อัพเดทรายละเอียดสัตว์เลี้ยงสำเร็จ",
-      petDetail: updatedDetail,
-    });
+      if (oldImageUrl) {
+        await deleteOldProfileImage(oldImageUrl);
+      }
+      res.status(200).json({
+        message: "อัปเดตข้อมูลสัตว์เลี้ยงและรูปภาพสำเร็จ",
+        petDetail: updateData,
+      });
+    } else {
+      // ถ้าไม่มีการอัปโหลดรูปภาพ ให้อัปเดตข้อมูลส่วนตัวโดยไม่รวม URL รูปภาพ
+      let updateData = await prisma.petDetail.update({
+        where: {
+          pet_id: petId,
+        },
+        data: {
+          petname,
+          pettype,
+          breed,
+          sex,
+          age,
+          color,
+          weight,
+          about,
+          owner: {
+            connect: {
+              petowner_id: ownerId,
+            },
+          },
+        },
+      });
+      res.status(200).json({
+        message: "อัปเดตข้อมูลสัตว์เลี้ยงสำเร็จ",
+        petDetail: updateData,
+      });
+    }
   } catch (error) {
-    console.error("เกิดข้อผิดพลาดในการอัพเดทรายละเอียดสัตว์เลี้ยง", error);
-    return res
-      .status(500)
-      .json({ message: "เกิดข้อผิดพลาดในการอัพเดทรายละเอียดสัตว์เลี้ยง" });
+    return res.status(500).json({
+      message: `เกิดข้อผิดพลาดในการอัพเดทรายละเอียดสัตว์เลี้ยง ${error}`,
+    });
   }
 });
 // owner สามารถลบสัตว์เลี้ยงของตัวเองได้

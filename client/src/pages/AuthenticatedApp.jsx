@@ -13,6 +13,7 @@ import YourPet from "./YourPet";
 import BookingHistory from "./BookingHistory";
 import BookingInformation from "./BookingInformation";
 import BookingPayment from "./BookingPayment";
+import UploadComponent from "./testUploadFile";
 
 export const ToggleContext = React.createContext();
 
@@ -46,7 +47,9 @@ const AuthenticatedApp = () => {
             path="/petsitterlist/view/:petsister_id"
             element={<PetSitterDetail />}
           />
+          <Route path="/test/:petsister_id" element={<UploadComponent />} />
           <Route path="/user">
+            UploadComponent
             <Route path="/user/profile/:userId" element={<UserManagement />} />
             <Route path="/user/yourpet/:userId" element={<YourPet />} />
             <Route path="/user/history/:userId" element={<BookingHistory />} />

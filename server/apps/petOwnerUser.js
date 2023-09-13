@@ -2,18 +2,19 @@ import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import crypto from "crypto";
 import dotenv from "dotenv";
 dotenv.config();
-import { createClient } from "@supabase/supabase-js";
 import { generateRandomToken } from "../Auth/genToken.js";
 import { protect } from "../Auth/tokenProtected.js";
+import multer from "multer";
+import { petownerProfileUpload } from "../utils.js/petownerProfileUpload.js";
+import { deleteOldProfileImage } from "../utils.js/deleteOldProfileImage.js";
 const prisma = new PrismaClient();
 const petOwnerUser = Router();
 
-// const supabaseUrl = "https://tmfjerhaimntzmwlccgx.supabase.co";
-// const supabaseKey = process.env.SUPABASE_KEY;
-// const supabase = createClient(supabaseUrl, supabaseKey);
+const multerUpload = multer({ storage: multer.memoryStorage() });
+const avatarUpload = multerUpload.fields([{ name: "avatar" }]);
+
 petOwnerUser.get("/", protect, async (req, res) => {
   const petOwnerUser = await prisma.petOwnerUser.findMany();
   return res.json(petOwnerUser);
@@ -56,7 +57,7 @@ petOwnerUser.post("/register", async (req, res) => {
         password: hashedPassword,
         emailVerificationToken: verificationToken,
         image_profile:
-          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/default-image/user-profile-default%20",
       },
     });
 
@@ -100,11 +101,6 @@ petOwnerUser.get("/verify", async (req, res) => {
   }
 });
 
-// Function to generate a random token
-// function generateRandomToken(length) {
-//   return crypto.randomBytes(length).toString("hex");
-// }
-
 // login
 petOwnerUser.post("/login", async (req, res) => {
   try {
@@ -144,12 +140,11 @@ petOwnerUser.post("/login", async (req, res) => {
 });
 
 // Route สำหรับแก้ไขข้อมูลส่วนตัว
-petOwnerUser.put("/:id", protect, async (req, res) => {
+petOwnerUser.put("/:id", protect, avatarUpload, async (req, res) => {
   const userId = req.params.id;
-
+  const oldImageUrl = req.body.oldImageUrl;
   try {
     const { username, phone, date_of_birth, id_card_number } = req.body;
-    const file = req.files ? req.files.file : null; // ตรวจสอบว่ามีฟิลด์ "file" ในคำขอหรือไม่
 
     // ตรวจสอบว่ามีรหัส petowner_id ในฐานข้อมูลหรือไม่
     const existingPetOwner = await prisma.petOwnerUser.findUnique({
@@ -164,37 +159,30 @@ petOwnerUser.put("/:id", protect, async (req, res) => {
     const isoDateOfBirth = new Date(date_of_birth).toISOString();
 
     // ตรวจสอบว่ามีไฟล์รูปภาพที่อัปโหลดหรือไม่
-    if (file) {
-      // สร้างชื่อไฟล์รูปภาพโปรไฟล์ใหม่
-      const fileExtension = file.name.split(".").pop(); // ดึงนามสกุลไฟล์
-      const fileName = `profile_${userId}_${Date.now()}.${fileExtension}`;
-
-      // Upload ไฟล์ลงใน Supabase Storage
-      const { data, error } = await supabase.storage
-        .from("public")
-        .upload(`profile/${fileName}`, file.data);
-
-      if (error) {
-        return res.status(500).json({ message: "การอัปโหลดรูปภาพล้มเหลว" });
-      }
-
-      // รับ URL ของรูปภาพที่อัปโหลด
-      const imageUrl = data.Key;
-
+    let avatarUrls = null;
+    if (req.files && req.files.avatar) {
+      avatarUrls = await petownerProfileUpload(req.files);
       // อัปเดต URL ในฐานข้อมูลของ PetOwnerUser
-      await prisma.petOwnerUser.update({
+      let updateData = await prisma.petOwnerUser.update({
         where: { petowner_id: userId },
         data: {
-          image_profile: imageUrl,
+          image_profile: avatarUrls,
           username,
           phone,
           date_of_birth: isoDateOfBirth,
           id_card_number,
         },
       });
+
+      if (oldImageUrl) {
+        await deleteOldProfileImage(oldImageUrl);
+      }
+      res
+        .status(200)
+        .json({ message: "อัปเดตข้อมูลส่วนตัวและรูปภาพสำเร็จ", updateData });
     } else {
       // ถ้าไม่มีการอัปโหลดรูปภาพ ให้อัปเดตข้อมูลส่วนตัวโดยไม่รวม URL รูปภาพ
-      await prisma.petOwnerUser.update({
+      let updateData = await prisma.petOwnerUser.update({
         where: { petowner_id: userId },
         data: {
           username,
@@ -203,9 +191,10 @@ petOwnerUser.put("/:id", protect, async (req, res) => {
           id_card_number,
         },
       });
+      res
+        .status(200)
+        .json({ message: "อัปเดตข้อมูลส่วนตัวสำเร็จ", updateData });
     }
-
-    res.status(200).json({ message: "อัปเดตข้อมูลส่วนตัวสำเร็จ" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "การอัปเดตข้อมูลล้มเหลว" });

@@ -1,16 +1,16 @@
 import { PrismaClient } from "@prisma/client";
 import { Router } from "express";
 import bcrypt from "bcryptjs";
-import crypto from "crypto";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
-import { avatarUpload } from "../utils.js/avatar.js";
-import { supabaseUpload } from "../utils.js/supabaseUpload.js";
 import { generateRandomToken } from "../Auth/genToken.js";
 import { protect } from "../Auth/tokenProtected.js";
+import { petsisterProfileUpload } from "../utils.js/petsisterProfileUpload.js";
+import multer from "multer";
 const prisma = new PrismaClient();
 const petSitterUser = Router();
 
+const multerUpload = multer({ storage: multer.memoryStorage() });
+const avatarUpload = multerUpload.fields([{ name: "avatar" }]);
 //Section 1.1: Register pet sister
 petSitterUser.post("/register", async (req, res) => {
   try {
@@ -40,7 +40,7 @@ petSitterUser.post("/register", async (req, res) => {
         password: hashedPassword,
         emailVerificationToken: verificationToken,
         image_profile:
-          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/petonweruserprofile/Frame%20427321095.png?t=2023-09-04T06%3A11%3A52.422Z",
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/profileAvatar/default%20/default-user-profile",
       },
     });
 
@@ -148,61 +148,19 @@ petSitterUser.delete("/:id", protect, async (req, res) => {
   }
 });
 
-//Section 4: Update
-// petSitterUser.put("/:id", async (req, res) => {
-//   const petsisterId = req.params.id;
-//   try {
-//     const {
-//       username,
-//       password,
-//       email,
-//       image_profile,
-//       phone,
-//       id_card_number,
-//       experience,
-//       introduction,
-//     } = req.body;
-//     const existingUser = await prisma.petSitterUser.findUnique({
-//       where: { petsitter_id: petsisterId },
-//     });
-//     if (!existingUser) {
-//       return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
-//     }
-
-//     const updateData = {
-//       username,
-//       password,
-//       email,
-//       image_profile,
-//       phone,
-//       id_card_number,
-//       experience,
-//       introduction,
-//     };
-//     const updatePetsisterUserData = await prisma.petSitterUser.update({
-//       where: { petsitter_id: petsisterId },
-//       data: updateData,
-//     });
-//     return res.status(200).json(updatePetsisterUserData);
-//   } catch (error) {
-//     return res.status(500).json({ message: `การอัปเดตข้อมูลล้มเหลว ${error}` });
-//   }
-// });
-
 //Section 4: Update with image
 petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
   const petsisterId = req.params.id;
+  // const oldImageUrl = req.body.image_profile; //
   try {
     const {
       username,
       password,
-      email,
       phone,
       id_card_number,
       experience,
       introduction,
     } = req.body;
-
     const existingUser = await prisma.petSitterUser.findUnique({
       where: { petsitter_id: petsisterId },
     });
@@ -210,20 +168,26 @@ petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
     if (!existingUser) {
       return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
     }
-
+    let avatarUrls = null;
     // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase
-    const avatarUrls = await supabaseUpload(req.files);
+    if (req.files && req.files.avatar) {
+      avatarUrls = await petsisterProfileUpload(req.files);
+    }
+
+    // // ลบรูปเดิมออกจาก storage ก่อน
+    // if (oldImageUrl) {
+    //   await deleteOldProfileImage(oldImageUrl);
+    // }
 
     // อัปเดตข้อมูล User รวมถึง URL ของรูปภาพโปรไฟล์
     const updateData = {
       username,
       password,
-      email,
       phone,
       id_card_number,
       experience,
       introduction,
-      image_profile: avatarUrls.length > 0 ? avatarUrls[0].url : null, // เลือก URL ของรูปภาพแรก
+      image_profile: avatarUrls,
     };
 
     const updatePetsisterUserData = await prisma.petSitterUser.update({
