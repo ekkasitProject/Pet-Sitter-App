@@ -94,7 +94,7 @@ function YourPet() {
 
               <div
                 onClick={() => handleToggleViewPet("id")}
-                className="pet-card cursor-pointer border-2 border-primaryGray5 w-[220px] h-[250px] rounded-3xl flex flex-col justify-evenly items-center"
+                className="pet-card cursor-pointer border-2 border-primaryGray5 w-[220px] h-[250px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
               >
                 <img
                   src={profile_user}
@@ -109,7 +109,7 @@ function YourPet() {
                   <div
                     key={pet.pet_id}
                     onClick={() => handleToggleViewPet(pet.pet_id)}
-                    className="pet-card cursor-pointer mb-5 border-2 border-primaryGray5 w-[220px] h-[250px] rounded-3xl flex flex-col justify-evenly items-center"
+                    className="pet-card cursor-pointer mb-5 border-2 border-primaryGray5 w-[220px] h-[250px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
                   >
                     <img
                       src={pet.image_profile}

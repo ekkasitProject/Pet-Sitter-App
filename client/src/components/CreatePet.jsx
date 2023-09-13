@@ -3,6 +3,7 @@ import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import fetchUserData from "../hooks/fetchUserData";
+import { BackIcon } from "./Icons";
 
 function CreatePet() {
   const { createPet, getAllPets } = fetchUserData();
@@ -77,7 +78,9 @@ function CreatePet() {
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
         <div className="flex gap-5">
-          <button onClick={handleToggleCreatePet}>X</button>
+          <button onClick={handleToggleCreatePet} className="text-primaryGray3">
+            <BackIcon />
+          </button>
           <div className="text-headLine3">Create Your Pet</div>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">

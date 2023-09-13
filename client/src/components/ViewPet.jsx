@@ -4,6 +4,7 @@ import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import DeleteModal from "../components/DeleteModal";
 import fetchUserData from "../hooks/fetchUserData";
+import { BinIcon, BackIcon, PlusIcon } from "./Icons";
 
 function ViewPet() {
   const { getPetByID, petDetail, setPetDetail, updatePet, getAllPets } =
@@ -76,25 +77,16 @@ function ViewPet() {
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
         <div className="flex gap-5">
-          <button onClick={handleToggleViewPet}>X</button>
+          <button onClick={handleToggleViewPet} className="text-primaryGray3">
+            <BackIcon />
+          </button>
           <div className="text-headLine3">Your Pet</div>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img className="object-fit" src={profile_user} alt="" />
-            <button className="w-[60px] h-[60px] rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19.875 10.875H13.125V4.125C13.125 3.82663 13.0065 3.54048 12.7955 3.32951C12.5845 3.11853 12.2984 3 12 3C11.7016 3 11.4155 3.11853 11.2045 3.32951C10.9935 3.54048 10.875 3.82663 10.875 4.125V10.875H4.125C3.82663 10.875 3.54048 10.9935 3.32951 11.2045C3.11853 11.4155 3 11.7016 3 12C3 12.2984 3.11853 12.5845 3.32951 12.7955C3.54048 13.0065 3.82663 13.125 4.125 13.125H10.875V19.875C10.875 20.1734 10.9935 20.4595 11.2045 20.6705C11.4155 20.8815 11.7016 21 12 21C12.2984 21 12.5845 20.8815 12.7955 20.6705C13.0065 20.4595 13.125 20.1734 13.125 19.875V13.125H19.875C20.1734 13.125 20.4595 13.0065 20.6705 12.7955C20.8815 12.5845 21 12.2984 21 12C21 11.7016 20.8815 11.4155 20.6705 11.2045C20.4595 10.9935 20.1734 10.875 19.875 10.875Z"
-                  fill="#FF7037"
-                />
-              </svg>
+            <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
+              <PlusIcon />
             </button>
           </div>
           <div className="flex flex-col gap-1">
@@ -238,7 +230,11 @@ function ViewPet() {
             />
           </div>
           <div>
-            <button onClick={toggleDeleteModal} className="text-primaryOrange2">
+            <button
+              onClick={toggleDeleteModal}
+              className="flex text-primaryOrange2"
+            >
+              <BinIcon />
               Delete Pet
             </button>
           </div>
