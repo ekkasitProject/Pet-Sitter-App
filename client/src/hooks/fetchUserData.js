@@ -9,10 +9,16 @@ const fetchUserData = () => {
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
-  const [allpets, setAllpets] = useState([]);
+  //const [allpets, setAllpets] = useState([]);
   const [petDetail, setPetDetail] = useState({});
-  const { petID, setPetID, isAllPetChange, setIsAllPetChange } =
-    useContext(ToggleContext);
+  const {
+    petID,
+    setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
+    allpets,
+    setAllpets,
+  } = useContext(ToggleContext);
   const { petOwnerID } = useAuth();
 
   const getPetOwnerProfile = async () => {
@@ -248,8 +254,6 @@ const fetchUserData = () => {
     updatePetOwnerProfile,
     createPet,
     getAllPets,
-    allpets,
-    setAllpets,
     getPetByID,
     petDetail,
     setPetDetail,

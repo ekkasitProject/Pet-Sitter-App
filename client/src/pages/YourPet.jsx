@@ -17,8 +17,7 @@ import {
 } from "../components/Chips.jsx";
 
 function YourPet() {
-  const { getAllPets, allpets, setAllpets, isError, isLoading } =
-    fetchUserData();
+  const { getAllPets, isError, isLoading } = fetchUserData();
   const navigate = useNavigate();
   const {
     toggleCreatePet,
@@ -31,6 +30,8 @@ function YourPet() {
     setPetID,
     isAllPetChange,
     setIsAllPetChange,
+    allpets,
+    setAllpets,
   } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
