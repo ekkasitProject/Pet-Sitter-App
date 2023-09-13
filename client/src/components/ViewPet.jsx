@@ -67,7 +67,7 @@ function ViewPet() {
     };
     console.log(data);
     updatePet(data);
-    setToggleViewPet(false);
+    // setToggleViewPet(false);
   };
 
   return (
