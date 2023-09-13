@@ -8,6 +8,7 @@ import { generateRandomToken } from "../Auth/genToken.js";
 import { protect } from "../Auth/tokenProtected.js";
 import multer from "multer";
 import { petownerProfileUpload } from "../utils.js/petownerProfileUpload.js";
+import { deleteOldProfileImage } from "../utils.js/deleteOldProfileImage.js";
 const prisma = new PrismaClient();
 const petOwnerUser = Router();
 
@@ -56,7 +57,7 @@ petOwnerUser.post("/register", async (req, res) => {
         password: hashedPassword,
         emailVerificationToken: verificationToken,
         image_profile:
-          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/profileAvatar/default%20/default-user-profile",
+          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/default-image/user-profile-default%20",
       },
     });
 
@@ -100,11 +101,6 @@ petOwnerUser.get("/verify", async (req, res) => {
   }
 });
 
-// Function to generate a random token
-// function generateRandomToken(length) {
-//   return crypto.randomBytes(length).toString("hex");
-// }
-
 // login
 petOwnerUser.post("/login", async (req, res) => {
   try {
@@ -146,10 +142,9 @@ petOwnerUser.post("/login", async (req, res) => {
 // Route สำหรับแก้ไขข้อมูลส่วนตัว
 petOwnerUser.put("/:id", protect, avatarUpload, async (req, res) => {
   const userId = req.params.id;
-
+  const oldImageUrl = req.body.oldImageUrl;
   try {
     const { username, phone, date_of_birth, id_card_number } = req.body;
-    const file = req.files ? req.files.file : null; // ตรวจสอบว่ามีฟิลด์ "file" ในคำขอหรือไม่
 
     // ตรวจสอบว่ามีรหัส petowner_id ในฐานข้อมูลหรือไม่
     const existingPetOwner = await prisma.petOwnerUser.findUnique({
@@ -165,18 +160,10 @@ petOwnerUser.put("/:id", protect, avatarUpload, async (req, res) => {
 
     // ตรวจสอบว่ามีไฟล์รูปภาพที่อัปโหลดหรือไม่
     let avatarUrls = null;
-    if (file) {
-      // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase
-      if (req.files && req.files.avatar) {
-        avatarUrls = await petownerProfileUpload(req.files);
-      }
-
-      if (error) {
-        return res.status(500).json({ message: "การอัปโหลดรูปภาพล้มเหลว" });
-      }
-
+    if (req.files && req.files.avatar) {
+      avatarUrls = await petownerProfileUpload(req.files);
       // อัปเดต URL ในฐานข้อมูลของ PetOwnerUser
-      await prisma.petOwnerUser.update({
+      let updateData = await prisma.petOwnerUser.update({
         where: { petowner_id: userId },
         data: {
           image_profile: avatarUrls,
@@ -186,9 +173,16 @@ petOwnerUser.put("/:id", protect, avatarUpload, async (req, res) => {
           id_card_number,
         },
       });
+
+      if (oldImageUrl) {
+        await deleteOldProfileImage(oldImageUrl);
+      }
+      res
+        .status(200)
+        .json({ message: "อัปเดตข้อมูลส่วนตัวและรูปภาพสำเร็จ", updateData });
     } else {
       // ถ้าไม่มีการอัปโหลดรูปภาพ ให้อัปเดตข้อมูลส่วนตัวโดยไม่รวม URL รูปภาพ
-      await prisma.petOwnerUser.update({
+      let updateData = await prisma.petOwnerUser.update({
         where: { petowner_id: userId },
         data: {
           username,
@@ -197,9 +191,10 @@ petOwnerUser.put("/:id", protect, avatarUpload, async (req, res) => {
           id_card_number,
         },
       });
+      res
+        .status(200)
+        .json({ message: "อัปเดตข้อมูลส่วนตัวสำเร็จ", updateData });
     }
-
-    res.status(200).json({ message: "อัปเดตข้อมูลส่วนตัวสำเร็จ" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "การอัปเดตข้อมูลล้มเหลว" });
