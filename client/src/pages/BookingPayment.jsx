@@ -7,14 +7,18 @@ import { Link } from "react-router-dom";
 
 const BookingPayment = () => {
   const [paymentType, setPaymentType] = useState("creditCard");
-  const [paymentMethod, setPaymentMethod] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
   const handlePaymentChange = (type) => {
     setPaymentType(type);
   };
 
-  const handlePaymentButton = (method) => {
-    setPaymentMethod(method);
+  const handleConfirmBooking = () => {
+    setIsModalOpen(true); // Open the modal when "Confirm Booking" is clicked
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Close the modal
   };
 
   return (
@@ -153,8 +157,11 @@ const BookingPayment = () => {
                     </button>
                   </Link>
 
-                  <button className=" bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">
-                    Comfirm Booking
+                  <button
+                    onClick={handleConfirmBooking} // Open the modal
+                    className=" bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold"
+                  >
+                    Confirm Booking
                   </button>
                 </div>
               </div>
@@ -167,7 +174,7 @@ const BookingPayment = () => {
             <div className="px-8 pt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet Sitter:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                Happy House! By jane Maison
+                Happy House! By Jane Maison
               </p>
             </div>
 
@@ -185,7 +192,7 @@ const BookingPayment = () => {
 
             <div className="px-8 pt-4 mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
-              <p className="tracking-wide text-[#3A3B46]">Mr.Ham, Bingsu</p>
+              <p className="tracking-wide text-[#3A3B46]">Mr. Ham, Bingsu</p>
             </div>
             <div className="py-8  pt-4 flex mt-12 justify-between bg-black ">
               <p className="mx-8 text-white">Total</p>
@@ -204,6 +211,32 @@ const BookingPayment = () => {
           alt=""
         />
       </section>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-30">
+          <div className="bg-white  rounded-xl shadow-lg">
+            <h2 className="text-xl font-semibold px-8 py-4">
+              Booking Confirmation
+            </h2>
+            <hr />
+            <p className="px-8 py-4 text-[#7B7E8F]">
+              Are you sure to booking this pet sitter?
+            </p>
+            <div className="mt-4 flex justify-between px-8 pb-4">
+              <button
+                className="px-4 py-2 mr-2 bg-[#FFF1EC] text-sm text-[#FF7037]  rounded-full font-semibold"
+                onClick={handleCloseModal}
+              >
+                Cancel
+              </button>
+              <button className="px-4 py-2 bg-[#FF7037] text-sm text-white rounded-full font-semibold">
+                Yes i'm sure
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
