@@ -24,7 +24,8 @@ function UserProfile() {
   const [dateOfBirth, setDateOfBirth] = useState();
   const [errors, setErrors] = useState({});
   const [isAlert, setIsAlert] = useState(false);
-  const [avatars, setAvatars] = useState({});
+  const [avatars, setAvatars] = useState("");
+  const [photo, setPhoto] = useState("");
 
   useEffect(() => {
     getPetOwnerProfile();
@@ -53,6 +54,11 @@ function UserProfile() {
       setIDNumber(petOwnerProfile.id_card_number);
       const newDate = formatDateToYYYYMMDD(petOwnerProfile.date_of_birth);
       setDateOfBirth(newDate);
+      setPhoto(petOwnerProfile.image_profile);
+      /*  const uniqueId = Date.now();
+      setAvatars({
+        [uniqueId]: petOwnerProfile.image_profile,
+      });*/
     }
   }, [petOwnerProfile]);
 
@@ -131,10 +137,8 @@ function UserProfile() {
       formData.append("phone", phone);
       formData.append("id_card_number", idNumber);
       formData.append("date_of_birth", dateOfBirth);
+      formData.append("avatar", avatars);
 
-      for (let avatarKey in avatars) {
-        formData.append("avatar", avatars[avatarKey]);
-      }
       console.log(avatars);
       console.log(formData);
       updatePetOwnerProfile(formData);
@@ -143,10 +147,11 @@ function UserProfile() {
   };
 
   const handleFileChange = (event) => {
-    const uniqueId = Date.now();
-    setAvatars({
-      [uniqueId]: event.target.files[0],
-    });
+    const file = event.target.files[0];
+    //setAvatars(URL.createObjectURL(file));
+    setAvatars(file);
+    setPhoto(URL.createObjectURL(file));
+    console.log(avatars);
   };
 
   setTimeout(() => {
@@ -168,18 +173,25 @@ function UserProfile() {
         {isLoading ? <h1>Loading ....</h1> : null}
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
+            <img
+              className="object-fit w-[220px] h-[220px] rounded-full"
+              src={photo}
+              alt="Profile Avatar"
+            />
+            {/*
             {Object.keys(avatars).map((avatarKey) => {
               const file = avatars[avatarKey];
               return (
                 <div key={avatarKey} className="image-preview-container">
                   <img
-                    className="object-fit w-[220px] h-[220px] rounded-full"
+                    className="object-fit w-[220px] h-[220px] rounded-full z-10"
                     src={URL.createObjectURL(file)}
                     alt={file.name}
                   />
                 </div>
               );
             })}
+            */}
             {/* 
              <img
               className="object-fit"
