@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import logo from "../assets/images/elements/logo.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,30 +8,27 @@ import pet from "../assets/icons/pet1.svg";
 import history from "../assets/icons/history.svg";
 import logout_user from "../assets/icons/logout.svg";
 import { dropdown } from "../data/dropdownprofile";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 
 const Header = () => {
-  const { logout, petOwnerID } = useAuth();
+  const { logout } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profile, setProfile] = useState(null);
+  const { petOwnerID, setPetOwnerID } = useContext(ToggleContext);
 
   const getProfile = async () => {
     try {
       const token = localStorage.getItem("token");
+      const id = localStorage.getItem("id");
 
-      const result = await axios.get(
-        `http://localhost:4000/petOwnerUser/${petOwnerID}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      //console.log(result.data.petOwnerUser);
-      setProfile(result.data.petOwnerUser);
-      console.log(petOwnerID);
-      //setProfile(result.data[0]);
+      const result = await axios.get("http://localhost:4000/petOwnerUser", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setProfile(result.data[0]);
+      setPetOwnerID(id);
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
@@ -40,6 +37,7 @@ const Header = () => {
 
   useEffect(() => {
     getProfile();
+    console.log(petOwnerID);
   }, []);
 
   const dropDownChange = () => {
@@ -60,7 +58,7 @@ const Header = () => {
 
   return (
     <header className="">
-      <nav className="flex justify-between items-center w-[90%] mx-auto h-[80px] ">
+      <nav className="flex justify-between items-center w-[80%] mx-auto h-[80px] ">
         <div>
           <img onClick={handleToHome} src={logo} alt="logo" />
         </div>

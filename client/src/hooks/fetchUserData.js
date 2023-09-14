@@ -18,8 +18,9 @@ const fetchUserData = () => {
     setIsAllPetChange,
     allpets,
     setAllpets,
+    petOwnerID,
+    setPetOwnerID,
   } = useContext(ToggleContext);
-  const { petOwnerID } = useAuth();
 
   const getPetOwnerProfile = async () => {
     try {
