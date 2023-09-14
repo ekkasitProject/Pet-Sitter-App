@@ -2,8 +2,7 @@ import { supabase } from "./supabase.js";
 import { v4 as uuidv4 } from "uuid";
 
 const imageGalleryUpload = async (files) => {
-  let fileUrls = "";
-  //let imagePath = "";
+  let fileUrls = [];
   for (let file of files.avatar) {
     try {
       const { data, error } = await supabase.storage

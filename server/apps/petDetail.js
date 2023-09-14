@@ -56,11 +56,14 @@ petDetail.post("/:ownerId", async (req, res) => {
       return res.status(404).json({ message: "เจ้าของสัตว์เลี้ยงไม่พบ" });
     }
 
+    let avatarUrls = null;
+    if (req.files && req.files.avatar) {
+      avatarUrls = await petProfileUpload(req.files);
+    }
+
     // สร้างรายละเอียดของสัตว์เลี้ยงพร้อมกับ image_profile ที่อัปเดต
     const createdPet = await prisma.petDetail.create({
       data: {
-        image_profile:
-          "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/default-image/pet-profile-default",
         petname,
         pettype,
         breed,
@@ -69,6 +72,12 @@ petDetail.post("/:ownerId", async (req, res) => {
         color,
         weight,
         about,
+        ...(req.files && req.files.avatar
+          ? { image_profile: avatarUrls }
+          : {
+              image_profile:
+                "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/default-image/pet-profile-default?t=2023-09-14T15%3A14%3A50.911Z",
+            }),
         owner: {
           connect: {
             petowner_id: ownerId,
