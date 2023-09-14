@@ -21,7 +21,24 @@ const Header = () => {
     try {
       const token = localStorage.getItem("token");
       const id = localStorage.getItem("id");
+      setPetOwnerID(id);
 
+      const result = await axios.get(
+        `http://localhost:4000/petOwnerUser/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      //console.log(result.data.petOwnerUser);
+
+      setProfile(result.data.petOwnerUser);
+      console.log(petOwnerID);
+      //setProfile(result.data[0]);
+
+      /*
       const result = await axios.get("http://localhost:4000/petOwnerUser", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -29,6 +46,7 @@ const Header = () => {
       });
       setProfile(result.data[0]);
       setPetOwnerID(id);
+      */
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
