@@ -5,6 +5,8 @@ import profile_user from "../assets/icons/profile.svg";
 import DeleteModal from "../components/DeleteModal";
 import fetchUserData from "../hooks/fetchUserData";
 import { BinIcon, BackIcon, PlusIcon } from "./Icons";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 function ViewPet() {
   const { getPetByID, petDetail, setPetDetail, updatePet, getAllPets } =
@@ -18,6 +20,7 @@ function ViewPet() {
   const [weight, setWeight] = useState("");
   const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
+  const [isAlert, setIsAlert] = useState(false);
   const {
     toggleViewPet,
     setToggleViewPet,
@@ -71,11 +74,23 @@ function ViewPet() {
     // console.log(data);
     updatePet(data);
     // setToggleViewPet(false);
+    setIsAlert(true);
   };
+
+  setTimeout(() => {
+    setIsAlert(false);
+  }, 3000);
 
   return (
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
+        {isAlert ? (
+          <div className="fixed top-24 right-[660px] z-10">
+            <Alert severity="success">
+              <AlertTitle>Update Success!!</AlertTitle>
+            </Alert>
+          </div>
+        ) : null}
         <div className="flex gap-5">
           <button onClick={handleToggleViewPet} className="text-primaryGray3">
             <BackIcon />
