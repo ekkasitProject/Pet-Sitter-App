@@ -1,10 +1,16 @@
 import { Button2 } from "./Button";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import DeleteModal from "../components/DeleteModal";
+import fetchUserData from "../hooks/fetchUserData";
+import { BinIcon, BackIcon, PlusIcon } from "./Icons";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 
 function ViewPet() {
+  const { getPetByID, petDetail, setPetDetail, updatePet, getAllPets } =
+    fetchUserData();
   const [petname, setPetname] = useState("");
   const [petType, setPetType] = useState("");
   const [breed, setBreed] = useState("");
@@ -12,12 +18,18 @@ function ViewPet() {
   const [age, setAge] = useState("");
   const [color, setColor] = useState("");
   const [weight, setWeight] = useState("");
+  const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
+  const [isAlert, setIsAlert] = useState(false);
   const {
     toggleViewPet,
     setToggleViewPet,
     toggleDeletePet,
     setToggleDeletePet,
+    petID,
+    setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
   } = useContext(ToggleContext);
 
   const handleToggleViewPet = () => {
@@ -28,76 +40,68 @@ function ViewPet() {
     setToggleDeletePet(true);
   };
 
-  const handleToggleCreatePet = () => {
-    setToggleCreatePet(false);
-  };
-  /*
-  const validateForm = () => {
-    const newErrors = {};
+  useEffect(() => {
+    getPetByID();
+    // console.log(petID);
+    // console.log(petDetail);
+  }, [petID]);
 
-    // Validate Name
-    if (petname.length < 3) {
-      newErrors.petname = "Petname must be more than 3 characters";
-      let input = document.getElementById(`petname`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`petname`);
-      input.classList.remove("border-red-500");
+  useEffect(() => {
+    if (petDetail) {
+      setPetname(petDetail.petname);
+      setPetType(petDetail.pettype);
+      setBreed(petDetail.breed);
+      setSex(petDetail.sex);
+      setAge(petDetail.age);
+      setColor(petDetail.color);
+      setWeight(petDetail.weight);
+      setAbout(petDetail.about);
     }
-
-    // Validate Pet Age
-
-    if (age <= 0 || age >= 100) {
-      newErrors.age = "age must be not more than 2 characters";
-      let input = document.getElementById(`age`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`age`);
-      input.classList.remove("border-red-500");
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };*/
+  }, [petDetail]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /*
-    if (validateForm()) {
-      const data = {
-        petname,
-        pettype: petType,
-        breed,
-        sex,
-        age,
-      };
-      // register(data);
-    }*/
+    const data = {
+      petname,
+      pettype: petType,
+      breed,
+      sex,
+      age,
+      color,
+      weight,
+      about,
+    };
+    // console.log(data);
+    updatePet(data);
+    // setToggleViewPet(false);
+    setIsAlert(true);
   };
+
+  setTimeout(() => {
+    setIsAlert(false);
+  }, 3000);
 
   return (
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
+        {isAlert ? (
+          <div className="fixed top-24 right-[660px] z-10">
+            <Alert severity="success">
+              <AlertTitle>Update Success!!</AlertTitle>
+            </Alert>
+          </div>
+        ) : null}
         <div className="flex gap-5">
-          <button onClick={handleToggleViewPet}>X</button>
+          <button onClick={handleToggleViewPet} className="text-primaryGray3">
+            <BackIcon />
+          </button>
           <div className="text-headLine3">Your Pet</div>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img className="object-fit" src={profile_user} alt="" />
-            <button className="w-[60px] h-[60px] rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19.875 10.875H13.125V4.125C13.125 3.82663 13.0065 3.54048 12.7955 3.32951C12.5845 3.11853 12.2984 3 12 3C11.7016 3 11.4155 3.11853 11.2045 3.32951C10.9935 3.54048 10.875 3.82663 10.875 4.125V10.875H4.125C3.82663 10.875 3.54048 10.9935 3.32951 11.2045C3.11853 11.4155 3 11.7016 3 12C3 12.2984 3.11853 12.5845 3.32951 12.7955C3.54048 13.0065 3.82663 13.125 4.125 13.125H10.875V19.875C10.875 20.1734 10.9935 20.4595 11.2045 20.6705C11.4155 20.8815 11.7016 21 12 21C12.2984 21 12.5845 20.8815 12.7955 20.6705C13.0065 20.4595 13.125 20.1734 13.125 19.875V13.125H19.875C20.1734 13.125 20.4595 13.0065 20.6705 12.7955C20.8815 12.5845 21 12.2984 21 12C21 11.7016 20.8815 11.4155 20.6705 11.2045C20.4595 10.9935 20.1734 10.875 19.875 10.875Z"
-                  fill="#FF7037"
-                />
-              </svg>
+            <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
+              <PlusIcon />
             </button>
           </div>
           <div className="flex flex-col gap-1">
@@ -232,6 +236,8 @@ function ViewPet() {
               type="text"
               cols={20}
               rows={6}
+              value={about}
+              onChange={(event) => setAbout(event.target.value)}
               name="about"
               id="about"
               placeholder="Describe more about your pet"
@@ -239,13 +245,17 @@ function ViewPet() {
             />
           </div>
           <div>
-            <button onClick={toggleDeleteModal} className="text-primaryOrange2">
+            <button
+              onClick={toggleDeleteModal}
+              className="flex text-primaryOrange2"
+            >
+              <BinIcon />
               Delete Pet
             </button>
           </div>
           <div className="flex justify-between items-center ">
             <button
-              onClick={handleToggleCreatePet}
+              onClick={handleToggleViewPet}
               className="px-8 py-3 bg-primaryOrange6 rounded-full active:text-primaryOrange1 text-primaryOrange2 hover:text-primaryOrange3 disabled:bg-primaryGray6 disabled:text-primaryGray5"
             >
               Cancel

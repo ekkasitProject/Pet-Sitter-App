@@ -27,7 +27,10 @@ const Header = () => {
           },
         }
       );
+
+      //console.log(result.data.petOwnerUser);
       setProfile(result.data.petOwnerUser);
+      console.log(petOwnerID);
       //setProfile(result.data[0]);
     } catch (error) {
       // Handle authentication error here

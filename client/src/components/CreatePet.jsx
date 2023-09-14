@@ -2,8 +2,12 @@ import { Button2 } from "./Button";
 import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
+import fetchUserData from "../hooks/fetchUserData";
+import { BackIcon } from "./Icons";
 
 function CreatePet() {
+  const { createPet, getAllPets } = fetchUserData();
+
   const [petname, setPetname] = useState("");
   const [petType, setPetType] = useState("");
   const [breed, setBreed] = useState("");
@@ -11,12 +15,36 @@ function CreatePet() {
   const [age, setAge] = useState("");
   const [color, setColor] = useState("");
   const [weight, setWeight] = useState("");
+  const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
-  const { toggleCreatePet, setToggleCreatePet } = useContext(ToggleContext);
+  const {
+    toggleCreatePet,
+    setToggleCreatePet,
+    isAllPetChange,
+    setIsAllPetChange,
+  } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
     setToggleCreatePet(false);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      petname,
+      pettype: petType,
+      breed,
+      sex,
+      age,
+      color,
+      weight,
+      about,
+    };
+    //console.log(data);
+    createPet(data);
+    handleToggleCreatePet();
+  };
+
   /*
   const validateForm = () => {
     const newErrors = {};
@@ -46,26 +74,13 @@ function CreatePet() {
     return Object.keys(newErrors).length === 0;
   };*/
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    /*
-    if (validateForm()) {
-      const data = {
-        petname,
-        pettype: petType,
-        breed,
-        sex,
-        age,
-      };
-      // register(data);
-    }*/
-  };
-
   return (
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
         <div className="flex gap-5">
-          <button onClick={handleToggleCreatePet}>X</button>
+          <button onClick={handleToggleCreatePet} className="text-primaryGray3">
+            <BackIcon />
+          </button>
           <div className="text-headLine3">Create Your Pet</div>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
@@ -218,6 +233,8 @@ function CreatePet() {
               type="text"
               cols={20}
               rows={6}
+              value={about}
+              onChange={(event) => setAbout(event.target.value)}
               name="about"
               id="about"
               placeholder="Describe more about your pet"

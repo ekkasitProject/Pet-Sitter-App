@@ -2,18 +2,58 @@ import { Button2 } from "./Button";
 import React, { useState, useEffect } from "react";
 import profile_user from "../assets/icons/profile.svg";
 import { useParams } from "react-router-dom";
-import fetchData from "../hooks/fetchData";
+import fetchUserData from "../hooks/fetchUserData";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
+import { PlusIcon } from "./Icons";
 
 function UserProfile() {
-  const { getProfile, profile } = fetchData();
+  const {
+    getPetOwnerProfile,
+    petOwnerProfile,
+    setPetOwnerProfile,
+    updatePetOwnerProfile,
+    isError,
+    isLoading,
+  } = fetchUserData();
   const params = useParams();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [idNumber, setIDNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState();
-
   const [errors, setErrors] = useState({});
+  const [isAlert, setIsAlert] = useState(false);
+
+  useEffect(() => {
+    getPetOwnerProfile();
+    console.log(petOwnerProfile);
+  }, []);
+
+  function formatDateToYYYYMMDD(isoDate) {
+    const date = new Date(isoDate);
+
+    // Extract year, month, and day components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 to month (zero-indexed) and zero-padding
+    const day = String(date.getDate()).padStart(2, "0"); // Zero-padding day
+
+    // Construct the formatted date string
+    const formattedDate = `${year}-${month}-${day}`;
+
+    return formattedDate;
+  }
+
+  useEffect(() => {
+    if (petOwnerProfile) {
+      setUsername(petOwnerProfile.username);
+      setEmail(petOwnerProfile.email);
+      setPhone(petOwnerProfile.phone);
+      setIDNumber(petOwnerProfile.id_card_number);
+      const newDate = formatDateToYYYYMMDD(petOwnerProfile.date_of_birth);
+      setDateOfBirth(newDate);
+    }
+  }, [petOwnerProfile]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -67,7 +107,7 @@ function UserProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(dateOfBirth);
+    //console.log(dateOfBirth);
 
     if (validateForm()) {
       const data = {
@@ -77,35 +117,39 @@ function UserProfile() {
         id_card_number: idNumber,
         date_of_birth: dateOfBirth,
       };
-      // register(data);
+      console.log(data);
+      updatePetOwnerProfile(data);
+      setIsAlert(true);
     }
   };
 
-  /*// Disable future date
-  const currentDate = new Date().toISOString().split("T")[0];
-  // Set the max attribute of the date input to the current date
-  document.getElementById("dateOfBirth").setAttribute("max", currentDate);
-*/
+  setTimeout(() => {
+    setIsAlert(false);
+  }, 3000);
+
   return (
     <>
       <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
         <div className="text-headLine3">Profile</div>
+        {isAlert ? (
+          <div className="fixed top-24 right-[660px] z-10">
+            <Alert severity="success">
+              <AlertTitle>Update Success!!</AlertTitle>
+            </Alert>
+          </div>
+        ) : null}
+        {isError ? <h1>Request failed</h1> : null}
+        {isLoading ? <h1>Loading ....</h1> : null}
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
-            <img className="object-fit" src={profile_user} alt="" />
-            <button className="w-[60px] h-[60px] rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19.875 10.875H13.125V4.125C13.125 3.82663 13.0065 3.54048 12.7955 3.32951C12.5845 3.11853 12.2984 3 12 3C11.7016 3 11.4155 3.11853 11.2045 3.32951C10.9935 3.54048 10.875 3.82663 10.875 4.125V10.875H4.125C3.82663 10.875 3.54048 10.9935 3.32951 11.2045C3.11853 11.4155 3 11.7016 3 12C3 12.2984 3.11853 12.5845 3.32951 12.7955C3.54048 13.0065 3.82663 13.125 4.125 13.125H10.875V19.875C10.875 20.1734 10.9935 20.4595 11.2045 20.6705C11.4155 20.8815 11.7016 21 12 21C12.2984 21 12.5845 20.8815 12.7955 20.6705C13.0065 20.4595 13.125 20.1734 13.125 19.875V13.125H19.875C20.1734 13.125 20.4595 13.0065 20.6705 12.7955C20.8815 12.5845 21 12.2984 21 12C21 11.7016 20.8815 11.4155 20.6705 11.2045C20.4595 10.9935 20.1734 10.875 19.875 10.875Z"
-                  fill="#FF7037"
-                />
-              </svg>
+            <img
+              className="object-fit"
+              src={profile_user}
+              //src={petOwnerProfile.image_profile}
+              alt=""
+            />
+            <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
+              <PlusIcon />
             </button>
           </div>
           <div className="flex flex-col gap-1">

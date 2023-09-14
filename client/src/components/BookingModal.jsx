@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import { Button1, Button2 } from "./Button";
+import { CloseIcon } from "./Icons";
 
 export default function BookingModal() {
   const { toggleViewBooking, setToggleViewBooking } = useContext(ToggleContext);
@@ -12,9 +13,11 @@ export default function BookingModal() {
     <>
       <div className="modal font-satoshi bg-neutral-700/80 w-screen h-screen z-10 top-0 left-0 right-0 bottom-0 fixed flex justify-center items-center">
         <div className="bg-white shadow-custom3 w-[550px] h-[470px] rounded-xl flex flex-col justify-between">
-          <div className="text-headLine4 py-4 flex justify-between px-8">
+          <div className="text-headLine4 py-4 flex justify-between px-5">
             Booking Detail
-            <button onClick={toggleBookingModal}>x</button>
+            <button onClick={toggleBookingModal}>
+              <CloseIcon />
+            </button>
           </div>
           <hr />
 
