@@ -83,7 +83,7 @@ function ViewPet() {
 
   return (
     <>
-      <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
+      <div className="relative w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12 mb-5 mr-5">
         {isAlert ? (
           <div className="fixed top-24 right-[660px] z-10">
             <Alert severity="success">
@@ -244,15 +244,7 @@ function ViewPet() {
               className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
             />
           </div>
-          <div>
-            <button
-              onClick={toggleDeleteModal}
-              className="flex text-primaryOrange2"
-            >
-              <BinIcon />
-              Delete Pet
-            </button>
-          </div>
+          <div className=" w-full h-[10px]"></div>
           <div className="flex justify-between items-center ">
             <button
               onClick={handleToggleViewPet}
@@ -268,6 +260,15 @@ function ViewPet() {
             </button>
           </div>
         </form>
+        <div className="absolute bottom-[130px] left-[45px]">
+          <button
+            onClick={toggleDeleteModal}
+            className="flex text-primaryOrange2"
+          >
+            <BinIcon />
+            Delete Pet
+          </button>
+        </div>
       </div>
     </>
   );
