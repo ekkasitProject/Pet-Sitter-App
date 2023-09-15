@@ -72,12 +72,7 @@ petDetail.post("/:ownerId", async (req, res) => {
         color,
         weight,
         about,
-        ...(req.files && req.files.avatar
-          ? { image_profile: avatarUrls }
-          : {
-              image_profile:
-                "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/default-image/pet-profile-default?t=2023-09-14T15%3A14%3A50.911Z",
-            }),
+        image_profile: avatarUrls,
         owner: {
           connect: {
             petowner_id: ownerId,
@@ -91,13 +86,13 @@ petDetail.post("/:ownerId", async (req, res) => {
       pet: createdPet,
     });
   } catch (error) {
-    console.error("เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง", error);
-    return res
-      .status(500)
-      .json({ message: "เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง" });
+    console.error(`เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง ${error}`);
+    return res.status(500).json({
+      message: `เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง ${error}`,
+    });
   }
 });
-// owner สามารถดูรายละเอียดสัตว์เลี้ยงรายตัวได้
+
 // owner สามารถดูรายละเอียดสัตว์เลี้ยงรายตัวได้
 petDetail.get("/:ownerId/pet/:petId", async (req, res) => {
   try {

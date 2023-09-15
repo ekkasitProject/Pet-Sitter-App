@@ -15,7 +15,7 @@ const UploadComponent = () => {
         }
 
         const response = await axios.put(
-          `http://localhost:4000/petsitteruser/${petsister_id}`,
+          `http://localhost:6543/petsitteruser/${petsister_id}`,
           data,
           {
             headers: { "Content-Type": "multipart/form-data" },

@@ -47,7 +47,7 @@ petSitterUser.post("/register", async (req, res) => {
     });
 
     // Send an email with the verification link
-    const verificationLink = `http://localhost:4000/petSitterUser/verify?token=${verificationToken}`;
+    const verificationLink = `http://localhost:6543/petSitterUser/verify?token=${verificationToken}`;
 
     // await transporter.sendMail({
     //   from: "admin@gmail.com",

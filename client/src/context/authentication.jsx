@@ -13,14 +13,14 @@ function AuthProvider(props) {
   });
 
   const register = async (data) => {
-    await axios.post("http://localhost:4000/petOwnerUser/register", data);
+    await axios.post("http://localhost:6543/petOwnerUser/register", data);
     navigate("/login");
   };
 
   const login = async (data) => {
     try {
       const result = await axios.post(
-        "http://localhost:4000/petOwnerUser/login",
+        "http://localhost:6543/petOwnerUser/login",
         data
       );
       const token = result.data.token;

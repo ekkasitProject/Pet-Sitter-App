@@ -23,7 +23,7 @@ const PetSitterDetail = () => {
         // Replace 'YOUR_ACCESS_TOKEN' with your actual access token or API key
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:4000/petsitteruser/${petsister_id}`,
+          `http://localhost:6543/petsitteruser/${petsister_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

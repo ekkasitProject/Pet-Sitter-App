@@ -28,7 +28,7 @@ const fetchUserData = () => {
       setIsError(false);
       setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:4000/petOwnerUser/${petOwnerID}`,
+        `http://localhost:6543/petOwnerUser/${petOwnerID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -50,7 +50,7 @@ const fetchUserData = () => {
 
       setIsLoading(true);
       await axios.put(
-        `http://localhost:4000/petOwnerUser/${petOwnerID}`,
+        `http://localhost:6543/petOwnerUser/${petOwnerID}`,
         data,
         {
           headers: {
@@ -72,7 +72,7 @@ const fetchUserData = () => {
       setIsError(false);
       setIsLoading(true);
       await axios.post(
-        `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}`,
+        `http://localhost:6543/petOwnerUser/petdetail/${petOwnerID}`,
         data,
         {
           headers: {
@@ -95,7 +95,7 @@ const fetchUserData = () => {
       setIsError(false);
       // setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}`,
+        `http://localhost:6543/petOwnerUser/petdetail/${petOwnerID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -119,7 +119,7 @@ const fetchUserData = () => {
       setIsError(false);
       // setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:4000/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+        `http://localhost:6543/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -142,7 +142,7 @@ const fetchUserData = () => {
 
       setIsLoading(true);
       await axios.put(
-        `http://localhost:4000/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+        `http://localhost:6543/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
         data,
         {
           headers: {
@@ -163,7 +163,7 @@ const fetchUserData = () => {
 
       setIsLoading(true);
       await axios.delete(
-        `http://localhost:4000/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+        `http://localhost:6543/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
 
         {
           headers: {
@@ -192,7 +192,7 @@ const fetchUserData = () => {
       setIsError(false);
       setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:4000/petsitteruser/petsisterdetail/${petSitterId}`
+        `http://localhost:6543/petsitteruser/petsisterdetail/${petSitterId}`
       );
 
       setPetSitter(result.data);
@@ -208,7 +208,7 @@ const fetchUserData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:4000/petsitterProfile`, data);
+      await axios.post(`http://localhost:6543/petsitterProfile`, data);
       setIsLoading(false);
       navigate("/");
     } catch (error) {
@@ -223,7 +223,7 @@ const fetchUserData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:4000/petsitterProfile/${petSitterId}`);
+      await axios.delete(`http://localhost:6543/petsitterProfile/${petSitterId}`);
       const newPetSitterLists = petSitterLists.filter((petSitter) => {
         return petSitter.petsitter_id !== petSitterId;
       });
@@ -239,7 +239,7 @@ const fetchUserData = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.put(`http://localhost:4000/posts/${postId}`, data);
+      await axios.put(`http://localhost:6543/posts/${postId}`, data);
       setIsLoading(false);
       navigate("/");
     } catch (error) {

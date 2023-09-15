@@ -24,7 +24,7 @@ const Header = () => {
       setPetOwnerID(id);
 
       const result = await axios.get(
-        `http://localhost:4000/petOwnerUser/${id}`,
+        `http://localhost:6543/petOwnerUser/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ const Header = () => {
       //setProfile(result.data[0]);
 
       /*
-      const result = await axios.get("http://localhost:4000/petOwnerUser", {
+      const result = await axios.get("http://localhost:6543/petOwnerUser", {
         headers: {
           Authorization: `Bearer ${token}`,
         },

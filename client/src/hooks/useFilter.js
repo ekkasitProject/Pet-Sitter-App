@@ -19,7 +19,7 @@ const useFilter = () => {
       setIsError(false);
       setIsLoading(true);
       const results = await axios.get(
-        `http://localhost:4000/petSitterUser/petsisterdetail/alldetail?${params.toString()}` //edit
+        `http://localhost:6543/petSitterUser/petsisterdetail/alldetail?${params.toString()}` //edit
       );
 
       setPetSitterLists(results.data); //edit
@@ -38,7 +38,7 @@ const useFilter = () => {
       setIsError(false);
       setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:4000/petsitteruser/petsisterdetail/${petSitterId}`
+        `http://localhost:6543/petsitteruser/petsisterdetail/${petSitterId}`
       );
 
       setPetSitter(result.data);
@@ -54,7 +54,7 @@ const useFilter = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:4000/petsitterProfile`, data);
+      await axios.post(`http://localhost:6543/petsitterProfile`, data);
       setIsLoading(false);
       navigate("/");
     } catch (error) {
@@ -67,7 +67,7 @@ const useFilter = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.put(`http://localhost:4000/petsitterProfile/${petSitterId}`, data);
+      await axios.put(`http://localhost:6543/petsitterProfile/${petSitterId}`, data);
       setIsLoading(false);
       navigate("/");
     } catch (error) {
@@ -79,7 +79,7 @@ const useFilter = () => {
     try {
       setIsError(false);
       setIsLoading(true);
-      await axios.delete(`http://localhost:4000/petsitterProfile/${petSitterId}`);
+      await axios.delete(`http://localhost:6543/petsitterProfile/${petSitterId}`);
       const newPetSitterLists = petSitterLists.filter((petSitter) => {
         return petSitter.petsitter_id !== petSitterId;
       });

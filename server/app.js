@@ -7,7 +7,7 @@ import petDetail from "./apps/petDetail.js";
 import petSisterDetail from "./apps/petSisterDetail.js";
 async function init() {
   const app = express();
-  const port = 4000;
+  const port = 6543;
 
   app.use(cors());
   app.use(bodyParser.json());
