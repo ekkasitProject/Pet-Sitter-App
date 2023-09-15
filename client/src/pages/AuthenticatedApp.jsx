@@ -15,6 +15,7 @@ import BookingInformation from "./BookingInformation";
 import BookingPayment from "./BookingPayment";
 import UploadComponent from "./testUploadFile";
 
+import BookingYourPet from "./BookingYourPet";
 export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
@@ -53,6 +54,7 @@ const AuthenticatedApp = () => {
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/petsitterlist" element={<PetSitterList />} />
+          <Route path="/booking/yourPet" element={<BookingYourPet />} />
           <Route path="/booking/information" element={<BookingInformation />} />
           <Route path="/booking/payment" element={<BookingPayment />} />
           <Route
