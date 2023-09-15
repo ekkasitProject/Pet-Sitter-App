@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication";
 import { ProfileIcon, PetIcon, MenuIcon } from "./Icons";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 
 function SideBar() {
-  const { petOwnerID } = useAuth();
+  const { petOwnerID } = useContext(ToggleContext);
   const navigate = useNavigate();
   const profileRef = useRef(null);
   const yourpetRef = useRef(null);
