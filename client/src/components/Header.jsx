@@ -9,22 +9,28 @@ import history from "../assets/icons/history.svg";
 import logout_user from "../assets/icons/logout.svg";
 import { dropdown } from "../data/dropdownprofile";
 import { ToggleContext } from "../pages/AuthenticatedApp";
+import jwtDecode from "jwt-decode";
 
 const Header = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profile, setProfile] = useState(null);
+  //const [petOwnerID, setPetOwnerID] = useState(null);
   const { petOwnerID, setPetOwnerID } = useContext(ToggleContext);
 
   const getProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      const id = localStorage.getItem("id");
-      setPetOwnerID(id);
+      // const id = localStorage.getItem("id");
+      // setPetOwnerID(id);
+
+      // const userDataFromToken = jwtDecode(token);
+      //setPetOwnerID(userDataFromToken.userId);
+      // console.log(petOwnerID);
 
       const result = await axios.get(
-        `http://localhost:6543/petOwnerUser/${id}`,
+        `http://localhost:6543/petOwnerUser/${petOwnerID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -35,6 +41,7 @@ const Header = () => {
       //console.log(result.data.petOwnerUser);
 
       setProfile(result.data.petOwnerUser);
+      //setPetOwnerID(result.data.petOwnerUser.petowner_id);
       console.log(petOwnerID);
       //setProfile(result.data[0]);
 
@@ -55,7 +62,7 @@ const Header = () => {
 
   useEffect(() => {
     getProfile();
-    console.log(petOwnerID);
+    // console.log(petOwnerID);
   }, []);
 
   const dropDownChange = () => {

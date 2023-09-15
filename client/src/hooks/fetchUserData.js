@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 
 const fetchUserData = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
