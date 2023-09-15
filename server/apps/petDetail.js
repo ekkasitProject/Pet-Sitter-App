@@ -39,7 +39,7 @@ petDetail.get("/:ownerId", async (req, res) => {
   }
 });
 // owner สามารถสร้างสัตว์เลี้ยงของตัวเองได้
-petDetail.post("/:ownerId", async (req, res) => {
+petDetail.post("/:ownerId/pet", async (req, res) => {
   try {
     const { petname, pettype, breed, sex, age, color, weight, about } =
       req.body;
@@ -91,10 +91,13 @@ petDetail.post("/:ownerId", async (req, res) => {
       pet: createdPet,
     });
   } catch (error) {
-    console.error("เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง", error);
-    return res
-      .status(500)
-      .json({ message: "เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง" });
+    console.error(
+      `เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง ${error}`,
+      error
+    );
+    return res.status(500).json({
+      message: ` เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง ${error}`,
+    });
   }
 });
 // owner สามารถดูรายละเอียดสัตว์เลี้ยงรายตัวได้
