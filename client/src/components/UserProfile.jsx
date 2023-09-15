@@ -212,7 +212,6 @@ function UserProfile() {
                 type="file"
                 onChange={handleFileChange}
                 hidden
-                required
               />
             </label>
             {/*

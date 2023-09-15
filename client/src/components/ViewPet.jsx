@@ -21,6 +21,9 @@ function ViewPet() {
   const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
   const [isAlert, setIsAlert] = useState(false);
+  const [avatars, setAvatars] = useState("");
+  const [photo, setPhoto] = useState("");
+
   const {
     toggleViewPet,
     setToggleViewPet,
@@ -56,11 +59,28 @@ function ViewPet() {
       setColor(petDetail.color);
       setWeight(petDetail.weight);
       setAbout(petDetail.about);
+      setPhoto(petDetail.image_profile);
     }
   }, [petDetail]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData();
+
+    formData.append("petname", petname);
+    formData.append("pettype", petType);
+    formData.append("breed", breed);
+    formData.append("sex", sex);
+    formData.append("age", age);
+    formData.append("color", color);
+    formData.append("weight", weight);
+    formData.append("about", about);
+    //formData.append("image_profile", avatars);
+    formData.append("avatar", avatars);
+
+    console.log(avatars);
+    console.log(formData);
+    /*
     const data = {
       petname,
       pettype: petType,
@@ -71,10 +91,19 @@ function ViewPet() {
       weight,
       about,
     };
+    */
     // console.log(data);
-    updatePet(data);
+    updatePet(formData);
     // setToggleViewPet(false);
     setIsAlert(true);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    //setAvatars(URL.createObjectURL(file));
+    setAvatars(file);
+    setPhoto(URL.createObjectURL(file));
+    console.log(avatars);
   };
 
   setTimeout(() => {
@@ -99,10 +128,24 @@ function ViewPet() {
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
-            <img className="object-fit" src={profile_user} alt="" />
-            <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
+            <img
+              className="object-fit w-[220px] h-[220px] rounded-full"
+              src={photo}
+              alt="pet photo"
+            />
+            <label
+              htmlFor="upload"
+              className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
+            >
               <PlusIcon />
-            </button>
+              <input
+                id="upload"
+                name="avatar"
+                type="file"
+                onChange={handleFileChange}
+                hidden
+              />
+            </label>
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="petname">Pet Name*</label>

@@ -48,7 +48,7 @@ function YourPet() {
     getAllPets();
 
     // console.log(isAllPetChange);
-    console.log(allpets);
+    // console.log(allpets);
   }, [isAllPetChange]);
 
   const handleChip = (pet) => {
