@@ -1,32 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import { Link } from "react-router-dom";
-import PetBookingCard from "../components/PetBookingCard"
+import PetBookingCard from "../components/PetBookingCard";
+import BookingConfirmation from "../components/BookingConfirmation";
+import addIcon from "../assets/icons/addIcon.svg";
 
 const BookingYourPet = () => {
+  const [selectedBookingDate, setSelectedBookingDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [numberOfSelectedPets, setNumberOfSelectedPets] = useState(0);
+
+  const handleDateChange = (newDate) => {
+    setSelectedBookingDate(newDate);
+  };
+
+  const handleStartTimeChange = (newStartTime) => {
+    setStartTime(newStartTime);
+  };
+
+  const handleEndTimeChange = (newEndTime) => {
+    setEndTime(newEndTime);
+  };
+
+  const handlePetSelection = (selectedPets) => {
+    setNumberOfSelectedPets(selectedPets);
+  };
+
+  // Calculate duration and total cost based on user selections
+  const calculateDuration = (startTime, endTime) => {
+    // Replace this date format with the one you are using
+    const startTimeObj = new Date(`2023-09-15 ${startTime}`);
+    const endTimeObj = new Date(`2023-09-15 ${endTime}`);
+
+    // Calculate the duration in hours
+    const duration = (endTimeObj - startTimeObj) / (60 * 60 * 1000);
+
+    return duration;
+  };
+
+  const duration = calculateDuration(startTime, endTime);
+  const total = duration * 200 * numberOfSelectedPets;
+
+  const cardClasses = `pet-sitter-list-card shadow-custom2 w-[240px] h-[240px] my-6 mx-3 p-2 rounded-md flex flex-col justify-center items-center cursor-pointer border-2 bg-orange-200`;
+
   return (
     <div>
       <Header />
-      <section className="w-[100%] overflow-hidden  relative bg-[#F5F5F5]">
-        <div className="w-[90%]   flex  mx-auto ">
-          <div className=" mt-6 mx-auto w-3/4 mr-8 mb-16">
-            <div className="flex justify-center items-center  h-[96px] bg-white mb-4 rounded-xl">
-              <div className="flex  items-center pr-12">
-                <div className="bg-[#FF7037] text-[1.5rem] font-semibold text-white w-[3rem] h-[3rem] flex justify-center items-center rounded-full ">
+      <section className="w-[100%] overflow-hidden relative bg-[#F5F5F5]">
+        <div className="w-[90%] flex mx-auto">
+          <div className="mt-6 mx-auto w-3/4 mr-8 mb-16">
+            
+
+            <div className="flex justify-center items-center h-[96px] bg-white mb-4 rounded-xl">
+              <div className="flex items-center pr-12">
+                <div className="bg-[#FF7037] text-[1.5rem] font-semibold text-white w-[3rem] h-[3rem] flex justify-center items-center rounded-full">
                   1
                 </div>
                 <p className="text-[1.2rem] ml-4">Your Pet</p>
               </div>
               <div className="flex items-center pr-12">
-                <div className="bg-[#F6F6F9] text-[1.5rem] text-[#7B7E8F] font-semibold w-[3rem] h-[3rem] flex justify-center items-center rounded-full ">
+                <div className="bg-[#F6F6F9] text-[1.5rem] text-[#7B7E8F] font-semibold w-[3rem] h-[3rem] flex justify-center items-center rounded-full">
                   2
                 </div>
                 <p className="text-[1.2rem] ml-4 text-[#7B7E8F]">Information</p>
               </div>
-              <div className="flex  items-center pr-12">
-                <div className="bg-[#F6F6F9] text-[1.5rem] text-[#7B7E8F] font-semibold w-[3rem] h-[3rem] flex justify-center items-center rounded-full ">
+              <div className="flex items-center pr-12">
+                <div className="bg-[#F6F6F9] text-[1.5rem] text-[#7B7E8F] font-semibold w-[3rem] h-[3rem] flex justify-center items-center rounded-full">
                   3
                 </div>
                 <p className="text-[1.2rem] ml-4 text-[#7B7E8F]">Payment</p>
@@ -34,22 +76,46 @@ const BookingYourPet = () => {
             </div>
 
             {/* form */}
-
             <div className="bg-white h-[720px] rounded-xl p-12">
               <form action="">
                 <div className="flex flex-wrap justify-center gap-4 p-4">
                   <PetBookingCard />
                   <PetBookingCard />
-                  <PetBookingCard />
-                  
+                  {/* Add more pet selection options */}
+                  <Link to="/booking/yourPet">
+                    {" "}
+                    {/* Updated link */}
+                    <div className="relative">
+                      <div className={cardClasses}>
+                        <div className="bg-orange-200 pet-sitter-image-card w-[104px] h-[104px] cursor-pointer">
+                          <img
+                            src={addIcon}
+                            className="rounded-lg w-[104px] h-[104px] object-fill"
+                            alt="pet sitter picture"
+                          />
+                        </div>
+                        <div className="pet-sitter-profile w-2/3 h-auto pl-10 flex flex-col justify-around">
+                          <div className="flex flex-row gap-5">
+                            <div className="flex flex-col justify-center w-2/3">
+                              <h1 className="text-lg">Create a new pet</h1>
+                            </div>
+                          </div>
+                          <div className="flex flex-row gap-2"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 </div>
                 <div className="mt-[8rem] flex justify-between">
-                  <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
-                    Back
-                  </button>
-
-                  <Link to="/booking/payment">
-                    <button className=" bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">
+                  <Link to="/">
+                    {" "}
+                    {/* Updated link */}
+                    <button className="bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
+                      Back
+                    </button>
+                  </Link>
+                  <Link to="/booking/information">
+                    <button className="bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">
                       Next
                     </button>
                   </Link>
@@ -58,35 +124,13 @@ const BookingYourPet = () => {
             </div>
           </div>
           <div className="w-1/4 mt-6 h-[484px] bg-white rounded-xl overflow-hidden">
-            <h2 className="text-2xl font-medium px-8 pt-4">Booking Detail</h2>
-            <hr className="mt-4" />
-            <div className="px-8 pt-4">
-              <h3 className="text-[#7B7E8F] tracking-wide">Pet Sitter:</h3>
-              <p className="tracking-wide text-[#3A3B46]">
-                Happy House! By jane Maison
-              </p>
-            </div>
-
-            <div className="px-8 pt-4 mt-4 ">
-              <h3 className="text-[#7B7E8F] tracking-wide">Date & Time:</h3>
-              <p className="tracking-wide text-[#3A3B46]">
-                25 Aug, 2023 | 7 AM - 10 AM
-              </p>
-            </div>
-
-            <div className="px-8 pt-4 mt-4">
-              <h3 className="text-[#7B7E8F] tracking-wide">Duration:</h3>
-              <p className="tracking-wide text-[#3A3B46]">3 hours</p>
-            </div>
-
-            <div className="px-8 pt-4 mt-4">
-              <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
-              <p className="tracking-wide text-[#3A3B46]">Mr.Ham, Bingsu</p>
-            </div>
-            <div className="py-8  pt-4 flex mt-12 justify-between bg-black ">
-              <p className="mx-8 text-white">Total</p>
-              <p className="mx-8 text-white">900.00 THB</p>
-            </div>
+            <BookingConfirmation
+              selectedDate={selectedBookingDate}
+              startTime={startTime}
+              endTime={endTime}
+              numberOfSelectedPets={numberOfSelectedPets}
+              totalCost={total}
+            />
           </div>
         </div>
         <img

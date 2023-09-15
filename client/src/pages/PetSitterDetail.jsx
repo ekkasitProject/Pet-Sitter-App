@@ -24,7 +24,7 @@ import Datetime from "../components/dateTime";
 import TimeRangePicker from "../components/TimeRange";
 import { useNavigate } from "react-router-dom";
 
-const PetSitterDetail = () => {
+function PetSitterDetail() {
   const { petsister_id } = useParams();
   const { petSitter, getPetSitterById } = useFilter();
   const [loading, setLoading] = useState(true);
@@ -33,6 +33,69 @@ const PetSitterDetail = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
+    const [startTime, setStartTime] = useState("12:00 AM");
+    const [endTime, setEndTime] = useState("12:30 AM");
+    const [selectedTimes, setSelectedTimes] = useState([]);
+
+    const generateTimeOptions = () => {
+      const timeOptions = [];
+      const amPmOptions = ["AM", "PM"];
+
+      for (let amPm of amPmOptions) {
+        for (let hours = 0; hours < 12; hours++) {
+          for (let minutes = 0; minutes < 60; minutes += 30) {
+            const formattedHours = hours.toString().padStart(2, "0");
+            const formattedMinutes = minutes.toString().padStart(2, "0");
+            const time = `${formattedHours}:${formattedMinutes} ${amPm}`;
+            timeOptions.push(time);
+          }
+        }
+      }
+
+      return timeOptions;
+    };
+
+    const handleStartTimeChange = (e) => {
+      setStartTime(e.target.value);
+    };
+
+    const handleEndTimeChange = (e) => {
+      const selectedEndTime = e.target.value;
+
+      // Check if selected end time is greater than or equal to the start time
+      if (compareTimes(selectedEndTime, startTime) >= 0) {
+        setEndTime(selectedEndTime);
+      }
+    };
+
+    const handleTimeSelection = (e) => {
+      const selectedTime = e.target.value;
+
+      // Check if the selected time is not in the selectedTimes array
+      if (!selectedTimes.includes(selectedTime)) {
+        setSelectedTimes([...selectedTimes, selectedTime]);
+      }
+    };
+
+    // Helper function to compare two time strings (HH:mm AM/PM)
+    const compareTimes = (time1, time2) => {
+      const time1Parts = time1.split(" ");
+      const time2Parts = time2.split(" ");
+
+      const time1AMPM = time1Parts[1];
+      const time2AMPM = time2Parts[1];
+
+      if (time1AMPM !== time2AMPM) {
+        // If the AM/PM is different, compare based on it
+        return time1AMPM.localeCompare(time2AMPM);
+      } else {
+        // If the AM/PM is the same, compare based on the time in 24-hour format
+        const time1WithoutAMPM = time1Parts[0];
+        const time2WithoutAMPM = time2Parts[0];
+
+        return time1WithoutAMPM.localeCompare(time2WithoutAMPM);
+      }
+    };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,19 +122,16 @@ const PetSitterDetail = () => {
     fetchData();
   }, [petsister_id, getPetSitterById]);
 
-  const handleChip = (pet) => {
-    // ... Your existing code for handleChip function
-  };
-
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
-
+  const handleChip = (pet) => {
+    // ... Your existing code for handleChip function
+  };
   if (loading) {
     // Optionally, you can render a loading indicator here
     return <div>Loading...</div>;
   }
-
   if (
     !petSitter ||
     !petSitter.petsisterdetail ||
@@ -80,7 +140,6 @@ const PetSitterDetail = () => {
     // Handle the case when petSitter data is not available or empty
     return <div>No data available for this pet sitter.</div>;
   }
-
   const petSisterDetail = petSitter.petsisterdetail[0];
 
   return (
@@ -169,13 +228,13 @@ const PetSitterDetail = () => {
                     </div>
                     <hr className="border-gray-300 my-4" />
                     <div>
-                      <h2 className="text-lg font-semibold mb-2">
+                      <h2 className="text-sm font-semibold text-gray-500 mb-2">
                         Select a date and time for your booking
                       </h2>
                     </div>
                     <div className="space-y-6">
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DatePiker"]}>
+                        <DemoContainer components={["DatePicker"]}>
                           <DatePicker
                             label=""
                             value={selectedDate}
@@ -184,7 +243,46 @@ const PetSitterDetail = () => {
                           />
                         </DemoContainer>
                       </LocalizationProvider>
-                      <TimeRangePicker />
+                      <div>
+                        <div className="flex space-x-4">
+                          <div className="flex flex-col">
+                            <label className="text-sm text-gray-600">
+                              Start Time:
+                            </label>
+                            <select
+                              className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white"
+                              value={startTime}
+                              onChange={handleStartTimeChange}
+                            >
+                              {generateTimeOptions().map((time) => (
+                                <option key={time} value={time}>
+                                  {time}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="flex flex-col">
+                            <label className="text-sm text-gray-600">
+                              End Time:
+                            </label>
+                            <select
+                              className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white"
+                              value={endTime}
+                              onChange={handleEndTimeChange}
+                            >
+                              {generateTimeOptions().map((time) => (
+                                <option
+                                  key={time}
+                                  value={time}
+                                  disabled={selectedTimes.includes(time)}
+                                >
+                                  {time}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div className="mt-4 py-5 right-0">
                       <button
@@ -206,6 +304,6 @@ const PetSitterDetail = () => {
       </div>
     </div>
   );
-};
+}
 
 export default PetSitterDetail;
