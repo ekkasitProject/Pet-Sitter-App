@@ -78,6 +78,10 @@ function ViewPet() {
     //formData.append("image_profile", avatars);
     formData.append("avatar", avatars);
 
+    formData.forEach((value, key) => {
+      console.log(`Field: ${key}, Value: ${value}`);
+    });
+
     console.log(avatars);
     console.log(formData);
     /*

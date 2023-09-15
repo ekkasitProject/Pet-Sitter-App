@@ -72,20 +72,27 @@ const fetchUserData = () => {
       setIsError(false);
       setIsLoading(true);
       await axios.post(
+<<<<<<< HEAD
         `http://localhost:6543/petOwnerUser/petdetail/${petOwnerID}`,
+=======
+        `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}/pet`,
+>>>>>>> a9d37e3 (feat: add multipart to CreatePet header)
         data,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
       setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
+      alert(response.data.message);
       navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
+      alert(error.message);
     }
   };
 
