@@ -72,12 +72,12 @@ const fetchUserData = () => {
       setIsError(false);
       setIsLoading(true);
       await axios.post(
-        `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}/pet`,
+        `http://localhost:4000/petOwnerUser/petdetail/${petOwnerID}`,
         data,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
+            //  "Content-Type": "multipart/form-data",
           },
         }
       );
