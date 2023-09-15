@@ -102,7 +102,7 @@ const fetchUserData = () => {
           },
         }
       );
-      //console.log(result);
+      // console.log(result);
       setAllpets(result.data.owner.pets);
       //console.log(allpets);
       //setIsLoading(false);

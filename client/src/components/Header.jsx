@@ -86,7 +86,7 @@ const Header = () => {
               {profile.image_profile ? (
                 <button onClick={dropDownChange}>
                   <img
-                    className="w-[40px] mr-4 mt-2"
+                    className="w-[40px] h-[40px] rounded-full mr-4 mt-2"
                     src={profile.image_profile}
                     alt="Profile"
                   />
