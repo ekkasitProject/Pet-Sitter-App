@@ -39,7 +39,7 @@ petDetail.get("/:ownerId", async (req, res) => {
   }
 });
 // owner สามารถสร้างสัตว์เลี้ยงของตัวเองได้
-petDetail.post("/:ownerId/pet", async (req, res) => {
+petDetail.post("/:ownerId", async (req, res) => {
   try {
     const { petname, pettype, breed, sex, age, color, weight, about } =
       req.body;
