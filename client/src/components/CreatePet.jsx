@@ -33,7 +33,7 @@ function CreatePet() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    /*
+
     const formData = new FormData();
 
     formData.append("petname", petname);
@@ -56,8 +56,8 @@ function CreatePet() {
 
     createPet(formData);
     handleToggleCreatePet();
-*/
 
+    /*
     const data = {
       petname,
       pettype: petType,
@@ -67,11 +67,11 @@ function CreatePet() {
       color,
       weight,
       about,
-      avatars,
     };
     console.log(data);
     createPet(data);
     handleToggleCreatePet();
+    */
   };
 
   const handleFileChange = (event) => {

@@ -78,18 +78,18 @@ const fetchUserData = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            //  "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
           },
         }
       );
       setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
-      alert(response.data.message);
+      // alert(response.data.message);
       navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
-      alert(error.message);
+      //alert(error.message);
     }
   };
 
