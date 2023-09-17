@@ -30,7 +30,7 @@ function SideBar() {
 
   return (
     <>
-      <div className="  w-2/5 h-full flex justify-center p-11">
+      <div className="  w-2/5 h-full flex justify-center px-11">
         <div className=" shadow-custom3 w-[300px] h-2/12 rounded-xl  ml-10 flex flex-col flex-wrap leading-[3rem]">
           <div className="text-headLine4 flex justify-start items-center  pl-7">
             Account

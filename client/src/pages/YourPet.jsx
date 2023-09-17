@@ -70,14 +70,14 @@ function YourPet() {
     <>
       <Header />
       {toggleDeletePet ? <DeleteModal /> : null}
-      <div className="w-full h-full flex mt-10 font-satoshi">
+      <div className="w-full h-full flex my-10 mb-20 font-satoshi">
         <SideBar />
         {toggleCreatePet ? (
           <CreatePet />
         ) : toggleViewPet ? (
           <ViewPet />
         ) : (
-          <div className="z-1 w-full h-full flex flex-col mr-10 justify-start items-center shadow-custom3 rounded-lg p-12">
+          <div className="z-1 w-full h-full flex flex-col mr-20 justify-start items-center shadow-custom3 rounded-lg p-12">
             <div className="flex w-full justify-between">
               <div className="text-headLine3">Your Pet</div>
               <button

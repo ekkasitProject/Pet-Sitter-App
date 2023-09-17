@@ -16,7 +16,7 @@ function BookingHistory() {
       {toggleViewBooking ? <BookingModal /> : null}
       <div className="w-full h-full flex mt-10 font-satoshi">
         <SideBar />
-        <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
+        <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12 mr-20">
           <div className="text-headLine3">Booking History</div>
           <div className="booking-wrapper">
             <div

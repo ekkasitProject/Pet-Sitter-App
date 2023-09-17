@@ -14,9 +14,9 @@ function UserManagement() {
     <>
       <Header />
 
-      <div className="w-full h-full flex mt-10 font-satoshi">
+      <div className="w-full h-full flex mt-10 mb-5 font-satoshi">
         <SideBar />
-        <div className="w-full flex justify-center  mr-20 mt-11 mb-20">
+        <div className="w-full flex justify-center  mr-20 mb-20">
           <UserProfile />
         </div>
       </div>

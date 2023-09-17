@@ -116,7 +116,7 @@ function ViewPet() {
 
   return (
     <>
-      <div className="relative w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12 mb-5 mr-5">
+      <div className="relative w-full flex flex-col justify-start shadow-custom3 rounded-lg p-12 mr-20 ">
         {isAlert ? (
           <div className="fixed top-24 right-[660px] z-10">
             <Alert severity="success">
