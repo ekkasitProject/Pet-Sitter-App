@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import UserProfile from "../components/UserProfile";
 import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 function UserManagement() {
   return (
     <>
-      <Header />
+      <HeaderAuth />
 
       <div className="w-full h-full flex mt-10 mb-5 font-satoshi">
         <SideBar />

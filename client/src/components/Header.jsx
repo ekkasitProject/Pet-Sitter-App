@@ -12,13 +12,13 @@ import { ToggleContext } from "../pages/AuthenticatedApp";
 import jwtDecode from "jwt-decode";
 
 const Header = () => {
-  const { logout } = useAuth();
+  // const { logout } = useAuth();
   const navigate = useNavigate();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [profile, setProfile] = useState(null);
-  const [petOwnerID, setPetOwnerID] = useState(null);
+  // const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // const [profile, setProfile] = useState(null);
+  // const [petOwnerID, setPetOwnerID] = useState(null);
   //const { petOwnerID, setPetOwnerID } = useContext(ToggleContext);
-
+  /*
   const getProfile = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -43,7 +43,7 @@ const Header = () => {
       // console.log(petOwnerID);
       //setProfile(result.data[0]);
 
-      /*
+      
       const result = await axios.get("http://localhost:6543/petOwnerUser", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ const Header = () => {
       });
       setProfile(result.data[0]);
       setPetOwnerID(id);
-      */
+      
 
     } catch (error) {
       console.error("Authentication error:", error);
@@ -68,7 +68,7 @@ const Header = () => {
   const dropDownChange = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
+*/
   const handleToLogin = () => {
     navigate("/login");
   };
@@ -88,6 +88,10 @@ const Header = () => {
           <img onClick={handleToHome} src={logo} alt="logo" />
         </div>
         <div className="flex justify-center items-center">
+          <button className="mr-6" onClick={handleToLogin}>
+            Login
+          </button>
+          {/* 
           {profile ? (
             <div className="relative">
               {profile.image_profile ? (
@@ -140,6 +144,7 @@ const Header = () => {
               Login
             </button>
           )}
+          */}
           <button
             className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium "
             onClick={handleToFindAPetSitter}

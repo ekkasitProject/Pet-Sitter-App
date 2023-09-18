@@ -11,7 +11,7 @@ import { dropdown } from "../data/dropdownprofile";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import jwtDecode from "jwt-decode";
 
-const Header = () => {
+const HeaderAuth = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -62,8 +62,8 @@ const Header = () => {
 
   useEffect(() => {
     getProfile();
-    console.log("HaederAuth");
-    //console.log(petOwnerID);
+    //console.log("HaederAuth");
+    console.log(petOwnerID);
   }, []);
 
   const dropDownChange = () => {
@@ -153,4 +153,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default HeaderAuth;

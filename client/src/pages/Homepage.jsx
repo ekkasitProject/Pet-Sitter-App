@@ -1,14 +1,18 @@
 import React from "react";
 import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import PetCareSlogan from "../components/PetCareSlogan";
 import PetPriority from "../components/PetPriority";
 import PetSitterBanner from "../components/PetSitterBanner";
 import Footer from "../components/Footer";
+import { useAuth } from "../context/authentication";
 
 const Homepage = () => {
+  const auth = useAuth();
+
   return (
     <div>
-      <Header />
+      {auth.isAuthenticated ? <HeaderAuth /> : <Header />}
       <PetCareSlogan />
       <PetPriority />
       <PetSitterBanner />

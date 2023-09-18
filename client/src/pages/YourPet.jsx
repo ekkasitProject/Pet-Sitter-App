@@ -7,7 +7,7 @@ import DeleteModal from "../components/DeleteModal";
 import ViewPet from "../components/ViewPet";
 import { useNavigate } from "react-router-dom";
 import SideBar from "../components/SideBar";
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import fetchUserData from "../hooks/fetchUserData";
 import {
   ChipsOrange,
@@ -68,7 +68,7 @@ function YourPet() {
 
   return (
     <>
-      <Header />
+      <HeaderAuth />
       {toggleDeletePet ? <DeleteModal /> : null}
       <div className="w-full h-full flex my-10 mb-20 font-satoshi">
         <SideBar />

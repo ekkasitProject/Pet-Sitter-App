@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import dogFoot from "../assets/images/bill/Dogfoot.svg";
@@ -23,7 +23,7 @@ const BookingPayment = () => {
 
   return (
     <div>
-      <Header />
+      <HeaderAuth />
       <section className="w-[100%] overflow-hidden  relative bg-[#F5F5F5]">
         <div className="w-[90%]   flex  mx-auto ">
           <div className=" mt-6 mx-auto w-3/4 mr-8 mb-16">

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import useFilter from "../hooks/useFilter.js";
 import PetSitterCard from "../components/PetSitterCard.jsx";
 import Pagination from "@mui/material/Pagination";
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
 {
@@ -128,7 +128,7 @@ function PetSitterList() {
 
   return (
     <>
-      <Header />
+      <HeaderAuth />
       <div className="pet-sitter-page-wrapper w-screen h-auto font-satoshi flex flex-col ">
         <header className="w-screen h-auto  py-10 mb-10 px-16">
           <h1 className="text-headLine3 text-primaryGray2">

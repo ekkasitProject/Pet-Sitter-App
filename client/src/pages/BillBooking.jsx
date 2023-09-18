@@ -1,4 +1,4 @@
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import greenCircle from "../assets/images/bill/greencircle.svg";
 import dogFoot from "../assets/images/bill/Dogfoot.svg";
 import blueStar from "../assets/images/bill/blueStar.svg";
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const BillBooking = () => {
   return (
     <div className="w-full relative">
-      <Header />
+      <HeaderAuth />
       <div className="w-[50%] mx-auto">
         <div className="mx-auto w-[584px] mt-6 h-[560px] bg-white rounded-xl drop-shadow-lg overflow-hidden">
           <div className="flex flex-col justify-center items-center mx-auto px-4 py-8 bg-black text-white ">

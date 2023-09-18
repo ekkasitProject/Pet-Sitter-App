@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import LocationIcon from "../assets/icons/icon_location.svg";
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
 import {
@@ -64,7 +64,7 @@ const PetSitterDetail = () => {
 
   return (
     <div className="flex-row">
-      <Header />
+      <HeaderAuth />
       <div>
         <AdvancedCarousel />
       </div>

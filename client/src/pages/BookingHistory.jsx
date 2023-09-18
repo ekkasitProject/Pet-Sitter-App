@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import SideBar from "../components/SideBar";
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth";
 import BookingModal from "../components/BookingModal";
 
 function BookingHistory() {
@@ -20,7 +20,7 @@ function BookingHistory() {
 
   return (
     <>
-      <Header />
+      <HeaderAuth />
       {toggleViewBooking ? <BookingModal /> : null}
       <div className="w-full h-full flex mt-10 font-satoshi">
         <SideBar />
