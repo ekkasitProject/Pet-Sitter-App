@@ -21,6 +21,8 @@ const fetchUserData = () => {
     setAllpets,
     petOwnerID,
     setPetOwnerID,
+    bookingID,
+    setBookingID,
   } = useContext(ToggleContext);
 
   const getPetOwnerProfile = async () => {

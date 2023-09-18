@@ -29,7 +29,7 @@ function AuthProvider(props) {
       // localStorage.setItem("id", id);
       const userDataFromToken = jwtDecode(token);
       setState({ ...state, user: userDataFromToken });
-      console.log(userDataFromToken.userId);
+      //console.log(userDataFromToken.userId);
       navigate("/");
     } catch (error) {
       console.error("Login error:", error);

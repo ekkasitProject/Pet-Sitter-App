@@ -26,6 +26,7 @@ const AuthenticatedApp = () => {
   const [toggleViewPet, setToggleViewPet] = useState(false);
   const [toggleViewBooking, setToggleViewBooking] = useState(false);
   const [petID, setPetID] = useState("");
+  const [bookingID, setBookingID] = useState("");
   const [isAllPetChange, setIsAllPetChange] = useState(false);
   const [allpets, setAllpets] = useState([]);
   const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
@@ -49,6 +50,8 @@ const AuthenticatedApp = () => {
           setAllpets,
           petOwnerID,
           setPetOwnerID,
+          bookingID,
+          setBookingID,
         }}
       >
         <Routes>
