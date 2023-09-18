@@ -1,6 +1,3 @@
--- CreateEnum
-CREATE TYPE "StatusBookingEnum" AS ENUM ('waiting_for_comfirm', 'in_service', 'success');
-
 -- CreateTable
 CREATE TABLE "PetOwnerUser" (
     "petowner_id" TEXT NOT NULL,
@@ -31,6 +28,7 @@ CREATE TABLE "PetDetail" (
     "color" TEXT NOT NULL,
     "weight" TEXT NOT NULL,
     "about" TEXT NOT NULL,
+    "status_pet" BOOLEAN NOT NULL DEFAULT false,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
     "owner_id" TEXT NOT NULL,
@@ -88,16 +86,19 @@ CREATE TABLE "Address" (
 -- CreateTable
 CREATE TABLE "Booking" (
     "booking_id" TEXT NOT NULL,
+    "transaction_date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "transaction_no" SERIAL NOT NULL,
     "datetime" TIMESTAMP(3) NOT NULL,
     "startTime" TIMESTAMP(3) NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
     "additional_message" TEXT,
+    "total_price" INTEGER NOT NULL,
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "petdetail_id" TEXT NOT NULL,
+    "petdetails" TEXT[],
     "petsitter_id" TEXT NOT NULL,
     "petowner_id" TEXT NOT NULL,
-    "status_booking" "StatusBookingEnum" NOT NULL,
+    "status_booking" TEXT NOT NULL,
 
     CONSTRAINT "Booking_pkey" PRIMARY KEY ("booking_id")
 );
@@ -116,9 +117,6 @@ ALTER TABLE "PetSisterDetail" ADD CONSTRAINT "PetSisterDetail_petsister_id_fkey"
 
 -- AddForeignKey
 ALTER TABLE "Address" ADD CONSTRAINT "Address_petsister_id_fkey" FOREIGN KEY ("petsister_id") REFERENCES "PetSitterUser"("petsitter_id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Booking" ADD CONSTRAINT "Booking_petdetail_id_fkey" FOREIGN KEY ("petdetail_id") REFERENCES "PetDetail"("pet_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Booking" ADD CONSTRAINT "Booking_petsitter_id_fkey" FOREIGN KEY ("petsitter_id") REFERENCES "PetSitterUser"("petsitter_id") ON DELETE RESTRICT ON UPDATE CASCADE;
