@@ -31,31 +31,14 @@ const Header = () => {
           },
         }
       );
-
-      //console.log(result.data.petOwnerUser);
-
       setProfile(result.data.petOwnerUser);
-      console.log(petOwnerID);
-      //setProfile(result.data[0]);
-
-      /*
-      const result = await axios.get("http://localhost:6543/petOwnerUser", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProfile(result.data[0]);
-      setPetOwnerID(id);
-      */
     } catch (error) {
-      // Handle authentication error here
       console.error("Authentication error:", error);
     }
   };
 
   useEffect(() => {
     getProfile();
-    console.log(petOwnerID);
   }, []);
 
   const dropDownChange = () => {
@@ -86,7 +69,7 @@ const Header = () => {
               {profile.image_profile ? (
                 <button onClick={dropDownChange}>
                   <img
-                    className="w-[40px] mr-4 mt-2"
+                    className="w-[40px] h-[40px] object-cover mr-4 mt-2 rounded-full"
                     src={profile.image_profile}
                     alt="Profile"
                   />
