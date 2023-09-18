@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
-import dogFoot from "../assets/images/elements/Dogfoot.svg";
+import dogFoot from "../assets/images/bill/Dogfoot.svg";
 import { Link } from "react-router-dom";
 
 const BookingPayment = () => {
@@ -230,9 +230,11 @@ const BookingPayment = () => {
               >
                 Cancel
               </button>
-              <button className="px-4 py-2 bg-[#FF7037] text-sm text-white rounded-full font-semibold">
-                Yes i'm sure
-              </button>
+              <Link to="/booking/bill">
+                <button className="px-4 py-2 bg-[#FF7037] text-sm text-white rounded-full font-semibold">
+                  Yes i'm sure
+                </button>
+              </Link>
             </div>
           </div>
         </div>

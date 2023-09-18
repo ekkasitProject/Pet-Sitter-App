@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import shape_2 from "../assets/images/elements/Frame 427320928.svg";
 import shape_3 from "../assets/images/elements/Ellipse 15.svg";
-import shape_5 from "../assets/images/elements/Dogfoot.svg";
+import shape_5 from "../assets/images/bill/Dogfoot.svg";
 import cat from "../assets/images/elements/allcat.svg";
 
 import shape_6 from "../assets/images/elements/Ellipse 17.svg";
