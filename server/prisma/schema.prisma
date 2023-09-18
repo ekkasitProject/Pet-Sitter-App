@@ -38,11 +38,11 @@ model PetDetail {
   color         String
   weight        String
   about         String
+  status_pet    Boolean      @default(false)
   createAt      DateTime     @default(now())
   updateAt      DateTime     @updatedAt
   owner         PetOwnerUser @relation(fields: [owner_id], references: [petowner_id])
   owner_id      String
-  bookings               Booking[]
 }
 
 model PetSitterUser {
@@ -89,23 +89,22 @@ model Address {
   updateAt       DateTime      @updatedAt
 }
 model Booking {
-  booking_id     String   @id @default(uuid())
-  datetime       DateTime
-  startTime      DateTime
-  endTime        DateTime
-  additional_message String?
-  createAt       DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  petdetail      PetDetail @relation(fields: [petdetail_id], references: [pet_id])
-  petsitter      PetSitterUser @relation(fields: [petsitter_id], references: [petsitter_id])
-  petowner       PetOwnerUser @relation(fields: [petowner_id], references: [petowner_id])
-  petdetail_id   String
-  petsitter_id   String
-  petowner_id    String
-  status_booking  StatusBookingEnum
+  booking_id          String   @id @default(uuid())
+  transaction_date    DateTime @default(now())
+  transaction_no      Int      @default(autoincrement())
+  datetime            DateTime
+  startTime           DateTime
+  endTime             DateTime
+  additional_message  String?
+  total_price         Int
+  createAt            DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  petdetails          String[] 
+  petsitter           PetSitterUser @relation(fields: [petsitter_id], references: [petsitter_id])
+  petowner            PetOwnerUser @relation(fields: [petowner_id], references: [petowner_id])
+  petsitter_id        String
+  petowner_id         String
+  status_booking      String
 }
-enum StatusBookingEnum {
-  waiting_for_comfirm
-  in_service
-  success
-}
+
+
