@@ -39,7 +39,7 @@ petDetail.get("/:ownerId", async (req, res) => {
   }
 });
 // owner สามารถสร้างสัตว์เลี้ยงของตัวเองได้
-petDetail.post("/:ownerId", async (req, res) => {
+petDetail.post("/:ownerId", avatarUpload, async (req, res) => {
   try {
     const { petname, pettype, breed, sex, age, color, weight, about } =
       req.body;
@@ -72,7 +72,12 @@ petDetail.post("/:ownerId", async (req, res) => {
         color,
         weight,
         about,
-        image_profile: avatarUrls,
+        ...(req.files && req.files.avatar
+          ? { image_profile: avatarUrls }
+          : {
+              image_profile:
+                "https://tmfjerhaimntzmwlccgx.supabase.co/storage/v1/object/public/default-image/pet-profile-default?t=2023-09-14T15%3A14%3A50.911Z",
+            }),
         owner: {
           connect: {
             petowner_id: ownerId,
