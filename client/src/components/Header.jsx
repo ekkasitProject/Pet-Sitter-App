@@ -52,16 +52,18 @@ const Header = () => {
       setProfile(result.data[0]);
       setPetOwnerID(id);
       */
+
     } catch (error) {
-      // Handle authentication error here
       console.error("Authentication error:", error);
     }
   };
 
   useEffect(() => {
     getProfile();
+
     console.log(petOwnerID);
   }, [petOwnerID]);
+
 
   const dropDownChange = () => {
     setIsDropdownOpen(!isDropdownOpen);

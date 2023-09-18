@@ -1,10 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 const BookingInformation = () => {
+  const [data, setData] = useState([]);
+
+  const getData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const id = localStorage.getItem("id");
+      const res = await axios.get(`http://localhost:6543/petOwnerUser/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setData(res.data.petOwnerUser);
+    } catch (error) {
+      console.log("request error" + error);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div>
       <Header />
@@ -40,9 +63,11 @@ const BookingInformation = () => {
                 <input
                   id="userName"
                   name="userName"
-                  type="userName"
+                  type="text" // Update this to "text" if it's a user's name
                   placeholder="Full name"
-                  required
+                  readOnly
+                  value={data.username || ""}
+                  disabled
                   className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
                 <div className="mt-12 flex">
@@ -53,7 +78,9 @@ const BookingInformation = () => {
                       name="email"
                       type="email"
                       placeholder="youremail@company.com"
-                      required
+                      readOnly
+                      value={data.email || ""}
+                      disabled
                       className="mt-1 p-2 w-full block rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
@@ -62,9 +89,11 @@ const BookingInformation = () => {
                     <input
                       id="phoneNumber"
                       name="phoneNumber"
-                      type="phoneNumber"
+                      type="number"
                       placeholder="xxx-xxx-xxxx"
-                      required
+                      readOnly
+                      value={data.phone || ""}
+                      disabled
                       className="mt-1 p-2 w-full block rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                   </div>
