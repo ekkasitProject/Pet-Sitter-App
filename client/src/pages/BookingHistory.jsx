@@ -6,21 +6,30 @@ import Header from "../components/Header";
 import BookingModal from "../components/BookingModal";
 
 function BookingHistory() {
-  const { toggleViewBooking, setToggleViewBooking } = useContext(ToggleContext);
+  const { toggleViewBooking, setToggleViewBooking, bookingID, setBookingID } =
+    useContext(ToggleContext);
   const toggleBookingModal = () => {
     setToggleViewBooking(true);
   };
+
+  const handleToggleBookingModal = (id) => {
+    setBookingID(id);
+    setToggleViewBooking(true);
+    console.log(bookingID);
+  };
+
   return (
     <>
       <Header />
       {toggleViewBooking ? <BookingModal /> : null}
       <div className="w-full h-full flex mt-10 font-satoshi">
         <SideBar />
-        <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12">
+        <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12 mr-20">
           <div className="text-headLine3">Booking History</div>
           <div className="booking-wrapper">
             <div
               onClick={toggleBookingModal}
+              //  onClick={() => handleToggleBookingModal(booking.booking_id)}
               className="booking-card border-2 border-primaryGray5 w-full h-2/12 my-5 p-5 rounded-2xl flex flex-col cursor-pointer hover:border-primaryOrange4"
             >
               <div className="flex flex-row gap-5 p-2">

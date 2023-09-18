@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication";
 import { ProfileIcon, PetIcon, MenuIcon } from "./Icons";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 
 function SideBar() {
-  const { petOwnerID } = useAuth();
+  const { petOwnerID } = useContext(ToggleContext);
   const navigate = useNavigate();
   const profileRef = useRef(null);
   const yourpetRef = useRef(null);
@@ -29,7 +30,7 @@ function SideBar() {
 
   return (
     <>
-      <div className="  w-2/5 h-full flex justify-center p-11">
+      <div className="  w-2/5 h-full flex justify-center px-11">
         <div className=" shadow-custom3 w-[300px] h-2/12 rounded-xl  ml-10 flex flex-col flex-wrap leading-[3rem]">
           <div className="text-headLine4 flex justify-start items-center  pl-7">
             Account

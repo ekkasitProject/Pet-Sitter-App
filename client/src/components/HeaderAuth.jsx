@@ -16,16 +16,18 @@ const Header = () => {
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profile, setProfile] = useState(null);
-  const [petOwnerID, setPetOwnerID] = useState(null);
-  //const { petOwnerID, setPetOwnerID } = useContext(ToggleContext);
+  //const [petOwnerID, setPetOwnerID] = useState(null);
+  const { petOwnerID, setPetOwnerID } = useContext(ToggleContext);
 
   const getProfile = async () => {
     try {
       const token = localStorage.getItem("token");
+      // const id = localStorage.getItem("id");
+      // setPetOwnerID(id);
 
-      const userDataFromToken = jwtDecode(token);
-      setPetOwnerID(userDataFromToken.userId);
-      console.log(petOwnerID);
+      // const userDataFromToken = jwtDecode(token);
+      //setPetOwnerID(userDataFromToken.userId);
+      // console.log(petOwnerID);
 
       const result = await axios.get(
         `http://localhost:6543/petOwnerUser/${petOwnerID}`,
@@ -36,7 +38,7 @@ const Header = () => {
         }
       );
 
-      console.log(result.data.petOwnerUser);
+      //console.log(result.data.petOwnerUser);
 
       setProfile(result.data.petOwnerUser);
       //setPetOwnerID(result.data.petOwnerUser.petowner_id);
@@ -52,18 +54,17 @@ const Header = () => {
       setProfile(result.data[0]);
       setPetOwnerID(id);
       */
-
     } catch (error) {
+      // Handle authentication error here
       console.error("Authentication error:", error);
     }
   };
 
   useEffect(() => {
     getProfile();
-
-    console.log(petOwnerID);
-  }, [petOwnerID]);
-
+    console.log("HaederAuth");
+    //console.log(petOwnerID);
+  }, []);
 
   const dropDownChange = () => {
     setIsDropdownOpen(!isDropdownOpen);

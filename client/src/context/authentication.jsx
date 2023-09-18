@@ -26,9 +26,10 @@ function AuthProvider(props) {
       const token = result.data.token;
       const id = result.data.user.petowner_id;
       localStorage.setItem("token", token);
-      localStorage.setItem("id", id);
+      // localStorage.setItem("id", id);
       const userDataFromToken = jwtDecode(token);
       setState({ ...state, user: userDataFromToken });
+      //console.log(userDataFromToken.userId);
       navigate("/");
     } catch (error) {
       console.error("Login error:", error);

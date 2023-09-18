@@ -14,19 +14,24 @@ import BookingHistory from "./BookingHistory";
 import BookingInformation from "./BookingInformation";
 import BookingPayment from "./BookingPayment";
 import UploadComponent from "./testUploadFile";
+import jwtDecode from "jwt-decode";
 import BillBooking from "./BillBooking";
+
 
 export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
+  const token = localStorage.getItem("token");
+  const userDataFromToken = jwtDecode(token);
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
   const [toggleViewPet, setToggleViewPet] = useState(false);
   const [toggleViewBooking, setToggleViewBooking] = useState(false);
   const [petID, setPetID] = useState("");
+  const [bookingID, setBookingID] = useState("");
   const [isAllPetChange, setIsAllPetChange] = useState(false);
   const [allpets, setAllpets] = useState([]);
-  const [petOwnerID, setPetOwnerID] = useState("");
+  const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -47,6 +52,8 @@ const AuthenticatedApp = () => {
           setAllpets,
           petOwnerID,
           setPetOwnerID,
+          bookingID,
+          setBookingID,
         }}
       >
         <Routes>

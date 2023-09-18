@@ -3,7 +3,7 @@ import React, { useState, useContext } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import fetchUserData from "../hooks/fetchUserData";
-import { BackIcon } from "./Icons";
+import { BackIcon, PlusIcon } from "./Icons";
 
 function CreatePet() {
   const { createPet, getAllPets } = fetchUserData();
@@ -17,6 +17,9 @@ function CreatePet() {
   const [weight, setWeight] = useState("");
   const [about, setAbout] = useState("");
   const [errors, setErrors] = useState({});
+  const [avatars, setAvatars] = useState("");
+  const [photo, setPhoto] = useState("");
+
   const {
     toggleCreatePet,
     setToggleCreatePet,
@@ -30,6 +33,31 @@ function CreatePet() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("petname", petname);
+    formData.append("pettype", petType);
+    formData.append("breed", breed);
+    formData.append("sex", sex);
+    formData.append("age", age);
+    formData.append("color", color);
+    formData.append("weight", weight);
+    formData.append("about", about);
+    //formData.append("image_profile", avatars);
+    formData.append("avatar", avatars);
+
+    formData.forEach((value, key) => {
+      console.log(`Field: ${key}, Value: ${value}`);
+    });
+
+    console.log(avatars);
+    console.log(formData);
+
+    createPet(formData);
+    handleToggleCreatePet();
+
+    /*
     const data = {
       petname,
       pettype: petType,
@@ -40,39 +68,19 @@ function CreatePet() {
       weight,
       about,
     };
-    //console.log(data);
+    console.log(data);
     createPet(data);
     handleToggleCreatePet();
+    */
   };
 
-  /*
-  const validateForm = () => {
-    const newErrors = {};
-
-    // Validate Name
-    if (petname.length < 3) {
-      newErrors.petname = "Petname must be more than 3 characters";
-      let input = document.getElementById(`petname`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`petname`);
-      input.classList.remove("border-red-500");
-    }
-
-    // Validate Pet Age
-
-    if (age <= 0 || age >= 100) {
-      newErrors.age = "age must be not more than 2 characters";
-      let input = document.getElementById(`age`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`age`);
-      input.classList.remove("border-red-500");
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };*/
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    //setAvatars(URL.createObjectURL(file));
+    setAvatars(file);
+    setPhoto(URL.createObjectURL(file));
+    console.log(avatars);
+  };
 
   return (
     <>
@@ -85,21 +93,24 @@ function CreatePet() {
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
-            <img className="object-fit" src={profile_user} alt="" />
-            <button className="w-[60px] h-[60px] rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19.875 10.875H13.125V4.125C13.125 3.82663 13.0065 3.54048 12.7955 3.32951C12.5845 3.11853 12.2984 3 12 3C11.7016 3 11.4155 3.11853 11.2045 3.32951C10.9935 3.54048 10.875 3.82663 10.875 4.125V10.875H4.125C3.82663 10.875 3.54048 10.9935 3.32951 11.2045C3.11853 11.4155 3 11.7016 3 12C3 12.2984 3.11853 12.5845 3.32951 12.7955C3.54048 13.0065 3.82663 13.125 4.125 13.125H10.875V19.875C10.875 20.1734 10.9935 20.4595 11.2045 20.6705C11.4155 20.8815 11.7016 21 12 21C12.2984 21 12.5845 20.8815 12.7955 20.6705C13.0065 20.4595 13.125 20.1734 13.125 19.875V13.125H19.875C20.1734 13.125 20.4595 13.0065 20.6705 12.7955C20.8815 12.5845 21 12.2984 21 12C21 11.7016 20.8815 11.4155 20.6705 11.2045C20.4595 10.9935 20.1734 10.875 19.875 10.875Z"
-                  fill="#FF7037"
-                />
-              </svg>
-            </button>
+            <img
+              className="object-fit w-[220px] h-[220px] rounded-full"
+              src={photo}
+              alt="pet photo"
+            />
+            <label
+              htmlFor="upload"
+              className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
+            >
+              <PlusIcon />
+              <input
+                id="upload"
+                name="avatar"
+                type="file"
+                onChange={handleFileChange}
+                hidden
+              />
+            </label>
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="petname">Pet Name*</label>

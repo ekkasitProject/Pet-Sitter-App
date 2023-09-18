@@ -1,11 +1,12 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 
 const fetchUserData = () => {
   const navigate = useNavigate();
+  const params = useParams();
   const [isError, setIsError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
@@ -20,6 +21,8 @@ const fetchUserData = () => {
     setAllpets,
     petOwnerID,
     setPetOwnerID,
+    bookingID,
+    setBookingID,
   } = useContext(ToggleContext);
 
   const getPetOwnerProfile = async () => {
@@ -77,15 +80,18 @@ const fetchUserData = () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
       setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
+      // alert(response.data.message);
       navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
+      //alert(error.message);
     }
   };
 
@@ -102,7 +108,7 @@ const fetchUserData = () => {
           },
         }
       );
-      //console.log(result);
+      // console.log(result);
       setAllpets(result.data.owner.pets);
       //console.log(allpets);
       //setIsLoading(false);

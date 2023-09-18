@@ -24,10 +24,12 @@ function UserProfile() {
   const [dateOfBirth, setDateOfBirth] = useState();
   const [errors, setErrors] = useState({});
   const [isAlert, setIsAlert] = useState(false);
+  const [avatars, setAvatars] = useState("");
+  const [photo, setPhoto] = useState("");
 
   useEffect(() => {
     getPetOwnerProfile();
-    console.log(petOwnerProfile);
+    // console.log(petOwnerProfile);
   }, []);
 
   function formatDateToYYYYMMDD(isoDate) {
@@ -52,6 +54,11 @@ function UserProfile() {
       setIDNumber(petOwnerProfile.id_card_number);
       const newDate = formatDateToYYYYMMDD(petOwnerProfile.date_of_birth);
       setDateOfBirth(newDate);
+      setPhoto(petOwnerProfile.image_profile);
+      /*  const uniqueId = Date.now();
+      setAvatars({
+        [uniqueId]: petOwnerProfile.image_profile,
+      });*/
     }
   }, [petOwnerProfile]);
 
@@ -108,7 +115,7 @@ function UserProfile() {
   const handleSubmit = (e) => {
     e.preventDefault();
     //console.log(dateOfBirth);
-
+    /*
     if (validateForm()) {
       const data = {
         username,
@@ -121,6 +128,30 @@ function UserProfile() {
       updatePetOwnerProfile(data);
       setIsAlert(true);
     }
+*/
+    if (validateForm()) {
+      const formData = new FormData();
+
+      formData.append("username", username);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("id_card_number", idNumber);
+      formData.append("date_of_birth", dateOfBirth);
+      formData.append("avatar", avatars);
+
+      console.log(avatars);
+      console.log(formData);
+      updatePetOwnerProfile(formData);
+      setIsAlert(true);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    //setAvatars(URL.createObjectURL(file));
+    setAvatars(file);
+    setPhoto(URL.createObjectURL(file));
+    console.log(avatars);
   };
 
   setTimeout(() => {
@@ -143,14 +174,51 @@ function UserProfile() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img
+              className="object-fit w-[220px] h-[220px] rounded-full"
+              src={photo}
+              alt="Profile Avatar"
+            />
+            {/*
+            {Object.keys(avatars).map((avatarKey) => {
+              const file = avatars[avatarKey];
+              return (
+                <div key={avatarKey} className="image-preview-container">
+                  <img
+                    className="object-fit w-[220px] h-[220px] rounded-full z-10"
+                    src={URL.createObjectURL(file)}
+                    alt={file.name}
+                  />
+                </div>
+              );
+            })}
+            */}
+            {/* 
+             <img
               className="object-fit"
               src={profile_user}
               //src={petOwnerProfile.image_profile}
               alt=""
             />
-            <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
+            */}
+
+            <label
+              htmlFor="upload"
+              className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
+            >
+              <PlusIcon />
+              <input
+                id="upload"
+                name="avatar"
+                type="file"
+                onChange={handleFileChange}
+                hidden
+              />
+            </label>
+            {/*
+          <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
               <PlusIcon />
             </button>
+          */}
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="userName">Your Name*</label>
