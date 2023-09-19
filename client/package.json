@@ -27,7 +27,8 @@
     "react-router-dom": "^6.15.0",
     "react-snap-carousel": "^0.3.2",
     "react-time-picker": "^6.5.0",
-    "react-time-range": "^1.0.4"
+    "react-time-range": "^1.0.4",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

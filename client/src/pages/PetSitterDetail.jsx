@@ -31,71 +31,89 @@ function PetSitterDetail() {
   const [open, setOpen] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState(dayjs("2022-04-17"));
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [bookingDetails, setBookingDetails] = useState(null); // State to hold booking details
+  const handleClose = () => {
+    // Generate booking details based on the selected date, start time, and end time
+    const bookingDetails = {
+      selectedBookingDate: selectedDate.format("YYYY-MM-DD"),
+      startTime,
+      endTime,
+      numberOfSelectedPets: 0, // You can set the number of selected pets here
+    };
+
+    // Update the booking details state with the generated details
+    setBookingDetails(bookingDetails);
+
+    // Close the modal
+    setOpen(false);
+
+    // Navigate to the booking confirmation page with the booking details
+    navigate("/booking/yourPet", { state: { bookingDetails } });
+  };
   const navigate = useNavigate();
-    const [startTime, setStartTime] = useState("12:00 AM");
-    const [endTime, setEndTime] = useState("12:30 AM");
-    const [selectedTimes, setSelectedTimes] = useState([]);
+  const [startTime, setStartTime] = useState("12:00 AM");
+  const [endTime, setEndTime] = useState("12:30 AM");
+  const [selectedTimes, setSelectedTimes] = useState([]);
 
-    const generateTimeOptions = () => {
-      const timeOptions = [];
-      const amPmOptions = ["AM", "PM"];
+  const generateTimeOptions = () => {
+    const timeOptions = [];
+    const amPmOptions = ["AM", "PM"];
 
-      for (let amPm of amPmOptions) {
-        for (let hours = 0; hours < 12; hours++) {
-          for (let minutes = 0; minutes < 60; minutes += 30) {
-            const formattedHours = hours.toString().padStart(2, "0");
-            const formattedMinutes = minutes.toString().padStart(2, "0");
-            const time = `${formattedHours}:${formattedMinutes} ${amPm}`;
-            timeOptions.push(time);
-          }
+    for (let amPm of amPmOptions) {
+      for (let hours = 0; hours < 12; hours++) {
+        for (let minutes = 0; minutes < 60; minutes += 30) {
+          const formattedHours = hours.toString().padStart(2, "0");
+          const formattedMinutes = minutes.toString().padStart(2, "0");
+          const time = `${formattedHours}:${formattedMinutes} ${amPm}`;
+          timeOptions.push(time);
         }
       }
+    }
 
-      return timeOptions;
-    };
+    return timeOptions;
+  };
 
-    const handleStartTimeChange = (e) => {
-      setStartTime(e.target.value);
-    };
+  const handleStartTimeChange = (e) => {
+    setStartTime(e.target.value);
+  };
 
-    const handleEndTimeChange = (e) => {
-      const selectedEndTime = e.target.value;
+  const handleEndTimeChange = (e) => {
+    const selectedEndTime = e.target.value;
 
-      // Check if selected end time is greater than or equal to the start time
-      if (compareTimes(selectedEndTime, startTime) >= 0) {
-        setEndTime(selectedEndTime);
-      }
-    };
+    // Check if selected end time is greater than or equal to the start time
+    if (compareTimes(selectedEndTime, startTime) >= 0) {
+      setEndTime(selectedEndTime);
+    }
+  };
 
-    const handleTimeSelection = (e) => {
-      const selectedTime = e.target.value;
+  const handleTimeSelection = (e) => {
+    const selectedTime = e.target.value;
 
-      // Check if the selected time is not in the selectedTimes array
-      if (!selectedTimes.includes(selectedTime)) {
-        setSelectedTimes([...selectedTimes, selectedTime]);
-      }
-    };
+    // Check if the selected time is not in the selectedTimes array
+    if (!selectedTimes.includes(selectedTime)) {
+      setSelectedTimes([...selectedTimes, selectedTime]);
+    }
+  };
 
-    // Helper function to compare two time strings (HH:mm AM/PM)
-    const compareTimes = (time1, time2) => {
-      const time1Parts = time1.split(" ");
-      const time2Parts = time2.split(" ");
+  // Helper function to compare two time strings (HH:mm AM/PM)
+  const compareTimes = (time1, time2) => {
+    const time1Parts = time1.split(" ");
+    const time2Parts = time2.split(" ");
 
-      const time1AMPM = time1Parts[1];
-      const time2AMPM = time2Parts[1];
+    const time1AMPM = time1Parts[1];
+    const time2AMPM = time2Parts[1];
 
-      if (time1AMPM !== time2AMPM) {
-        // If the AM/PM is different, compare based on it
-        return time1AMPM.localeCompare(time2AMPM);
-      } else {
-        // If the AM/PM is the same, compare based on the time in 24-hour format
-        const time1WithoutAMPM = time1Parts[0];
-        const time2WithoutAMPM = time2Parts[0];
+    if (time1AMPM !== time2AMPM) {
+      // If the AM/PM is different, compare based on it
+      return time1AMPM.localeCompare(time2AMPM);
+    } else {
+      // If the AM/PM is the same, compare based on the time in 24-hour format
+      const time1WithoutAMPM = time1Parts[0];
+      const time2WithoutAMPM = time2Parts[0];
 
-        return time1WithoutAMPM.localeCompare(time2WithoutAMPM);
-      }
-    };
+      return time1WithoutAMPM.localeCompare(time2WithoutAMPM);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -289,7 +307,17 @@ function PetSitterDetail() {
                         className="w-full bg-gradient-to-r from-primaryOrange2 to-primaryOrange3 hover:from-primaryOrange1 hover:to-primaryOrange2 text-white py-2 rounded-md font-semibold hover:shadow-md transition duration-300 ease-in-out"
                         onClick={() => {
                           handleClose();
-                          navigate("/booking/yourPet");
+                          navigate("/booking/yourPet", {
+                            state: {
+                              bookingDetails: {
+                                selectedBookingDate:
+                                  selectedDate.format("YYYY-MM-DD"),
+                                startTime,
+                                endTime,
+                                petSitterName: petSisterDetail.pet_sister_name, // Add the Pet Sitter's name here
+                              },
+                            },
+                          });
                         }}
                       >
                         Continue

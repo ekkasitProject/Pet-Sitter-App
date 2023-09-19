@@ -2,9 +2,10 @@ import React from "react";
 import Header from "../components/Header";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 const BookingInformation = () => {
+  const navigate = useNavigate();  
   return (
     <div>
       <Header />
@@ -82,7 +83,7 @@ const BookingInformation = () => {
                   />
                 </div>
                 <div className="mt-[8rem] flex justify-between">
-                  <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
+                  <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold" onClick={(navigate("/booking/yourPet"))}>
                     Back
                   </button>
 

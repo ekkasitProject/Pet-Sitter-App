@@ -25,7 +25,7 @@
     "nodemon": "^3.0.1",
     "pg": "^8.11.3",
     "resend": "^1.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "prisma": "^5.2.0"
