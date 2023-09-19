@@ -13,7 +13,7 @@ const fetchUserData = () => {
   //const [allpets, setAllpets] = useState([]);
   const [petDetail, setPetDetail] = useState({});
   const [bookingHistory, setBookingHistory] = useState([]);
-  const [bookingDetail, setBookingDetail] = useState({});
+  const [booking, setBooking] = useState({});
   const {
     petID,
     setPetID,
@@ -207,7 +207,7 @@ const fetchUserData = () => {
           },
         }
       );
-      console.log(result);
+      // console.log(result);
       setIsLoading(false);
       setBookingHistory(result.data.bookings);
     } catch (error) {
@@ -223,15 +223,17 @@ const fetchUserData = () => {
       setIsError(false);
       // setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:6543/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+        `http://localhost:6543/booking/petowner/${petOwnerID}/${bookingID}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      console.log(result);
-      setBookingDetail(result);
+      // console.log(result);
+      setBooking(result.data.booking);
+      console.log(result.data.booking);
+      console.log(booking);
       //setIsLoading(false);
     } catch (error) {
       setIsError(true);
@@ -319,6 +321,9 @@ const fetchUserData = () => {
     getBooking,
     bookingHistory,
     setBookingHistory,
+    booking,
+    setBooking,
+    getBookingByID,
   };
 };
 
