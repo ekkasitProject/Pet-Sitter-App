@@ -210,7 +210,7 @@ const fetchUserData = () => {
       // console.log(result);
       setIsLoading(false);
       setBookingHistory(result.data.bookings);
-      console.log(result.data.bookings);
+      //console.log(result.data.bookings);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
