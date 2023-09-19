@@ -7,9 +7,9 @@ import BookingModal from "../components/BookingModal";
 import fetchUserData from "../hooks/fetchUserData";
 import { PhoneIcon } from "../components/Icons";
 import {
-  changeDate,
-  changeTime,
   calculateDuration,
+  formatDate,
+  formatTime,
 } from "../components/calculateDate";
 
 function BookingHistory() {
@@ -72,12 +72,12 @@ function BookingHistory() {
                     <div className="w-full h-full flex flex-col justify-center items-end pr-5">
                       <div className="text-primaryGray3">
                         {booking.status_booking == "Success" ? (
-                          <p>Booking date: {changeTime(booking.datetime)}</p>
+                          <p>Booking date: {formatDate(booking.datetime)}</p>
                         ) : booking.status_booking == "In service" ? (
-                          <p>Booking date: {changeTime(booking.datetime)}</p>
+                          <p>Booking date: {formatDate(booking.datetime)}</p>
                         ) : booking.status_booking == "Waiting for confirm" ? (
                           <p>
-                            Transaction date: {changeTime(booking.datetime)}
+                            Transaction date: {formatDate(booking.datetime)}
                           </p>
                         ) : null}
                       </div>
@@ -101,8 +101,14 @@ function BookingHistory() {
                     <div className="flex-1">
                       <div className="text-primaryGray3">Date&Time:</div>
                       <div className="">
-                        <p>Start: {changeDate(booking.startTime)}</p>
-                        <p>End: {changeDate(booking.endTime)}</p>
+                        <p>
+                          Start: {formatDate(booking.startTime)} |{" "}
+                          {formatTime(booking.startTime)}
+                        </p>
+                        <p>
+                          End: {formatDate(booking.endTime)} |{" "}
+                          {formatTime(booking.endTime)}
+                        </p>
                       </div>
                     </div>
                     <div className="border-l-2 pl-8 basis-1/4">
@@ -124,7 +130,10 @@ function BookingHistory() {
                     }
                   >
                     {booking.status_booking == "Success" ? (
-                      <p>Success date: {changeDate(booking.endTime)}</p>
+                      <p>
+                        Success date: {formatDate(booking.endTime)} |{" "}
+                        {formatTime(booking.endTime)}
+                      </p>
                     ) : booking.status_booking == "In service" ? (
                       <p>Your pet is already in Pet Sitter care!</p>
                     ) : booking.status_booking == "Waiting for confirm" ? (

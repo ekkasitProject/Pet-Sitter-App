@@ -4,9 +4,9 @@ import { Button1, Button2 } from "./Button";
 import { CloseIcon } from "./Icons";
 import fetchUserData from "../hooks/fetchUserData";
 import {
-  changeDate,
-  changeTime,
   calculateDuration,
+  formatDate,
+  formatTime,
 } from "../components/calculateDate";
 
 export default function BookingModal() {
@@ -51,7 +51,7 @@ export default function BookingModal() {
               {booking.status_booking}
             </div>
             <div className="flex-1">
-              <p>Transaction Date: {changeTime(booking.transaction_date)}</p>
+              <p>Transaction Date: {formatDate(booking.transaction_date)}</p>
               <p>Transaction No: {booking.transaction_no}</p>
             </div>
             <div className="flex-1">
@@ -62,8 +62,14 @@ export default function BookingModal() {
               <div className="flex-1">
                 <div className="text-primaryGray3">Date & Time:</div>
                 <div className="text-black">
-                  <p>Start: {changeDate(booking.startTime)}</p>
-                  <p>End: {changeDate(booking.endTime)}</p>
+                  <p>
+                    Start: {formatDate(booking.startTime)} |{" "}
+                    {formatTime(booking.startTime)}
+                  </p>
+                  <p>
+                    End: {formatDate(booking.endTime)} |{" "}
+                    {formatTime(booking.endTime)}
+                  </p>
                 </div>
               </div>
               <div className="flex-1">
