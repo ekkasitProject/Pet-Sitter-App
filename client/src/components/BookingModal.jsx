@@ -1,14 +1,29 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import { Button1, Button2 } from "./Button";
 import { CloseIcon } from "./Icons";
+import fetchUserData from "../hooks/fetchUserData";
+import {
+  changeDate,
+  changeTime,
+  calculateDuration,
+} from "../components/calculateDate";
 
 export default function BookingModal() {
-  const { toggleViewBooking, setToggleViewBooking } = useContext(ToggleContext);
-
+  const { toggleViewBooking, setToggleViewBooking, bookingID, setBookingID } =
+    useContext(ToggleContext);
+  const { booking, setBooking, getBookingByID, isError, isLoading } =
+    fetchUserData();
   const toggleBookingModal = () => {
     setToggleViewBooking(false);
   };
+
+  useEffect(() => {
+    getBookingByID();
+    //console.log(bookingID);
+    //console.log(booking);
+  }, [bookingID]);
+
   return (
     <>
       <div className="modal font-satoshi bg-neutral-700/80 w-screen h-screen z-10 top-0 left-0 right-0 bottom-0 fixed flex justify-center items-center">
