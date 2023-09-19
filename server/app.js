@@ -7,6 +7,7 @@ import petDetail from "./apps/petDetail.js";
 import petSisterDetail from "./apps/petSisterDetail.js";
 import payment from "./Payment/payment.js";
 import booking from "./apps/booking.js";
+import payments from "./Payment/payments.js";
 async function init() {
   const app = express();
   const port = 6543;
@@ -20,6 +21,7 @@ async function init() {
   app.use("/petSitterUser/petsisterdetail", petSisterDetail);
 
   app.use("/payment", payment);
+  app.use("/payments", payments);
   app.use("/booking", booking);
   app.get("/", (req, res) => {
     res.send("Hello World!");
