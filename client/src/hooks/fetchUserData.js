@@ -12,6 +12,8 @@ const fetchUserData = () => {
   const [petOwnerProfile, setPetOwnerProfile] = useState(null);
   //const [allpets, setAllpets] = useState([]);
   const [petDetail, setPetDetail] = useState({});
+  const [bookingHistory, setBookingHistory] = useState([]);
+  const [bookingDetail, setBookingDetail] = useState({});
   const {
     petID,
     setPetID,
@@ -192,6 +194,52 @@ const fetchUserData = () => {
     }
   };
 
+  const getBooking = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      setIsError(false);
+      setIsLoading(true);
+      const result = await axios.get(
+        `http://localhost:6543/booking/petowner/${petOwnerID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(result);
+      setIsLoading(false);
+      setBookingHistory(result.data.bookings);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+
+  const getBookingByID = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      setIsError(false);
+      // setIsLoading(true);
+      const result = await axios.get(
+        `http://localhost:6543/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(result);
+      setBookingDetail(result);
+      //setIsLoading(false);
+    } catch (error) {
+      setIsError(true);
+      setIsLoading(false);
+      console.log(error);
+    }
+  };
+
   /*
   const getPetSitterById = async (petSitterId) => {
     try {
@@ -268,6 +316,9 @@ const fetchUserData = () => {
     deletePet,
     isError,
     isLoading,
+    getBooking,
+    bookingHistory,
+    setBookingHistory,
   };
 };
 
