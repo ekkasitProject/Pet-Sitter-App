@@ -58,53 +58,51 @@ model PetSitterUser {
   emailVerificationToken String?
   petsisterdetail        PetSisterDetail[]
   addresses              Address[]
-  bookings               Booking[] 
+  bookings               Booking[]
 }
 
 model PetSisterDetail {
   petsisterdetail_id String        @id @default(uuid())
   petsister          PetSitterUser @relation(fields: [petsister_id], references: [petsitter_id])
   petsister_id       String
-  pet_sister_name    String
+  pet_sister_name    String?
   pet_type           String[]
-  services           String
-  my_place           String
+  services           String?
+  my_place           String?
   image_gallery      String[]
   experience         String?
   createAt           DateTime      @default(now())
   updateAt           DateTime      @updatedAt
-  
 }
 
 model Address {
   address_id     String        @id @default(uuid())
   petsister      PetSitterUser @relation(fields: [petsister_id], references: [petsitter_id])
   petsister_id   String
-  address_detail String
-  district       String
-  sub_district   String
-  province       String
+  address_detail String?
+  district       String?
+  sub_district   String?
+  province       String?
   post_code      String?
   createAt       DateTime      @default(now())
   updateAt       DateTime      @updatedAt
 }
+
 model Booking {
-  booking_id          String   @id @default(uuid())
-  transaction_date    DateTime @default(now())
-  transaction_no      Int      @default(autoincrement())
-  datetime            DateTime
-  startTime           DateTime
-  endTime             DateTime
-  additional_message  String?
-  total_price         Int
-  createAt            DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-  petdetails          String[] 
-  petsitter           PetSitterUser @relation(fields: [petsitter_id], references: [petsitter_id])
-  petowner            PetOwnerUser @relation(fields: [petowner_id], references: [petowner_id])
-  petsitter_id        String
-  petowner_id         String
-  status_booking      String
+  booking_id         String        @id @default(uuid())
+  transaction_date   DateTime      @default(now())
+  transaction_no     Int           @default(autoincrement())
+  datetime           DateTime
+  startTime          DateTime
+  endTime            DateTime
+  additional_message String?
+  total_price        Int
+  createAt           DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  petdetails         String[]
+  petsitter          PetSitterUser @relation(fields: [petsitter_id], references: [petsitter_id])
+  petowner           PetOwnerUser  @relation(fields: [petowner_id], references: [petowner_id])
+  petsitter_id       String
+  petowner_id        String
+  status_booking     String
 }
-
-
