@@ -1,11 +1,14 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
 import profile_user from "../assets/icons/profile.svg";
 import SideBar from "../components/SideBar";
 import HeaderAuth from "../components/HeaderAuth";
 import BookingModal from "../components/BookingModal";
+import fetchUserData from "../hooks/fetchUserData";
 
 function BookingHistory() {
+  const { getBooking, bookingHistory, setBookingHistory, isError, isLoading } =
+    fetchUserData();
   const { toggleViewBooking, setToggleViewBooking, bookingID, setBookingID } =
     useContext(ToggleContext);
   const toggleBookingModal = () => {
@@ -18,6 +21,11 @@ function BookingHistory() {
     console.log(bookingID);
   };
 
+  useEffect(() => {
+    getBooking();
+    console.log(bookingHistory);
+  }, []);
+
   return (
     <>
       <HeaderAuth />
@@ -27,6 +35,8 @@ function BookingHistory() {
         <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12 mr-20">
           <div className="text-headLine3">Booking History</div>
           <div className="booking-wrapper">
+            {isError ? <h1>Request failed</h1> : null}
+            {isLoading ? <h1>Loading ....</h1> : null}
             <div
               onClick={toggleBookingModal}
               //  onClick={() => handleToggleBookingModal(booking.booking_id)}
