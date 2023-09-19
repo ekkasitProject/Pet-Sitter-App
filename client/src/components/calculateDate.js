@@ -1,14 +1,3 @@
-export const changeDate = (date) => {
-  const newDate = new Date(date).toLocaleDateString();
-  const newTime = new Date(date).toLocaleTimeString();
-  return `${newDate} | ${newTime}`;
-};
-
-export const changeTime = (date) => {
-  const newDate = new Date(date).toLocaleDateString();
-  return `${newDate}`;
-};
-
 export function calculateDuration(startTime, endTime) {
   const startDate = new Date(startTime);
   const endDate = new Date(endTime);
@@ -17,6 +6,20 @@ export function calculateDuration(startTime, endTime) {
   //   const minutes = Math.floor((timeDifference % 3600000) / 60000);
   // return `${hours} hours: ${minutes} minutes`;
   return `${hours} hours`;
+}
+
+export function formatDate(date) {
+  const newDate = new Date(date);
+  const day = newDate.getDate();
+  const month = newDate.toLocaleString("default", { month: "short" });
+  const year = newDate.getFullYear();
+
+  return `${day} ${month} ${year}`;
+}
+
+export function formatTime(time) {
+  const options = { hour: "numeric", minute: "2-digit", hour12: true };
+  return new Date(time).toLocaleTimeString("en-US", options);
 }
 
 //แก้โค้ดในbookingHistory กับ bookingModalด้วย
