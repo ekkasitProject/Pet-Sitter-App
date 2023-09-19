@@ -210,6 +210,7 @@ const fetchUserData = () => {
       // console.log(result);
       setIsLoading(false);
       setBookingHistory(result.data.bookings);
+      console.log(result.data.bookings);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -232,8 +233,8 @@ const fetchUserData = () => {
       );
       // console.log(result);
       setBooking(result.data.booking);
-      console.log(result.data.booking);
-      console.log(booking);
+      // console.log(result.data.booking);
+      // console.log(booking);
       //setIsLoading(false);
     } catch (error) {
       setIsError(true);

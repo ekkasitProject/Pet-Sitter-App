@@ -37,10 +37,22 @@ export default function BookingModal() {
           <hr />
 
           <div className="px-5 py-5 text-body3 text-primaryGray3 flex flex-col justify-between gap-3">
-            <div className="flex-1">Waiting for confirm</div>
+            <div
+              className={
+                booking.status_booking == "Success"
+                  ? "text-secondaryGreen1 flex-1"
+                  : booking.status_booking == "In service"
+                  ? "text-secondaryBlue1 flex-1"
+                  : booking.status_booking == "Waiting for confirm"
+                  ? "text-secondaryPink1 flex-1"
+                  : null
+              }
+            >
+              {booking.status_booking}
+            </div>
             <div className="flex-1">
-              <p>Transaction Date</p>
-              <p>Transaction No</p>
+              <p>Transaction Date: {changeTime(booking.transaction_date)}</p>
+              <p>Transaction No: {booking.transaction_no}</p>
             </div>
             <div className="flex-1">
               <div className="text-primaryGray3">Pet Sitter:</div>
@@ -49,11 +61,17 @@ export default function BookingModal() {
             <div className="flex-1 flex flex-row">
               <div className="flex-1">
                 <div className="text-primaryGray3">Date & Time:</div>
-                <div className="text-black">|</div>
+                <div className="text-black">
+                  <p>Start: {changeDate(booking.startTime)}</p>
+                  <p>End: {changeDate(booking.endTime)}</p>
+                </div>
               </div>
               <div className="flex-1">
                 <div className="text-primaryGray3">Duration:</div>
-                <div className="text-black">3 hours</div>
+                <div className="text-black">
+                  {" "}
+                  {calculateDuration(booking.startTime, booking.endTime)}
+                </div>
               </div>
             </div>
             <div className="flex-1">
@@ -67,7 +85,7 @@ export default function BookingModal() {
 
           <div className="px-5 mb-7 pt-2 w-full flex justify-between items-start">
             <h1>Total</h1>
-            <h1>900 THB</h1>
+            <h1>{booking.total_price} THB</h1>
           </div>
         </div>
       </div>
