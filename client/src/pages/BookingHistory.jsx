@@ -6,6 +6,11 @@ import HeaderAuth from "../components/HeaderAuth";
 import BookingModal from "../components/BookingModal";
 import fetchUserData from "../hooks/fetchUserData";
 import { PhoneIcon } from "../components/Icons";
+import {
+  changeDate,
+  changeTime,
+  calculateDuration,
+} from "../components/calculateDate";
 
 function BookingHistory() {
   const { getBooking, bookingHistory, setBookingHistory, isError, isLoading } =
@@ -26,27 +31,6 @@ function BookingHistory() {
     getBooking();
     console.log(bookingHistory);
   }, []);
-
-  const changeDate = (date) => {
-    const newDate = new Date(date).toLocaleDateString();
-    const newTime = new Date(date).toLocaleTimeString();
-    return `${newDate} | ${newTime}`;
-  };
-
-  const changeTime = (date) => {
-    const newDate = new Date(date).toLocaleDateString();
-    return `${newDate}`;
-  };
-
-  function calculateDuration(startTime, endTime) {
-    const startDate = new Date(startTime);
-    const endDate = new Date(endTime);
-    const timeDifference = endDate - startDate;
-    const hours = Math.floor(timeDifference / 3600000);
-    //   const minutes = Math.floor((timeDifference % 3600000) / 60000);
-    // return `${hours} hours: ${minutes} minutes`;
-    return `${hours} hours`;
-  }
 
   return (
     <>
@@ -108,7 +92,7 @@ function BookingHistory() {
                             : null
                         }
                       >
-                        {booking.status_booking}
+                        ● {booking.status_booking}
                       </div>
                     </div>
                   </div>
