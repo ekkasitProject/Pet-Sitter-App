@@ -18,3 +18,5 @@ export function calculateDuration(startTime, endTime) {
   // return `${hours} hours: ${minutes} minutes`;
   return `${hours} hours`;
 }
+
+//แก้โค้ดในbookingHistory กับ bookingModalด้วย
