@@ -30,9 +30,11 @@ petSitterDetail.get("/alldetail", async (req, res) => {
 
     if (keywords) {
       filterOptions.OR = [
-        { petsitter: { username: { contains: keywords } } },
-        { pet_sister_name: { contains: keywords } },
-        { my_place: { contains: keywords } },
+        {
+          petsitter: { username: { contains: keywords, mode: "insensitive" } },
+        },
+        { pet_sitter_name: { contains: keywords, mode: "insensitive" } },
+        { my_place: { contains: keywords, mode: "insensitive" } },
       ];
     }
 
