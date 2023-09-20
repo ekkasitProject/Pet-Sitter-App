@@ -17,7 +17,6 @@ import UploadComponent from "./testUploadFile";
 import jwtDecode from "jwt-decode";
 import BillBooking from "./BillBooking";
 
-
 export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
