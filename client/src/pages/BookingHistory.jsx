@@ -79,6 +79,10 @@ function BookingHistory() {
                           <p>
                             Transaction date: {formatDate(booking.datetime)}
                           </p>
+                        ) : booking.status_booking == "Waiting for service" ? (
+                          <p>Booking date: {formatDate(booking.datetime)}</p>
+                        ) : booking.status_booking == "Canceled" ? (
+                          <p>Canceled date: {formatDate(booking.datetime)}</p>
                         ) : null}
                       </div>
                       <div
@@ -89,6 +93,10 @@ function BookingHistory() {
                             ? "text-secondaryBlue1"
                             : booking.status_booking == "Waiting for confirm"
                             ? "text-secondaryPink1"
+                            : booking.status_booking == "Waiting for service"
+                            ? "text-amber-500"
+                            : booking.status_booking == "Canceled"
+                            ? "text-red-500"
                             : null
                         }
                       >
@@ -98,17 +106,14 @@ function BookingHistory() {
                   </div>
                   <hr />
                   <div className="date-section p-3 py-5 flex justify-between">
-                    <div className="flex-1">
+                    <div className="flex-1 ">
                       <div className="text-primaryGray3">Date&Time:</div>
-                      <div className="">
-                        <p>
-                          Start: {formatDate(booking.startTime)} |{" "}
-                          {formatTime(booking.startTime)}
-                        </p>
-                        <p>
-                          End: {formatDate(booking.endTime)} |{" "}
+                      <div className="flex justify-evenly">
+                        <span>Start: {formatDate(booking.startTime)}</span>|
+                        <span>
+                          {formatTime(booking.startTime)} -{" "}
                           {formatTime(booking.endTime)}
-                        </p>
+                        </span>
                       </div>
                     </div>
                     <div className="border-l-2 pl-8 basis-1/4">
@@ -126,6 +131,8 @@ function BookingHistory() {
                     className={
                       booking.status_booking == "Success"
                         ? "status-section text-secondaryGreen1 w-full h-[80px] bg-secondaryGreen2 rounded-lg px-5 flex justify-between items-center"
+                        : booking.status_booking == "Canceled"
+                        ? "status-section text-red-500 w-full h-[80px] bg-red-100 rounded-lg px-5 flex justify-between items-center"
                         : "status-section text-primaryGray3 w-full h-[80px] bg-primaryGray6 rounded-lg px-5 flex justify-between items-center"
                     }
                   >
@@ -138,6 +145,10 @@ function BookingHistory() {
                       <p>Your pet is already in Pet Sitter care!</p>
                     ) : booking.status_booking == "Waiting for confirm" ? (
                       <p>Waiting Pet Sitter for confirm booking </p>
+                    ) : booking.status_booking == "Waiting for service" ? (
+                      <p>Pet Sitter is waiting to service </p>
+                    ) : booking.status_booking == "Canceled" ? (
+                      <p>Service was canceled </p>
                     ) : null}
                     <span>
                       {booking.status_booking == "In service" && (
