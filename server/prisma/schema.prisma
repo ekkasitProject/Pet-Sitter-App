@@ -56,16 +56,17 @@ model PetSitterUser {
   introduction           String?
   email_verification     Boolean           @default(false)
   emailVerificationToken String?
-  petsisterdetail        PetSisterDetail[]
+  petsitterdetail        PetSitterDetail[]
   addresses              Address[]
   bookings               Booking[]
+  status_update          Boolean @default(false)
 }
 
-model PetSisterDetail {
-  petsisterdetail_id String        @id @default(uuid())
-  petsister          PetSitterUser @relation(fields: [petsister_id], references: [petsitter_id])
-  petsister_id       String
-  pet_sister_name    String?
+model PetSitterDetail {
+  petsitterdetail_id String        @id @default(uuid())
+  petsitter          PetSitterUser @relation(fields: [petsitter_id], references: [petsitter_id])
+  petsitter_id       String
+  pet_sitter_name    String?
   pet_type           String[]
   services           String?
   my_place           String?
@@ -77,8 +78,8 @@ model PetSisterDetail {
 
 model Address {
   address_id     String        @id @default(uuid())
-  petsister      PetSitterUser @relation(fields: [petsister_id], references: [petsitter_id])
-  petsister_id   String
+  petsitter      PetSitterUser @relation(fields: [petsitter_id], references: [petsitter_id])
+  petsitter_id   String
   address_detail String?
   district       String?
   sub_district   String?

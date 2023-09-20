@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function PetSitterCard(props) {
   return (
     <Link
-      to={`/petsitterlist/view/${props.petsisterId}`}
+      to={`/petsitterlist/view/${props.petsitterId}`}
       className="pet-sitter-list-card shadow-custom2 w-full h-2/12 my-5 p-5 rounded-md flex flex-row cursor-pointer border-2 border-white hover:border-primaryOrange4"
     >
       <div className="pet-sitter-image-card  w-1/3 h-full cursor-pointer">

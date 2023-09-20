@@ -100,7 +100,6 @@ booking.post("/:ownerId", async (req, res) => {
     res.status(500).json({ error: "Error creating booking." });
   }
 });
-
 // ดูรายละเอียดการจอง ของ petowneruser ตัวเอง /booking/:ownerId
 booking.get("/petowner/:ownerId", async (req, res) => {
   try {
@@ -115,7 +114,7 @@ booking.get("/petowner/:ownerId", async (req, res) => {
       include: {
         petsitter: {
           include: {
-            petsisterdetail: true,
+            petsitterdetail: true,
           },
         },
       },
@@ -126,23 +125,44 @@ booking.get("/petowner/:ownerId", async (req, res) => {
         .status(404)
         .json({ error: "No bookings found for this pet owner." });
     }
+    const bookingDetails = await Promise.all(
+      bookings.map(async (booking) => {
+        const petDetails = await prisma.petDetail.findMany({
+          where: {
+            pet_id: {
+              in: booking.petdetails,
+            },
+          },
+          select: {
+            pet_id: true,
+            petname: true,
+          },
+        });
 
-    // สร้างรายการข้อมูลการจองที่เป็น JSON
-    const bookingDetails = bookings.map((booking) => {
-      return {
-        booking_id: booking.booking_id,
-        datetime: booking.datetime,
-        startTime: booking.startTime,
-        endTime: booking.endTime,
-        additional_message: booking.additional_message,
-        total_price: booking.total_price,
-        status_booking: booking.status_booking,
-        petSitter: {
-          username: booking.petsitter.username,
-          petSisterDetail: booking.petsitter.petsisterdetail,
-        },
-      };
-    });
+        // Map pet_id to petname for each booking
+        const petnames = booking.petdetails.map((petId) => {
+          const matchingPetDetail = petDetails.find(
+            (petDetail) => petDetail.pet_id === petId
+          );
+          return matchingPetDetail ? matchingPetDetail.petname : null;
+        });
+
+        return {
+          booking_id: booking.booking_id,
+          datetime: booking.datetime,
+          startTime: booking.startTime,
+          endTime: booking.endTime,
+          additional_message: booking.additional_message,
+          total_price: booking.total_price,
+          status_booking: booking.status_booking,
+          petname: petnames,
+          petSitter: {
+            username: booking.petsitter.username,
+            petSitterDetail: booking.petsitter.petsitterdetail,
+          },
+        };
+      })
+    );
 
     res.status(200).json({ bookings: bookingDetails });
   } catch (error) {
@@ -150,10 +170,14 @@ booking.get("/petowner/:ownerId", async (req, res) => {
     res.status(500).json({ error: "Error fetching bookings." });
   }
 });
+
 // ดูรายละเอียดการจอง ของ petowneruser ด้วย bookingId
 booking.get("/petowner/:ownerId/:bookingId", async (req, res) => {
   try {
-    const { ownerId, bookingId } = req.params;
+    const ownerId = req.params.ownerId;
+    const bookingId = req.params.bookingId;
+
+    // Check if the booking with the specified bookingId belongs to the pet owner with ownerId
     const booking = await prisma.booking.findUnique({
       where: {
         booking_id: bookingId,
@@ -162,99 +186,91 @@ booking.get("/petowner/:ownerId/:bookingId", async (req, res) => {
       include: {
         petsitter: {
           include: {
-            petsisterdetail: true,
+            petsitterdetail: true,
           },
         },
       },
     });
 
     if (!booking) {
-      return res.status(404).json({ error: "Booking not found." });
+      return res
+        .status(404)
+        .json({ error: "Booking not found for this pet owner." });
     }
-    const bookingDetails = {
-      booking_id: booking.booking_id,
-      transaction_date: booking.transaction_date,
-      transaction_no: booking.transaction_no,
-      datetime: booking.datetime,
-      startTime: booking.startTime,
-      endTime: booking.endTime,
-      additional_message: booking.additional_message,
-      total_price: booking.total_price,
-      status_booking: booking.status_booking,
-      petSitter: {
-        username: booking.petsitter.username,
-        petSisterDetail: booking.petsitter.petsisterdetail,
+
+    // Fetch petdetails for the booking
+    const petDetails = await prisma.petDetail.findMany({
+      where: {
+        pet_id: {
+          in: booking.petdetails,
+        },
       },
+      select: {
+        pet_id: true,
+        petname: true,
+      },
+    });
+
+    // Replace pet_id values with petname values in the booking
+    const bookingWithPetnames = {
+      ...booking,
+      petdetails: petDetails.map((petDetail) => petDetail.petname),
     };
 
-    res.status(200).json({ booking: bookingDetails });
+    res.status(200).json({ booking: bookingWithPetnames });
   } catch (error) {
     console.error("Error fetching booking details:", error);
     res.status(500).json({ error: "Error fetching booking details." });
   }
 });
+
 // ดูรายละเอียดการจอง petowneruser ของ petsitteruser /booking/:sitterId
 booking.get("/petsitter/:sitterId", async (req, res) => {
   try {
     const sitterId = req.params.sitterId;
 
+    // Find all bookings associated with the specified sitterId
     const bookings = await prisma.booking.findMany({
-      where: { petsitter_id: sitterId },
-      select: {
-        petowner: {
-          select: {
-            username: true,
-          },
-        },
-        transaction_date: true,
-        transaction_no: true,
-        datetime: true,
-        startTime: true,
-        endTime: true,
-        additional_message: true,
-        total_price: true,
-        status_booking: true,
+      where: {
+        petsitter_id: sitterId,
+      },
+      include: {
+        petowner: true,
       },
     });
 
-    const response = await Promise.all(
+    if (!bookings || bookings.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No bookings found for this petsitter." });
+    }
+
+    // Map the booking data and fetch associated pet details
+    const formattedBookings = await Promise.all(
       bookings.map(async (booking) => {
-        const petIds = booking.petdetails;
         const petDetails = await prisma.petDetail.findMany({
           where: {
             pet_id: {
-              in: petIds,
+              in: booking.petdetails,
             },
-          },
-          select: {
-            pet_id: true,
-            petname: true,
-            pettype: true,
-            breed: true,
-            sex: true,
-            age: true,
-            color: true,
-            weight: true,
-            about: true,
           },
         });
 
         return {
-          petownerUsername: booking.petowner.username,
-          transactionDate: booking.transaction_date,
-          transactionNo: booking.transaction_no,
+          booking_id: booking.booking_id,
           datetime: booking.datetime,
           startTime: booking.startTime,
           endTime: booking.endTime,
-          additionalMessage: booking.additional_message,
-          totalPrice: booking.total_price,
-          statusBooking: booking.status_booking,
-          petAdditionalDetails: petDetails,
+          additional_message: booking.additional_message,
+          total_price: booking.total_price,
+          status_booking: booking.status_booking,
+          petowner: booking.petowner,
+          petdetails: petDetails,
         };
       })
     );
 
-    res.status(200).json(response);
+    res.status(200).json({ bookings: formattedBookings });
   } catch (error) {
     console.error("Error fetching bookings:", error);
     res.status(500).json({ error: "Error fetching bookings." });

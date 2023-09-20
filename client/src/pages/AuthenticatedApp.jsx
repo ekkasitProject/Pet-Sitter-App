@@ -17,7 +17,6 @@ import UploadComponent from "./testUploadFile";
 import jwtDecode from "jwt-decode";
 import BillBooking from "./BillBooking";
 
-
 export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
@@ -65,10 +64,10 @@ const AuthenticatedApp = () => {
           <Route path="/booking/payment" element={<BookingPayment />} />
           <Route path="/booking/bill" element={<BillBooking />} />
           <Route
-            path="/petsitterlist/view/:petsister_id"
+            path="/petsitterlist/view/:petsitter_id"
             element={<PetSitterDetail />}
           />
-          <Route path="/test/:petsister_id" element={<UploadComponent />} />
+          <Route path="/test/:petsitter_id" element={<UploadComponent />} />
           <Route path="/user">
             UploadComponent
             <Route path="/user/profile/:userId" element={<UserManagement />} />

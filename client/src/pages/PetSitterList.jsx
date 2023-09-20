@@ -32,7 +32,7 @@ function PetSitterList() {
   const [keywords, setKeywords] = useState("");
   const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
-  const { petsister_id } = useParams();
+  const { petsitter_id } = useParams();
   const {
     petSitterLists,
     totalPages,
@@ -344,14 +344,14 @@ function PetSitterList() {
             {petSitterLists.map((petSitter) => {
               return (
                 <PetSitterCard
-                  key={petSitter.petsister_id}
-                  petsisterId={petSitter.petsister_id}
+                  key={petSitter.petsitter_id}
+                  petsitterId={petSitter.petsitter_id}
                   petSitterName={petSitter.pet_sister_name}
-                  petSitterusername={petSitter.petsister.username}
+                  petSitterusername={petSitter.petsitter.username}
                   experience={petSitter.experience}
                   province={petSitter.my_place}
                   petSitterImage={petSitter.image_gallery[0]}
-                  petSitterProfileImage={petSitter.petsister.image_profile}
+                  petSitterProfileImage={petSitter.petsitter.image_profile}
                 >
                   {petSitter.pet_type.map((pet, index) => {
                     return <span key={index}>{handleChip(pet)}</span>;

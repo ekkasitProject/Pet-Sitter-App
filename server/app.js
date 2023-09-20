@@ -4,7 +4,7 @@ import cors from "cors";
 import petOwnerUser from "./apps/petOwnerUser.js";
 import petSitterUser from "./apps/petSitterUser.js";
 import petDetail from "./apps/petDetail.js";
-import petSisterDetail from "./apps/petSisterDetail.js";
+import petSitterDetail from "./apps/petSitterDetail.js";
 import payment from "./Payment/payment.js";
 import booking from "./apps/booking.js";
 async function init() {
@@ -17,7 +17,7 @@ async function init() {
   app.use("/petOwnerUser", petOwnerUser);
   app.use("/petOwnerUser/petdetail", petDetail);
   app.use("/petSitterUser", petSitterUser);
-  app.use("/petSitterUser/petsisterdetail", petSisterDetail);
+  app.use("/petSitterUser/petsitterdetail", petSitterDetail);
 
   app.use("/payment", payment);
   app.use("/booking", booking);

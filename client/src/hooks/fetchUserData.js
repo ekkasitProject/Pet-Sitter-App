@@ -198,7 +198,7 @@ const fetchUserData = () => {
       setIsError(false);
       setIsLoading(true);
       const result = await axios.get(
-        `http://localhost:6543/petsitteruser/petsisterdetail/${petSitterId}`
+        `http://localhost:6543/petsitteruser/petsitterdetail/${petSitterId}`
       );
 
       setPetSitter(result.data);

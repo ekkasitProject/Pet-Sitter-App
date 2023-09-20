@@ -9,7 +9,7 @@ const supabaseUpload = async (files) => {
     try {
       const { data, error } = await supabase.storage
         .from("profileAvatar")
-        .upload("petSister-profile/" + `avatar_${uuidv4()}`, file.buffer, {
+        .upload("petSitter-profile/" + `avatar_${uuidv4()}`, file.buffer, {
           contentType: file.mimetype,
         });
 

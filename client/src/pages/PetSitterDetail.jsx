@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const PetSitterDetail = () => {
-  const { petsister_id } = useParams();
+  const { petsitter_id } = useParams();
   const { petSitter, getPetSitterById } = useFilter();
   const [loading, setLoading] = useState(true);
 
@@ -23,14 +23,14 @@ const PetSitterDetail = () => {
         // Replace 'YOUR_ACCESS_TOKEN' with your actual access token or API key
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:6543/petsitteruser/${petsister_id}`,
+          `http://localhost:6543/petsitteruser/${petsitter_id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        getPetSitterById(petsister_id); // Assuming this updates the petSitter state
+        getPetSitterById(petsitter_id); // Assuming this updates the petSitter state
         setLoading(false);
       } catch (error) {
         // Handle error here
@@ -40,7 +40,7 @@ const PetSitterDetail = () => {
     };
 
     fetchData();
-  }, [petsister_id, getPetSitterById]);
+  }, [petsitter_id, getPetSitterById]);
 
   const handleChip = (pet) => {
     // ... Your existing code for handleChip function
@@ -53,14 +53,14 @@ const PetSitterDetail = () => {
 
   if (
     !petSitter ||
-    !petSitter.petsisterdetail ||
-    petSitter.petsisterdetail.length === 0
+    !petSitter.petsitterdetail ||
+    petSitter.petsitterdetail.length === 0
   ) {
     // Handle the case when petSitter data is not available or empty
     return <div>No data available for this pet sitter.</div>;
   }
 
-  const petSisterDetail = petSitter.petsisterdetail[0];
+  const petSitterDetail = petSitter.petsitterdetail[0];
 
   return (
     <div className="flex-row">
@@ -72,7 +72,7 @@ const PetSitterDetail = () => {
       <div className="flex p-10 bg-white">
         <div className="flex-1 py-8 bg-white p-10">
           <h1 className="text-5xl font-bold text-black">
-            {petSisterDetail.pet_sister_name}
+            {petSitterDetail.pet_sister_name}
           </h1>
           <section className="mt-4">
             <h2 className="text-xl font-semibold">Introduction</h2>
@@ -80,11 +80,11 @@ const PetSitterDetail = () => {
           </section>
           <section className="mt-8">
             <h2 className="text-xl font-semibold">Service</h2>
-            <p className="text-gray-700 mt-2">{petSisterDetail.services}</p>
+            <p className="text-gray-700 mt-2">{petSitterDetail.services}</p>
           </section>
           <section className="mt-8">
             <h3 className="text-xl font-semibold">My Place</h3>
-            <p className="text-gray-700 mt-2">{petSisterDetail.my_place}</p>
+            <p className="text-gray-700 mt-2">{petSitterDetail.my_place}</p>
           </section>
         </div>
 
@@ -99,7 +99,7 @@ const PetSitterDetail = () => {
             </div>
             <div className="text-center mt-4">
               <h1 className="text-2xl font-semibold">
-                {petSisterDetail.pet_sister_name}
+                {petSitterDetail.pet_sister_name}
               </h1>
               <div className="mt-2">
                 <h2 className="text-lg">{petSitter.username}</h2>
@@ -112,11 +112,11 @@ const PetSitterDetail = () => {
                   className="w-5 h-5"
                 />
                 <h3 className="text-gray-700 ml-2">
-                  {petSisterDetail.my_place}
+                  {petSitterDetail.my_place}
                 </h3>
               </div>
               <div className="mt-4 ">
-                {petSisterDetail.pet_type.map((pet, index) => (
+                {petSitterDetail.pet_type.map((pet, index) => (
                   <span className="mx-1" key={index}>
                     {handleChip(pet)}
                   </span>

@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 const UploadComponent = () => {
   const [avatars, setAvatars] = useState({});
-  const { petsister_id } = useParams();
+  const { petsitter_id } = useParams();
 
   useEffect(() => {
     const putData = async () => {
@@ -15,7 +15,7 @@ const UploadComponent = () => {
         }
 
         const response = await axios.put(
-          `http://localhost:6543/petsitteruser/${petsister_id}`,
+          `http://localhost:6543/petsitteruser/${petsitter_id}`,
           data,
           {
             headers: { "Content-Type": "multipart/form-data" },
@@ -28,7 +28,7 @@ const UploadComponent = () => {
 
     // ให้ putData ทำงานเมื่อมีการเปลี่ยนแปลงใน avatars
     putData();
-  }, [avatars, petsister_id]);
+  }, [avatars, petsitter_id]);
 
   const handleFileChange = (e) => {
     const uniqueId = Date.now();

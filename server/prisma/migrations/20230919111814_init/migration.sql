@@ -53,9 +53,9 @@ CREATE TABLE "PetSitterUser" (
 );
 
 -- CreateTable
-CREATE TABLE "PetSisterDetail" (
-    "petsisterdetail_id" TEXT NOT NULL,
-    "petsister_id" TEXT NOT NULL,
+CREATE TABLE "PetSitterDetail" (
+    "petsitterdetail_id" TEXT NOT NULL,
+    "petsitter_id" TEXT NOT NULL,
     "pet_sister_name" TEXT,
     "pet_type" TEXT[],
     "services" TEXT,
@@ -65,13 +65,13 @@ CREATE TABLE "PetSisterDetail" (
     "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updateAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "PetSisterDetail_pkey" PRIMARY KEY ("petsisterdetail_id")
+    CONSTRAINT "PetSitterDetail_pkey" PRIMARY KEY ("petsitterdetail_id")
 );
 
 -- CreateTable
 CREATE TABLE "Address" (
     "address_id" TEXT NOT NULL,
-    "petsister_id" TEXT NOT NULL,
+    "petsitter_id" TEXT NOT NULL,
     "address_detail" TEXT,
     "district" TEXT,
     "sub_district" TEXT,
@@ -113,10 +113,10 @@ CREATE UNIQUE INDEX "PetSitterUser_email_key" ON "PetSitterUser"("email");
 ALTER TABLE "PetDetail" ADD CONSTRAINT "PetDetail_owner_id_fkey" FOREIGN KEY ("owner_id") REFERENCES "PetOwnerUser"("petowner_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "PetSisterDetail" ADD CONSTRAINT "PetSisterDetail_petsister_id_fkey" FOREIGN KEY ("petsister_id") REFERENCES "PetSitterUser"("petsitter_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "PetSitterDetail" ADD CONSTRAINT "PetSitterDetail_petsitter_id_fkey" FOREIGN KEY ("petsitter_id") REFERENCES "PetSitterUser"("petsitter_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Address" ADD CONSTRAINT "Address_petsister_id_fkey" FOREIGN KEY ("petsister_id") REFERENCES "PetSitterUser"("petsitter_id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Address" ADD CONSTRAINT "Address_petsitter_id_fkey" FOREIGN KEY ("petsitter_id") REFERENCES "PetSitterUser"("petsitter_id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Booking" ADD CONSTRAINT "Booking_petsitter_id_fkey" FOREIGN KEY ("petsitter_id") REFERENCES "PetSitterUser"("petsitter_id") ON DELETE RESTRICT ON UPDATE CASCADE;

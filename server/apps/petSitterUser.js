@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { generateRandomToken } from "../Auth/genToken.js";
 import { protect } from "../Auth/tokenProtected.js";
-import { petsisterProfileUpload } from "../utils.js/petsisterProfileUpload.js";
+import { petsitterProfileUpload } from "../utils.js/petsitterProfileUpload.js";
 import multer from "multer";
 import { deleteOldProfileImage } from "../utils.js/deleteOldProfileImage.js";
 import { imageGalleryUpload } from "../utils.js/imageGalleryUpload.js";
@@ -128,13 +128,13 @@ petSitterUser.post("/login", async (req, res) => {
 
 //Section 3: Delete pet sister by petsitter_id (delete included address and details)
 petSitterUser.delete("/:id", protect, async (req, res) => {
-  const petsisterId = req.params.id;
+  const petsitterId = req.params.id;
   try {
     const deletedUser = await prisma.petSitterUser.delete({
-      where: { petsitter_id: petsisterId },
+      where: { petsitter_id: petsitterId },
       include: {
         addresses: true,
-        petsisterdetail: true,
+        petsitterdetail: true,
       },
     });
     res
@@ -150,14 +150,14 @@ petSitterUser.delete("/:id", protect, async (req, res) => {
   }
 });
 
-//Section 4: Update profile/detail/address with image by petsister id
+//Section 4: Update profile/detail/address with image by petsitter id
 petSitterUser.put("/:id", avatarUpload, async (req, res) => {
-  const petsisterId = req.params.id;
+  const petsitterId = req.params.id;
   const oldImageUrl = req.body.oldImageUrl;
   //const oldImageGalleyUrl = req.body.oldImageGalleyUrl;
   try {
     const existingUser = await prisma.petSitterUser.findUnique({
-      where: { petsitter_id: petsisterId },
+      where: { petsitter_id: petsitterId },
     });
 
     if (!existingUser) {
@@ -182,18 +182,18 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
     // //Profile update
     // const { full_name, phone, id_card_number, introduction } = req.body;
 
-    // //PetSisterDetail update
+    // //PetSitterDetail update
     // const { pet_sister_name, experience, pet_type, services, my_place } =
-    //   req.body.petSisterDetail;
+    //   req.body.petSitterDetail;
 
     // //Address update
     // const { address_detail, district, sub_district, province, post_code } =
     //   req.body.address;
 
-    //upload and delete petsister profile image
+    //upload and delete petsitter profile image
     let avatarUrls = null;
     if (req.files && req.files.avatar) {
-      avatarUrls = await petsisterProfileUpload(req.files);
+      avatarUrls = await petsitterProfileUpload(req.files);
     }
     if (oldImageUrl) {
       await deleteOldProfileImage(oldImageUrl);
@@ -216,8 +216,8 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
       introduction,
     };
 
-    // Construct the update data for PetSisterDetail
-    let updatePetSisterDetailData = {
+    // Construct the update data for PetSitterDetail
+    let updatePetSitterDetailData = {
       pet_sister_name,
       experience,
       pet_type,
@@ -236,7 +236,7 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
 
     const updatedData = await prisma.$transaction([
       prisma.petSitterUser.update({
-        where: { petsitter_id: petsisterId },
+        where: { petsitter_id: petsitterId },
         data: {
           ...updateUserData,
           ...(req.files && req.files.avatar
@@ -244,17 +244,17 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
             : {}),
         },
       }),
-      prisma.petSisterDetail.update({
-        where: { petsister_id: petsisterId },
+      prisma.petSitterDetail.update({
+        where: { petsitter_id: petsitterId },
         data: {
-          ...updatePetSisterDetailData,
+          ...updatePetSitterDetailData,
           ...(req.files && req.files.imageGallery
             ? { image_gallery: imageGalleryUrls }
             : {}),
         },
       }),
       prisma.address.update({
-        where: { petsister_id: petsisterId },
+        where: { petsitter_id: petsitterId },
         data: updateAddressData,
       }),
     ]);
@@ -268,7 +268,7 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
   }
 });
 
-//Section 5: Get data of all petsister
+//Section 5: Get data of all petsitter
 petSitterUser.get("/", protect, async (req, res) => {
   try {
     const petSitterUser = await prisma.petSitterUser.findMany();
@@ -278,17 +278,17 @@ petSitterUser.get("/", protect, async (req, res) => {
   }
 });
 
-//Section 6: Get data of 1 petsister by id
+//Section 6: Get data of 1 petsitter by id
 petSitterUser.get("/:id", protect, async (req, res) => {
-  const petsisterId = req.params.id;
+  const petsitterId = req.params.id;
   try {
     const petSitterUser = await prisma.petSitterUser.findUnique({
       where: {
-        petsitter_id: petsisterId,
+        petsitter_id: petsitterId,
       },
       include: {
         addresses: true,
-        petsisterdetail: true,
+        petsitterdetail: true,
       },
     });
     return res.json({ petSitterUser });

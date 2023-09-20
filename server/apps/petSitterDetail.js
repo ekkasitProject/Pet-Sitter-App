@@ -2,12 +2,12 @@ import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import { protect } from "../Auth/tokenProtected.js";
 const prisma = new PrismaClient();
-const petSisterDetail = Router();
-// petSisterDetail.use(protect);
+const petSitterDetail = Router();
+// petSitterDetail.use(protect);
 
 //get ข้อมูล pettsitterdetail ทั้งหมด
 
-petSisterDetail.get("/alldetail", async (req, res) => {
+petSitterDetail.get("/alldetail", async (req, res) => {
   try {
     const { pet_type, experience, keywords } = req.query;
 
@@ -30,17 +30,17 @@ petSisterDetail.get("/alldetail", async (req, res) => {
 
     if (keywords) {
       filterOptions.OR = [
-        { petsister: { username: { contains: keywords } } },
+        { petsitter: { username: { contains: keywords } } },
         { pet_sister_name: { contains: keywords } },
         { my_place: { contains: keywords } },
       ];
     }
 
     // ดึงข้อมูลจากฐานข้อมูลโดยใช้เงื่อนไขการกรองข้อมูล
-    const petSitter = await prisma.petSisterDetail.findMany({
+    const petSitter = await prisma.petSitterDetail.findMany({
       where: filterOptions,
       include: {
-        petsister: true,
+        petsitter: true,
       },
     });
 
@@ -61,16 +61,16 @@ petSisterDetail.get("/alldetail", async (req, res) => {
   }
 });
 
-petSisterDetail.get("/:userId", async (req, res) => {
-  const petsisterId = req.params.userId;
+petSitterDetail.get("/:userId", async (req, res) => {
+  const petsitterId = req.params.userId;
   try {
     // ดึงข้อมูลของ petsitterdetail และ user จากฐานข้อมูล
     const user = await prisma.petSitterUser.findUnique({
       where: {
-        petsitter_id: petsisterId,
+        petsitter_id: petsitterId,
       },
       include: {
-        petsisterdetail: true,
+        petsitterdetail: true,
       },
     });
 
@@ -87,10 +87,10 @@ petSisterDetail.get("/:userId", async (req, res) => {
   }
 });
 
-petSisterDetail.post("/:userId", async (req, res) => {
+petSitterDetail.post("/:userId", async (req, res) => {
   try {
     const {
-      pet_sister_name,
+      pet_sitter_name,
       pet_type,
       services,
       my_place,
@@ -104,9 +104,6 @@ petSisterDetail.post("/:userId", async (req, res) => {
       where: {
         petsitter_id: userId,
       },
-      include: {
-        petsisterdetail: true,
-      },
     });
 
     if (!user) {
@@ -114,9 +111,9 @@ petSisterDetail.post("/:userId", async (req, res) => {
     }
 
     // สร้างรายละเอียดของพี่เลี้ยง
-    const createdPet = await prisma.petSisterDetail.create({
+    const createdPet = await prisma.petSitterDetail.create({
       data: {
-        pet_sister_name,
+        pet_sitter_name,
         pet_type,
         services,
         my_place,
@@ -124,7 +121,7 @@ petSisterDetail.post("/:userId", async (req, res) => {
           "https://mbxgvfscdghfnvxpfyqi.supabase.co/storage/v1/object/public/default-image/galley-default",
         ],
         experience,
-        petsister: {
+        petsitter: {
           connect: {
             petsitter_id: userId,
           },
@@ -144,7 +141,7 @@ petSisterDetail.post("/:userId", async (req, res) => {
   }
 });
 
-petSisterDetail.put("/:userId", async (req, res) => {
+petSitterDetail.put("/:userId", async (req, res) => {
   const userId = req.params.userId; // ดึง userId จากพารามิเตอร์ URL
   try {
     const {
@@ -157,7 +154,7 @@ petSisterDetail.put("/:userId", async (req, res) => {
     } = req.body;
 
     // ตรวจสอบว่าพี่เลี้ยงสัตว์ที่มีรายละเอียดที่ระบุด้วย userId มีอยู่หรือไม่
-    const existingDetail = await prisma.petSisterDetail.findUnique({
+    const existingDetail = await prisma.petSitterDetail.findUnique({
       where: {
         petsitter_id: userId,
       },
@@ -168,7 +165,7 @@ petSisterDetail.put("/:userId", async (req, res) => {
     }
 
     // อัพเดทรายละเอียดพี่เลี้ยงสัตว์ด้วยข้อมูลใหม่
-    const updatedDetail = await prisma.petSisterDetail.update({
+    const updatedDetail = await prisma.petSitterDetail.update({
       where: {
         petsitter_id: userId,
       },
@@ -193,11 +190,11 @@ petSisterDetail.put("/:userId", async (req, res) => {
       .json({ message: "เกิดข้อผิดพลาดในการอัพเดทรายละเอียดพี่เลี้ยง" });
   }
 });
-petSisterDetail.delete("/:userId", async (req, res) => {
+petSitterDetail.delete("/:userId", async (req, res) => {
   const userId = req.params.userId; // ดึง userId จากพารามิเตอร์ URL
   try {
     // ตรวจสอบว่ารายละเอียดพี่เลี้ยงสัตว์ที่ระบุด้วย userId มีอยู่หรือไม่
-    const existingDetail = await prisma.petSisterDetail.findUnique({
+    const existingDetail = await prisma.petSitterDetail.findUnique({
       where: {
         petsitter_id: userId,
       },
@@ -208,7 +205,7 @@ petSisterDetail.delete("/:userId", async (req, res) => {
     }
 
     // ลบรายละเอียดพี่เลี้ยงสัตว์
-    await prisma.petSisterDetail.delete({
+    await prisma.petSitterDetail.delete({
       where: {
         petsitter_id: userId,
       },
@@ -225,4 +222,4 @@ petSisterDetail.delete("/:userId", async (req, res) => {
   }
 });
 
-export default petSisterDetail;
+export default petSitterDetail;
