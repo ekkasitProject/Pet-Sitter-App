@@ -81,13 +81,10 @@ function PetSitterList() {
     /*
   const handlePetType = (value, id) => {
     const activeData = document.getElementById(id).checked;
-    let newData = [...petType];
     if (activeData) {
-      newData.push(value);
-      setPetType(newData);
+      setSelectedAnimals([...selectedAnimals, value]);
     } else {
-      newData = petType.filter((item) => item !== value);
-      setPetType(newData);
+      setSelectedAnimals(selectedAnimals.filter((pet) => pet !== value));
     }
   };
  */
