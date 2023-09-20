@@ -45,6 +45,10 @@ export default function BookingModal() {
                   ? "text-secondaryBlue1 flex-1"
                   : booking.status_booking == "Waiting for confirm"
                   ? "text-secondaryPink1 flex-1"
+                  : booking.status_booking == "Waiting for service"
+                  ? "text-amber-500 flex-1"
+                  : booking.status_booking == "Canceled"
+                  ? "text-red-500 flex-1"
                   : null
               }
             >
@@ -56,23 +60,23 @@ export default function BookingModal() {
             </div>
             <div className="flex-1">
               <div className="text-primaryGray3">Pet Sitter:</div>
-              <div className="text-black">Pet Sitter Name</div>
+              <div className="text-black">
+                {booking.petSitter.petSisterDetail[0].pet_sister_name} By{" "}
+                {booking.petSitter.username}
+              </div>
             </div>
             <div className="flex-1 flex flex-row">
               <div className="flex-1">
                 <div className="text-primaryGray3">Date & Time:</div>
                 <div className="text-black">
                   <p>
-                    Start: {formatDate(booking.startTime)} |{" "}
-                    {formatTime(booking.startTime)}
-                  </p>
-                  <p>
-                    End: {formatDate(booking.endTime)} |{" "}
+                    Start: {formatDate(booking.startTime)} |
+                    {formatTime(booking.startTime)} -{" "}
                     {formatTime(booking.endTime)}
                   </p>
                 </div>
               </div>
-              <div className="flex-1">
+              <div className="basis-1/4">
                 <div className="text-primaryGray3">Duration:</div>
                 <div className="text-black">
                   {" "}
