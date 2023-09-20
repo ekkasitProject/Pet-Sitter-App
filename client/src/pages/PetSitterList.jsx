@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import useFilter from "../hooks/useFilter.js";
 import PetSitterCard from "../components/PetSitterCard.jsx";
@@ -6,6 +6,7 @@ import Pagination from "@mui/material/Pagination";
 import HeaderAuth from "../components/HeaderAuth";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
+import { FilterContext } from "../App";
 {
   /*
 import InputLabel from "@mui/material/InputLabel";
@@ -28,9 +29,9 @@ import {
 function PetSitterList() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [petType, setPetType] = useState("");
+  //const [petType, setPetType] = useState("");
   const [keywords, setKeywords] = useState("");
-  const [experience, setExperience] = useState("");
+  //const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
   const { petsitter_id } = useParams();
   const {
@@ -41,15 +42,27 @@ function PetSitterList() {
     isError,
     isLoading,
   } = useFilter();
+  const { petType, setPetType, experience, setExperience } =
+    useContext(FilterContext);
 
   // console.log(totalPages);
 
+  const getFilter = (pets) => {
+    pets.map((pet) => {
+      if (petType.includes(pet)) {
+        const checkbox = document.getElementById(pet);
+        checkbox.checked = true;
+      }
+    });
+  };
+
   useEffect(() => {
-    //console.log(petType);
+    console.log(petType);
     console.log(petSitterLists);
+    getFilter(["dog", "cat", "rabbit", "bird"]);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
-
+  //ทดลองใส่getPetSitterLists()ไว้ในhandleSearchเลย แล้วลบisSearchออก
   const handleSearch = () => {
     if (isSearch) {
       setIsSearch(false);
@@ -60,6 +73,9 @@ function PetSitterList() {
       let tempData = petType.slice(1);
       setPetType(tempData);
     }
+    console.log(keywords);
+    console.log(petType);
+    console.log(experience);
   };
   {
     /*
@@ -77,6 +93,7 @@ function PetSitterList() {
  */
   }
 
+  //เอาhandleToggleAnimalของPetCareSloganมาใช้สร้างเก็บไว้ในstate arrayแล้วค่อยแปลงจากarrayเป็นstringเมื่อกดsearch
   const handlePetType = (value, id) => {
     let newData = petType;
     const activeData = document.getElementById(id).checked;
