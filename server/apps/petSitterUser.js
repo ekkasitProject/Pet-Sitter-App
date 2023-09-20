@@ -13,7 +13,7 @@ const petSitterUser = Router();
 
 const multerUpload = multer({ storage: multer.memoryStorage() });
 const avatarUpload = multerUpload.fields([{ name: "avatar" }]);
-//Section 1.1: Register pet sister
+//Section 1.1: Register pet sitter
 petSitterUser.post("/register", async (req, res) => {
   try {
     const { username, email, phone, password } = req.body;
@@ -34,7 +34,7 @@ petSitterUser.post("/register", async (req, res) => {
     const verificationToken = generateRandomToken(32);
 
     // Store the user data and verification token in the database
-    await prisma.petSitterUser.create({
+    const newUser = await prisma.petSitterUser.create({
       data: {
         username,
         email,
@@ -43,26 +43,33 @@ petSitterUser.post("/register", async (req, res) => {
         emailVerificationToken: verificationToken,
         image_profile:
           "https://mbxgvfscdghfnvxpfyqi.supabase.co/storage/v1/object/public/default-image/user-profile?t=2023-09-18T08%3A09%3A15.767Z",
+        petsitterdetail: {
+          create: {}, // Empty object to allow creation with default/empty values
+        },
+        addresses: {
+          create: {}, // Empty object to allow creation with default/empty values
+        },
+      },
+      include: {
+        petsitterdetail: true,
+        addresses: true,
       },
     });
 
     // Send an email with the verification link
     const verificationLink = `http://localhost:6543/petSitterUser/verify?token=${verificationToken}`;
 
-    // await transporter.sendMail({
-    //   from: "admin@gmail.com",
-    //   to: email,
-    //   subject: "ยืนยันอีเมล",
-    //   html: `คลิกลิงก์เพื่อยืนยันอีเมลของคุณ: <a href="${verificationLink}">คลิ๊ก!!!</a>`,
-    // });
+    // Send verification email (uncomment and implement according to your email sending mechanism)
+    // await sendVerificationEmail(email, verificationLink);
 
     res.status(200).json({
       message:
-        "การลงทะเบียนสำเร็จแล้ว กรุณาตรวจสอบอีเมลของคุณสำหรับคำแนะนำในการยืนยันตัวตน",
+        "Registration successful. Please check your email for instructions to verify your identity.",
+      newUser,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: `การลงทะเบียนล้มเหลว ${error}` });
+    res.status(500).json({ message: `Registration failed: ${error.message}` });
   }
 });
 //Section 1.2: verify route after receiving confirmation email
@@ -88,7 +95,7 @@ petSitterUser.get("/verify", async (req, res) => {
     res.status(500).json({ message: "การยืนยันอีเมลล้มเหลว" });
   }
 });
-//Section 2: Login pet sister
+//Section 2: Login pet sitter
 petSitterUser.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -126,7 +133,7 @@ petSitterUser.post("/login", async (req, res) => {
   }
 });
 
-//Section 3: Delete pet sister by petsitter_id (delete included address and details)
+//Section 3: Delete pet sitter by petsitter_id (delete included address and details)
 petSitterUser.delete("/:id", protect, async (req, res) => {
   const petsitterId = req.params.id;
   try {
@@ -168,7 +175,7 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
       phone,
       id_card_number,
       introduction,
-      pet_sister_name,
+      pet_sitter_name,
       experience,
       pet_type,
       services,
@@ -183,7 +190,7 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
     // const { full_name, phone, id_card_number, introduction } = req.body;
 
     // //PetSitterDetail update
-    // const { pet_sister_name, experience, pet_type, services, my_place } =
+    // const { pet_sitter_name, experience, pet_type, services, my_place } =
     //   req.body.petSitterDetail;
 
     // //Address update
@@ -218,7 +225,7 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
 
     // Construct the update data for PetSitterDetail
     let updatePetSitterDetailData = {
-      pet_sister_name,
+      pet_sitter_name,
       experience,
       pet_type,
       services,
