@@ -42,16 +42,17 @@ const BookingYourPet = (props) => {
       setAllpets,
     } = useContext(ToggleContext);
     
-  const handleCheckboxChange = (e, id) => {
-    const isChecked = e.target.checked;
-    if (isChecked) {
-      // If the checkbox is checked, add the pet to the selectedPets array
-      setSelectedPets([...selectedPets, id]);
-    } else {
-      // If the checkbox is unchecked, remove the pet from the selectedPets array
-      setSelectedPets(selectedPets.filter((petId) => petId !== id));
-    }
-  };
+const handleCheckboxChange = (e, petId) => {
+  // Find the pet object from a source (e.g., props, or some list in state)
+const pet = allpets.find((p) => p.pet_id === petId);
+  if (e.target.checked) {
+    // Add the pet to the selectedPets array if it's checked
+    setSelectedPets((prevPets) => [...prevPets, pet]);
+  } else {
+    // Remove the pet from the selectedPets array if it's unchecked
+    setSelectedPets((prevPets) => prevPets.filter((p) => p.pet_id !== petId));
+  }
+};
 const handleToggleViewPet = (e, id) => {
   setPetID(id);
   setToggleViewPet(true);
@@ -171,7 +172,7 @@ const handleToggleViewPet = (e, id) => {
                       className={cardClasses}
                       style={{ position: "relative" }}
                     >
-                      <input
+                      <Checkbox
                         type="checkbox"
                         id={`checkbox-${pet.pet_id}`}
                         className="absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-500"
@@ -184,6 +185,12 @@ const handleToggleViewPet = (e, id) => {
                           right: "20px",
                           width: "24px",
                           height: "24px",
+                        }}
+                        sx={{
+                          color: "#DCDFED",
+                          "&.Mui-checked": {
+                            color: "#FF7037",
+                          },
                         }}
                       />
                       <img
