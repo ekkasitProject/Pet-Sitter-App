@@ -42,14 +42,14 @@ const BookingYourPet = (props) => {
   const handleCheckboxChange = (e, petId, petName) => {
     if (e.target.checked) {
       // Add 1 to the selectedPets.length when a checkbox is checked
-      setSelectedPets((prevPets) => [...prevPets, petId]);
+      setSelectedPets([...selectedPets, petId]);
       setSelectedPetsName((prevPets) => [...prevPets, petName]);
     } else {
       // Remove the petId from the selectedPets array if it's unchecked
       setSelectedPets((prevPets) => prevPets.filter((p) => p !== petId));
       setSelectedPetsName((prevPets) => prevPets.filter((p) => p !== petName));
     }
-    console.log(selectedPetsName);
+    console.log(selectedPets);
   };
 
   const handleToggleViewPet = (e, id) => {
@@ -77,7 +77,7 @@ const BookingYourPet = (props) => {
     getAllPets();
 
     // console.log(isAllPetChange);
-    console.log(allpets);
+    // console.log(allpets);
   }, [isAllPetChange]);
 
   const handleChip = (pet) => {

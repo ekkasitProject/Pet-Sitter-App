@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import HeaderAuth from "../components/HeaderAuth";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
@@ -7,12 +7,19 @@ import { Link } from "react-router-dom";
 import { ToggleContext } from "./AuthenticatedApp";
 import fetchUserData from "../hooks/fetchUserData";
 import { useNavigate } from "react-router-dom";
+import {
+  calculateDuration,
+  formatDate,
+  formatTime,
+} from "../components/calculateDate";
 
 const BookingPayment = () => {
   const navigate = useNavigate();
   const { submitBooking } = fetchUserData();
   const [paymentType, setPaymentType] = useState("creditCard");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [newStartDate, setNewStartDate] = useState("");
+  const [newEndDate, setNewEndDate] = useState("");
 
   const {
     selectedPets,
@@ -52,15 +59,32 @@ const BookingPayment = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false); // Close the modal
   };
+
+  const changeFormat = (date, time) => {
+    const newDate = formatDate(date); // Date in YYYY-MM-DD format
+    // const timeStr = '10:00:00';   // Time in HH:MM:SS format
+    const newTime = new Date(`${newDate} ${time}`);
+    //const combinedDateTimeStr = `${dateStr}T${timeStr}Z`;
+    /// const combinedDateTime = new Date(combinedDateTimeStr);
+    return newTime;
+  };
+
+  useEffect(() => {
+    setNewStartDate(changeFormat(selectedDate, startTime));
+    setNewEndDate(changeFormat(selectedDate, endTime));
+    //console.log(new Date(selectedDate));
+    //console.log(changeFormat(selectedDate, endTime));
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const data = {
       petDetailIds: selectedPets,
       petSitterId: selectedPetsitterID,
-      datetime: "2023-09-25T10:00:00Z",
-      startTime: "2023-09-25T10:00:00Z",
-      endTime: "2023-09-25T12:00:00Z",
+      datetime: newStartDate,
+      startTime: newStartDate,
+      endTime: newEndDate,
       additionalMessage: messageAdditional,
       totalPrice: prices,
     };
