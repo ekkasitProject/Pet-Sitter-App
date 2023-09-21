@@ -91,7 +91,7 @@ function YourPet() {
             <div className="pet-wrapper py-12 grid grid-cols-4 gap-4 mt-5 ">
               {isError ? <h1>Request failed</h1> : null}
               {isLoading ? <h1>Loading ....</h1> : null}
-
+              {/* 
               <div
                 onClick={() => handleToggleViewPet("id")}
                 className="pet-card cursor-pointer border-2 border-primaryGray5 w-[220px] h-[250px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
@@ -104,6 +104,7 @@ function YourPet() {
                 <h1 className="text-headLine3">Name</h1>
                 Type
               </div>
+              */}
               {allpets.map((pet) => {
                 return (
                   <div

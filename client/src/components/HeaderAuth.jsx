@@ -63,7 +63,7 @@ const HeaderAuth = () => {
   useEffect(() => {
     getProfile();
     //console.log("HaederAuth");
-    console.log(petOwnerID);
+    //console.log(petOwnerID);
   }, []);
 
   const dropDownChange = () => {
