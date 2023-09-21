@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import shape_2 from "../assets/images/elements/Frame 427320928.svg";
 import shape_3 from "../assets/images/elements/Ellipse 15.svg";
 import shape_5 from "../assets/images/bill/Dogfoot.svg";
 import cat from "../assets/images/elements/allcat.svg";
-
+import { FilterContext } from "../App";
 import shape_6 from "../assets/images/elements/Ellipse 17.svg";
 import dogImg from "../assets/images/elements/dogyellow.svg";
 import star from "../assets/images/elements/Star 1.svg";
 import circle from "../assets/images/elements/Ellipse 16.svg";
-
+import { useNavigate } from "react-router-dom";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -20,8 +20,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const PetCareSlogan = () => {
+  const navigate = useNavigate();
+  const { petType, setPetType, experience, setExperience } =
+    useContext(FilterContext);
   const [selectedAnimals, setSelectedAnimals] = useState([]);
-  const [experience, setExperience] = useState(""); // Initialize experience state
+  // const [experience, setExperience] = useState(""); // Initialize experience state
 
   const handleToggleAnimal = (value) => {
     // Check if the selected animal is already in the array
@@ -34,10 +37,18 @@ const PetCareSlogan = () => {
       // If not selected, add it to the array
       setSelectedAnimals([...selectedAnimals, value]);
     }
+    console.log(selectedAnimals);
   };
 
   const handleChangeExperience = (event) => {
     setExperience(event.target.value); // Update the experience state
+  };
+
+  const handleSearch = () => {
+    let tempPetType = selectedAnimals.join(" ");
+    setPetType(tempPetType);
+    console.log(petType);
+    navigate("/petsitterlist");
   };
 
   return (
@@ -177,12 +188,15 @@ const PetCareSlogan = () => {
               onChange={handleChangeExperience}
               value={experience}
             >
-              <MenuItem value={1}>0 Year</MenuItem>
-              <MenuItem value={2}>1 Year</MenuItem>
-              <MenuItem value={3}>2 Year</MenuItem>
+              <MenuItem value="0-2 Years">0-2 Years</MenuItem>
+              <MenuItem value="3-5 Years">3-5 Years</MenuItem>
+              <MenuItem value="5+ Years">5+ Years</MenuItem>
             </Select>
           </FormControl>
-          <button className="bg-[#FF7037] px-5 py-2 rounded-full text-white ml-4">
+          <button
+            onClick={handleSearch}
+            className="bg-[#FF7037] px-5 py-2 rounded-full text-white ml-4"
+          >
             Search
           </button>
         </div>

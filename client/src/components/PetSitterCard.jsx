@@ -27,6 +27,9 @@ function PetSitterCard(props) {
           </div>
           <div className="w-full h-full text-secondaryGreen1 flex justify-end items-center pr-5">
             {props.experience}
+            {props.experience == 1 || props.experience == 0
+              ? ` Year`
+              : ` Years`}
           </div>
         </div>
         <div className="text-primaryGray3 flex flex-row items-center gap-2">

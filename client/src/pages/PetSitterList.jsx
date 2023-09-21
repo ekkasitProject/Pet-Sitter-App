@@ -34,6 +34,7 @@ function PetSitterList() {
   //const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
   const { petsitter_id } = useParams();
+  const [selectedAnimals, setSelectedAnimals] = useState([]);
   const {
     petSitterLists,
     totalPages,
@@ -62,13 +63,16 @@ function PetSitterList() {
     getFilter(["dog", "cat", "rabbit", "bird"]);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
-  //ทดลองใส่getPetSitterLists()ไว้ในhandleSearchเลย แล้วลบisSearchออก
+  //ไม่สามารถใส่getPetSitterLists()ไว้ในhandleSearchเลยได้ จะเกิดbugไไม่สามารถใช้filterได้ จึงต้องมี isSearch
   const handleSearch = () => {
     if (isSearch) {
       setIsSearch(false);
     } else {
       setIsSearch(true);
     }
+    let tempPetType = selectedAnimals.join(" ");
+    setPetType(tempPetType);
+    console.log(petType);
     if (petType.charAt(0) === " ") {
       let tempData = petType.slice(1);
       setPetType(tempData);
@@ -77,8 +81,7 @@ function PetSitterList() {
     console.log(petType);
     console.log(experience);
   };
-  {
-    /*
+
   const handlePetType = (value, id) => {
     const activeData = document.getElementById(id).checked;
     if (activeData) {
@@ -87,11 +90,9 @@ function PetSitterList() {
       setSelectedAnimals(selectedAnimals.filter((pet) => pet !== value));
     }
   };
- */
-  }
 
   //เอาhandleToggleAnimalของPetCareSloganมาใช้สร้างเก็บไว้ในstate arrayแล้วค่อยแปลงจากarrayเป็นstringเมื่อกดsearch
-  const handlePetType = (value, id) => {
+  /* const handlePetType = (value, id) => {
     let newData = petType;
     const activeData = document.getElementById(id).checked;
     if (activeData) {
@@ -110,7 +111,7 @@ function PetSitterList() {
       setPetType(tempData);
     }
   };
-
+*/
   const handleChip = (pet) => {
     if (pet === "dog") {
       return <ChipsGreen petType="Dog" />;
@@ -134,6 +135,7 @@ function PetSitterList() {
     setKeywords(""); // Clear the keywords input
     setExperience(""); // Clear the experience dropdown
     setPetType(""); // Clear the petType checkboxes
+    setSelectedAnimals([]);
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
       checkbox.checked = false;
@@ -327,6 +329,9 @@ function PetSitterList() {
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
                 >
+                  <option disabled value="">
+                    -- Select a experience --
+                  </option>
                   <option value="0-2 Years">0-2 Years</option>
                   <option value="3-5 Years">3-5 Years</option>
                   <option value="5+ Years">5+ Years</option>
