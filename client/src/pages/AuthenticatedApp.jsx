@@ -27,7 +27,7 @@ const AuthenticatedApp = () => {
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
   const [toggleViewPet, setToggleViewPet] = useState(false);
   const [toggleViewBooking, setToggleViewBooking] = useState(false);
-  const [petID, setPetID] = useState("");
+  const [petID, setPetID] = useState("1");
   const [bookingID, setBookingID] = useState("");
   const [isAllPetChange, setIsAllPetChange] = useState(false);
   const [allpets, setAllpets] = useState([]);
@@ -41,6 +41,7 @@ const AuthenticatedApp = () => {
   const [open, setOpen] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(null);
   const [selectedPets, setSelectedPets] = useState([]);
+  const [selectedPetsName, setSelectedPetsName] = useState([]);
   const [prices, setPrices] = useState(0);
   const [selectedPetsitterID, setSelectedPetsitterID] = useState("");
   const [selectedPetsitterName, setSelectedPetsitterName] = useState("");
@@ -83,7 +84,6 @@ const AuthenticatedApp = () => {
           setOpen,
           bookingDetails,
           setBookingDetails,
-          selectedPets,
           prices,
           setPrices,
           selectedPets,
@@ -94,6 +94,8 @@ const AuthenticatedApp = () => {
           setSelectedPetsitterName,
           selectedPetsitterUser,
           setSelectedPetsitterUser,
+          selectedPetsName,
+          setSelectedPetsName,
         }}
       >
         <Routes>

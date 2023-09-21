@@ -7,12 +7,19 @@ import axios from "axios";
 import { useState } from "react";
 import fetchUserData from "../hooks/fetchUserData";
 import { ToggleContext } from "./AuthenticatedApp";
+import {
+  calculateDuration,
+  formatDate,
+  formatTime,
+} from "../components/calculateDate";
 
 const BookingInformation = () => {
   const { submitBooking } = fetchUserData();
   const [data, setData] = useState([]);
 
   const {
+    selectedPets,
+    setSelectedPets,
     petOwnerID,
     setPetOwnerID,
     messageAdditional,
@@ -31,6 +38,10 @@ const BookingInformation = () => {
     setEndTime,
     prices,
     setPrices,
+    selectedTimes,
+    setSelectedTimes,
+    selectedPetsName,
+    setSelectedPetsName,
   } = useContext(ToggleContext);
 
   const getProfile = async () => {
@@ -53,21 +64,6 @@ const BookingInformation = () => {
   useEffect(() => {
     getProfile();
   }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      petDetailIds: ["ec531b34-522b-457e-9583-927e47f0c02e"],
-      petSitterId: "eebff438-a9e4-4567-94af-f7958b49f19c",
-      datetime: "2023-09-25T10:00:00Z",
-      startTime: "2023-09-25T10:00:00Z",
-      endTime: "2023-09-25T12:00:00Z",
-      additionalMessage: "",
-      totalPrice: 500,
-    };
-    submitBooking(data);
-    console.log(data);
-  };
 
   const duration = (start, end) => {
     const startTime = new Date(`2023-09-15 ${start}`);
@@ -188,7 +184,7 @@ const BookingInformation = () => {
             <div className="px-8  mt-4 ">
               <h3 className="text-[#7B7E8F] tracking-wide">Date & Time:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                25 Aug, 2023 | {startTime} - {endTime}
+                {formatDate(selectedDate)} | {startTime} - {endTime}
               </p>
             </div>
 
@@ -201,7 +197,11 @@ const BookingInformation = () => {
 
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
-              <p className="tracking-wide text-[#3A3B46]">Mr.Ham, Bingsu</p>
+              <p className="tracking-wide text-[#3A3B46]">
+                {selectedPetsName.map((pet) => {
+                  return `${pet}`;
+                })}
+              </p>
             </div>
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Additional:</h3>

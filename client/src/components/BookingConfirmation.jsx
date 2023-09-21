@@ -8,7 +8,8 @@ const BookingConfirmation = (props) => {
   const startTime = new Date(`2023-09-15 ${bookingDetails.startTime}`);
   const endTime = new Date(`2023-09-15 ${bookingDetails.endTime}`);
   const durationInMinutes = (endTime - startTime) / (1000 * 60 * 60);
-  const { prices, setPrices } = useContext(ToggleContext);
+  const { prices, setPrices, selectedPetsName, setSelectedPetsName } =
+    useContext(ToggleContext);
   const ratePerPet = 300; // Replace with your actual rate per pet
 
   const calculateTotalPrice = () => {
@@ -23,7 +24,7 @@ const BookingConfirmation = (props) => {
   useEffect(() => {
     // Update totalPriceInTHB whenever selectedPets change
     setTotalPriceInTHB(calculateTotalPrice());
-    setPrices(totalPriceInTHB);
+    setPrices(calculateTotalPrice());
     console.log(prices);
   }, [props.selectedPets]);
 
@@ -61,6 +62,7 @@ const BookingConfirmation = (props) => {
               (pet) => pet.pet_id === petId
             );
             if (selectedPet) {
+              //setSelectedPetsName([...selectedPetsName, selectedPet.petname]);
               return (
                 <li key={selectedPet.pet_id}>
                   {selectedPet.petname}

@@ -35,17 +35,21 @@ const BookingYourPet = (props) => {
     allpets,
     selectedPets,
     setSelectedPets,
+    selectedPetsName,
+    setSelectedPetsName,
   } = useContext(ToggleContext);
 
-  const handleCheckboxChange = (e, petId) => {
+  const handleCheckboxChange = (e, petId, petName) => {
     if (e.target.checked) {
       // Add 1 to the selectedPets.length when a checkbox is checked
       setSelectedPets((prevPets) => [...prevPets, petId]);
+      setSelectedPetsName((prevPets) => [...prevPets, petName]);
     } else {
       // Remove the petId from the selectedPets array if it's unchecked
       setSelectedPets((prevPets) => prevPets.filter((p) => p !== petId));
+      setSelectedPetsName((prevPets) => prevPets.filter((p) => p !== petName));
     }
-    console.log(selectedPets);
+    console.log(selectedPetsName);
   };
 
   const handleToggleViewPet = (e, id) => {
@@ -169,7 +173,9 @@ const BookingYourPet = (props) => {
                         id={`checkbox-${pet.pet_id}`}
                         className="absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-500"
                         value={pet.pet_id}
-                        onChange={(e) => handleCheckboxChange(e, pet.pet_id)} // Ensure this function is correct
+                        onChange={(e) =>
+                          handleCheckboxChange(e, pet.pet_id, pet.petname)
+                        } // Ensure this function is correct
                         checked={selectedPets.includes(pet.pet_id)} // This determines checkbox state
                         style={{
                           position: "absolute",

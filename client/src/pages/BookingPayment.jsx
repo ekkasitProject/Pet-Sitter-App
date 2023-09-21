@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import HeaderAuth from "../components/HeaderAuth";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import dogFoot from "../assets/images/bill/Dogfoot.svg";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
 import fetchUserData from "../hooks/fetchUserData";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +14,32 @@ const BookingPayment = () => {
   const [paymentType, setPaymentType] = useState("creditCard");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
 
-  const { messageAdditional, setMessageAdditional } = useContext(ToggleContext);
+  const {
+    selectedPets,
+    setSelectedPets,
+    petOwnerID,
+    setPetOwnerID,
+    messageAdditional,
+    setMessageAdditional,
+    selectedPetsitterID,
+    setSelectedPetsitterID,
+    selectedPetsitterName,
+    setSelectedPetsitterName,
+    selectedPetsitterUser,
+    setSelectedPetsitterUser,
+    selectedDate,
+    setSelectedDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    prices,
+    setPrices,
+    selectedTimes,
+    setSelectedTimes,
+    selectedPetsName,
+    setSelectedPetsName,
+  } = useContext(ToggleContext);
 
   const handlePaymentChange = (type) => {
     setPaymentType(type);
@@ -28,7 +52,24 @@ const BookingPayment = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false); // Close the modal
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
+    const data = {
+      petDetailIds: selectedPets,
+      petSitterId: selectedPetsitterID,
+      datetime: "2023-09-25T10:00:00Z",
+      startTime: "2023-09-25T10:00:00Z",
+      endTime: "2023-09-25T12:00:00Z",
+      additionalMessage: messageAdditional,
+      totalPrice: prices,
+    };
+    submitBooking(data);
+    console.log(data);
+    navigate(`/booking/bill`);
+  };
+
+  /*
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
@@ -47,7 +88,7 @@ const BookingPayment = () => {
     console.log(data);
     navigate(`/booking/bill`);
   };
-
+*/
   return (
     <div>
       <HeaderAuth />
