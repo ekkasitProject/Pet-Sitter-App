@@ -46,7 +46,7 @@ const BookingYourPet = (props) => {
       setSelectedPetsName((prevPets) => [...prevPets, petName]);
     } else {
       // Remove the petId from the selectedPets array if it's unchecked
-      setSelectedPets((prevPets) => prevPets.filter((p) => p !== petId));
+      setSelectedPets(selectedPets.filter((pet) => pet !== petId));
       setSelectedPetsName((prevPets) => prevPets.filter((p) => p !== petName));
     }
     console.log(selectedPets);
