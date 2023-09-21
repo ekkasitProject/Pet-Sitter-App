@@ -182,7 +182,7 @@ booking.get("/petowner/:ownerId/:bookingId", async (req, res) => {
       include: {
         petsitter: {
           include: {
-            petsisterdetail: true,
+            petsitterdetail: true,
           },
         },
       },
@@ -203,7 +203,7 @@ booking.get("/petowner/:ownerId/:bookingId", async (req, res) => {
       status_booking: booking.status_booking,
       petSitter: {
         username: booking.petsitter.username,
-        petSisterDetail: booking.petsitter.petsisterdetail,
+        petSitterDetail: booking.petsitter.petsitterdetail,
       },
     };
 

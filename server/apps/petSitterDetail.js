@@ -147,7 +147,7 @@ petSitterDetail.put("/:userId", async (req, res) => {
   const userId = req.params.userId; // ดึง userId จากพารามิเตอร์ URL
   try {
     const {
-      pet_sister_name,
+      pet_sitter_name,
       pet_type,
       services,
       my_place,
@@ -172,7 +172,7 @@ petSitterDetail.put("/:userId", async (req, res) => {
         petsitter_id: userId,
       },
       data: {
-        pet_sister_name,
+        pet_sitter_name,
         pet_type,
         services,
         my_place,

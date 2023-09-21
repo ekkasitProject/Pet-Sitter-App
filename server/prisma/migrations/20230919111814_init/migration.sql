@@ -56,7 +56,7 @@ CREATE TABLE "PetSitterUser" (
 CREATE TABLE "PetSitterDetail" (
     "petsitterdetail_id" TEXT NOT NULL,
     "petsitter_id" TEXT NOT NULL,
-    "pet_sister_name" TEXT,
+    "pet_sitter_name" TEXT,
     "pet_type" TEXT[],
     "services" TEXT,
     "my_place" TEXT,

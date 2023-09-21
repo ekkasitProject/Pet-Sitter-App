@@ -222,7 +222,7 @@ const fetchUserData = () => {
     try {
       const token = localStorage.getItem("token");
       setIsError(false);
-      // setIsLoading(true);
+      setIsLoading(true);
       const result = await axios.get(
         `http://localhost:6543/booking/petowner/${petOwnerID}/${bookingID}`,
         {
@@ -233,7 +233,7 @@ const fetchUserData = () => {
       );
       // console.log(result);
       setBooking(result.data.booking);
-      // console.log(result.data.booking);
+      console.log(result.data.booking);
       // console.log(booking);
       //setIsLoading(false);
     } catch (error) {

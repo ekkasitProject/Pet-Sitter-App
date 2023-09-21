@@ -63,7 +63,7 @@ function BookingHistory() {
                     />
                     <div className="flex flex-col justify-center w-2/3 h-full">
                       <h1 className="text-headLine3">
-                        {booking.petSitter.petSisterDetail[0].pet_sister_name}
+                        {booking.petSitter.petSitterDetail[0].pet_sitter_name}
                       </h1>
                       <h1 className="text-body1">
                         By {booking.petSitter.username}
@@ -124,7 +124,11 @@ function BookingHistory() {
                     </div>
                     <div className="border-l-2 pl-8 basis-1/4">
                       <div className="text-primaryGray3">Pet:</div>
-                      <div className="">Name</div>
+                      <div className="">
+                        {booking.petname.map((pet) => {
+                          return `${pet} `;
+                        })}
+                      </div>
                     </div>
                   </div>
                   <div

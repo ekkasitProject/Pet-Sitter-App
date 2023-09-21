@@ -60,10 +60,7 @@ export default function BookingModal() {
             </div>
             <div className="flex-1">
               <div className="text-primaryGray3">Pet Sitter:</div>
-              <div className="text-black">
-                {booking.petSitter.petSisterDetail[0].pet_sister_name} By{" "}
-                {booking.petSitter.username}
-              </div>
+              <div className="text-black">{booking.petSitter.username}</div>
             </div>
             <div className="flex-1 flex flex-row">
               <div className="flex-1">
@@ -86,7 +83,7 @@ export default function BookingModal() {
             </div>
             <div className="flex-1">
               <div className="text-primaryGray3">Pet:</div>
-              <div className="text-black">Name</div>
+              <div className="text-black">name</div>
             </div>
           </div>
           <div className="flex justify-center">
