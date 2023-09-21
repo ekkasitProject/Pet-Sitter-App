@@ -16,7 +16,8 @@ import BookingPayment from "./BookingPayment";
 import UploadComponent from "./testUploadFile";
 import jwtDecode from "jwt-decode";
 import BillBooking from "./BillBooking";
-
+import dayjs from "dayjs";
+import BookingYourPet from "./BookingYourPet";
 export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
@@ -32,6 +33,16 @@ const AuthenticatedApp = () => {
   const [allpets, setAllpets] = useState([]);
   const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
   const [messageAdditional, setMessageAdditional] = useState("");
+  const [selectedDate, setSelectedDate] = useState(dayjs("2023-0-22"));
+  const [startTime, setStartTime] = useState("12:00 AM");
+  const [endTime, setEndTime] = useState("12:30 AM");
+  const [selectedTimes, setSelectedTimes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState(null);
+  const [selectedPets, setSelectedPets] = useState([]);
+  const [prices, setPrices] = useState(0);
+  const [selectedPetsitter, setSelectedPetsitter] = useState("");
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -56,6 +67,27 @@ const AuthenticatedApp = () => {
           setBookingID,
           messageAdditional,
           setMessageAdditional,
+          selectedDate,
+          setSelectedDate,
+          startTime,
+          setStartTime,
+          endTime,
+          setEndTime,
+          selectedTimes,
+          setSelectedTimes,
+          loading,
+          setLoading,
+          open,
+          setOpen,
+          bookingDetails,
+          setBookingDetails,
+          selectedPets,
+          prices,
+          setPrices,
+          selectedPetsitter,
+          setSelectedPetsitter,
+          selectedPets,
+          setSelectedPets,
         }}
       >
         <Routes>
@@ -63,6 +95,7 @@ const AuthenticatedApp = () => {
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/petsitterlist" element={<PetSitterList />} />
+          <Route path="/booking/yourPet" element={<BookingYourPet />} />
           <Route path="/booking/information" element={<BookingInformation />} />
           <Route path="/booking/payment" element={<BookingPayment />} />
           <Route path="/booking/bill" element={<BillBooking />} />
