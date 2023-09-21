@@ -12,6 +12,7 @@ function LoginPage() {
     password: "",
     rememberMe: false,
   });
+ const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -21,15 +22,18 @@ function LoginPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = formData;
-    console.log(email);
-    console.log(password);
-    login({
-      email,
-      password,
-    });
+
+    // Clear any previous errors
+    setError(null);
+
+    const result = await login({ email, password });
+
+    if (!result) {
+      setError("Your email or password is incorrect.");
+    }
   };
 
   return (
@@ -62,7 +66,9 @@ function LoginPage() {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 border ${
+                  error ? "border-red-500" : "border-gray-300"
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Email address"
               />
             </div>
@@ -79,7 +85,9 @@ function LoginPage() {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className={`appearance-none  relative block w-full px-3 py-2 border ${
+                  error ? "border-red-500" : "border-gray-300"
+                } placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm`}
                 placeholder="Password"
               />
             </div>
@@ -108,6 +116,7 @@ function LoginPage() {
                   Forgot your password?
                 </a>
               </div> */}
+              {error && <p className="text-red-500 text-center">{error}</p>}
             </div>
             <div>
               <button

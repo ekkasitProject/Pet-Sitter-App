@@ -5,3 +5,8 @@ html {
 *::selection {
   background: #ff986f;
 }
+/* Define a style for the checked checkbox */
+.checked-checkbox:checked + label::before {
+  border-color: orange; /* Change to your desired color */
+  background-color: orange; /* Change to your desired color */
+}

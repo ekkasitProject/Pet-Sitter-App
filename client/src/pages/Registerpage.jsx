@@ -11,7 +11,7 @@ function RegistrationForm() {
   const [petOwner, setPetOwner] = useState(false);
   const [petSitter, setPetSitter] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const [server, setServer] =useState(null);
   const { register } = useAuth();
 
   const handlePetOwnerChange = (e) => {
@@ -51,29 +51,41 @@ function RegistrationForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = (e) => {
+  e.preventDefault();
 
-    if (validateForm()) {
-      const data = {
-        username,
-        email,
-        phone,
-        password,
-        petOwner,
-        petSitter,
-      };
-      register(data);
+  if (validateForm()) {
+    const data = {
+      username,
+      email,
+      phone,
+      password,
+      petOwner,
+      petSitter,
+    };
 
-      if (petOwner) {
-        console.log("User selected Pet Owner role");
-      }
+    register(data)
+      .then((response) => {
+        // Successful registration logic...
+      })
+      .catch((err) => {
+        if (err.response.data.message.includes("Email")) {
+          setErrors((prev) => ({ ...prev, email: "Email already exists" }));
+        } else if (err.response.data.message.includes("Username")) {
+          setErrors((prev) => ({
+            ...prev,
+            username: "Username already exists",
+          }));
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            server: "An unknown error occurred",
+          }));
+        }
+      });
+  }
+};
 
-      if (petSitter) {
-        console.log("User selected Pet Sitter role");
-      }
-    }
-  };
 
   return (
     <div className="relative">
@@ -203,6 +215,11 @@ function RegistrationForm() {
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
                 </label>
+              </div>
+              <div>
+                {errors.server && (
+                  <p className="mt-2 text-sm text-red-600">{errors.server}</p>
+                )}
               </div>
             </div>
 

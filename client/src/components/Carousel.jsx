@@ -18,22 +18,22 @@ const AdvancedCarousel = () => {
         className="flex justify-between overflow-x-auto scroll-snap-type-x-mandatory z-0 "
       >
         <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog2} alt="Image 1" className="w-full h-full" />
+          <img src={dog2} alt="Image 1" className="w-full h-full p-2" />
         </li>
         <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog1} alt="Image 2" className="w-full h-full" />
+          <img src={dog1} alt="Image 2" className="w-full h-full p-2" />
         </li>
         <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog3} alt="Image 3" className="w-full h-full" />
+          <img src={dog3} alt="Image 3" className="w-full h-full p-2 " />
         </li>
         <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog2} alt="Image 1" className="w-full h-full" />
+          <img src={dog2} alt="Image 1" className="w-full h-full p-2" />
         </li>
         <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog1} alt="Image 2" className="w-full h-full" />
+          <img src={dog1} alt="Image 2" className="w-full h-full p-2" />
         </li>
         <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog3} alt="Image 3" className="w-full h-full" />
+          <img src={dog3} alt="Image 3" className="w-full h-full p-2" />
         </li>
         {/* Add more images as needed */}
       </ul>
