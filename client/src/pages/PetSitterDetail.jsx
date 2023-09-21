@@ -25,7 +25,7 @@ import TimeRangePicker from "../components/TimeRange";
 import { useNavigate } from "react-router-dom";
 
 function PetSitterDetail() {
-  const { petsister_id } = useParams();
+  const { petsitter_id } = useParams();
   const { petSitter, getPetSitterById } = useFilter();
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = React.useState(false);
@@ -158,7 +158,7 @@ function PetSitterDetail() {
     // Handle the case when petSitter data is not available or empty
     return <div>No data available for this pet sitter.</div>;
   }
-  const petSisterDetail = petSitter.petsisterdetail[0];
+  const petSitterDetail = petSitter.petsitterdetail[0];
 
   return (
     <div className="flex-row">

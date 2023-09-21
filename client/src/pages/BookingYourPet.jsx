@@ -172,7 +172,7 @@ const handleToggleViewPet = (e, id) => {
                       className={cardClasses}
                       style={{ position: "relative" }}
                     >
-                      <Checkbox
+                      <input
                         type="checkbox"
                         id={`checkbox-${pet.pet_id}`}
                         className="absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-500"
