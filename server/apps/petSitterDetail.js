@@ -50,7 +50,7 @@ petSitterDetail.get("/alldetail", async (req, res) => {
       filterOptions.OR = [
         {
           experience: {
-            gte: "5",
+            gt: "5",
           },
         },
       ];
