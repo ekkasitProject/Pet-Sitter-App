@@ -24,10 +24,37 @@ petSitterDetail.get("/alldetail", async (req, res) => {
       };
     }
 
-    if (experience) {
-      filterOptions.experience = { contains: experience };
-    }
+    const exp = experience.split("");
 
+    console.log(exp);
+
+    if (exp[0] == "0") {
+      filterOptions.OR = [
+        {
+          experience: {
+            gte: "0",
+            lte: "2",
+          },
+        },
+      ];
+    } else if (exp[0] == "3") {
+      filterOptions.OR = [
+        {
+          experience: {
+            gte: "3",
+            lte: "5",
+          },
+        },
+      ];
+    } else if (exp[0] == "5") {
+      filterOptions.OR = [
+        {
+          experience: {
+            gte: "5",
+          },
+        },
+      ];
+    }
     if (keywords) {
       filterOptions.OR = [
         {
