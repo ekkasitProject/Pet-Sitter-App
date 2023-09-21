@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router-dom";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 
 const BookingConfirmation = (props) => {
   const location = useLocation();
@@ -7,11 +8,12 @@ const BookingConfirmation = (props) => {
   const startTime = new Date(`2023-09-15 ${bookingDetails.startTime}`);
   const endTime = new Date(`2023-09-15 ${bookingDetails.endTime}`);
   const durationInMinutes = (endTime - startTime) / (1000 * 60 * 60);
-
+  const { prices, setPrices } = useContext(ToggleContext);
   const ratePerPet = 300; // Replace with your actual rate per pet
 
   const calculateTotalPrice = () => {
-    const price = (durationInMinutes * 300)+(props.selectedPets.length * ratePerPet);
+    const price =
+      durationInMinutes * 300 + props.selectedPets.length * ratePerPet;
     return price;
   };
 
@@ -21,6 +23,8 @@ const BookingConfirmation = (props) => {
   useEffect(() => {
     // Update totalPriceInTHB whenever selectedPets change
     setTotalPriceInTHB(calculateTotalPrice());
+    setPrices(calculateTotalPrice());
+    console.log(prices);
   }, [props.selectedPets]);
 
   return (

@@ -26,20 +26,15 @@ const BookingYourPet = (props) => {
   const [totalCost, setTotalCost] = useState(0); //
   const { getAllPets, isError, isLoading } = fetchUserData();
   const navigate = useNavigate();
-  const [selectedPets, setSelectedPets] = useState([]);
+  //const [selectedPets, setSelectedPets] = useState([]);
+  const [petID, setPetID] = useState(0);
+
   const {
-    toggleCreatePet,
-    setToggleCreatePet,
-    toggleDeletePet,
-    setToggleDeletePet,
-    toggleViewPet,
     setToggleViewPet,
-    petID,
-    setPetID,
     isAllPetChange,
-    setIsAllPetChange,
     allpets,
-    setAllpets,
+    selectedPets,
+    setSelectedPets,
   } = useContext(ToggleContext);
 
   const handleCheckboxChange = (e, petId) => {
@@ -50,6 +45,7 @@ const BookingYourPet = (props) => {
       // Remove the petId from the selectedPets array if it's unchecked
       setSelectedPets((prevPets) => prevPets.filter((p) => p !== petId));
     }
+    console.log(selectedPets);
   };
 
   const handleToggleViewPet = (e, id) => {

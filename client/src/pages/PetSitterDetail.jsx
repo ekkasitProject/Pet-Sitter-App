@@ -26,7 +26,6 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
 
-
 function PetSitterDetail() {
   const {
     selectedDate,
@@ -43,13 +42,15 @@ function PetSitterDetail() {
     setOpen,
     bookingDetails,
     setBookingDetails,
+    selectedPetsitter,
+    setSelectedPetsitter,
   } = useContext(ToggleContext);
 
   const { petsitter_id } = useParams();
   const { petSitter, getPetSitterById } = useFilter();
   const handleOpen = () => setOpen(true);
-  
-console.log(startTime,endTime,selectedDate);
+
+  //console.log(startTime,endTime,selectedDate);
 
   const handleClose = () => {
     // Generate booking details based on the selected date, start time, and end time
@@ -153,7 +154,7 @@ console.log(startTime,endTime,selectedDate);
     };
 
     fetchData();
-  }, [petsitter_id, getPetSitterById]);
+  }, []);
 
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
@@ -326,10 +327,11 @@ console.log(startTime,endTime,selectedDate);
                             state: {
                               bookingDetails: {
                                 selectedBookingDate:
-                                selectedDate.format("YYYY-MM-DD"),
+                                  selectedDate.format("YYYY-MM-DD"),
                                 startTime,
                                 endTime,
-                                petSitterName: petSitterDetail.pet_sitter_name, 
+                                petSitterName: petSitterDetail.pet_sitter_name,
+                                petSitterId: petSitterDetail.petsitter_id,
                               },
                             },
                           });

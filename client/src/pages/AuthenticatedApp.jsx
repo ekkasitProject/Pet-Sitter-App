@@ -39,6 +39,9 @@ const AuthenticatedApp = () => {
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [bookingDetails, setBookingDetails] = useState(null);
+  const [selectedPets, setSelectedPets] = useState([]);
+  const [prices, setPrices] = useState(0);
+  const [selectedPetsitter, setSelectedPetsitter] = useState("");
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -75,6 +78,12 @@ const AuthenticatedApp = () => {
           setOpen,
           bookingDetails,
           setBookingDetails,
+          selectedPets,
+          setSelectedPets,
+          prices,
+          setPrices,
+          selectedPetsitter,
+          setSelectedPetsitter,
         }}
       >
         <Routes>
