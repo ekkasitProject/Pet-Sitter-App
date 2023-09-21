@@ -42,8 +42,12 @@ function PetSitterDetail() {
     setOpen,
     bookingDetails,
     setBookingDetails,
-    selectedPetsitter,
-    setSelectedPetsitter,
+    selectedPetsitterID,
+    setSelectedPetsitterID,
+    selectedPetsitterName,
+    setSelectedPetsitterName,
+    selectedPetsitterUser,
+    setSelectedPetsitterUser,
   } = useContext(ToggleContext);
 
   const { petsitter_id } = useParams();
@@ -130,7 +134,7 @@ function PetSitterDetail() {
       return time1WithoutAMPM.localeCompare(time2WithoutAMPM);
     }
   };
-
+  //แก้ด้วยfetch 2 รอบ
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -175,6 +179,13 @@ function PetSitterDetail() {
     return <div>No data available for this pet sitter.</div>;
   }
   const petSitterDetail = petSitter.petsitterdetail[0];
+
+  const handleContinue = () => {
+    setSelectedPetsitterID(petSitterDetail.petsitter_id);
+    setSelectedPetsitterName(petSitterDetail.pet_sitter_name);
+    setSelectedPetsitterUser(petSitter.username);
+    console.log(selectedPetsitterID);
+  };
 
   return (
     <div className="flex-row">
@@ -240,7 +251,11 @@ function PetSitterDetail() {
               <div className="p-5 flex justify-center">
                 <button
                   className="w-[300px] h-[50px] py-2 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3 "
-                  onClick={handleOpen}
+                  onClick={() => {
+                    handleOpen();
+                    handleContinue();
+                  }}
+                  // onClick={handleOpen}
                 >
                   Book Now
                 </button>
@@ -331,6 +346,7 @@ function PetSitterDetail() {
                                 startTime,
                                 endTime,
                                 petSitterName: petSitterDetail.pet_sitter_name,
+                                petSitterUsername: petSitterDetail.username,
                                 petSitterId: petSitterDetail.petsitter_id,
                               },
                             },

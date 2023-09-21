@@ -23,7 +23,7 @@ const BookingConfirmation = (props) => {
   useEffect(() => {
     // Update totalPriceInTHB whenever selectedPets change
     setTotalPriceInTHB(calculateTotalPrice());
-    setPrices(calculateTotalPrice());
+    setPrices(totalPriceInTHB);
     console.log(prices);
   }, [props.selectedPets]);
 
