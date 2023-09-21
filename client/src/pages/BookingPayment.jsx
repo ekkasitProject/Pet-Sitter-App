@@ -4,10 +4,18 @@ import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import dogFoot from "../assets/images/bill/Dogfoot.svg";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { ToggleContext } from "./AuthenticatedApp";
+import fetchUserData from "../hooks/fetchUserData";
+import { useNavigate } from "react-router-dom";
 
 const BookingPayment = () => {
+  const navigate = useNavigate();
+  const { submitBooking } = fetchUserData();
   const [paymentType, setPaymentType] = useState("creditCard");
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+
+  const { messageAdditional, setMessageAdditional } = useContext(ToggleContext);
 
   const handlePaymentChange = (type) => {
     setPaymentType(type);
@@ -19,6 +27,25 @@ const BookingPayment = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false); // Close the modal
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      petDetailIds: [
+        "ce9b62dc-531f-434b-b2f4-06701fac2320",
+        "f72b8551-0180-4024-9f24-be775ce1fd59",
+      ],
+      petSitterId: "a43b4cdf-062b-46d5-ad56-87ba05d3fc37",
+      datetime: "2023-09-25T10:00:00Z",
+      startTime: "2023-09-25T10:00:00Z",
+      endTime: "2023-09-25T12:00:00Z",
+      additionalMessage: messageAdditional,
+      totalPrice: 500,
+    };
+    submitBooking(data);
+    console.log(data);
+    navigate(`/booking/bill`);
   };
 
   return (
@@ -87,15 +114,6 @@ const BookingPayment = () => {
                         placeholder="xxx-xxxx-x-xx-xx"
                         required
                         pattern="\d{3}-\d{4}-\d{1}-\d{2}-\d{2}"
-                        onChange={(e) => {
-                          const value = e.target.value.replace(/\D/g, ""); // Remove non-digit characters
-                          const formattedValue = value
-                            .match(/\d{1,4}/g)
-                            .join("-")
-                            .substr(0, 17); // Format as xxx-xxxx-x-xx-xx
-
-                          e.target.value = formattedValue;
-                        }}
                         className="mt-1 p-2 w-full h-14 block text-xl  rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -168,35 +186,41 @@ const BookingPayment = () => {
             </div>
           </div>
 
-          <div className="w-1/4 mt-6 h-[484px] bg-white rounded-xl overflow-hidden">
+          <div className="w-1/4 mt-6 h-[484px] relative bg-white rounded-xl overflow-hidden">
             <h2 className="text-2xl font-medium px-8 pt-4">Booking Detail</h2>
             <hr className="mt-4" />
             <div className="px-8 pt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet Sitter:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                Happy House! By Jane Maison
+                Happy House! By jane Maison
               </p>
             </div>
 
-            <div className="px-8 pt-4 mt-4 ">
+            <div className="px-8  mt-4 ">
               <h3 className="text-[#7B7E8F] tracking-wide">Date & Time:</h3>
               <p className="tracking-wide text-[#3A3B46]">
                 25 Aug, 2023 | 7 AM - 10 AM
               </p>
             </div>
 
-            <div className="px-8 pt-4 mt-4">
+            <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Duration:</h3>
               <p className="tracking-wide text-[#3A3B46]">3 hours</p>
             </div>
 
-            <div className="px-8 pt-4 mt-4">
+            <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
-              <p className="tracking-wide text-[#3A3B46]">Mr. Ham, Bingsu</p>
+              <p className="tracking-wide text-[#3A3B46]">Mr.Ham, Bingsu</p>
             </div>
-            <div className="py-8  pt-4 flex mt-12 justify-between bg-black ">
-              <p className="mx-8 text-white">Total</p>
-              <p className="mx-8 text-white">900.00 THB</p>
+            <div className="px-8  mt-4">
+              <h3 className="text-[#7B7E8F] tracking-wide">Additional:</h3>
+              <p className="tracking-wide text-[#3A3B46]">
+                {messageAdditional}
+              </p>
+            </div>
+            <div className="absolute flex w-[100%] bottom-0 py-4 mt-12 justify-between bg-black ">
+              <p className="mx-8  text-white">Total</p>
+              <p className="mx-8  text-white">900.00 THB</p>
             </div>
           </div>
         </div>
@@ -231,7 +255,10 @@ const BookingPayment = () => {
                 Cancel
               </button>
               <Link to="/booking/bill">
-                <button className="px-4 py-2 bg-[#FF7037] text-sm text-white rounded-full font-semibold">
+                <button
+                  onClick={handleSubmit}
+                  className="px-4 py-2 bg-[#FF7037] text-sm text-white rounded-full font-semibold"
+                >
                   Yes i'm sure
                 </button>
               </Link>

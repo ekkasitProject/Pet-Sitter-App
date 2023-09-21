@@ -31,6 +31,7 @@ const AuthenticatedApp = () => {
   const [isAllPetChange, setIsAllPetChange] = useState(false);
   const [allpets, setAllpets] = useState([]);
   const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
+  const [messageAdditional, setMessageAdditional] = useState("");
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -53,6 +54,8 @@ const AuthenticatedApp = () => {
           setPetOwnerID,
           bookingID,
           setBookingID,
+          messageAdditional,
+          setMessageAdditional,
         }}
       >
         <Routes>

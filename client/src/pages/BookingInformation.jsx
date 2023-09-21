@@ -1,32 +1,55 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import HeaderAuth from "../components/HeaderAuth";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
+import fetchUserData from "../hooks/fetchUserData";
+import { ToggleContext } from "./AuthenticatedApp";
 
 const BookingInformation = () => {
+  const { submitBooking } = fetchUserData();
   const [data, setData] = useState([]);
 
-  const getData = async () => {
+  const { petOwnerID, setPetOwnerID, messageAdditional, setMessageAdditional } =
+    useContext(ToggleContext);
+
+  const getProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      const id = localStorage.getItem("id");
-      const res = await axios.get(`http://localhost:6543/petOwnerUser/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setData(res.data.petOwnerUser);
+      const result = await axios.get(
+        `http://localhost:6543/petOwnerUser/${petOwnerID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setData(result.data.petOwnerUser);
     } catch (error) {
-      console.log("request error" + error);
+      console.error("Authentication error:", error);
     }
   };
 
   useEffect(() => {
-    getData();
+    getProfile();
   }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      petDetailIds: ["ec531b34-522b-457e-9583-927e47f0c02e"],
+      petSitterId: "eebff438-a9e4-4567-94af-f7958b49f19c",
+      datetime: "2023-09-25T10:00:00Z",
+      startTime: "2023-09-25T10:00:00Z",
+      endTime: "2023-09-25T12:00:00Z",
+      additionalMessage: "",
+      totalPrice: 500,
+    };
+    submitBooking(data);
+    console.log(data);
+  };
 
   return (
     <div>
@@ -63,7 +86,6 @@ const BookingInformation = () => {
                 <input
                   id="userName"
                   name="userName"
-                  type="text" // Update this to "text" if it's a user's name
                   placeholder="Full name"
                   readOnly
                   value={data.username || ""}
@@ -107,6 +129,10 @@ const BookingInformation = () => {
                     id="additionalMessage"
                     name="additionalMessage"
                     required
+                    value={messageAdditional}
+                    onChange={(event) =>
+                      setMessageAdditional(event.target.value)
+                    }
                     className="mt-1 p-2 block w-full h-[140px] rounded-xl border  border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -124,7 +150,7 @@ const BookingInformation = () => {
               </form>
             </div>
           </div>
-          <div className="w-1/4 mt-6 h-[484px] bg-white rounded-xl overflow-hidden">
+          <div className="w-1/4 mt-6 h-[484px] relative bg-white rounded-xl overflow-hidden">
             <h2 className="text-2xl font-medium px-8 pt-4">Booking Detail</h2>
             <hr className="mt-4" />
             <div className="px-8 pt-4">
@@ -134,25 +160,31 @@ const BookingInformation = () => {
               </p>
             </div>
 
-            <div className="px-8 pt-4 mt-4 ">
+            <div className="px-8  mt-4 ">
               <h3 className="text-[#7B7E8F] tracking-wide">Date & Time:</h3>
               <p className="tracking-wide text-[#3A3B46]">
                 25 Aug, 2023 | 7 AM - 10 AM
               </p>
             </div>
 
-            <div className="px-8 pt-4 mt-4">
+            <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Duration:</h3>
               <p className="tracking-wide text-[#3A3B46]">3 hours</p>
             </div>
 
-            <div className="px-8 pt-4 mt-4">
+            <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
               <p className="tracking-wide text-[#3A3B46]">Mr.Ham, Bingsu</p>
             </div>
-            <div className="py-8  pt-4 flex mt-12 justify-between bg-black ">
-              <p className="mx-8 text-white">Total</p>
-              <p className="mx-8 text-white">900.00 THB</p>
+            <div className="px-8  mt-4">
+              <h3 className="text-[#7B7E8F] tracking-wide">Additional:</h3>
+              <p className="tracking-wide text-[#3A3B46]">
+                {messageAdditional}
+              </p>
+            </div>
+            <div className="absolute flex w-[100%] bottom-0 py-4 mt-12 justify-between bg-black ">
+              <p className="mx-8  text-white">Total</p>
+              <p className="mx-8  text-white">900.00 THB</p>
             </div>
           </div>
         </div>
