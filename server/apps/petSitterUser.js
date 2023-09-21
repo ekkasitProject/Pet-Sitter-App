@@ -160,9 +160,25 @@ petSitterUser.delete("/:id", protect, async (req, res) => {
 //Section 4: Update profile/detail/address with image by petsitter id
 petSitterUser.put("/:id", avatarUpload, async (req, res) => {
   const petsitterId = req.params.id;
-  const oldImageUrl = req.body.oldImageUrl;
-  //const oldImageGalleyUrl = req.body.oldImageGalleyUrl;
+  // const oldImageUrl = req.body.image_profile; //
   try {
+    const {
+      phone,
+      id_card_number,
+      introduction,
+      pet_sitter_name,
+      petsitterdetail_id,
+      services,
+      my_place,
+      experience,
+      // pet_type,
+      address_id,
+      address_detail,
+      district,
+      sub_district,
+      province,
+      post_code,
+    } = req.body;
     const existingUser = await prisma.petSitterUser.findUnique({
       where: { petsitter_id: petsitterId },
     });
@@ -170,70 +186,32 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
     if (!existingUser) {
       return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
     }
-    const {
-      //full_name,
-      phone,
-      id_card_number,
-      introduction,
-      pet_sitter_name,
-      experience,
-      pet_type,
-      services,
-      my_place,
-      address_detail,
-      district,
-      sub_district,
-      province,
-      post_code,
-    } = req.body;
-    // //Profile update
-    // const { full_name, phone, id_card_number, introduction } = req.body;
-
-    // //PetSitterDetail update
-    // const { pet_sitter_name, experience, pet_type, services, my_place } =
-    //   req.body.petSitterDetail;
-
-    // //Address update
-    // const { address_detail, district, sub_district, province, post_code } =
-    //   req.body.address;
-
-    //upload and delete petsitter profile image
-    let avatarUrls = null;
-    if (req.files && req.files.avatar) {
-      avatarUrls = await petsitterProfileUpload(req.files);
-    }
-    if (oldImageUrl) {
-      await deleteOldProfileImage(oldImageUrl);
-    }
-
-    //upload and delete images gallery (upload more than one image)
-    let imageGalleryUrls = [];
-    if (req.files && req.files.imageGallery) {
-      avatarUrls = await imageGalleryUpload(req.files);
-    }
-    // if (oldImageGalleyUrl) {
-    //   await deleteOldProfileImage(oldImageGalleyUrl);
+    // let avatarUrls = null;
+    // // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase
+    // if (req.files && req.files.avatar) {
+    //   avatarUrls = await petsitterProfileUpload(req.files);
     // }
 
-    // Construct the update data for profile
-    let updateUserData = {
-      //full_name,
+    // // ลบรูปเดิมออกจาก storage ก่อน
+    // if (oldImageUrl) {
+    //   await deleteOldProfileImage(oldImageUrl);
+    // }
+
+    // อัปเดตข้อมูล User รวมถึง URL ของรูปภาพโปรไฟล์
+    const updateData = {
       phone,
       id_card_number,
       introduction,
+      //image_profile: avatarUrls,
     };
-
-    // Construct the update data for PetSitterDetail
-    let updatePetSitterDetailData = {
+    const updatePetSitterDetailData = {
       pet_sitter_name,
-      experience,
-      pet_type,
       services,
       my_place,
+      experience,
+      // pet_type,
     };
-
-    // Construct the update data for Address
-    let updateAddressData = {
+    const updateAddressData = {
       address_detail,
       district,
       sub_district,
@@ -241,36 +219,32 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
       post_code,
     };
 
-    const updatedData = await prisma.$transaction([
-      prisma.petSitterUser.update({
-        where: { petsitter_id: petsitterId },
-        data: {
-          ...updateUserData,
-          ...(req.files && req.files.avatar
-            ? { image_profile: avatarUrls }
-            : {}),
+    const updateAll = await prisma.petSitterUser.update({
+      where: { petsitter_id: petsitterId },
+      data: {
+        ...updateData,
+        petsitterdetail: {
+          update: {
+            // where: { petsitter_id: petsitterId },
+            where: { petsitterdetail_id: petsitterdetail_id },
+            data: {
+              ...updatePetSitterDetailData,
+            },
+          },
         },
-      }),
-      prisma.petSitterDetail.update({
-        where: { petsitter_id: petsitterId },
-        data: {
-          ...updatePetSitterDetailData,
-          ...(req.files && req.files.imageGallery
-            ? { image_gallery: imageGalleryUrls }
-            : {}),
+        addresses: {
+          update: {
+            // where: { petsitter_id: petsitterId },
+            where: { address_id: address_id },
+            data: { ...updateAddressData },
+          },
         },
-      }),
-      prisma.address.update({
-        where: { petsitter_id: petsitterId },
-        data: updateAddressData,
-      }),
-    ]);
-
-    return res.status(200).json({
-      message: "อัปเดตข้อมูลสำเร็จ",
-      updatedData,
+      },
     });
+
+    return res.status(200).json(updateAll);
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: `การอัปเดตข้อมูลล้มเหลว ${error}` });
   }
 });

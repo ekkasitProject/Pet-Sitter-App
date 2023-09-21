@@ -45,13 +45,17 @@ petSitterDetail.get("/alldetail", async (req, res) => {
         petsitter: true,
       },
     });
+    //console.log(petSitter.petsitter.status_update);
+    const statusEnable = petSitter.filter(
+      (status) => status.petsitter.status_update === true
+    );
 
     // ตรวจสอบว่าพบข้อมูลที่ตรงกับเงื่อนไขหรือไม่
     if (petSitter.length === 0) {
       return res.status(404).json({ message: "ไม่พบข้อมูลที่ตรงกัน" });
     }
 
-    return res.json(petSitter);
+    return res.json(statusEnable);
   } catch (error) {
     console.error(
       "เกิดข้อผิดพลาดในการดึงรายละเอียดพี่เลี้ยงสัตว์ทั้งหมด",
