@@ -60,7 +60,11 @@ export default function BookingModal() {
             </div>
             <div className="flex-1">
               <div className="text-primaryGray3">Pet Sitter:</div>
-              <div className="text-black">{booking.petSitter.username}</div>
+              <div className="text-black">
+                {booking.petSitter
+                  ? `${booking.petSitter.username} By ${booking.petSitter.petSitterDetail[0].pet_sitter_name}`
+                  : null}
+              </div>
             </div>
             <div className="flex-1 flex flex-row">
               <div className="flex-1">
@@ -83,7 +87,13 @@ export default function BookingModal() {
             </div>
             <div className="flex-1">
               <div className="text-primaryGray3">Pet:</div>
-              <div className="text-black">name</div>
+              <div className="text-black">
+                {booking.petname
+                  ? booking.petname.map((pet) => {
+                      return `${pet} `;
+                    })
+                  : null}
+              </div>
             </div>
           </div>
           <div className="flex justify-center">

@@ -63,10 +63,11 @@ function BookingHistory() {
                     />
                     <div className="flex flex-col justify-center w-2/3 h-full">
                       <h1 className="text-headLine3">
-                        {booking.petSitter.petSitterDetail[0].pet_sitter_name}
+                        {booking.petSitter.username}
                       </h1>
                       <h1 className="text-body1">
-                        By {booking.petSitter.username}
+                        By{" "}
+                        {booking.petSitter.petSitterDetail[0].pet_sitter_name}
                       </h1>
                     </div>
                     <div className="w-full h-full flex flex-col justify-center items-end pr-5">
