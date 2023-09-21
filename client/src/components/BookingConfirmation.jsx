@@ -24,29 +24,32 @@ const BookingConfirmation = (props) => {
   }, [props.selectedPets]);
 
   return (
-    <div>
+    <div className="w-full mt-6 h-[484px] relative bg-white rounded-xl overflow-hidden">
       <h2 className="text-2xl font-medium px-8 pt-4">Booking Detail</h2>
       <hr className="mt-4" />
-      <div className="px-8 pt-4 mt-4">
+      <div className="px-8 pt-4">
         <h3 className="text-[#7B7E8F] tracking-wide">Pet Sitter:</h3>
         <p className="tracking-wide text-[#3A3B46]">
           {bookingDetails.petSitterName}
         </p>
       </div>
-      <div className="px-8 pt-4 mt-4">
+
+      <div className="px-8  mt-4 ">
         <h3 className="text-[#7B7E8F] tracking-wide">Date & Time:</h3>
         <p className="tracking-wide text-[#3A3B46]">
           {bookingDetails.selectedBookingDate} | {bookingDetails.startTime} -
           {bookingDetails.endTime}
         </p>
       </div>
-      <div className="px-8 pt-4 mt-4">
+
+      <div className="px-8  mt-4">
         <h3 className="text-[#7B7E8F] tracking-wide">Duration:</h3>
         <p className="tracking-wide text-[#3A3B46]">
-          {durationInMinutes} Hours
+          {durationInMinutes} hours
         </p>
       </div>
-      <div className="px-8 pt-4 mt-4">
+
+      <div className="px-8  mt-4">
         <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
         <ul className="tracking-wide text-[#3A3B46] flex flex-row">
           {props.selectedPets.map((petId, index) => {
@@ -66,13 +69,11 @@ const BookingConfirmation = (props) => {
         </ul>
       </div>
 
-      <div className="py-8 pt-4 flex mt-12 justify-between bg-black">
+      <div className="absolute flex items-center w-[100%] bottom-0 py-8 mt-12 justify-between bg-black ">
         <p className="mx-8 text-white">Total</p>
         <p className="mx-8 text-white"> {totalPriceInTHB} THB</p>
       </div>
-      
     </div>
-    
   );
 };
 

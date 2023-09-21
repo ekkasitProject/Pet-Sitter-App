@@ -23,15 +23,34 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import Datetime from "../components/dateTime";
 import TimeRangePicker from "../components/TimeRange";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { ToggleContext } from "./AuthenticatedApp";
+
 
 function PetSitterDetail() {
+  const {
+    selectedDate,
+    setSelectedDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    selectedTimes,
+    setSelectedTimes,
+    loading,
+    setLoading,
+    open,
+    setOpen,
+    bookingDetails,
+    setBookingDetails,
+  } = useContext(ToggleContext);
+
   const { petsitter_id } = useParams();
   const { petSitter, getPetSitterById } = useFilter();
-  const [loading, setLoading] = useState(true);
-  const [open, setOpen] = React.useState(false);
-  const [selectedDate, setSelectedDate] = React.useState(dayjs("2022-04-17"));
   const handleOpen = () => setOpen(true);
-  const [bookingDetails, setBookingDetails] = useState(null); // State to hold booking details
+  
+console.log(startTime,endTime,selectedDate);
+
   const handleClose = () => {
     // Generate booking details based on the selected date, start time, and end time
     const bookingDetails = {
@@ -51,10 +70,6 @@ function PetSitterDetail() {
     navigate("/booking/yourPet", { state: { bookingDetails } });
   };
   const navigate = useNavigate();
-  const [startTime, setStartTime] = useState("12:00 AM");
-  const [endTime, setEndTime] = useState("12:30 AM");
-  const [selectedTimes, setSelectedTimes] = useState([]);
-
   const generateTimeOptions = () => {
     const timeOptions = [];
     const amPmOptions = ["AM", "PM"];
@@ -311,10 +326,10 @@ function PetSitterDetail() {
                             state: {
                               bookingDetails: {
                                 selectedBookingDate:
-                                  selectedDate.format("YYYY-MM-DD"),
+                                selectedDate.format("YYYY-MM-DD"),
                                 startTime,
                                 endTime,
-                                petSitterName: petSitterDetail.pet_sitter_name, // Add the Pet Sitter's name here
+                                petSitterName: petSitterDetail.pet_sitter_name, 
                               },
                             },
                           });

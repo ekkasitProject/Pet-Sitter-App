@@ -16,7 +16,7 @@ import BookingPayment from "./BookingPayment";
 import UploadComponent from "./testUploadFile";
 import jwtDecode from "jwt-decode";
 import BillBooking from "./BillBooking";
-
+import dayjs from "dayjs";
 import BookingYourPet from "./BookingYourPet";
 export const ToggleContext = React.createContext();
 
@@ -32,6 +32,13 @@ const AuthenticatedApp = () => {
   const [isAllPetChange, setIsAllPetChange] = useState(false);
   const [allpets, setAllpets] = useState([]);
   const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
+  const [selectedDate, setSelectedDate] = useState(dayjs("2023-0-22"));
+  const [startTime, setStartTime] = useState("12:00 AM");
+  const [endTime, setEndTime] = useState("12:30 AM");
+  const [selectedTimes, setSelectedTimes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState(null);
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -54,6 +61,20 @@ const AuthenticatedApp = () => {
           setPetOwnerID,
           bookingID,
           setBookingID,
+          selectedDate,
+          setSelectedDate,
+          startTime,
+          setStartTime,
+          endTime,
+          setEndTime,
+          selectedTimes,
+          setSelectedTimes,
+          loading,
+          setLoading,
+          open,
+          setOpen,
+          bookingDetails,
+          setBookingDetails,
         }}
       >
         <Routes>
