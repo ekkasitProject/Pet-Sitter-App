@@ -92,26 +92,35 @@ function CreatePet() {
           <div className="text-headLine3">Create Your Pet</div>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
-          <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
-            <img
-              className="object-fit w-[220px] h-[220px] rounded-full"
-              src={photo}
-              alt="pet photo"
-            />
-            <label
-              htmlFor="upload"
-              className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
-            >
-              <PlusIcon />
-              <input
-                id="upload"
-                name="avatar"
-                type="file"
-                onChange={handleFileChange}
-                hidden
+          <div className="">
+            <div className="flex justify-center relative items-center my-10 w-[220px] h-[220px] rounded-full bg-slate-200">
+              <img
+                className="object-fit w-[220px] h-[220px] rounded-full"
+                src={photo}
+                alt="pet photo"
               />
-            </label>
+              <label
+                htmlFor="upload"
+                className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
+              >
+                <PlusIcon />
+                <input
+                  id="upload"
+                  name="avatar"
+                  type="file"
+                  onChange={handleFileChange}
+                  hidden
+                  required
+                />
+              </label>
+            </div>
+            <div className="">
+              {avatars ? null : (
+                <div className="text-red-500">Please, upload 1 pet's photo</div>
+              )}
+            </div>
           </div>
+
           <div className="flex flex-col gap-1">
             <label htmlFor="petname">Pet Name*</label>
             <input
