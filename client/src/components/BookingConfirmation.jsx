@@ -7,27 +7,21 @@ const BookingConfirmation = (props) => {
   const startTime = new Date(`2023-09-15 ${bookingDetails.startTime}`);
   const endTime = new Date(`2023-09-15 ${bookingDetails.endTime}`);
   const durationInMinutes = (endTime - startTime) / (1000 * 60 * 60);
-  // Create state variables for selected pets and total price
-  const [selectedPets, setSelectedPets] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
 
-  const calculateTotalAmount = (selectedPets, durationInMinutes) => {
-    const basePricePerHour = 600;
-    const additionalPricePerPet = 300;
-    const numberOfPets = selectedPets.length;
-    const baseTotalPrice = basePricePerHour * durationInMinutes;
-    const additionalPriceForPets = additionalPricePerPet * (numberOfPets - 1);
-    const totalPrice = baseTotalPrice + additionalPriceForPets;
-    return totalPrice;
+  const ratePerPet = 300; // Replace with your actual rate per pet
+
+  const calculateTotalPrice = () => {
+    const price = (durationInMinutes * 300)+(props.selectedPets.length * ratePerPet);
+    return price;
   };
 
-  const totalAmount = calculateTotalAmount(selectedPets, durationInMinutes);
+  // Initialize totalPriceInTHB with the initial calculation
+  const [totalPriceInTHB, setTotalPriceInTHB] = useState(calculateTotalPrice());
 
-  // Update the total price whenever selectedPets or durationInMinutes changes
   useEffect(() => {
-    const newTotalPrice = calculateTotalAmount(selectedPets, durationInMinutes);
-    setTotalPrice(newTotalPrice);
-  }, [selectedPets, durationInMinutes]);
+    // Update totalPriceInTHB whenever selectedPets change
+    setTotalPriceInTHB(calculateTotalPrice());
+  }, [props.selectedPets]);
 
   return (
     <div>
@@ -46,35 +40,39 @@ const BookingConfirmation = (props) => {
           {bookingDetails.endTime}
         </p>
       </div>
-
       <div className="px-8 pt-4 mt-4">
         <h3 className="text-[#7B7E8F] tracking-wide">Duration:</h3>
         <p className="tracking-wide text-[#3A3B46]">
           {durationInMinutes} Hours
         </p>
       </div>
-
       <div className="px-8 pt-4 mt-4">
         <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
-        <ul className="tracking-wide text-[#3A3B46]">
-          {selectedPets.map((pet) => (
-            <li key={pet.pet_id}>{pet.petname}</li>
-          ))}
+        <ul className="tracking-wide text-[#3A3B46] flex flex-row">
+          {props.selectedPets.map((petId, index) => {
+            const selectedPet = props.allpets.find(
+              (pet) => pet.pet_id === petId
+            );
+            if (selectedPet) {
+              return (
+                <li key={selectedPet.pet_id}>
+                  {selectedPet.petname}
+                  {index < props.selectedPets.length - 1 && ", "}
+                </li>
+              );
+            }
+            return null;
+          })}
         </ul>
       </div>
 
       <div className="py-8 pt-4 flex mt-12 justify-between bg-black">
         <p className="mx-8 text-white">Total</p>
-        <p className="mx-8 text-white">{totalPrice} THB</p>
+        <p className="mx-8 text-white"> {totalPriceInTHB} THB</p>
       </div>
-
-      <button
-        // onClick={handleBooking}
-        className="px-4 py-2 mt-4 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Book Now
-      </button>
+      
     </div>
+    
   );
 };
 

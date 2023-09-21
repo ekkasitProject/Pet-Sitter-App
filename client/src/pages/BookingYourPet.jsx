@@ -22,66 +22,63 @@ const BookingYourPet = (props) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [numberOfSelectedPets, setNumberOfSelectedPets] = useState(0);
- const [selectedPetId, setSelectedPetId] = useState(null); 
- 
-    const { getAllPets, isError, isLoading } = fetchUserData();
-    const navigate = useNavigate();
-    const [selectedPets, setSelectedPets] = useState([]);
-    const {
-      toggleCreatePet,
-      setToggleCreatePet,
-      toggleDeletePet,
-      setToggleDeletePet,
-      toggleViewPet,
-      setToggleViewPet,
-      petID,
-      setPetID,
-      isAllPetChange,
-      setIsAllPetChange,
-      allpets,
-      setAllpets,
-    } = useContext(ToggleContext);
-    
-const handleCheckboxChange = (e, petId) => {
-  // Find the pet object from a source (e.g., props, or some list in state)
-const pet = allpets.find((p) => p.pet_id === petId);
-  if (e.target.checked) {
-    // Add the pet to the selectedPets array if it's checked
-    setSelectedPets((prevPets) => [...prevPets, pet]);
-  } else {
-    // Remove the pet from the selectedPets array if it's unchecked
-    setSelectedPets((prevPets) => prevPets.filter((p) => p.pet_id !== petId));
-  }
-};
-const handleToggleViewPet = (e, id) => {
-  setPetID(id);
-  setToggleViewPet(true);
-  setSelectedPetId((prevSelectedPetId) =>
-    prevSelectedPetId === id ? null : id
-  );
+  const [selectedPetId, setSelectedPetId] = useState(null);
+  const [totalCost, setTotalCost] = useState(0); //
+  const { getAllPets, isError, isLoading } = fetchUserData();
+  const navigate = useNavigate();
+  const [selectedPets, setSelectedPets] = useState([]);
+  const {
+    toggleCreatePet,
+    setToggleCreatePet,
+    toggleDeletePet,
+    setToggleDeletePet,
+    toggleViewPet,
+    setToggleViewPet,
+    petID,
+    setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
+    allpets,
+    setAllpets,
+  } = useContext(ToggleContext);
 
-  // Declare and initialize isPetSelected as a boolean variable
-  let isPetSelected = false;
+  const handleCheckboxChange = (e, petId) => {
+    if (e.target.checked) {
+      // Add 1 to the selectedPets.length when a checkbox is checked
+      setSelectedPets((prevPets) => [...prevPets, petId]);
+    } else {
+      // Remove the petId from the selectedPets array if it's unchecked
+      setSelectedPets((prevPets) => prevPets.filter((p) => p !== petId));
+    }
+  };
 
-  // Check if the pet is already selected
-  if (selectedPets.includes(id)) {
-    isPetSelected = true;
-    // If it's selected, remove it from the array
-    setSelectedPets(selectedPets.filter((petId) => petId !== id));
-  } else {
-    // If it's not selected, add it to the array
-    setSelectedPets([...selectedPets, id]);
-  }
-};
+  const handleToggleViewPet = (e, id) => {
+    setPetID(id);
+    setToggleViewPet(true);
+    setSelectedPetId((prevSelectedPetId) =>
+      prevSelectedPetId === id ? null : id
+    );
 
+    // Declare and initialize isPetSelected as a boolean variable
+    let isPetSelected = false;
 
+    // Check if the pet is already selected
+    if (selectedPets.includes(id)) {
+      isPetSelected = true;
+      // If it's selected, remove it from the array
+      setSelectedPets(selectedPets.filter((petId) => petId !== id));
+    } else {
+      // If it's not selected, add it to the array
+      setSelectedPets([...selectedPets, id]);
+    }
+  };
 
-    useEffect(() => {
-      getAllPets();
+  useEffect(() => {
+    getAllPets();
 
-      // console.log(isAllPetChange);
-      console.log(allpets);
-    }, [isAllPetChange]);
+    // console.log(isAllPetChange);
+    console.log(allpets);
+  }, [isAllPetChange]);
 
   const handleChip = (pet) => {
     if (pet === "dog") {
@@ -122,9 +119,8 @@ const handleToggleViewPet = (e, id) => {
   };
 
   const duration = calculateDuration(startTime, endTime);
-  const total = duration * 200 * numberOfSelectedPets;
+  const total = duration * 200 + selectedPets.length * 300;
 
-  
   const cardClasses = `pet-sitter-list-card shadow-custom2 w-[240px] h-[240px] my-6 mx-3 p-2 rounded-md flex flex-col justify-center items-center cursor-pointer border-2 bg-orange-200`;
 
   return (
@@ -158,7 +154,7 @@ const handleToggleViewPet = (e, id) => {
             <div className="bg-white h-[720px] rounded-xl p-12">
               <div className="flex flex-wrap justify-start w-full gap-20 ml-3 ">
                 {allpets.map((pet) => {
-                  // Step 4: Conditionally apply the CSS class based on selection
+                  // Create a CSS class for the card based on whether the pet is selected or not
                   const cardClasses = `pet-card cursor-pointer mb-5 border-2 w-[240px] h-[240px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 ${
                     selectedPets.includes(pet.pet_id)
                       ? "border-primaryOrange4"
@@ -168,7 +164,7 @@ const handleToggleViewPet = (e, id) => {
                   return (
                     <div
                       key={pet.pet_id}
-                      onClick={() => handleToggleViewPet(pet.pet_id)}
+                      onClick={() => handleToggleViewPet(pet.pet_id)} // Ensure this function is correct
                       className={cardClasses}
                       style={{ position: "relative" }}
                     >
@@ -177,8 +173,8 @@ const handleToggleViewPet = (e, id) => {
                         id={`checkbox-${pet.pet_id}`}
                         className="absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-500"
                         value={pet.pet_id}
-                        onChange={(e) => handleCheckboxChange(e, pet.pet_id)}
-                        checked={selectedPets.includes(pet.pet_id)}
+                        onChange={(e) => handleCheckboxChange(e, pet.pet_id)} // Ensure this function is correct
+                        checked={selectedPets.includes(pet.pet_id)} // This determines checkbox state
                         style={{
                           position: "absolute",
                           top: "10px",
@@ -186,12 +182,12 @@ const handleToggleViewPet = (e, id) => {
                           width: "24px",
                           height: "24px",
                         }}
-                        sx={{
-                          color: "#DCDFED",
-                          "&.Mui-checked": {
-                            color: "#FF7037",
-                          },
-                        }}
+                        // sx={{
+                        //   color: "#DCDFED",
+                        //   "&.Mui-checked": {
+                        //     color: "#FF7037",
+                        //   },
+                        // }}
                       />
                       <img
                         src={pet.image_profile}
@@ -203,8 +199,9 @@ const handleToggleViewPet = (e, id) => {
                     </div>
                   );
                 })}
+
                 <Link to="/user/yourpet/:userId">
-                  <div className="relative pet-card cursor-pointer mb-5 border-2  w-[240px] h-[250px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 bg-orange-200">
+                  <div className="relative pet-card cursor-pointer mb-5 border-2  w-[240px] h-[240px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 bg-orange-200">
                     <div className="flex items-center flex-col justify-center w-full h-full">
                       <div className=" cursor-pointer">
                         <img
@@ -225,16 +222,16 @@ const handleToggleViewPet = (e, id) => {
                   </div>
                 </Link>
               </div>
-              <div className=" flex justify-between">
+              <div className=" flex justify-between items-end ">
                 <Link to={`/petsitterlist/view/${props.petsisterId}`}>
                   {" "}
                   {/* Updated link */}
-                  <button className="bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
+                  <button className="bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold ">
                     Back
                   </button>
                 </Link>
                 <Link to="/booking/information">
-                  <button className="bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">
+                  <button className="bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold ">
                     Next
                   </button>
                 </Link>
@@ -248,6 +245,8 @@ const handleToggleViewPet = (e, id) => {
               endTime={endTime}
               numberOfSelectedPets={numberOfSelectedPets}
               totalCost={total}
+              selectedPets={selectedPets}
+              allpets={allpets} // Pass the allpets array as a prop
             />
           </div>
         </div>
