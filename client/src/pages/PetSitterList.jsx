@@ -346,7 +346,7 @@ function PetSitterList() {
                 <PetSitterCard
                   key={petSitter.petsitter_id}
                   petsitterId={petSitter.petsitter_id}
-                  petSitterName={petSitter.pet_sister_name}
+                  petSitterName={petSitter.pet_sitter_name}
                   petSitterusername={petSitter.petsitter.username}
                   experience={petSitter.experience}
                   province={petSitter.my_place}

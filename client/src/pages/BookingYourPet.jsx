@@ -223,7 +223,7 @@ const BookingYourPet = (props) => {
                 </Link>
               </div>
               <div className=" flex justify-between items-end ">
-                <Link to={`/petsitterlist/view/${props.petsisterId}`}>
+                <Link to={`/petsitterlist/view/${props.petsitterId}`}>
                   {" "}
                   {/* Updated link */}
                   <button className="bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold ">
