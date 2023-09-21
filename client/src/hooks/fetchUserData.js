@@ -243,68 +243,28 @@ const fetchUserData = () => {
     }
   };
 
-  /*
-  const getPetSitterById = async (petSitterId) => {
+  const submitBooking = async (data) => {
     try {
-      setIsError(false);
-      setIsLoading(true);
-      const result = await axios.get(
-        `http://localhost:6543/petsitteruser/petsitterdetail/${petSitterId}`
-      );
+      const token = localStorage.getItem("token");
 
-      setPetSitter(result.data);
-      setIsLoading(false);
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-      console.error("Error fetching petSitter:", error);
-    }
-  };
-  /*
-  const createPetsitter = async (data) => {
-    try {
       setIsError(false);
       setIsLoading(true);
-      await axios.post(`http://localhost:6543/petsitterProfile`, data);
-      setIsLoading(false);
-      navigate("/");
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-*/
-
-  /*
-  const deletePetsitter = async (petSitterId) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.delete(`http://localhost:6543/petsitterProfile/${petSitterId}`);
-      const newPetSitterLists = petSitterLists.filter((petSitter) => {
-        return petSitter.petsitter_id !== petSitterId;
+      await axios.post(`http://localhost:6543/booking/${petOwnerID}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-      setPetSitterLists(newPetSitterLists);
+
       setIsLoading(false);
+      // alert(response.data.message);
+      // navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
+      //alert(error.message);
     }
   };
 
-  const updatePostById = async (postId, data) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.put(`http://localhost:6543/posts/${postId}`, data);
-      setIsLoading(false);
-      navigate("/");
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-*/
   return {
     getPetOwnerProfile,
     petOwnerProfile,
@@ -325,6 +285,7 @@ const fetchUserData = () => {
     booking,
     setBooking,
     getBookingByID,
+    submitBooking,
   };
 };
 
