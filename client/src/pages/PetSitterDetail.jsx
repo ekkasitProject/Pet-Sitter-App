@@ -72,7 +72,7 @@ const PetSitterDetail = () => {
       <div className="flex p-10 bg-white">
         <div className="flex-1 py-8 bg-white p-10">
           <h1 className="text-5xl font-bold text-black">
-            {petSitterDetail.pet_sister_name}
+            {petSitterDetail.pet_sitter_name}
           </h1>
           <section className="mt-4">
             <h2 className="text-xl font-semibold">Introduction</h2>
@@ -99,7 +99,7 @@ const PetSitterDetail = () => {
             </div>
             <div className="text-center mt-4">
               <h1 className="text-2xl font-semibold">
-                {petSitterDetail.pet_sister_name}
+                {petSitterDetail.pet_sitter_name}
               </h1>
               <div className="mt-2">
                 <h2 className="text-lg">{petSitter.username}</h2>

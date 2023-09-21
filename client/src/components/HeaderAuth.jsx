@@ -62,7 +62,7 @@ const HeaderAuth = () => {
 
   useEffect(() => {
     getProfile();
-    //console.log("HaederAuth");
+    console.log("HaederAuth");
     console.log(petOwnerID);
   }, []);
 
