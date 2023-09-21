@@ -231,7 +231,7 @@ const fetchUserData = () => {
           },
         }
       );
-      // console.log(result);
+      console.log(result);
       setBooking(result.data.booking);
       console.log(result.data.booking);
       // console.log(booking);
