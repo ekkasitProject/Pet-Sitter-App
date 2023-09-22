@@ -97,3 +97,7 @@
   font-display: swap;
   font-style: italic;
 }
+
+.css-1u23akw-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
+  background-color: #ff7037 !important;
+}
