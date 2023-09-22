@@ -228,7 +228,9 @@ function PetSitterDetail() {
               </h1>
               <div className="mt-2">
                 <h2 className="text-lg">{petSitter.username}</h2>
-                <h2 className="text-sm">1.5 Years Exp.</h2>
+                <h2 className="text-sm">
+                  {petSitterDetail.experience} Years Exp.
+                </h2>
               </div>
               <div className="flex items-center justify-center mt-2 p-5">
                 <img
