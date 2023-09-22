@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import useFilter from "../hooks/useFilter.js";
 import PetSitterCard from "../components/PetSitterCard.jsx";
@@ -6,6 +6,7 @@ import Pagination from "@mui/material/Pagination";
 import HeaderAuth from "../components/HeaderAuth";
 import Footer from "../components/Footer";
 import { useParams } from "react-router-dom";
+import { FilterContext } from "../App";
 {
   /*
 import InputLabel from "@mui/material/InputLabel";
@@ -28,11 +29,12 @@ import {
 function PetSitterList() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
-  const [petType, setPetType] = useState("");
+  //const [petType, setPetType] = useState("");
   const [keywords, setKeywords] = useState("");
-  const [experience, setExperience] = useState("");
+  //const [experience, setExperience] = useState("");
   const [isSearch, setIsSearch] = useState(true);
   const { petsitter_id } = useParams();
+  const [selectedAnimals, setSelectedAnimals] = useState([]);
   const {
     petSitterLists,
     totalPages,
@@ -41,43 +43,56 @@ function PetSitterList() {
     isError,
     isLoading,
   } = useFilter();
+  const { petType, setPetType, experience, setExperience } =
+    useContext(FilterContext);
 
   // console.log(totalPages);
 
+  const getFilter = (pets) => {
+    pets.map((pet) => {
+      if (petType.includes(pet)) {
+        const checkbox = document.getElementById(pet);
+        checkbox.checked = true;
+      }
+    });
+  };
+
   useEffect(() => {
-    //console.log(petType);
+    console.log(petType);
     console.log(petSitterLists);
+    getFilter(["dog", "cat", "rabbit", "bird"]);
     getPetSitterLists({ petType, keywords, experience, page });
   }, [isSearch]);
-
+  //ไม่สามารถใส่getPetSitterLists()ไว้ในhandleSearchเลยได้ จะเกิดbugไไม่สามารถใช้filterได้ จึงต้องมี isSearch
   const handleSearch = () => {
     if (isSearch) {
       setIsSearch(false);
     } else {
       setIsSearch(true);
     }
+    let tempPetType = selectedAnimals.join(" ");
+    setPetType(tempPetType);
+    console.log(petType);
     if (petType.charAt(0) === " ") {
       let tempData = petType.slice(1);
       setPetType(tempData);
     }
+    console.log(keywords);
+    console.log(petType);
+    console.log(experience);
   };
-  {
-    /*
-  const handlePetType = (value, id) => {
-    const activeData = document.getElementById(id).checked;
-    let newData = [...petType];
-    if (activeData) {
-      newData.push(value);
-      setPetType(newData);
-    } else {
-      newData = petType.filter((item) => item !== value);
-      setPetType(newData);
-    }
-  };
- */
-  }
 
   const handlePetType = (value, id) => {
+    const activeData = document.getElementById(id).checked;
+    if (activeData) {
+      setSelectedAnimals([...selectedAnimals, value]);
+    } else {
+      setSelectedAnimals(selectedAnimals.filter((pet) => pet !== value));
+    }
+  };
+
+  //เอาhandleToggleAnimalของPetCareSloganมาใช้สร้างเก็บไว้ในstate arrayแล้วค่อยแปลงจากarrayเป็นstringเมื่อกดsearch
+  /* const handlePetType = (value, id) => {
     let newData = petType;
     const activeData = document.getElementById(id).checked;
     if (activeData) {
@@ -96,7 +111,7 @@ function PetSitterList() {
       setPetType(tempData);
     }
   };
-
+*/
   const handleChip = (pet) => {
     if (pet === "dog") {
       return <ChipsGreen petType="Dog" />;
@@ -120,6 +135,7 @@ function PetSitterList() {
     setKeywords(""); // Clear the keywords input
     setExperience(""); // Clear the experience dropdown
     setPetType(""); // Clear the petType checkboxes
+    setSelectedAnimals([]);
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
       checkbox.checked = false;
@@ -313,6 +329,9 @@ function PetSitterList() {
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
                 >
+                  <option disabled value="">
+                    -- Select a experience --
+                  </option>
                   <option value="0-2 Years">0-2 Years</option>
                   <option value="3-5 Years">3-5 Years</option>
                   <option value="5+ Years">5+ Years</option>
