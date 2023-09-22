@@ -6,6 +6,7 @@ import fetchUserData from "../hooks/fetchUserData";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { PlusIcon } from "./Icons";
+import Datepicker from "react-tailwindcss-datepicker";
 
 function UserProfile() {
   const {
@@ -17,6 +18,10 @@ function UserProfile() {
     isLoading,
   } = fetchUserData();
   const params = useParams();
+  const [value, setValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -32,7 +37,7 @@ function UserProfile() {
     // console.log(petOwnerProfile);
   }, []);
 
-  function formatDateToYYYYMMDD(isoDate) {
+  function formatDate(isoDate) {
     const date = new Date(isoDate);
 
     // Extract year, month, and day components
@@ -41,7 +46,7 @@ function UserProfile() {
     const day = String(date.getDate()).padStart(2, "0"); // Zero-padding day
 
     // Construct the formatted date string
-    const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate = `${day}-${month}-${year}`;
 
     return formattedDate;
   }
@@ -52,7 +57,7 @@ function UserProfile() {
       setEmail(petOwnerProfile.email);
       setPhone(petOwnerProfile.phone);
       setIDNumber(petOwnerProfile.id_card_number);
-      const newDate = formatDateToYYYYMMDD(petOwnerProfile.date_of_birth);
+      const newDate = formatDate(petOwnerProfile.date_of_birth);
       setDateOfBirth(newDate);
       setPhoto(petOwnerProfile.image_profile);
       /*  const uniqueId = Date.now();
@@ -112,6 +117,13 @@ function UserProfile() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleValueChange = (newValue) => {
+    console.log(newValue);
+    setValue(newValue);
+    setDateOfBirth(value.startDate);
+    console.log(dateOfBirth);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     //console.log(dateOfBirth);
@@ -131,16 +143,17 @@ function UserProfile() {
 */
     if (validateForm()) {
       const formData = new FormData();
+      const newDate = new Date(value.startDate);
 
       formData.append("username", username);
       formData.append("email", email);
       formData.append("phone", phone);
       formData.append("id_card_number", idNumber);
-      formData.append("date_of_birth", dateOfBirth);
+      formData.append("date_of_birth", newDate);
       formData.append("avatar", avatars);
-
-      console.log(avatars);
-      console.log(formData);
+      console.log(newDate);
+      //console.log(avatars);
+      //console.log(formData);
       updatePetOwnerProfile(formData);
       setIsAlert(true);
     }
@@ -282,11 +295,26 @@ function UserProfile() {
                 onChange={(event) => setIDNumber(event.target.value)}
                 className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
               />
+
               {errors.idNumber && (
                 <p className="mt-2 text-sm text-red-600">{errors.idNumber}</p>
               )}
             </div>
-            <div className="flex flex-col gap-1 flex-1">
+            <div className="flex flex-col gap-1 flex-1 ">
+              <label htmlFor="dateOfBirth">Date Of Birth</label>
+              <Datepicker
+                id="dateOfBirth"
+                name="dateOfBirth"
+                value={value}
+                onChange={handleValueChange}
+                primaryColor={"orange"}
+                useRange={false}
+                asSingle={true}
+                displayFormat={"DD/MM/YYYY"}
+                placeholder={dateOfBirth}
+                inputClassName="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+              />
+              {/* 
               <label htmlFor="dateOfBirth">Date Of Birth</label>
               <input
                 type="date"
@@ -296,6 +324,7 @@ function UserProfile() {
                 onChange={(event) => setDateOfBirth(event.target.value)}
                 className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 px-3 focus:outline-none focus:border-primaryOrange3"
               />
+              */}
             </div>
           </div>
           <div className="flex justify-end items-center ">

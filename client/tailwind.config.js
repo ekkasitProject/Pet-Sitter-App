@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/react-tailwindcss-datepicker/dist/index.esm.js",
+  ],
   /* important: "#root", ไม่ต้องใส่ใช้injectFirstแทนแล้ว*/
   /*ใส่ css variable ในส่วนfontsizeเพิ่มแล้ว*/
   theme: {
