@@ -25,6 +25,7 @@ import TimeRangePicker from "../components/TimeRange";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
+import { CloseIcon } from "../components/Icons.jsx";
 
 function PetSitterDetail() {
   const {
@@ -72,7 +73,7 @@ function PetSitterDetail() {
     setOpen(false);
 
     // Navigate to the booking confirmation page with the booking details
-    navigate("/booking/yourPet", { state: { bookingDetails } });
+    // navigate("/booking/yourPet", { state: { bookingDetails } });
   };
   const navigate = useNavigate();
   const generateTimeOptions = () => {
@@ -274,7 +275,7 @@ function PetSitterDetail() {
                         onClick={handleClose}
                         className="text-gray-500 hover:text-gray-700 focus:outline-none"
                       >
-                        X
+                        <CloseIcon />
                       </button>
                     </div>
                     <hr className="border-gray-300 my-4" />
