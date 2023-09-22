@@ -3,6 +3,7 @@ import LocationIcon from "../assets/icons/icon_location.svg";
 import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
+
 import {
   ChipsOrange,
   ChipsPink,
@@ -25,6 +26,7 @@ import TimeRangePicker from "../components/TimeRange";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
+import { CloseIcon } from "../components/Icons.jsx";
 
 function PetSitterDetail() {
   const {
@@ -72,7 +74,7 @@ function PetSitterDetail() {
     setOpen(false);
 
     // Navigate to the booking confirmation page with the booking details
-    navigate("/booking/yourPet", { state: { bookingDetails } });
+    // navigate("/booking/yourPet", { state: { bookingDetails } });
   };
   const navigate = useNavigate();
   const generateTimeOptions = () => {
@@ -228,7 +230,9 @@ function PetSitterDetail() {
               </h1>
               <div className="mt-2">
                 <h2 className="text-lg">{petSitter.username}</h2>
-                <h2 className="text-sm">1.5 Years Exp.</h2>
+                <h2 className="text-sm">
+                  {petSitterDetail.experience} Years Exp.
+                </h2>
               </div>
               <div className="flex items-center justify-center mt-2 p-5">
                 <img
@@ -272,7 +276,7 @@ function PetSitterDetail() {
                         onClick={handleClose}
                         className="text-gray-500 hover:text-gray-700 focus:outline-none"
                       >
-                        X
+                        <CloseIcon />
                       </button>
                     </div>
                     <hr className="border-gray-300 my-4" />
@@ -285,6 +289,19 @@ function PetSitterDetail() {
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={["DatePicker"]}>
                           <DatePicker
+                            sx={{
+                              "& .MuiOutlinedInput-root": {
+                                "& fieldset": {
+                                  borderColor: "#AEB1C3",
+                                },
+                                "&:hover fieldset": {
+                                  borderColor: "#FF7037",
+                                },
+                                "&.Mui-focused fieldset": {
+                                  borderColor: "#FF7037",
+                                },
+                              },
+                            }}
                             label=""
                             value={selectedDate}
                             onChange={handleDateChange}

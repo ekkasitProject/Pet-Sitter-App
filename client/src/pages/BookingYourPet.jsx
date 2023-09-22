@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import Header from "../components/Header";
+import HeaderAuth from "../components/HeaderAuth.jsx";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import { Link } from "react-router-dom";
@@ -16,6 +16,7 @@ import {
   ChipsGreen,
   ChipsBlue,
 } from "../components/Chips.jsx";
+import { AddIcon } from "../components/Icons.jsx";
 
 const BookingYourPet = (props) => {
   const [selectedBookingDate, setSelectedBookingDate] = useState("");
@@ -125,7 +126,7 @@ const BookingYourPet = (props) => {
 
   return (
     <div>
-      <Header />
+      <HeaderAuth />
       <section className="w-[100%] overflow-hidden relative bg-[#F5F5F5]">
         <div className="w-[90%] flex mx-auto">
           <div className="mt-6 mx-auto w-3/4 mr-8 mb-16">
@@ -171,7 +172,7 @@ const BookingYourPet = (props) => {
                       <input
                         type="checkbox"
                         id={`checkbox-${pet.pet_id}`}
-                        className="absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-500"
+                        className="absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-600"
                         value={pet.pet_id}
                         onChange={(e) =>
                           handleCheckboxChange(e, pet.pet_id, pet.petname)
@@ -203,19 +204,17 @@ const BookingYourPet = (props) => {
                 })}
 
                 <Link to="/user/yourpet/:userId">
-                  <div className="relative pet-card cursor-pointer mb-5 border-2  w-[240px] h-[240px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 bg-orange-200">
+                  <div className="relative pet-card cursor-pointer mb-5 border-2  w-[240px] h-[240px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 bg-primaryOrange6">
                     <div className="flex items-center flex-col justify-center w-full h-full">
-                      <div className=" cursor-pointer">
-                        <img
-                          src="" //src={addIcon}
-                          className="rounded-lg w-[104px] h-[104px] object-fill"
-                          alt="pet sitter picture"
-                        />
+                      <div className=" cursor-pointer text-primaryOrange2">
+                        <AddIcon />
                       </div>
-                      <div className="pet-sitter-profile w-2/3 h-auto pl-10 flex flex-col justify-around">
+                      <div className="pet-sitter-profile w-2/3 h-auto flex flex-col justify-around">
                         <div className="flex flex-row gap-5">
-                          <div className="flex flex-col justify-center w-2/3">
-                            <h1 className="text-lg">Create a new pet</h1>
+                          <div className="flex flex-col justify-center items-center w-full">
+                            <h1 className="text-lg text-primaryOrange2">
+                              Create a new pet
+                            </h1>
                           </div>
                         </div>
                         <div className="flex flex-row gap-2"></div>
