@@ -59,7 +59,7 @@ model PetSitterUser {
   petsitterdetail        PetSitterDetail[]
   addresses              Address[]
   bookings               Booking[]
-  status_update          Boolean @default(false)
+  status_update          Boolean           @default(false)
 }
 
 model PetSitterDetail {

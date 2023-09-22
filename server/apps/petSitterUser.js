@@ -10,9 +10,12 @@ import { deleteOldProfileImage } from "../utils.js/deleteOldProfileImage.js";
 import { imageGalleryUpload } from "../utils.js/imageGalleryUpload.js";
 const prisma = new PrismaClient();
 const petSitterUser = Router();
-
 const multerUpload = multer({ storage: multer.memoryStorage() });
-const avatarUpload = multerUpload.fields([{ name: "avatar" }]);
+const avatarUpload = multerUpload.fields([
+  { name: "avatar" },
+  { name: "gallery" },
+]);
+
 //Section 1.1: Register pet sitter
 petSitterUser.post("/register", async (req, res) => {
   try {
@@ -44,10 +47,10 @@ petSitterUser.post("/register", async (req, res) => {
         image_profile:
           "https://mbxgvfscdghfnvxpfyqi.supabase.co/storage/v1/object/public/default-image/user-profile?t=2023-09-18T08%3A09%3A15.767Z",
         petsitterdetail: {
-          create: {}, // Empty object to allow creation with default/empty values
+          create: {},
         },
         addresses: {
-          create: {}, // Empty object to allow creation with default/empty values
+          create: {},
         },
       },
       include: {
@@ -72,6 +75,7 @@ petSitterUser.post("/register", async (req, res) => {
     res.status(500).json({ message: `Registration failed: ${error.message}` });
   }
 });
+
 //Section 1.2: verify route after receiving confirmation email
 petSitterUser.get("/verify", async (req, res) => {
   const { token } = req.query;
@@ -95,6 +99,7 @@ petSitterUser.get("/verify", async (req, res) => {
     res.status(500).json({ message: "การยืนยันอีเมลล้มเหลว" });
   }
 });
+
 //Section 2: Login pet sitter
 petSitterUser.post("/login", async (req, res) => {
   try {
@@ -158,9 +163,8 @@ petSitterUser.delete("/:id", protect, async (req, res) => {
 });
 
 //Section 4: Update profile/detail/address with image by petsitter id
-petSitterUser.put("/:id", avatarUpload, async (req, res) => {
+petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
   const petsitterId = req.params.id;
-  // const oldImageUrl = req.body.image_profile; //
   try {
     const {
       phone,
@@ -171,14 +175,16 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
       services,
       my_place,
       experience,
-      // pet_type,
+      pet_type,
       address_id,
       address_detail,
       district,
       sub_district,
       province,
       post_code,
+      oldImageUrl,
     } = req.body;
+
     const existingUser = await prisma.petSitterUser.findUnique({
       where: { petsitter_id: petsitterId },
     });
@@ -186,30 +192,63 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
     if (!existingUser) {
       return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
     }
-    // let avatarUrls = null;
-    // // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase
-    // if (req.files && req.files.avatar) {
-    //   avatarUrls = await petsitterProfileUpload(req.files);
+
+    // const existingIdCardNumber = await prisma.petSitterUser.findUnique({
+    //   where: { id_card_number: id_card_number },
+    // });
+
+    // if (existingIdCardNumber) {
+    //   return response.status(404).json({ message: "รหัสบัตรประชาชนซ้ำ" });
     // }
 
-    // // ลบรูปเดิมออกจาก storage ก่อน
-    // if (oldImageUrl) {
-    //   await deleteOldProfileImage(oldImageUrl);
-    // }
+    //profile img edit
+    let avatarUrls = null;
+    // อัปโหลดรูปภาพโปรไฟล์และรับ URL จาก Supabase
+    if (req.files && req.files.avatar) {
+      avatarUrls = await petsitterProfileUpload(req.files);
+      // ลบรูปเดิมออกจาก storage ก่อน
+      if (oldImageUrl) {
+        await deleteOldProfileImage(oldImageUrl);
+      }
+    }
 
-    // อัปเดตข้อมูล User รวมถึง URL ของรูปภาพโปรไฟล์
+    //img gallery edit
+    let { gallery } = req.files;
+
+    if (!gallery || !Array.isArray(gallery) || gallery.length === 0) {
+      return res.status(400).json({ message: "กรุณาอัพโหลดรูปภาพ" });
+    }
+
+    if (gallery.length > 10) {
+      return res
+        .status(400)
+        .json({ message: "ไม่สามารถอัพโหลดรูปภาพเกิน 10 รูป" });
+    }
+
+    const updatedImages = await Promise.all(
+      gallery.slice(0, 10).map(async (file) => {
+        const imageUrl = await imageGalleryUpload(file);
+        return imageUrl;
+      })
+    );
+
+    //อัปเดตข้อมูล User รวมถึง URL ของรูปภาพโปรไฟล์
     const updateData = {
       phone,
       id_card_number,
       introduction,
-      //image_profile: avatarUrls,
+      status_update: true,
+      ...(req.files && req.files.avatar
+        ? { image_profile: avatarUrls }
+        : { image_profile: oldImageUrl }),
     };
     const updatePetSitterDetailData = {
       pet_sitter_name,
       services,
       my_place,
       experience,
-      // pet_type,
+      pet_type,
+      image_gallery: { set: updatedImages },
     };
     const updateAddressData = {
       address_detail,
@@ -225,7 +264,6 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
         ...updateData,
         petsitterdetail: {
           update: {
-            // where: { petsitter_id: petsitterId },
             where: { petsitterdetail_id: petsitterdetail_id },
             data: {
               ...updatePetSitterDetailData,
@@ -234,14 +272,16 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
         },
         addresses: {
           update: {
-            // where: { petsitter_id: petsitterId },
             where: { address_id: address_id },
             data: { ...updateAddressData },
           },
         },
       },
+      include: {
+        petsitterdetail: true,
+        addresses: true,
+      },
     });
-
     return res.status(200).json(updateAll);
   } catch (error) {
     console.log(error);
@@ -249,27 +289,25 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
   }
 });
 
-//Section 5: Get data of all petsitter
-petSitterUser.get("/", protect, async (req, res) => {
-  try {
-    const petSitterUser = await prisma.petSitterUser.findMany();
-    return res.json({ petSitterUser });
-  } catch (error) {
-    return res.status(404).json({ message: `${error}` });
-  }
-});
-
-//Section 6: Get data of 1 petsitter by id
+//Section 5: Get data of 1 petsitter by id
 petSitterUser.get("/:id", protect, async (req, res) => {
   const petsitterId = req.params.id;
   try {
+    const existingUser = await prisma.petSitterUser.findUnique({
+      where: { petsitter_id: petsitterId },
+    });
+
+    if (!existingUser) {
+      return response.status(404).json({ message: "ไม่พบผู้ใช้งาน" });
+    }
+
     const petSitterUser = await prisma.petSitterUser.findUnique({
       where: {
         petsitter_id: petsitterId,
       },
       include: {
-        addresses: true,
         petsitterdetail: true,
+        addresses: true,
       },
     });
     return res.json({ petSitterUser });
@@ -277,4 +315,5 @@ petSitterUser.get("/:id", protect, async (req, res) => {
     return res.status(404).json({ message: `${error}` });
   }
 });
+
 export default petSitterUser;
