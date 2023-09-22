@@ -3,6 +3,7 @@ import LocationIcon from "../assets/icons/icon_location.svg";
 import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
+
 import {
   ChipsOrange,
   ChipsPink,
@@ -288,6 +289,19 @@ function PetSitterDetail() {
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={["DatePicker"]}>
                           <DatePicker
+                            sx={{
+                              "& .MuiOutlinedInput-root": {
+                                "& fieldset": {
+                                  borderColor: "#AEB1C3",
+                                },
+                                "&:hover fieldset": {
+                                  borderColor: "#FF7037",
+                                },
+                                "&.Mui-focused fieldset": {
+                                  borderColor: "#FF7037",
+                                },
+                              },
+                            }}
                             label=""
                             value={selectedDate}
                             onChange={handleDateChange}
