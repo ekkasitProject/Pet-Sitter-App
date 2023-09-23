@@ -4,6 +4,7 @@ import UnauthenticatedApp from "./pages/UnauthenticatedApp";
 import { useAuth } from "./context/authentication";
 import { createContext } from "react";
 import jwtDecode from "jwt-decode";
+
 export const FilterContext = React.createContext();
 
 function App() {

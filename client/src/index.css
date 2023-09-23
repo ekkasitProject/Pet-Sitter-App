@@ -101,3 +101,11 @@
 .css-1u23akw-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
   background-color: #ff7037 !important;
 }
+
+html {
+  overflow-x: hidden;
+}
+
+*::selection {
+  background: #ff986f;
+}

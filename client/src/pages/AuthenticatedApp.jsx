@@ -18,6 +18,7 @@ import jwtDecode from "jwt-decode";
 import BillBooking from "./BillBooking";
 import dayjs from "dayjs";
 import BookingYourPet from "./BookingYourPet";
+import PetSitterProfile from "./PetSitterProfile";
 export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
@@ -113,10 +114,23 @@ const AuthenticatedApp = () => {
           />
           <Route path="/test/:petsitter_id" element={<UploadComponent />} />
           <Route path="/user">
-            UploadComponent
             <Route path="/user/profile/:userId" element={<UserManagement />} />
             <Route path="/user/yourpet/:userId" element={<YourPet />} />
             <Route path="/user/history/:userId" element={<BookingHistory />} />
+          </Route>
+          <Route path="/petsitter">
+            <Route
+              path="/petsitter/profile/:petsitterId"
+              element={<PetSitterProfile />}
+            />
+            <Route
+              path="/petsitter/bookinglist/:petsitterId"
+              element={<PetSitterProfile />}
+            />
+            <Route
+              path="/petsitter/bookinglistdetail/:petsitterId"
+              element={<PetSitterProfile />}
+            />
           </Route>
         </Routes>
       </ToggleContext.Provider>
