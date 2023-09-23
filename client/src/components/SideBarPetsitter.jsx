@@ -10,19 +10,15 @@ function SideBarPetsitter() {
   //const { petOwnerID } = useContext(ToggleContext);
   const navigate = useNavigate();
   const profileRef = useRef(null);
-  const yourpetRef = useRef(null);
-  const historyRef = useRef(null);
+  const bookingRef = useRef(null);
 
   const currentURL = window.location.href;
   const checkURL = () => {
     if (currentURL.includes("profile")) {
       profileRef.current.focus();
     }
-    if (currentURL.includes("yourpet")) {
-      yourpetRef.current.focus();
-    }
-    if (currentURL.includes("history")) {
-      historyRef.current.focus();
+    if (currentURL.includes("bookinglist")) {
+      bookingRef.current.focus();
     }
   };
 
@@ -36,9 +32,9 @@ function SideBarPetsitter() {
 
   return (
     <>
-      <div className="h-screen w-1/6 flex flex-col justify-between">
+      <div className="h-screen w-1/6 flex flex-col justify-between border-r-2 ">
         <div className="">
-          <div className="w-full h-[120px] flex justify-center items-center">
+          <div className="w-full h-[120px] flex justify-center items-center ">
             <img
               onClick={handleToHome}
               src={logo}
@@ -50,7 +46,7 @@ function SideBarPetsitter() {
           <div className=" w-full h-[72px] flex flex-col ">
             <button
               ref={profileRef}
-              onClick={() => navigate(`/user/profile/`)}
+              onClick={() => navigate(`/petsitter/profile/:petsitterId`)}
               className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
             >
               <ProfileIcon />
@@ -58,8 +54,8 @@ function SideBarPetsitter() {
             </button>
 
             <button
-              ref={historyRef}
-              onClick={() => navigate(`/user/history/`)}
+              ref={bookingRef}
+              onClick={() => navigate(`/petsitter/bookinglist/:petsitterId`)}
               className="text-headLine5 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
             >
               <MenuIcon />
@@ -68,7 +64,7 @@ function SideBarPetsitter() {
           </div>
         </div>
         <button
-          className="text-headLine5 border-t-2 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
+          className="text-headLine5 border-y-2 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
           onClick={() => logout()}
         >
           <LogoutIcon />

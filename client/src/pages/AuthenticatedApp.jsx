@@ -19,6 +19,9 @@ import BillBooking from "./BillBooking";
 import dayjs from "dayjs";
 import BookingYourPet from "./BookingYourPet";
 import PetSitterProfile from "./PetSitterProfile";
+import BookingList from "./BookingList";
+import BookingListDetail from "./BookingListDetail";
+
 export const ToggleContext = React.createContext();
 
 const AuthenticatedApp = () => {
@@ -125,11 +128,11 @@ const AuthenticatedApp = () => {
             />
             <Route
               path="/petsitter/bookinglist/:petsitterId"
-              element={<PetSitterProfile />}
+              element={<BookingList />}
             />
             <Route
               path="/petsitter/bookinglistdetail/:petsitterId"
-              element={<PetSitterProfile />}
+              element={<BookingListDetail />}
             />
           </Route>
         </Routes>
