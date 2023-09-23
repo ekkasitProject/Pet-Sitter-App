@@ -69,46 +69,21 @@ const HeaderPetsitter = () => {
 
   return (
     <header className="header h-[72px] w-full flex flex-row justify-start items-center px-14 gap-1">
-      <div className="flex justify-start items-center">
+      <div className="">
         {profile ? (
-          <div className="relative">
+          <div className="relative flex justify-start items-center">
             {profile.image_profile ? (
-              <button onClick={dropDownChange}>
-                <img
-                  className="w-[40px] h-[40px] rounded-full mr-4 mt-2"
-                  src={profile.image_profile}
-                  alt="Profile"
-                />
-              </button>
+              <>
+                <button onClick={dropDownChange}>
+                  <img
+                    className="w-[40px] h-[40px] rounded-full mr-4 mt-2"
+                    src={profile.image_profile}
+                    alt="Profile"
+                  />
+                </button>
+                <span>{profile.username}</span>
+              </>
             ) : null}
-            {isDropdownOpen && (
-              <div className="absolute top-12 right-[-10rem] mt-2 bg-white border rounded shadow-md w-[186px]     z-50">
-                <div className="">
-                  <div
-                    onClick={() => navigate(`/user/profile/${petOwnerID}`)} //แก้
-                    className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
-                  >
-                    <img className="ml-4 " src={profile_user} alt="" />
-                    <span className="ml-4 ">Pet Sitter Profile</span>
-                  </div>
-                  <div
-                    onClick={() => navigate(`/user/history/${petOwnerID}`)} //แก้
-                    className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
-                  >
-                    <img className="ml-4" src={history} alt="" />
-                    <span className="ml-4">Bookig List</span>
-                  </div>
-                  <hr className="" />
-                  <div
-                    className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
-                    onClick={() => logout()}
-                  >
-                    <img className="ml-4" src={logout_user} alt="" />
-                    <span className="ml-4">Log Out</span>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         ) : (
           <span>profile image & name </span>

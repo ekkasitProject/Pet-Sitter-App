@@ -17,7 +17,11 @@ function BookingListDetail() {
           <div className="min-h-[90%] w-full px-14 flex flex-col pt-4 pb-14 bg-[#F6F6F9]">
             <div className="h-[100px] w-full flex justify-between items-center ">
               <div className="text-primaryGray3 flex flex-row items-center gap-3">
-                <button>
+                <button
+                  onClick={() => {
+                    navigate("/petsitter/bookinglist/:petsitterId");
+                  }}
+                >
                   <BackIcon />
                 </button>
                 <div className="text-headLine3 text-black">Petsitter name</div>
@@ -25,12 +29,40 @@ function BookingListDetail() {
               </div>
 
               <div className="flex gap-3">
+                {/* อันนี้mockไว้ */}
                 <button className="w-[150px] h-[50px] py-2  bg-primaryOrange6 rounded-full active:text-primaryOrange1 text-primaryOrange2 hover:text-primaryOrange3 disabled:bg-primaryGray6 disabled:text-primaryGray5">
+                  Reject Booking
+                </button>
+                <button className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray5 disabled:text-primaryGray3">
+                  Confirm Booking
+                </button>
+                {/*
+                 {booking.status_booking == "Success" ? (
+                      
+                <button className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray5 disabled:text-primaryGray3">
+                  Success
+                </button>
+                    ) : booking.status_booking == "In service" ? (
+                      <button disabled className=" h-[50px] px-5 py-1 rounded-full disabled:bg-primaryGray4 disabled:text-primaryGray3">
+                  Success
+                </button>
+                    ) : booking.status_booking == "Waiting for confirm" ? (
+                     <>
+                     <button className="w-[150px] h-[50px] py-2  bg-primaryOrange6 rounded-full active:text-primaryOrange1 text-primaryOrange2 hover:text-primaryOrange3 disabled:bg-primaryGray6 disabled:text-primaryGray5">
                   Reject Booking
                 </button>
                 <button className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3">
                   Confirm Booking
                 </button>
+                     </>
+                    ) : booking.status_booking == "Waiting for service" ? (
+                      <button className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3">
+                  In Service
+                </button>
+                    ) : booking.status_booking == "Canceled" ? (
+                      null
+                    ) : null}
+                */}
               </div>
             </div>
             <div className="h-auto w-full bg-white flex flex-col gap-10 mt-1 shadow-custom4 rounded-lg">
