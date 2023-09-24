@@ -48,7 +48,7 @@ function PetSitterProfile() {
   const [pettype, setPettype] = useState("");
   const [allpets, setAllpets] = useState([]);
 
-  const [gallery, setGallery] = useState("");
+  const [gallery, setGallery] = useState({});
 
   useEffect(() => {
     getPetOwnerProfile();
@@ -179,7 +179,6 @@ function PetSitterProfile() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    //setAvatars(URL.createObjectURL(file));
     setAvatars(file);
     setPhoto(URL.createObjectURL(file));
     console.log(avatars);
@@ -189,19 +188,15 @@ function PetSitterProfile() {
     setIsAlert(false);
   }, 3000);
 
-  const handlePettype = (e) => {
-    setPettype(e.target.value);
-  };
-
   useEffect(() => {
-    console.log(pettype);
+    //console.log(pettype);
     const petsArray = [...allpets];
     if (!allpets.includes(pettype) && pettype !== "") {
       petsArray.push(pettype);
       setAllpets(petsArray);
     }
 
-    console.log(allpets);
+    //  console.log(allpets);
   }, [pettype]);
 
   const handleRemovePet = (pet) => {
@@ -214,13 +209,30 @@ function PetSitterProfile() {
     }
   };
 
+  const handleGalleryChange = (event) => {
+    const uniqueId = Date.now();
+    setGallery({
+      ...gallery,
+      [uniqueId]: event.target.files[0],
+    });
+    console.log(event.target.files[0]);
+  };
+
+  const handleRemoveImage = (event, galleryKey) => {
+    event.preventDefault();
+    delete gallery[galleryKey];
+    setGallery({ ...gallery });
+  };
+
+  //console.log(gallery);
+
   return (
     <>
       <div className="w-screen h-full flex flex-row justify-center font-satoshi">
         <SideBarPetsitter />
         <div className=" w-5/6 h-auto flex flex-col items-center ">
           <HeaderPetsitter />
-          <div className="h-auto w-full px-14 flex flex-col pt-4 pb-14 bg-[#F6F6F9]">
+          <div className="min-h-full w-full px-14 flex flex-col pt-4 pb-20 bg-[#F6F6F9]">
             <div className="h-[100px] w-full flex justify-between items-center ">
               <div className="text-headLine3">Pet Sitter Profile</div>
               <button
@@ -247,7 +259,7 @@ function PetSitterProfile() {
                     <img
                       className="object-fit w-[220px] h-[220px] rounded-full"
                       src={photo}
-                      alt="Profile Avatar"
+                      alt=""
                     />
                     {/*
             {Object.keys(avatars).map((avatarKey) => {
@@ -273,12 +285,12 @@ function PetSitterProfile() {
             */}
 
                     <label
-                      htmlFor="upload"
+                      htmlFor="upload1"
                       className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
                     >
                       <PlusIcon />
                       <input
-                        id="upload"
+                        id="upload1"
                         name="avatar"
                         type="file"
                         onChange={handleFileChange}
@@ -314,22 +326,17 @@ function PetSitterProfile() {
                       <label htmlFor="dropdown">
                         <h1>Experience* (years)</h1>
                       </label>
-                      <select
+                      <input
                         id="experience"
                         name="experience"
-                        className=" border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
+                        type="number"
                         value={experience}
-                        onChange={(e) => setExperience(e.target.value)}
-                      >
-                        <option disabled value="">
-                          -- Select a experience --
-                        </option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5+ Years">5+ Years</option>
-                      </select>
+                        onChange={(event) => setExperience(event.target.value)}
+                        placeholder="0"
+                        required
+                        min="0"
+                        className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                      />
                     </div>
                   </div>
                   <div className="flex gap-10 flex-1 w-full">
@@ -495,15 +502,50 @@ function PetSitterProfile() {
                     <label htmlFor="place">
                       Image Gallery (Maximum 10 images)
                     </label>
-                    <div className="relative pet-card cursor-pointer mb-5 border-2  w-[200px] h-[200px] rounded-xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 bg-primaryOrange6">
-                      <div className="flex items-center flex-col justify-center w-full h-full">
-                        <div className=" cursor-pointer text-primaryOrange2">
-                          <AddIcon />
+                    <div className="grid grid-cols-5 gap-4">
+                      {Object.keys(gallery).map((galleryKey) => {
+                        const file = gallery[galleryKey];
+                        return (
+                          <div
+                            key={galleryKey}
+                            className="image-preview-container relative flex justify-center items-center"
+                          >
+                            <div className="bg-primaryGray6 w-[180px] h-[180px] rounded-xl overflow-hidden ">
+                              <img
+                                className="image-preview object-contain w-[180px] h-[180px] "
+                                src={URL.createObjectURL(file)}
+                                alt={file.name}
+                              />
+                            </div>
+
+                            <button
+                              className="image-remove-button z-10 absolute top-[-5px] right-[-5px] w-[24px] h-[24px] rounded-full bg-primaryGray3 text-white flex justify-center items-center"
+                              onClick={(event) =>
+                                handleRemoveImage(event, galleryKey)
+                              }
+                            >
+                              <span>x</span>
+                            </button>
+                          </div>
+                        );
+                      })}
+                      <label htmlFor="upload2">
+                        <div className="relative pet-card cursor-pointer mb-5 border-2  w-[180px] h-[180px] rounded-xl flex flex-col justify-center items-center hover:border-primaryOrange4 bg-primaryOrange6">
+                          <div className=" cursor-pointer text-primaryOrange2">
+                            <AddIcon />
+                          </div>
+                          <h1 className="text-lg text-primaryOrange2 flex flex-col justify-center items-center w-full">
+                            Upload Image
+                          </h1>
                         </div>
-                        <h1 className="text-lg text-primaryOrange2 flex flex-col justify-center items-center w-full">
-                          Upload Image
-                        </h1>
-                      </div>
+                        <input
+                          id="upload2"
+                          name="gallery"
+                          type="file"
+                          onChange={handleGalleryChange}
+                          hidden
+                        />
+                      </label>
                     </div>
                   </div>
                 </div>
