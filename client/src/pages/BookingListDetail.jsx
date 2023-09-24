@@ -25,7 +25,28 @@ function BookingListDetail() {
                   <BackIcon />
                 </button>
                 <div className="text-headLine3 text-black">Petsitter name</div>
-                <div className="">status</div>
+                <div className="">
+                  status
+                  {/*
+              <span
+                        className={
+                          booking.status_booking == "Success"
+                            ? "text-secondaryGreen1"
+                            : booking.status_booking == "In service"
+                            ? "text-secondaryBlue1"
+                            : booking.status_booking == "Waiting for confirm"
+                            ? "text-secondaryPink1"
+                            : booking.status_booking == "Waiting for service"
+                            ? "text-amber-500"
+                            : booking.status_booking == "Canceled"
+                            ? "text-red-500"
+                            : null
+                        }
+                      >
+                        ● {booking.status_booking}
+                      </span>
+              */}
+                </div>
               </div>
 
               <div className="flex gap-3">
