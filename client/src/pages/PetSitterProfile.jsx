@@ -37,6 +37,11 @@ function PetSitterProfile() {
   const [photo, setPhoto] = useState("");
   const [experience, setExperience] = useState("");
   const [introduction, setIntroduction] = useState("");
+  const [address, setAddress] = useState("");
+  const [district, setDistrict] = useState("");
+  const [subDistrict, setSubDistrict] = useState("");
+  const [province, setProvince] = useState("");
+  const [postcode, setPostcode] = useState("");
 
   useEffect(() => {
     getPetOwnerProfile();
@@ -198,7 +203,7 @@ function PetSitterProfile() {
                 onSubmit={handleSubmit}
                 className="flex flex-col justify-start items-start gap-6 w-full"
               >
-                <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-14 pb-10 flex flex-col justify-start items-center gap-4">
+                <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-12 pb-10 flex flex-col justify-start items-start gap-4">
                   <div className="text-headLine3 text-primaryGray4 w-full flex flex-row justify-start">
                     Basic Information
                   </div>
@@ -256,20 +261,20 @@ function PetSitterProfile() {
                   </div>
                   <div className="flex flex-row gap-10 w-full">
                     <div className="flex-1">
-                      <label htmlFor="userName">Your full name*</label>
+                      <label htmlFor="fullName">Your full name*</label>
                       <input
                         id="fullName"
                         name="fullName"
                         type="fullName"
                         value={fullname}
                         onChange={(event) => setFullname(event.target.value)}
-                        placeholder="your fullname "
+                        //placeholder="your fullname "
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.username && (
+                      {errors.fullName && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.username}
+                          {errors.fullName}
                         </p>
                       )}
                     </div>
@@ -350,11 +355,108 @@ function PetSitterProfile() {
                     />
                   </div>
                 </div>
-                <div className="bg-white w-full h-3/6 shadow-custom4 rounded-lg">
-                  z
+                <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-14 pb-10 flex flex-col justify-start items-start gap-4">
+                  y
                 </div>
-                <div className="bg-white w-full h-1/6 shadow-custom4 rounded-lg">
-                  z
+                <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-12 pb-10 flex flex-col justify-start items-start gap-4">
+                  <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                    Address
+                  </div>
+                  <div className="flex flex-col gap-1 w-full">
+                    <label htmlFor="address">Address Detail*</label>
+                    <input
+                      id="address"
+                      name="address"
+                      type="text"
+                      // value={address}
+                      //  onChange={(event) => setAddress(event.target.value)}
+                      //placeholder="your username "
+                      required
+                      className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                    />
+                    {errors.address && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.address}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex flex-row gap-10 w-full">
+                    <div className="flex-1">
+                      <label htmlFor="district">District*</label>
+                      <input
+                        id="district"
+                        name="district"
+                        type="district"
+                        value={district}
+                        onChange={(event) => setDistrict(event.target.value)}
+                        // placeholder="your district "
+                        required
+                        className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                      />
+                      {errors.district && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.district}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <label htmlFor="subDistrict">Sub-district*</label>
+                      <input
+                        id="subDistrict"
+                        name="subDistrict"
+                        type="subDistrict"
+                        value={subDistrict}
+                        onChange={(event) => setSubDistrict(event.target.value)}
+                        //  placeholder="your subDistrict "
+                        required
+                        className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                      />
+                      {errors.district && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.district}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-10 flex-1 w-full">
+                    <div className="flex flex-col w-full gap-1 flex-1">
+                      <label htmlFor="province">Province*</label>
+                      <input
+                        id="province"
+                        name="province"
+                        type="text"
+                        value={province}
+                        onChange={(event) => setProvince(event.target.value)}
+                        placeholder="Your phone number"
+                        required
+                        className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                      />
+                      {errors.province && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.province}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex flex-col w-full gap-1 flex-1">
+                      <label htmlFor="postcode">Post code*</label>
+                      <input
+                        id="postcode"
+                        name="postcode"
+                        type="text"
+                        value={postcode}
+                        onChange={(event) => setPostcode(event.target.value)}
+                        //placeholder="example@postcode.com"
+                        required
+                        className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                      />
+                      {errors.postcode && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.postcode}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </form>
             </div>
