@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import fetchUserData from "../hooks/fetchUserData";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { PlusIcon } from "../components/Icons";
+import { PlusIcon, AddIcon, CloseIcon } from "../components/Icons";
 import Datepicker from "react-tailwindcss-datepicker";
 
 function PetSitterProfile() {
@@ -46,6 +46,8 @@ function PetSitterProfile() {
   const [services, setServices] = useState("");
   const [place, setPlace] = useState("");
   const [pettype, setPettype] = useState("");
+  const [allpets, setAllpets] = useState([]);
+
   const [gallery, setGallery] = useState("");
 
   useEffect(() => {
@@ -186,6 +188,10 @@ function PetSitterProfile() {
   setTimeout(() => {
     setIsAlert(false);
   }, 3000);
+
+  const handlePettype = (e) => {
+    setPettype(e.target.value);
+  };
 
   return (
     <>
@@ -360,7 +366,7 @@ function PetSitterProfile() {
                     />
                   </div>
                 </div>
-                <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-14 pb-10 flex flex-col justify-start items-start gap-4">
+                <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-14 pb-10 flex flex-col justify-start items-start gap-8">
                   <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
                     Pet Sitter
                   </div>
@@ -385,8 +391,27 @@ function PetSitterProfile() {
                       </p>
                     )}
                   </div>
-                  <div className="flex flex-col w-full gap-1 flex-1">
-                    <label htmlFor="place">Pet Type*</label>
+                  <div className="relative flex flex-col w-full gap-1 flex-1">
+                    <label htmlFor="pettype">Pet Type*</label>
+                    <select
+                      id="pettype"
+                      name="pettype"
+                      className=" border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
+                      value={pettype}
+                      onChange={handlePettype}
+                    >
+                      <option disabled value=""></option>
+                      <option value="dog">Dog</option>
+                      <option value="cat">Cat</option>
+                      <option value="bird">Bird</option>
+                      <option value="rabbit">Rabbit</option>
+                    </select>
+                    <div className="bg-white w-1/5 h-[38px] absolute top-10 left-3 flex flex-row items-center">
+                      <div className="h-[32px] w-[80px] z-10 text-primaryOrange2 bg-primaryOrange6 border-2 border-primaryOrange6 rounded-full  flex justify-between items-center px-3">
+                        <span>Dog</span>
+                        <span>X</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="flex flex-col w-full gap-1 flex-1">
                     <label htmlFor="services">
@@ -419,10 +444,20 @@ function PetSitterProfile() {
                     />
                   </div>
 
-                  <div className="flex flex-col w-full gap-1 flex-1">
+                  <div className="flex flex-col w-full gap-3 flex-1">
                     <label htmlFor="place">
                       Image Gallery (Maximum 10 images)
                     </label>
+                    <div className="relative pet-card cursor-pointer mb-5 border-2  w-[200px] h-[200px] rounded-xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 bg-primaryOrange6">
+                      <div className="flex items-center flex-col justify-center w-full h-full">
+                        <div className=" cursor-pointer text-primaryOrange2">
+                          <AddIcon />
+                        </div>
+                        <h1 className="text-lg text-primaryOrange2 flex flex-col justify-center items-center w-full">
+                          Upload Image
+                        </h1>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-12 pb-10 flex flex-col justify-start items-start gap-4">

@@ -4,9 +4,18 @@ import { ToggleContext } from "../pages/AuthenticatedApp";
 import SideBarPetsitter from "../components/SideBarPetsitter";
 import HeaderPetsitter from "../components/HeaderPetsitter";
 import { BackIcon, EyeIcon } from "../components/Icons";
+import profile_user from "../assets/icons/profile.svg";
 
 function BookingListDetail() {
+  const [allpets, setAllpets] = useState([]);
+  const [toggleViewPet, setToggleViewPet] = useState(false);
+  const [petID, setPetID] = useState("");
   const navigate = useNavigate();
+  const handleToggleViewPet = (id) => {
+    setPetID(id);
+    setToggleViewPet(true);
+    // console.log(petID);
+  };
 
   return (
     <>
@@ -86,11 +95,91 @@ function BookingListDetail() {
                 */}
               </div>
             </div>
-            <div className="h-auto w-full bg-white flex flex-col gap-10 mt-1 shadow-custom4 rounded-lg">
-              <button className="text-primaryOrange2 flex flex-row">
-                <EyeIcon />
-                ViewProfile
-              </button>
+            <div className="h-auto w-full px-20 pt-12 pb-10 bg-white flex flex-col gap-8 mt-1 shadow-custom4 rounded-lg">
+              <div className="flex flex-col gap-1">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Pet Owner Name
+                </div>
+                <div className="flex flex-row items-center justify-between">
+                  <div className="">Name</div>
+                  <button className="text-primaryOrange2 flex flex-row">
+                    <EyeIcon />
+                    ViewProfile
+                  </button>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Pet(s)
+                </div>
+                <div className="">2</div>
+              </div>
+              <div className="flex flex-col gap-2">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Pet Detail
+                </div>
+                <div className="">
+                  <div
+                    onClick={() => handleToggleViewPet("id")}
+                    className="pet-card cursor-pointer border-2 border-primaryGray5 w-[200px] h-[230px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
+                  >
+                    <img
+                      src={profile_user}
+                      className="rounded-full w-[80px] h-[80px] mt-4"
+                      alt="pet sitter profile picture"
+                    />
+                    <h1 className="text-headLine3">Name</h1>
+                    Type
+                  </div>
+                  {/* {allpets.map((pet) => {
+                return (
+                  <div
+                    key={pet.pet_id}
+                    onClick={() => handleToggleViewPet(pet.pet_id)}
+                    className="pet-card cursor-pointer mb-5 border-2 border-primaryGray5 w-[200px] h-[230px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
+                  >
+                    <img
+                      src={pet.image_profile}
+                      className="rounded-full w-[80px] h-[80px] mt-4"
+                      alt="pet sitter profile picture"
+                    />
+                    <h1 className="text-headLine3">{pet.petname}</h1>
+                    {handleChip(pet.pettype)}
+                  </div>
+                );
+              })} */}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Duration
+                </div>
+                <div className="">2 hours</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Booking Date
+                </div>
+                <div className="">date | time</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Transaction Date
+                </div>
+                <div className="">2 Sep</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Transaction No
+                </div>
+                <div className="">2</div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                  Additional Message
+                </div>
+                <div className="">msg</div>
+              </div>
             </div>
           </div>
         </div>
