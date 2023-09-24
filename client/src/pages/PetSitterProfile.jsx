@@ -193,6 +193,27 @@ function PetSitterProfile() {
     setPettype(e.target.value);
   };
 
+  useEffect(() => {
+    console.log(pettype);
+    const petsArray = [...allpets];
+    if (!allpets.includes(pettype) && pettype !== "") {
+      petsArray.push(pettype);
+      setAllpets(petsArray);
+    }
+
+    console.log(allpets);
+  }, [pettype]);
+
+  const handleRemovePet = (pet) => {
+    if (allpets.includes(pet)) {
+      setAllpets(
+        allpets.filter((item) => {
+          return item !== pet;
+        })
+      );
+    }
+  };
+
   return (
     <>
       <div className="w-screen h-full flex flex-row justify-center font-satoshi">
@@ -396,21 +417,47 @@ function PetSitterProfile() {
                     <select
                       id="pettype"
                       name="pettype"
-                      className=" border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
+                      className="text-white border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
                       value={pettype}
-                      onChange={handlePettype}
+                      onChange={(e) => {
+                        setPettype(e.target.value);
+                      }}
                     >
                       <option disabled value=""></option>
-                      <option value="dog">Dog</option>
-                      <option value="cat">Cat</option>
-                      <option value="bird">Bird</option>
-                      <option value="rabbit">Rabbit</option>
+                      <option className="text-black" value="dog">
+                        Dog
+                      </option>
+                      <option className="text-black" value="cat">
+                        Cat
+                      </option>
+                      <option className="text-black" value="bird">
+                        Bird
+                      </option>
+                      <option className="text-black" value="rabbit">
+                        Rabbit
+                      </option>
                     </select>
-                    <div className="bg-white w-1/5 h-[38px] absolute top-10 left-3 flex flex-row items-center">
-                      <div className="h-[32px] w-[80px] z-10 text-primaryOrange2 bg-primaryOrange6 border-2 border-primaryOrange6 rounded-full  flex justify-between items-center px-3">
-                        <span>Dog</span>
-                        <span>X</span>
-                      </div>
+                    <div className=" w-[1px] h-[38px] absolute top-10 left-3 flex flex-row items-center gap-2">
+                      {allpets
+                        ? allpets.map((pet, index) => {
+                            return (
+                              <div
+                                key={index}
+                                className="h-[32px] w-auto z-10 text-primaryOrange2 bg-primaryOrange6 border-2 border-primaryOrange6 rounded-full  flex justify-between items-center px-3 gap-4"
+                              >
+                                <span>{pet}</span>
+
+                                <button
+                                  onClick={() => {
+                                    handleRemovePet(pet);
+                                  }}
+                                >
+                                  x
+                                </button>
+                              </div>
+                            );
+                          })
+                        : null}
                     </div>
                   </div>
                   <div className="flex flex-col w-full gap-1 flex-1">
