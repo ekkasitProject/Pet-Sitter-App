@@ -42,6 +42,11 @@ function PetSitterProfile() {
   const [subDistrict, setSubDistrict] = useState("");
   const [province, setProvince] = useState("");
   const [postcode, setPostcode] = useState("");
+  const [tradename, setTradename] = useState("");
+  const [services, setServices] = useState("");
+  const [place, setPlace] = useState("");
+  const [pettype, setPettype] = useState("");
+  const [gallery, setGallery] = useState("");
 
   useEffect(() => {
     getPetOwnerProfile();
@@ -356,7 +361,69 @@ function PetSitterProfile() {
                   </div>
                 </div>
                 <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-14 pb-10 flex flex-col justify-start items-start gap-4">
-                  y
+                  <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
+                    Pet Sitter
+                  </div>
+                  <div className="flex flex-col gap-1 w-1/2">
+                    <label htmlFor="address">
+                      Pet Sitter name(Trade name)*
+                    </label>
+                    <input
+                      id="tradename"
+                      name="tradename"
+                      type="text"
+                      value={tradename}
+                      required
+                      onChange={(event) => setTradename(event.target.value)}
+                      //placeholder="your username "
+
+                      className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                    />
+                    {errors.tradename && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {errors.tradename}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex flex-col w-full gap-1 flex-1">
+                    <label htmlFor="place">Pet Type*</label>
+                  </div>
+                  <div className="flex flex-col w-full gap-1 flex-1">
+                    <label htmlFor="services">
+                      Services (Describe about your services)
+                    </label>
+                    <textarea
+                      type="text"
+                      cols={20}
+                      rows={6}
+                      id="services"
+                      name="services"
+                      value={services}
+                      onChange={(event) => setServices(event.target.value)}
+                      className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full gap-1 flex-1">
+                    <label htmlFor="place">
+                      My place (Describe your place)
+                    </label>
+                    <textarea
+                      type="text"
+                      cols={20}
+                      rows={6}
+                      id="place"
+                      name="place"
+                      value={place}
+                      onChange={(event) => setPlace(event.target.value)}
+                      className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                    />
+                  </div>
+
+                  <div className="flex flex-col w-full gap-1 flex-1">
+                    <label htmlFor="place">
+                      Image Gallery (Maximum 10 images)
+                    </label>
+                  </div>
                 </div>
                 <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-12 pb-10 flex flex-col justify-start items-start gap-4">
                   <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
@@ -368,8 +435,8 @@ function PetSitterProfile() {
                       id="address"
                       name="address"
                       type="text"
-                      // value={address}
-                      //  onChange={(event) => setAddress(event.target.value)}
+                      value={address}
+                      onChange={(event) => setAddress(event.target.value)}
                       //placeholder="your username "
                       required
                       className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
