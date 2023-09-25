@@ -13,7 +13,7 @@ function RegistrationForm() {
   const [errors, setErrors] = useState({});
   const [role, setRole] = useState("");
 
-  const { register } = useAuth();
+  const { registerPetowner, registerPetsitter } = useAuth();
 
   const handlePetOwnerChange = (e) => {
     setPetOwner(e.target.checked);
@@ -64,6 +64,14 @@ function RegistrationForm() {
         petOwner,
         petSitter,
       };
+
+      if (role == "petowner") {
+        registerPetowner(data);
+      }
+
+      if (role == "petsitter") {
+        registerPetsitter(data);
+      }
 
       /*
       register(data);
