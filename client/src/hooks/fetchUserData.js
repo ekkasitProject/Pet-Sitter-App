@@ -15,6 +15,7 @@ const fetchUserData = () => {
   const [bookingHistory, setBookingHistory] = useState([]);
   const [booking, setBooking] = useState({});
   const [petsitterProfile, setPetsitterProfile] = useState(null);
+  const [bookingList, setBookingList] = useState([]);
 
   const {
     petID,
@@ -288,12 +289,34 @@ const fetchUserData = () => {
         }
       );
 
-      //console.log(result);
+      console.log(result);
 
       setPetsitterProfile(result.data.petSitterUser);
       //setpetSitterID(result.data.petOwnerUser.petowner_id);
       // console.log(petSitterID);
       //setProfile(result.data[0]);
+    } catch (error) {
+      // Handle authentication error here
+      console.error("Authentication error:", error);
+    }
+  };
+
+  const getBookingList = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const result = await axios.get(
+        `http://localhost:6543/booking/petsitter/${petSitterID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log(result);
+
+      setBookingList(result.data.bookings);
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
@@ -324,6 +347,9 @@ const fetchUserData = () => {
     petsitterProfile,
     setPetsitterProfile,
     getPetsitterProfile,
+    bookingList,
+    setBookingList,
+    getBookingList,
   };
 };
 

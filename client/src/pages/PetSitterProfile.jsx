@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import React, { useState, useContext, useEffect } from "react";
-import { ToggleContext } from "../pages/AuthenticatedApp";
+import { ToggleContext } from "./AuthenticatedApp";
 import SideBarPetsitter from "../components/SideBarPetsitter";
 import HeaderPetsitter from "../components/HeaderPetsitter";
 import profile_user from "../assets/icons/profile.svg";
@@ -12,12 +12,12 @@ import { PlusIcon, AddIcon, CloseIcon } from "../components/Icons";
 import Datepicker from "react-tailwindcss-datepicker";
 
 function PetSitterProfile() {
+  const { petSitterID, setPetSitterID } = useContext(ToggleContext);
   const navigate = useNavigate();
   const {
-    getPetOwnerProfile,
-    petOwnerProfile,
-    setPetOwnerProfile,
-    updatePetOwnerProfile,
+    petsitterProfile,
+    setPetsitterProfile,
+    getPetsitterProfile,
     isError,
     isLoading,
   } = fetchUserData();
@@ -51,8 +51,8 @@ function PetSitterProfile() {
   const [gallery, setGallery] = useState({});
 
   useEffect(() => {
-    getPetOwnerProfile();
-    // console.log(petOwnerProfile);
+    getPetsitterProfile();
+    // console.log(petsitterProfile);
   }, []);
 
   function formatDate(isoDate) {
@@ -70,20 +70,20 @@ function PetSitterProfile() {
   }
 
   useEffect(() => {
-    if (petOwnerProfile) {
-      setFullname(petOwnerProfile.username);
-      setEmail(petOwnerProfile.email);
-      setPhone(petOwnerProfile.phone);
-      setIDNumber(petOwnerProfile.id_card_number);
-      const newDate = formatDate(petOwnerProfile.date_of_birth);
-      setDateOfBirth(newDate);
-      setPhoto(petOwnerProfile.image_profile);
+    if (petsitterProfile) {
+      setFullname(petsitterProfile.username);
+      setEmail(petsitterProfile.email);
+      setPhone(petsitterProfile.phone);
+      //setIDNumber(petsitterProfile.id_card_number);
+      //const newDate = formatDate(petsitterProfile.date_of_birth);
+      // setDateOfBirth(newDate);
+      setPhoto(petsitterProfile.image_profile);
       /*  const uniqueId = Date.now();
       setAvatars({
-        [uniqueId]: petOwnerProfile.image_profile,
+        [uniqueId]: petsitterProfile.image_profile,
       });*/
     }
-  }, [petOwnerProfile]);
+  }, [petsitterProfile]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -155,7 +155,7 @@ function PetSitterProfile() {
         date_of_birth: dateOfBirth,
       };
       console.log(data);
-      updatePetOwnerProfile(data);
+      updatepetsitterProfile(data);
       setIsAlert(true);
     }
 */
@@ -172,7 +172,7 @@ function PetSitterProfile() {
       console.log(newDate);
       //console.log(avatars);
       //console.log(formData);
-      updatePetOwnerProfile(formData);
+      // updatepetsitterProfile(formData);
       setIsAlert(true);
     }
   };
@@ -279,7 +279,7 @@ function PetSitterProfile() {
              <img
               className="object-fit"
               src={profile_user}
-              //src={petOwnerProfile.image_profile}
+              //src={petsitterProfile.image_profile}
               alt=""
             />
             */}
