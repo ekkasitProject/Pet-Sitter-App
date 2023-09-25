@@ -11,6 +11,7 @@ function RegistrationForm() {
   const [petOwner, setPetOwner] = useState(false);
   const [petSitter, setPetSitter] = useState(false);
   const [errors, setErrors] = useState({});
+  const [role, setRole] = useState("");
 
   const { register } = useAuth();
 
@@ -63,6 +64,8 @@ function RegistrationForm() {
         petOwner,
         petSitter,
       };
+
+      /*
       register(data);
 
       if (petOwner) {
@@ -72,6 +75,7 @@ function RegistrationForm() {
       if (petSitter) {
         console.log("User selected Pet Sitter role");
       }
+      */
     }
   };
 
@@ -187,6 +191,11 @@ function RegistrationForm() {
                   <input
                     type="radio"
                     name="role"
+                    value="petowner"
+                    onClick={(e) => {
+                      setRole(e.target.value);
+                      console.log(role);
+                    }}
                     // checked={petOwner}
                     // onChange={handlePetOwnerChange}
                     className="form-checkbox h-4 w-4 accent-orange-600"
@@ -197,6 +206,11 @@ function RegistrationForm() {
                   <input
                     type="radio"
                     name="role"
+                    value="petsitter"
+                    onClick={(e) => {
+                      setRole(e.target.value);
+                      console.log(role);
+                    }}
                     //  checked={petSitter}
                     //  onChange={handlePetSitterChange}
                     className="form-checkbox h-4 w-4 accent-orange-600"
