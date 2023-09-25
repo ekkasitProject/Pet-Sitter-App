@@ -185,21 +185,21 @@ function RegistrationForm() {
               <div className="flex space-x-2">
                 <label className="flex items-center">
                   <input
-                    type="checkbox"
-                    name="petOwner"
-                    checked={petOwner}
-                    onChange={handlePetOwnerChange}
-                    className="form-checkbox h-4 w-4 text-indigo-600"
+                    type="radio"
+                    name="role"
+                    // checked={petOwner}
+                    // onChange={handlePetOwnerChange}
+                    className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Owner</span>
                 </label>
                 <label className="flex items-center">
                   <input
-                    type="checkbox"
-                    name="petSitter"
-                    checked={petSitter}
-                    onChange={handlePetSitterChange}
-                    className="form-checkbox h-4 w-4 text-indigo-600"
+                    type="radio"
+                    name="role"
+                    //  checked={petSitter}
+                    //  onChange={handlePetSitterChange}
+                    className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
                 </label>
