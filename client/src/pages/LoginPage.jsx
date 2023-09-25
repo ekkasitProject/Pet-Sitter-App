@@ -6,7 +6,8 @@ import google_logo from "../assets/images/elements/google_logo.svg";
 import { useAuth } from "../context/authentication";
 
 function LoginPage() {
-  const { login } = useAuth();
+  const [role, setRole] = useState("");
+  const { loginPetowner, loginPetsitter } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -24,12 +25,31 @@ function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = formData;
+    /*
     console.log(email);
     console.log(password);
     login({
       email,
       password,
-    });
+    });*/
+
+    if (role == "petowner") {
+      loginPetowner({
+        email,
+        password,
+      });
+    }
+
+    if (role == "petsitter") {
+      loginPetsitter({
+        email,
+        password,
+      });
+    }
+
+    if (role == "") {
+      alert("please choose role");
+    }
   };
 
   return (
@@ -83,8 +103,8 @@ function LoginPage() {
                 placeholder="Password"
               />
             </div>
-            <div className="flex items-center justify-between">
-              {/* <div className="flex items-center">
+            {/*<div className="flex items-center justify-between">
+               <div className="flex items-center">
                 <input
                   id="rememberMe"
                   name="rememberMe"
@@ -107,7 +127,42 @@ function LoginPage() {
                 >
                   Forgot your password?
                 </a>
-              </div> */}
+              </div> 
+            </div>*/}
+            <div className="flex items-center gap-4">
+              <label className="block text-sm font-medium text-gray-700">
+                Role Selection:
+              </label>
+              <div className="flex space-x-2">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="petowner"
+                    onClick={(e) => {
+                      setRole(e.target.value);
+                    }}
+                    // checked={petOwner}
+                    // onChange={handlePetOwnerChange}
+                    className="form-checkbox h-4 w-4 accent-orange-600"
+                  />
+                  <span className="ml-2 text-sm text-gray-600">Pet Owner</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="petsitter"
+                    onClick={(e) => {
+                      setRole(e.target.value);
+                    }}
+                    //  checked={petSitter}
+                    //  onChange={handlePetSitterChange}
+                    className="form-checkbox h-4 w-4 accent-orange-600"
+                  />
+                  <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
+                </label>
+              </div>
             </div>
             <div>
               <button

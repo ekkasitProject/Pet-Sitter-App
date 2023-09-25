@@ -22,10 +22,30 @@ function AuthProvider(props) {
     navigate("/login");
   };
 
-  const login = async (data) => {
+  const loginPetowner = async (data) => {
     try {
       const result = await axios.post(
         "http://localhost:6543/petOwnerUser/login",
+        data
+      );
+      const token = result.data.token;
+      const id = result.data.user.petowner_id;
+      localStorage.setItem("token", token);
+      // localStorage.setItem("id", id);
+      const userDataFromToken = jwtDecode(token);
+      setState({ ...state, user: userDataFromToken });
+      //console.log(userDataFromToken.userId);
+      navigate("/");
+    } catch (error) {
+      console.error("Login error:", error);
+      // You can display an error message to the user here.
+    }
+  };
+
+  const loginPetsitter = async (data) => {
+    try {
+      const result = await axios.post(
+        "http://localhost:6543/petSitterUser/login",
         data
       );
       const token = result.data.token;
@@ -54,7 +74,8 @@ function AuthProvider(props) {
     <AuthContext.Provider
       value={{
         state,
-        login,
+        loginPetowner,
+        loginPetsitter,
         logout,
         registerPetowner,
         registerPetsitter,
