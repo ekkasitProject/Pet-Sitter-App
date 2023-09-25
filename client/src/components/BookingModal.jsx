@@ -21,7 +21,7 @@ export default function BookingModal() {
   useEffect(() => {
     getBookingByID();
     //console.log(bookingID);
-    //console.log(booking);
+    // console.log(booking);
   }, [bookingID]);
 
   return (
@@ -55,7 +55,7 @@ export default function BookingModal() {
               {booking.status_booking}
             </div>
             <div className="flex-1">
-              <p>Transaction Date: {formatDate(booking.transaction_date)}</p>
+              <p>Transaction Date: {formatDate(booking.startTime)}</p>
               <p>Transaction No: {booking.transaction_no}</p>
             </div>
             <div className="flex-1">
