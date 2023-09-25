@@ -4,8 +4,54 @@ import dogFoot from "../assets/images/bill/Dogfoot.svg";
 import blueStar from "../assets/images/bill/blueStar.svg";
 import catYellow from "../assets/images/bill/catyellow.svg";
 import { Link } from "react-router-dom";
+import { ToggleContext } from "./AuthenticatedApp";
+import React, { useState, useContext, useEffect } from "react";
+import {
+  calculateDuration,
+  formatDate,
+  formatTime,
+} from "../components/calculateDate";
 
 const BillBooking = () => {
+  const duration = (start, end) => {
+    const startTime = new Date(`2023-09-15 ${start}`);
+    const endTime = new Date(`2023-09-15 ${end}`);
+    const durationInHours = (endTime - startTime) / (1000 * 60 * 60);
+    return durationInHours;
+  };
+
+  const {
+    selectedPets,
+    setSelectedPets,
+    petOwnerID,
+    setPetOwnerID,
+    messageAdditional,
+    setMessageAdditional,
+    selectedPetsitterID,
+    setSelectedPetsitterID,
+    selectedPetsitterName,
+    setSelectedPetsitterName,
+    selectedPetsitterUser,
+    setSelectedPetsitterUser,
+    selectedDate,
+    setSelectedDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    prices,
+    setPrices,
+    selectedTimes,
+    setSelectedTimes,
+    selectedPetsName,
+    setSelectedPetsName,
+  } = useContext(ToggleContext);
+
+  const current = new Date();
+  const date = `${current.getDate()}/${
+    current.getMonth() + 1
+  }/${current.getFullYear()}`;
+
   return (
     <div className="w-full relative">
       <HeaderAuth />
@@ -19,7 +65,7 @@ const BillBooking = () => {
           </div>
           <div className="px-8 mt-6">
             <p className="text-[#AEB1C3] tracking-wide">
-              Transaction Date: Tue, 16 Oct 2022
+              Transaction Date: {date}
             </p>
             <p className="text-[#AEB1C3] tracking-wide">
               Transaction No. : 122312
@@ -28,7 +74,7 @@ const BillBooking = () => {
           <div className="px-8 mt-6">
             <h3 className="text-[#7B7E8F] tracking-wide">Pet Sitter:</h3>
             <p className="tracking-wide text-[#3A3B46]">
-              Happy House! By Jane Maison
+              {selectedPetsitterName} By {selectedPetsitterUser}
             </p>
           </div>
 
@@ -36,23 +82,29 @@ const BillBooking = () => {
             <div className="">
               <h3 className="text-[#7B7E8F] tracking-wide">Date & Time:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                25 Aug, 2023 | 7 AM - 10 AM
+                {formatDate(selectedDate)} | {startTime} - {endTime}
               </p>
             </div>
             <div className="ml-12 mt-6">
               <h3 className="text-[#7B7E8F] tracking-wide">Duration:</h3>
-              <p className="tracking-wide text-[#3A3B46]">3 hours</p>
+              <p className="tracking-wide text-[#3A3B46]">
+                {duration(startTime, endTime)} hours
+              </p>
             </div>
           </div>
 
           <div className="px-8 mt-4">
             <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
-            <p className="tracking-wide text-[#3A3B46]">Mr. Ham, Bingsu</p>
+            <p className="tracking-wide text-[#3A3B46]">
+              {selectedPetsName.map((pet) => {
+                return `${pet}`;
+              })}
+            </p>
             <hr className="mt-6" />
           </div>
           <div className="py-8  mt-2s  flex  justify-between">
             <p className="mx-8 ">Total</p>
-            <p className="mx-8 ">900.00 THB</p>
+            <p className="mx-8 ">{prices} THB</p>
           </div>
         </div>
         <div className="w-full flex justify-center mt-6">

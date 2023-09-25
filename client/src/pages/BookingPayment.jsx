@@ -48,6 +48,13 @@ const BookingPayment = () => {
     setSelectedPetsName,
   } = useContext(ToggleContext);
 
+  const duration = (start, end) => {
+    const startTime = new Date(`2023-09-15 ${start}`);
+    const endTime = new Date(`2023-09-15 ${end}`);
+    const durationInHours = (endTime - startTime) / (1000 * 60 * 60);
+    return durationInHours;
+  };
+
   const handlePaymentChange = (type) => {
     setPaymentType(type);
   };
@@ -257,25 +264,31 @@ const BookingPayment = () => {
             <div className="px-8 pt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet Sitter:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                Happy House! By jane Maison
+                {selectedPetsitterName} By {selectedPetsitterUser}
               </p>
             </div>
 
             <div className="px-8  mt-4 ">
               <h3 className="text-[#7B7E8F] tracking-wide">Date & Time:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                25 Aug, 2023 | 7 AM - 10 AM
+                {formatDate(selectedDate)} | {startTime} - {endTime}
               </p>
             </div>
 
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Duration:</h3>
-              <p className="tracking-wide text-[#3A3B46]">3 hours</p>
+              <p className="tracking-wide text-[#3A3B46]">
+                {duration(startTime, endTime)} hours
+              </p>
             </div>
 
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
-              <p className="tracking-wide text-[#3A3B46]">Mr.Ham, Bingsu</p>
+              <p className="tracking-wide text-[#3A3B46]">
+                {selectedPetsName.map((pet) => {
+                  return `${pet}`;
+                })}
+              </p>
             </div>
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Additional:</h3>
@@ -285,7 +298,7 @@ const BookingPayment = () => {
             </div>
             <div className="absolute flex w-[100%] bottom-0 py-4 mt-12 justify-between bg-black ">
               <p className="mx-8  text-white">Total</p>
-              <p className="mx-8  text-white">900.00 THB</p>
+              <p className="mx-8  text-white">{prices}.00 THB</p>
             </div>
           </div>
         </div>
