@@ -530,7 +530,7 @@ function PetSitterProfile() {
                         );
                       })}
                       <label htmlFor="upload2">
-                        <div className="relative cursor-pointer mb-5 border-2  w-[180px] h-[180px] rounded-xl flex flex-col justify-center items-center hover:border-primaryOrange4 bg-primaryOrange6">
+                        <div className="relative cursor-pointer border-2  w-[180px] h-[180px] rounded-xl flex flex-col justify-center items-center hover:border-primaryOrange4 bg-primaryOrange6">
                           <div className=" cursor-pointer text-primaryOrange2">
                             <AddIcon />
                           </div>
