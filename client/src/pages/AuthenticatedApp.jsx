@@ -36,6 +36,7 @@ const AuthenticatedApp = () => {
   const [isAllPetChange, setIsAllPetChange] = useState(false);
   const [allpets, setAllpets] = useState([]);
   const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
+  const [petSitterID, setPetSitterID] = useState(userDataFromToken.petsitterId);
   const [messageAdditional, setMessageAdditional] = useState("");
   const [selectedDate, setSelectedDate] = useState(dayjs("2023-0-22"));
   const [startTime, setStartTime] = useState("12:00 AM");
