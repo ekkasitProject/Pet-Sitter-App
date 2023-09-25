@@ -101,6 +101,8 @@ const AuthenticatedApp = () => {
           setSelectedPetsitterUser,
           selectedPetsName,
           setSelectedPetsName,
+          petSitterID,
+          setPetSitterID,
         }}
       >
         <Routes>

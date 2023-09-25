@@ -14,6 +14,8 @@ const fetchUserData = () => {
   const [petDetail, setPetDetail] = useState({});
   const [bookingHistory, setBookingHistory] = useState([]);
   const [booking, setBooking] = useState({});
+  const [petsitterProfile, setPetsitterProfile] = useState(null);
+
   const {
     petID,
     setPetID,
@@ -25,6 +27,8 @@ const fetchUserData = () => {
     setPetOwnerID,
     bookingID,
     setBookingID,
+    petSitterID,
+    setPetSitterID,
   } = useContext(ToggleContext);
 
   const getPetOwnerProfile = async () => {
@@ -265,6 +269,37 @@ const fetchUserData = () => {
     }
   };
 
+  const getPetsitterProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      // const id = localStorage.getItem("id");
+      // setPetOwnerID(id);
+
+      // const userDataFromToken = jwtDecode(token);
+      //setPetOwnerID(userDataFromToken.userId);
+      // console.log(petOwnerID);
+
+      const result = await axios.get(
+        `http://localhost:6543/petSitterUser/${petSitterID}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      //console.log(result);
+
+      setPetsitterProfile(result.data.petSitterUser);
+      //setpetSitterID(result.data.petOwnerUser.petowner_id);
+      // console.log(petSitterID);
+      //setProfile(result.data[0]);
+    } catch (error) {
+      // Handle authentication error here
+      console.error("Authentication error:", error);
+    }
+  };
+
   return {
     getPetOwnerProfile,
     petOwnerProfile,
@@ -286,6 +321,9 @@ const fetchUserData = () => {
     setBooking,
     getBookingByID,
     submitBooking,
+    petsitterProfile,
+    setPetsitterProfile,
+    getPetsitterProfile,
   };
 };
 
