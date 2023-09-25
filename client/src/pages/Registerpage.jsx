@@ -73,6 +73,10 @@ function RegistrationForm() {
         registerPetsitter(data);
       }
 
+      if (role == "") {
+        alert("please choose role");
+      }
+
       /*
       register(data);
 
