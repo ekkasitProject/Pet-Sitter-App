@@ -68,7 +68,7 @@ const HeaderPetsitter = () => {
   };
 
   return (
-    <header className="header h-[72px] w-full flex flex-row justify-start items-center px-14 gap-1">
+    <header className="header h-[72px] w-full flex flex-row justify-start items-center px-14 py-4 gap-1">
       <div className="">
         {profile ? (
           <div className="relative flex justify-start items-center">

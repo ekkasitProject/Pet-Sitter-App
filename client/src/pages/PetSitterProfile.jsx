@@ -228,7 +228,7 @@ function PetSitterProfile() {
 
   return (
     <>
-      <div className="w-screen h-full flex flex-row justify-center font-satoshi">
+      <div className="w-screen h-auto flex flex-row justify-center font-satoshi">
         <SideBarPetsitter />
         <div className=" w-5/6 h-auto flex flex-col items-center ">
           <HeaderPetsitter />
@@ -502,7 +502,7 @@ function PetSitterProfile() {
                     <label htmlFor="place">
                       Image Gallery (Maximum 10 images)
                     </label>
-                    <div className="grid grid-cols-5 gap-4">
+                    <div className="grid grid-cols-5 gap-4 ">
                       {Object.keys(gallery).map((galleryKey) => {
                         const file = gallery[galleryKey];
                         return (
@@ -530,7 +530,7 @@ function PetSitterProfile() {
                         );
                       })}
                       <label htmlFor="upload2">
-                        <div className="relative pet-card cursor-pointer mb-5 border-2  w-[180px] h-[180px] rounded-xl flex flex-col justify-center items-center hover:border-primaryOrange4 bg-primaryOrange6">
+                        <div className="relative cursor-pointer mb-5 border-2  w-[180px] h-[180px] rounded-xl flex flex-col justify-center items-center hover:border-primaryOrange4 bg-primaryOrange6">
                           <div className=" cursor-pointer text-primaryOrange2">
                             <AddIcon />
                           </div>
