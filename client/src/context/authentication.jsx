@@ -12,8 +12,13 @@ function AuthProvider(props) {
     user: null,
   });
 
-  const register = async (data) => {
+  const registerPetowner = async (data) => {
     await axios.post("http://localhost:6543/petOwnerUser/register", data);
+    navigate("/login");
+  };
+
+  const registerPetsitter = async (data) => {
+    await axios.post("http://localhost:6543/petSitterUser/register", data);
     navigate("/login");
   };
 
@@ -47,7 +52,14 @@ function AuthProvider(props) {
 
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, register, isAuthenticated }}
+      value={{
+        state,
+        login,
+        logout,
+        registerPetowner,
+        registerPetsitter,
+        isAuthenticated,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
