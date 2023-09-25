@@ -10,49 +10,26 @@ import logout_user from "../assets/icons/logout.svg";
 import { dropdown } from "../data/dropdownprofile";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import jwtDecode from "jwt-decode";
+import fetchUserData from "../hooks/fetchUserData";
 
 const HeaderPetsitter = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [profile, setProfile] = useState(null);
-  //const [petOwnerID, setPetOwnerID] = useState(null);
-  const { petOwnerID, setPetOwnerID } = useContext(ToggleContext);
-
-  const getProfile = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      // const id = localStorage.getItem("id");
-      // setPetOwnerID(id);
-
-      // const userDataFromToken = jwtDecode(token);
-      //setPetOwnerID(userDataFromToken.userId);
-      // console.log(petOwnerID);
-
-      const result = await axios.get(
-        `http://localhost:6543/petOwnerUser/${petOwnerID}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      //console.log(result.data.petOwnerUser);
-
-      setProfile(result.data.petOwnerUser);
-      //setPetOwnerID(result.data.petOwnerUser.petowner_id);
-      // console.log(petOwnerID);
-      //setProfile(result.data[0]);
-    } catch (error) {
-      // Handle authentication error here
-      console.error("Authentication error:", error);
-    }
-  };
+  //const [profile, setProfile] = useState(null);
+  //const [petSitterID, setpetSitterID] = useState(null);
+  const { petSitterID, setPetSitterID } = useContext(ToggleContext);
+  const {
+    petsitterProfile,
+    setPetsitterProfile,
+    getPetsitterProfile,
+    isError,
+    isLoading,
+  } = fetchUserData();
 
   useEffect(() => {
-    getProfile();
-    //console.log(petOwnerID);
+    getPetsitterProfile();
+    //console.log(petSitterID);
   }, []);
 
   const dropDownChange = () => {
@@ -70,24 +47,22 @@ const HeaderPetsitter = () => {
   return (
     <header className="header h-[72px] w-full flex flex-row justify-start items-center px-14 py-4 gap-1">
       <div className="">
-        {profile ? (
+        {petsitterProfile ? (
           <div className="relative flex justify-start items-center">
-            {profile.image_profile ? (
+            {petsitterProfile.image_profile ? (
               <>
-                <button onClick={dropDownChange}>
+                <div>
                   <img
                     className="w-[40px] h-[40px] rounded-full mr-4 mt-2"
-                    src={profile.image_profile}
+                    src={petsitterProfile.image_profile}
                     alt="Profile"
                   />
-                </button>
-                <span>{profile.username}</span>
+                </div>
+                <span>{petsitterProfile.username}</span>
               </>
             ) : null}
           </div>
-        ) : (
-          <span>profile image & name </span>
-        )}
+        ) : null}
       </div>
     </header>
   );
