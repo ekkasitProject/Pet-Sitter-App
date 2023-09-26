@@ -14,6 +14,7 @@ import Datepicker from "react-tailwindcss-datepicker";
 function PetSitterProfile() {
   const { petSitterID, setPetSitterID } = useContext(ToggleContext);
   const navigate = useNavigate();
+
   const {
     petsitterProfile,
     setPetsitterProfile,
@@ -232,7 +233,17 @@ function PetSitterProfile() {
         <SideBarPetsitter />
         <div className=" w-5/6 h-auto flex flex-col items-center ">
           <HeaderPetsitter />
+
           <div className="min-h-full w-full px-14 flex flex-col pt-4 pb-20 bg-[#F6F6F9]">
+            {/* 
+           {isAlert ? (
+              <div className="fixed top-24 right-[660px] z-10">
+                <Alert severity="success">
+                  <AlertTitle>Update Success!!</AlertTitle>
+                </Alert>
+              </div>
+            ) : null}
+           */}
             <div className="h-[100px] w-full flex justify-between items-center ">
               <div className="text-headLine3">Pet Sitter Profile</div>
               <button
@@ -254,55 +265,37 @@ function PetSitterProfile() {
                   <div className="text-headLine4 w-full flex flex-row justify-start">
                     Profile Image
                   </div>
-
-                  <div className="flex justify-center relative items-center my-8 w-[220px] h-[220px] rounded-full bg-slate-200">
-                    <img
-                      className="object-fit w-[220px] h-[220px] rounded-full"
-                      src={photo}
-                      alt=""
-                    />
-                    {/*
-            {Object.keys(avatars).map((avatarKey) => {
-              const file = avatars[avatarKey];
-              return (
-                <div key={avatarKey} className="image-preview-container">
-                  <img
-                    className="object-fit w-[220px] h-[220px] rounded-full z-10"
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                  />
-                </div>
-              );
-            })}
-            */}
-                    {/* 
-             <img
-              className="object-fit"
-              src={profile_user}
-              //src={petsitterProfile.image_profile}
-              alt=""
-            />
-            */}
-
-                    <label
-                      htmlFor="upload1"
-                      className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
-                    >
-                      <PlusIcon />
-                      <input
-                        id="upload1"
-                        name="avatar"
-                        type="file"
-                        onChange={handleFileChange}
-                        hidden
+                  <div className="">
+                    <div className="flex justify-center relative items-center my-8 w-[220px] h-[220px] rounded-full bg-slate-200">
+                      <img
+                        className="object-fit w-[220px] h-[220px] rounded-full"
+                        src={photo}
+                        alt=""
                       />
-                    </label>
-                    {/*
-          <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
-              <PlusIcon />
-            </button>
-          */}
+
+                      <label
+                        htmlFor="upload1"
+                        className="cursor-pointer w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center"
+                      >
+                        <PlusIcon />
+                        <input
+                          id="upload1"
+                          name="avatar"
+                          type="file"
+                          onChange={handleFileChange}
+                          hidden
+                        />
+                      </label>
+                    </div>
+                    <div className="">
+                      {avatars ? null : (
+                        <div className="text-red-500">
+                          Please, 1 of your photo
+                        </div>
+                      )}
+                    </div>
                   </div>
+
                   <div className="flex flex-row gap-10 w-full">
                     <div className="flex-1">
                       <label htmlFor="fullName">Your full name*</label>
@@ -323,20 +316,23 @@ function PetSitterProfile() {
                       )}
                     </div>
                     <div className="flex-1">
-                      <label htmlFor="dropdown">
-                        <h1>Experience* (years)</h1>
-                      </label>
+                      <label htmlFor="idNumber">ID Number*</label>
                       <input
-                        id="experience"
-                        name="experience"
-                        type="number"
-                        value={experience}
-                        onChange={(event) => setExperience(event.target.value)}
-                        placeholder="0"
+                        type="text"
+                        id="idNumber"
+                        name="idNumber"
                         required
-                        min="0"
+                        placeholder="Enter your ID number"
+                        value={idNumber}
+                        onChange={(event) => setIDNumber(event.target.value)}
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
+
+                      {errors.idNumber && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.idNumber}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex gap-10 flex-1 w-full">
@@ -379,7 +375,7 @@ function PetSitterProfile() {
                   </div>
                   <div className="flex flex-col w-full gap-1 flex-1">
                     <label htmlFor="introduction">
-                      Introduction (Describe about yourself as pet sitter)
+                      Introduction* (Describe about yourself as pet sitter)
                     </label>
                     <textarea
                       type="text"
@@ -398,34 +394,54 @@ function PetSitterProfile() {
                   <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
                     Pet Sitter
                   </div>
-                  <div className="flex flex-col gap-1 w-1/2">
-                    <label htmlFor="address">
-                      Pet Sitter name(Trade name)*
-                    </label>
-                    <input
-                      id="tradename"
-                      name="tradename"
-                      type="text"
-                      value={tradename}
-                      required
-                      onChange={(event) => setTradename(event.target.value)}
-                      //placeholder="your username "
+                  <div className="flex gap-10 flex-1 w-full">
+                    <div className="flex flex-col gap-1 flex-1">
+                      <label htmlFor="address">
+                        Pet Sitter name(Trade name)*
+                      </label>
+                      <input
+                        id="tradename"
+                        name="tradename"
+                        type="text"
+                        value={tradename}
+                        required
+                        onChange={(event) => setTradename(event.target.value)}
+                        //placeholder="your username "
 
-                      className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
-                    />
-                    {errors.tradename && (
-                      <p className="mt-2 text-sm text-red-600">
-                        {errors.tradename}
-                      </p>
-                    )}
+                        className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                      />
+                      {errors.tradename && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.tradename}
+                        </p>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <label htmlFor="experience">
+                        <h1>Experience* (years)</h1>
+                      </label>
+                      <input
+                        id="experience"
+                        name="experience"
+                        type="number"
+                        value={experience}
+                        onChange={(event) => setExperience(event.target.value)}
+                        placeholder="0"
+                        required
+                        min="0"
+                        className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
+                      />
+                    </div>
                   </div>
+
                   <div className="relative flex flex-col w-full gap-1 flex-1">
                     <label htmlFor="pettype">Pet Type*</label>
                     <select
                       id="pettype"
                       name="pettype"
-                      className="text-white border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
+                      className="text-white invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
                       value={pettype}
+                      required
                       onChange={(e) => {
                         setPettype(e.target.value);
                       }}
@@ -469,7 +485,7 @@ function PetSitterProfile() {
                   </div>
                   <div className="flex flex-col w-full gap-1 flex-1">
                     <label htmlFor="services">
-                      Services (Describe about your services)
+                      Services* (Describe about your services)
                     </label>
                     <textarea
                       type="text"
@@ -477,6 +493,7 @@ function PetSitterProfile() {
                       rows={6}
                       id="services"
                       name="services"
+                      required
                       value={services}
                       onChange={(event) => setServices(event.target.value)}
                       className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
@@ -484,7 +501,7 @@ function PetSitterProfile() {
                   </div>
                   <div className="flex flex-col w-full gap-1 flex-1">
                     <label htmlFor="place">
-                      My place (Describe your place)
+                      My place* (Describe your place)
                     </label>
                     <textarea
                       type="text"
@@ -492,6 +509,7 @@ function PetSitterProfile() {
                       rows={6}
                       id="place"
                       name="place"
+                      required
                       value={place}
                       onChange={(event) => setPlace(event.target.value)}
                       className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
@@ -500,7 +518,7 @@ function PetSitterProfile() {
 
                   <div className="flex flex-col w-full gap-3 flex-1">
                     <label htmlFor="place">
-                      Image Gallery (Maximum 10 images)
+                      Image Gallery* (Maximum 10 images)
                     </label>
                     <div className="grid grid-cols-5 gap-4 ">
                       {Object.keys(gallery).map((galleryKey) => {
@@ -619,7 +637,7 @@ function PetSitterProfile() {
                         type="text"
                         value={province}
                         onChange={(event) => setProvince(event.target.value)}
-                        placeholder="Your phone number"
+                        //placeholder="Your phone number"
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
