@@ -167,6 +167,7 @@ petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
   const petsitterId = req.params.id;
   try {
     const {
+      username,
       phone,
       id_card_number,
       introduction,
@@ -234,6 +235,7 @@ petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
 
     //อัปเดตข้อมูล User รวมถึง URL ของรูปภาพโปรไฟล์
     const updateData = {
+      username,
       phone,
       id_card_number,
       introduction,
