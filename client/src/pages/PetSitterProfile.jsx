@@ -48,12 +48,12 @@ function PetSitterProfile() {
   const [place, setPlace] = useState("");
   const [pettype, setPettype] = useState("");
   const [allpets, setAllpets] = useState([]);
-
+  const [petsitterdetailId, setPetsitterdetailId] = useState("");
+  const [addressId, setAddressId] = useState("");
   const [gallery, setGallery] = useState({});
 
   useEffect(() => {
     getPetsitterProfile();
-    // console.log(petsitterProfile);
   }, []);
 
   function formatDate(isoDate) {
@@ -75,6 +75,11 @@ function PetSitterProfile() {
       setFullname(petsitterProfile.username);
       setEmail(petsitterProfile.email);
       setPhone(petsitterProfile.phone);
+      setPetsitterdetailId(
+        petsitterProfile.petsitterdetail[0].petsitterdetail_id
+      );
+      setAddressId(petsitterProfile.addresses[0].address_id);
+
       //setIDNumber(petsitterProfile.id_card_number);
       //const newDate = formatDate(petsitterProfile.date_of_birth);
       // setDateOfBirth(newDate);
@@ -89,7 +94,7 @@ function PetSitterProfile() {
   const validateForm = () => {
     const newErrors = {};
 
-    // Validate Name
+    /* Validate Name
     if (username.length < 6 || username.length > 20) {
       newErrors.username = "Username must be between 6 and 20 characters";
       let input = document.getElementById(`userName`);
@@ -97,7 +102,7 @@ function PetSitterProfile() {
     } else {
       let input = document.getElementById(`userName`);
       input.classList.remove("border-red-500");
-    }
+    }*/
 
     // Validate Email
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -162,15 +167,29 @@ function PetSitterProfile() {
 */
     if (validateForm()) {
       const formData = new FormData();
-      const newDate = new Date(value.startDate);
 
       formData.append("username", fullname);
       formData.append("email", email);
       formData.append("phone", phone);
       formData.append("id_card_number", idNumber);
-      formData.append("date_of_birth", newDate);
       formData.append("avatar", avatars);
-      console.log(newDate);
+      formData.append("introduction", introduction);
+      formData.append("pet_sitter_name", tradename);
+      formData.append("petsitterdetail_id", petsitterdetailId);
+      formData.append("services", services);
+      formData.append("my_place", place);
+      formData.append("experience", experience);
+      formData.append("pet_type", allpets);
+      formData.append("address_id", addressId);
+      formData.append("address_detail", address);
+      formData.append("district", district);
+      formData.append("sub_district", subDistrict);
+      formData.append("province", province);
+      formData.append("post_code", postcode);
+      // formData.append("oldImageUrl", oldImageUrl);
+      // formData.append("gallery", gallery);
+
+      //console.log(newDate);
       //console.log(avatars);
       //console.log(formData);
       // updatepetsitterProfile(formData);
@@ -234,7 +253,10 @@ function PetSitterProfile() {
         <div className=" w-5/6 h-auto flex flex-col items-center ">
           <HeaderPetsitter />
 
-          <div className="min-h-full w-full px-14 flex flex-col pt-4 pb-20 bg-[#F6F6F9]">
+          <form
+            onSubmit={handleSubmit}
+            className="min-h-[2900px] w-full px-14 flex flex-col pt-4 pb-20 bg-[#F6F6F9]"
+          >
             {/* 
            {isAlert ? (
               <div className="fixed top-24 right-[660px] z-10">
@@ -254,10 +276,7 @@ function PetSitterProfile() {
               </button>
             </div>
             <div className="h-[2500px] w-full flex flex-col gap-10 mt-1">
-              <form
-                onSubmit={handleSubmit}
-                className="flex flex-col justify-start items-start gap-6 w-full"
-              >
+              <div className="flex flex-col justify-start items-start gap-6 w-full">
                 <div className="bg-white w-full h-auto shadow-custom4 rounded-lg px-20 pt-12 pb-10 flex flex-col justify-start items-start gap-4">
                   <div className="text-headLine3 text-primaryGray4 w-full flex flex-row justify-start">
                     Basic Information
@@ -290,7 +309,7 @@ function PetSitterProfile() {
                     <div className="">
                       {avatars ? null : (
                         <div className="text-red-500">
-                          Please, 1 of your photo
+                          Please, upload 1 of your photo
                         </div>
                       )}
                     </div>
@@ -667,9 +686,9 @@ function PetSitterProfile() {
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>
