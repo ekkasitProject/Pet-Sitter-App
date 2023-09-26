@@ -121,7 +121,7 @@ function RegistrationForm() {
                 type="userName"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
-                placeholder="your username "
+                placeholder="your full name "
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />

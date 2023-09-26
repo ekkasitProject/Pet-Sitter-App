@@ -26,21 +26,12 @@ function SideBarPetsitter() {
     checkURL();
   }, []);
 
-  const handleToHome = () => {
-    navigate("/");
-  };
-
   return (
     <>
       <div className="h-screen w-1/6 flex flex-col justify-between border-r-2 ">
         <div className="">
           <div className="w-full h-[120px] flex justify-center items-center ">
-            <img
-              onClick={handleToHome}
-              src={logo}
-              alt="logo"
-              className="cursor-pointer"
-            />
+            <img src={logo} alt="logo" />
           </div>
 
           <div className=" w-full h-[72px] flex flex-col ">
