@@ -11,6 +11,7 @@ import {
   formatDate,
   formatTime,
 } from "../components/calculateDate";
+import axios from "axios";
 
 const BillBooking = () => {
   const duration = (start, end) => {
@@ -52,6 +53,41 @@ const BillBooking = () => {
     current.getMonth() + 1
   }/${current.getFullYear()}`;
 
+  const [billData, setBillData] = useState({});
+  console.log(billData);
+
+  const fetchBooking = async () => {
+    const res = await axios.get(
+      `http://localhost:6543/booking/petowner/${petOwnerID}`
+    );
+    // console.log(res.data.bookings);
+    const bookings = res.data.bookings;
+
+    if (bookings.length > 0) {
+      const lastBooking = bookings.reduce((acc, current) => {
+        // เลือกตัวที่มี timestamp มากที่สุดเป็นตัวสุดท้าย
+        return acc.timestamp > current.timestamp ? acc : current;
+      });
+
+      // เรียกใช้งาน fetchBookingId และส่ง lastBookingId ไปยังฟังก์ชัน
+      fetchBookingId(lastBooking); // แทน lastBooking.id ด้วยค่าที่ต้องการส่งไป
+    } else {
+      console.log("ไม่มีการจอง");
+    }
+  };
+
+  const fetchBookingId = async (lastBookingId) => {
+    const resBookingId = await axios.get(
+      `http://localhost:6543/booking/petowner/${petOwnerID}/${lastBookingId.booking_id}`
+    );
+    // console.log(resBookingId.data.booking);
+    setBillData(resBookingId.data.booking);
+  };
+
+  useEffect(() => {
+    fetchBooking();
+  }, []);
+
   return (
     <div className="w-full relative">
       <HeaderAuth />
@@ -65,10 +101,10 @@ const BillBooking = () => {
           </div>
           <div className="px-8 mt-6">
             <p className="text-[#AEB1C3] tracking-wide">
-              Transaction Date: {date}
+              Transaction Date: {billData.transaction_date}
             </p>
             <p className="text-[#AEB1C3] tracking-wide">
-              Transaction No. : 122312
+              Transaction No. {billData.transaction_no}
             </p>
           </div>
           <div className="px-8 mt-6">

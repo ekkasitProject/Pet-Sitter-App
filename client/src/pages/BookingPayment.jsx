@@ -12,6 +12,7 @@ import {
   formatDate,
   formatTime,
 } from "../components/calculateDate";
+import axios from "axios";
 
 const BookingPayment = () => {
   const navigate = useNavigate();
@@ -120,6 +121,44 @@ const BookingPayment = () => {
     navigate(`/booking/bill`);
   };
 */
+  const [creditCardNumber, setCreditCardNumber] = useState("");
+
+  const handleCreditCardChange = (e) => {
+    let input = e.target.value;
+    input = input.replace(/\D/g, ""); // Remove non-numeric characters
+
+    if (input.length > 16) {
+      input = input.slice(0, 16);
+    }
+
+    let formattedInput = "";
+    for (let i = 0; i < input.length; i++) {
+      if (i > 0 && i % 4 === 0) {
+        formattedInput += "-";
+      }
+      formattedInput += input[i];
+    }
+
+    setCreditCardNumber(formattedInput);
+  };
+
+  const [expiry, setExpiry] = useState("");
+
+  const handleExpiryChange = (e) => {
+    let input = e.target.value;
+    input = input.replace(/\D/g, ""); // Remove non-numeric characters
+
+    if (input.length > 4) {
+      input = input.slice(0, 4);
+    }
+
+    if (input.length >= 2) {
+      input = input.slice(0, 2) + "/" + input.slice(2);
+    }
+
+    setExpiry(input);
+  };
+
   return (
     <div>
       <HeaderAuth />
@@ -183,10 +222,12 @@ const BookingPayment = () => {
                         id="cardNumber"
                         name="cardNumber"
                         type="text"
-                        placeholder="xxx-xxxx-x-xx-xx"
+                        placeholder="xxxx-xxxx-xxxx-xxxx"
                         required
-                        pattern="\d{3}-\d{4}-\d{1}-\d{2}-\d{2}"
-                        className="mt-1 p-2 w-full h-14 block text-xl  rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        value={creditCardNumber}
+                        onChange={handleCreditCardChange}
+                        maxLength={19} // Adjust maxLength to include hyphens
+                        className="mt-1 p-2 w-full h-14 block text-xl rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
                     <div className="w-[50%]">
@@ -195,6 +236,7 @@ const BookingPayment = () => {
                         id="cardOwner"
                         name="cardOwner"
                         type="text"
+                        maxLength={13}
                         placeholder="Card owner name"
                         required
                         className="mt-1 p-2 w-full h-14 block placeholder:tracking-wide rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -209,8 +251,10 @@ const BookingPayment = () => {
                         id="expiry"
                         name="expiry"
                         type="text"
-                        placeholder="xxx-xxx-xxxx"
+                        placeholder="MM/YY"
                         required
+                        value={expiry}
+                        onChange={handleExpiryChange}
                         className="mt-1 p-2 w-full h-14 block rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
@@ -222,6 +266,7 @@ const BookingPayment = () => {
                         type="text"
                         placeholder="xxx"
                         required
+                        maxLength={3}
                         className="mt-1 p-2 w-full h-14 block rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
