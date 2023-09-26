@@ -123,7 +123,7 @@ petSitterUser.post("/login", async (req, res) => {
       return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
     }
 
-    // สร้าง token เปลี่ยนจากuserId เป็นpetsitterId
+    // สร้าง token
     const token = jwt.sign(
       { petsitterId: user.petsitter_id, email: user.email },
       process.env.SECRET_KEY,
@@ -163,7 +163,7 @@ petSitterUser.delete("/:id", protect, async (req, res) => {
 });
 
 //Section 4: Update profile/detail/address with image by petsitter id
-petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
+petSitterUser.put("/:id", avatarUpload, async (req, res) => {
   const petsitterId = req.params.id;
   try {
     const {
@@ -212,27 +212,6 @@ petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
         await deleteOldProfileImage(oldImageUrl);
       }
     }
-
-    //img gallery edit
-    let { gallery } = req.files;
-
-    if (!gallery || !Array.isArray(gallery) || gallery.length === 0) {
-      return res.status(400).json({ message: "กรุณาอัพโหลดรูปภาพ" });
-    }
-
-    if (gallery.length > 10) {
-      return res
-        .status(400)
-        .json({ message: "ไม่สามารถอัพโหลดรูปภาพเกิน 10 รูป" });
-    }
-
-    const updatedImages = await Promise.all(
-      gallery.slice(0, 10).map(async (file) => {
-        const imageUrl = await imageGalleryUpload(file);
-        return imageUrl;
-      })
-    );
-
     //อัปเดตข้อมูล User รวมถึง URL ของรูปภาพโปรไฟล์
     const updateData = {
       username,
@@ -250,8 +229,8 @@ petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
       my_place,
       experience,
       pet_type,
-      image_gallery: { set: updatedImages },
     };
+
     const updateAddressData = {
       address_detail,
       district,
@@ -260,31 +239,80 @@ petSitterUser.put("/:id", protect, avatarUpload, async (req, res) => {
       post_code,
     };
 
-    const updateAll = await prisma.petSitterUser.update({
-      where: { petsitter_id: petsitterId },
-      data: {
-        ...updateData,
-        petsitterdetail: {
-          update: {
-            where: { petsitterdetail_id: petsitterdetail_id },
-            data: {
-              ...updatePetSitterDetailData,
+    //img gallery edit
+
+    if (req.files && req.files.gallery) {
+      let { gallery } = req.files;
+
+      if (!gallery || !Array.isArray(gallery) || gallery.length === 0) {
+        return res.status(400).json({ message: "กรุณาอัพโหลดรูปภาพ" });
+      }
+
+      if (gallery.length > 10) {
+        return res
+          .status(400)
+          .json({ message: "ไม่สามารถอัพโหลดรูปภาพเกิน 10 รูป" });
+      }
+
+      const updatedImages = await Promise.all(
+        gallery.slice(0, 10).map(async (file) => {
+          const imageUrl = await imageGalleryUpload(file);
+          return imageUrl;
+        })
+      );
+      const updateAll = await prisma.petSitterUser.update({
+        where: { petsitter_id: petsitterId },
+        data: {
+          ...updateData,
+          petsitterdetail: {
+            update: {
+              where: { petsitterdetail_id: petsitterdetail_id },
+              data: {
+                ...updatePetSitterDetailData,
+                image_gallery: { set: updatedImages },
+              },
+            },
+          },
+          addresses: {
+            update: {
+              where: { address_id: address_id },
+              data: { ...updateAddressData },
             },
           },
         },
-        addresses: {
-          update: {
-            where: { address_id: address_id },
-            data: { ...updateAddressData },
+        include: {
+          petsitterdetail: true,
+          addresses: true,
+        },
+      });
+      return res.status(200).json(updateAll);
+    } else {
+      const updateAll = await prisma.petSitterUser.update({
+        where: { petsitter_id: petsitterId },
+        data: {
+          ...updateData,
+          petsitterdetail: {
+            update: {
+              where: { petsitterdetail_id: petsitterdetail_id },
+              data: {
+                ...updatePetSitterDetailData,
+              },
+            },
+          },
+          addresses: {
+            update: {
+              where: { address_id: address_id },
+              data: { ...updateAddressData },
+            },
           },
         },
-      },
-      include: {
-        petsitterdetail: true,
-        addresses: true,
-      },
-    });
-    return res.status(200).json(updateAll);
+        include: {
+          petsitterdetail: true,
+          addresses: true,
+        },
+      });
+      return res.status(200).json(updateAll);
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: `การอัปเดตข้อมูลล้มเหลว ${error}` });

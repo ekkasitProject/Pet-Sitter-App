@@ -199,8 +199,9 @@ function PetSitterProfile() {
       formData.append("province", province);
       formData.append("post_code", postcode);
       formData.append("oldImageUrl", oldImageUrl);
+      // formData.append("pet_type", "dog,cat");
       // formData.append("pet_type", allpets);
-      /* allpets.forEach((pet) => {
+      /*allpets.forEach((pet) => {
         formData.append("pet_type", pet);
       });*/
       for (let key in gallery) {
@@ -220,13 +221,6 @@ function PetSitterProfile() {
     }
   };
 
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setAvatars(file);
-    setPhoto(URL.createObjectURL(file));
-    console.log(avatars);
-  };
-
   setTimeout(() => {
     setIsAlert(false);
   }, 3000);
@@ -240,7 +234,7 @@ function PetSitterProfile() {
         setAllpets(petsArray);
       }
 
-      //  console.log(allpets);
+      console.log(allpets);
     }
   }, [pettype]);
 
@@ -254,12 +248,23 @@ function PetSitterProfile() {
     }
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setAvatars(file);
+    setPhoto(URL.createObjectURL(file));
+    console.log(avatars);
+  };
+
   const handleGalleryChange = (event) => {
     const uniqueId = Date.now();
     setGallery({
       ...gallery,
       [uniqueId]: event.target.files[0],
     });
+    setShowGallery([
+      ...showGallery,
+      URL.createObjectURL(event.target.files[0]),
+    ]);
     console.log(event.target.files[0]);
   };
 
@@ -282,15 +287,14 @@ function PetSitterProfile() {
             onSubmit={handleSubmit}
             className="min-h-[2900px] w-full px-14 flex flex-col pt-4 pb-20 bg-[#F6F6F9]"
           >
-            {/* 
-           {isAlert ? (
+            {isAlert ? (
               <div className="fixed top-24 right-[660px] z-10">
                 <Alert severity="success">
                   <AlertTitle>Update Success!!</AlertTitle>
                 </Alert>
               </div>
             ) : null}
-           */}
+
             <div className="h-[100px] w-full flex justify-between items-center ">
               <div className="text-headLine3">Pet Sitter Profile</div>
               <button
@@ -565,18 +569,17 @@ function PetSitterProfile() {
                       Image Gallery* (Maximum 10 images)
                     </label>
                     <div className="grid grid-cols-5 gap-4 ">
-                      {Object.keys(gallery).map((galleryKey) => {
-                        const file = gallery[galleryKey];
+                      {showGallery.map((gallery, index) => {
                         return (
                           <div
-                            key={galleryKey}
+                            key={index}
                             className="image-preview-container relative flex justify-center items-center"
                           >
                             <div className="bg-primaryGray6 w-[180px] h-[180px] rounded-xl overflow-hidden ">
                               <img
                                 className="image-preview object-contain w-[180px] h-[180px] "
-                                src={URL.createObjectURL(file)}
-                                alt={file.name}
+                                src={gallery}
+                                alt=""
                               />
                             </div>
 
