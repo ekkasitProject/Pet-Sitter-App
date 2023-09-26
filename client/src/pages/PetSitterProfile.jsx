@@ -185,7 +185,7 @@ function PetSitterProfile() {
       formData.append("email", email);
       formData.append("phone", phone);
       formData.append("id_card_number", idNumber);
-      //formData.append("avatar", avatars);
+      formData.append("avatar", avatars);
       formData.append("introduction", introduction);
       formData.append("pet_sitter_name", tradename);
       formData.append("petsitterdetail_id", petsitterdetailId);
@@ -198,11 +198,14 @@ function PetSitterProfile() {
       formData.append("sub_district", subDistrict);
       formData.append("province", province);
       formData.append("post_code", postcode);
-      // formData.append("oldImageUrl", oldImageUrl);
+      formData.append("oldImageUrl", oldImageUrl);
       // formData.append("pet_type", allpets);
       /* allpets.forEach((pet) => {
         formData.append("pet_type", pet);
       });*/
+      for (let key in gallery) {
+        formData.append("gallery", gallery[key]);
+      }
       // formData.append("gallery", gallery);
 
       console.log(allpets);
