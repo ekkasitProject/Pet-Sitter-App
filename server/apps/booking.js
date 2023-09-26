@@ -292,6 +292,33 @@ booking.put("/petsitter/:sitterId/cancel", async (req, res) => {
     if (!booking) {
       return res.status(404).json({ error: "Booking not found." });
     }
+    const currentDatetime = new Date();
+    const bookingEndTime = new Date(booking.endTime);
+    if (currentDatetime >= bookingEndTime) {
+      // อัปเดต status_pet เป็น false เมื่อ petsitter ไม่กดยืนยันจนเลยเวลาเสร็จสิ้นการบริการ
+      await prisma.petDetail.updateMany({
+        where: {
+          pet_id: {
+            in: booking.petdetails, // ใช้ petdetails จาก booking
+          },
+        },
+        data: {
+          status_pet: false, // อัปเดต status_pet เป็น false
+        },
+      });
+
+      const updatedBooking = await prisma.booking.update({
+        where: { booking_id: bookingId },
+        data: {
+          status_booking: "canceled",
+        },
+      });
+
+      res.status(200).json({
+        message: "Booking marked as 'canceled'.",
+        updatedBooking,
+      });
+    }
 
     // อัปเดต status_pet เป็น false เมื่อ petsitter reject การจอง
     await prisma.petDetail.updateMany({
