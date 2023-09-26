@@ -123,7 +123,7 @@ petSitterUser.post("/login", async (req, res) => {
       return res.status(401).json({ error: "รหัสผ่านไม่ถูกต้อง" });
     }
 
-    // สร้าง token เปลี่ยนจากuserId เป็นpetsitterId
+    // สร้าง token
     const token = jwt.sign(
       { petsitterId: user.petsitter_id, email: user.email },
       process.env.SECRET_KEY,
