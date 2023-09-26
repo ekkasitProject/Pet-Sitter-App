@@ -323,6 +323,28 @@ const fetchUserData = () => {
     }
   };
 
+  const updatePetSitterProfile = async (data) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:6543/petSitterUser/${petSitterID}`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setIsLoading(false);
+      // navigate(`/user/profile/${petOwnerID}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     getPetOwnerProfile,
     petOwnerProfile,
@@ -350,6 +372,7 @@ const fetchUserData = () => {
     bookingList,
     setBookingList,
     getBookingList,
+    updatePetSitterProfile,
   };
 };
 

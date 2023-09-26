@@ -19,6 +19,7 @@ function PetSitterProfile() {
     petsitterProfile,
     setPetsitterProfile,
     getPetsitterProfile,
+    updatePetSitterProfile,
     isError,
     isLoading,
   } = fetchUserData();
@@ -31,7 +32,7 @@ function PetSitterProfile() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [idNumber, setIDNumber] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState();
+  // const [dateOfBirth, setDateOfBirth] = useState();
   const [errors, setErrors] = useState({});
   const [isAlert, setIsAlert] = useState(false);
   const [avatars, setAvatars] = useState("");
@@ -51,6 +52,8 @@ function PetSitterProfile() {
   const [petsitterdetailId, setPetsitterdetailId] = useState("");
   const [addressId, setAddressId] = useState("");
   const [gallery, setGallery] = useState({});
+  const [oldImageUrl, setOldImageUrl] = useState("");
+  const [showGallery, setShowGallery] = useState([]);
 
   useEffect(() => {
     getPetsitterProfile();
@@ -79,11 +82,21 @@ function PetSitterProfile() {
         petsitterProfile.petsitterdetail[0].petsitterdetail_id
       );
       setAddressId(petsitterProfile.addresses[0].address_id);
-
-      //setIDNumber(petsitterProfile.id_card_number);
-      //const newDate = formatDate(petsitterProfile.date_of_birth);
-      // setDateOfBirth(newDate);
+      setIDNumber(petsitterProfile.id_card_number);
+      setExperience(petsitterProfile.petsitterdetail[0].experience);
       setPhoto(petsitterProfile.image_profile);
+      setShowGallery(petsitterProfile.petsitterdetail[0].image_gallery);
+      setOldImageUrl(petsitterProfile.image_profile);
+      setIntroduction(petsitterProfile.introduction);
+      setAddress(petsitterProfile.addresses[0].address_detail);
+      setDistrict(petsitterProfile.addresses[0].district);
+      setSubDistrict(petsitterProfile.addresses[0].sub_district);
+      setProvince(petsitterProfile.addresses[0].province);
+      setPostcode(petsitterProfile.addresses[0].post_code);
+      setTradename(petsitterProfile.petsitterdetail[0].pet_sitter_name);
+      setServices(petsitterProfile.petsitterdetail[0].services);
+      setPlace(petsitterProfile.petsitterdetail[0].my_place);
+      setAllpets(petsitterProfile.petsitterdetail[0].pet_type);
       /*  const uniqueId = Date.now();
       setAvatars({
         [uniqueId]: petsitterProfile.image_profile,
@@ -172,14 +185,13 @@ function PetSitterProfile() {
       formData.append("email", email);
       formData.append("phone", phone);
       formData.append("id_card_number", idNumber);
-      formData.append("avatar", avatars);
+      //formData.append("avatar", avatars);
       formData.append("introduction", introduction);
       formData.append("pet_sitter_name", tradename);
       formData.append("petsitterdetail_id", petsitterdetailId);
       formData.append("services", services);
       formData.append("my_place", place);
       formData.append("experience", experience);
-      formData.append("pet_type", allpets);
       formData.append("address_id", addressId);
       formData.append("address_detail", address);
       formData.append("district", district);
@@ -187,13 +199,21 @@ function PetSitterProfile() {
       formData.append("province", province);
       formData.append("post_code", postcode);
       // formData.append("oldImageUrl", oldImageUrl);
+      // formData.append("pet_type", allpets);
+      /* allpets.forEach((pet) => {
+        formData.append("pet_type", pet);
+      });*/
       // formData.append("gallery", gallery);
 
-      //console.log(newDate);
+      console.log(allpets);
       //console.log(avatars);
       //console.log(formData);
-      // updatepetsitterProfile(formData);
+      updatePetSitterProfile(formData);
       setIsAlert(true);
+
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
     }
   };
 
@@ -210,13 +230,15 @@ function PetSitterProfile() {
 
   useEffect(() => {
     //console.log(pettype);
-    const petsArray = [...allpets];
-    if (!allpets.includes(pettype) && pettype !== "") {
-      petsArray.push(pettype);
-      setAllpets(petsArray);
-    }
+    if (petsitterProfile) {
+      const petsArray = [...allpets];
+      if (!allpets.includes(pettype) && pettype !== "") {
+        petsArray.push(pettype);
+        setAllpets(petsArray);
+      }
 
-    //  console.log(allpets);
+      //  console.log(allpets);
+    }
   }, [pettype]);
 
   const handleRemovePet = (pet) => {
