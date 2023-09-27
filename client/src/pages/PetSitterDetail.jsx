@@ -3,6 +3,8 @@ import LocationIcon from "../assets/icons/icon_location.svg";
 import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
+import icon_arrow1 from "../assets/icons/iconarrow1.svg"
+import icon_arrow2 from "../assets/icons/iconarrow2.svg"
 
 import {
   ChipsOrange,
@@ -165,9 +167,21 @@ function PetSitterDetail() {
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
-  const handleChip = (pet) => {
-    // ... Your existing code for handleChip function
-  };
+const handleChip = (pet) => {
+  if (pet === "dog") {
+    return <ChipsGreen petType="Dog" />;
+  }
+  if (pet === "cat") {
+    return <ChipsPink petType="Cat" />;
+  }
+  if (pet === "bird") {
+    return <ChipsBlue petType="Bird" />;
+  }
+  if (pet === "rabbit") {
+    return <ChipsOrange petType="Rabbit" />;
+  }
+};
+
   if (loading) {
     // Optionally, you can render a loading indicator here
     return <div>Loading...</div>;
@@ -192,31 +206,30 @@ function PetSitterDetail() {
   return (
     <div className="flex-row">
       <HeaderAuth />
-      <div>
+      <div className="py-10 bg-primaryGray6">
         <AdvancedCarousel />
       </div>
 
-      <div className="flex p-10 bg-white">
-        <div className="flex-1 py-8 bg-white p-10">
-          <h1 className="text-5xl font-bold text-black">
+      <div className="flex p-10 bg-primaryGray6">
+        <div className="flex-1 py-8 bg-primaryGray6 p-10">
+          <h1 className="text-5xl font-bold text-black ">
             {petSitterDetail.pet_sitter_name}
           </h1>
-          <section className="mt-4">
-            <h2 className="text-xl font-semibold">Introduction</h2>
+          <section className="mt-4 py-10">
+            <h2 className="text-xl font-semibold ">Introduction</h2>
             <p className="text-gray-700 mt-2">{petSitter.introduction}</p>
           </section>
-          <section className="mt-8">
+          <section className="mt-8 py-2">
             <h2 className="text-xl font-semibold">Service</h2>
             <p className="text-gray-700 mt-2">{petSitterDetail.services}</p>
           </section>
-          <section className="mt-8">
+          <section className="mt-8 py-2">
             <h3 className="text-xl font-semibold">My Place</h3>
             <p className="text-gray-700 mt-2">{petSitterDetail.my_place}</p>
           </section>
         </div>
-
-        <div className="sticky w-3/12 border shadow-lg rounded-lg">
-          <div className="flex-2 bg-white py-6 p-5 ">
+        <div className="sticky p-5 bg-primaryGray6 rounded-2xl h-[512px]">
+          <div className="flex flex-col items-center justify-center bg-white rounded-2xl just p-5 w-[416px] h-[512px] ">
             <div className="flex items-center justify-center">
               <img
                 src={petSitter.image_profile}
@@ -225,12 +238,12 @@ function PetSitterDetail() {
               />
             </div>
             <div className="text-center mt-4">
-              <h1 className="text-2xl font-semibold">
+              <h1 className="text-4xl font-bold">
                 {petSitterDetail.pet_sitter_name}
               </h1>
               <div className="mt-2">
-                <h2 className="text-lg">{petSitter.username}</h2>
-                <h2 className="text-sm">
+                <h2 className="text-xl font-semibold">{petSitter.username}</h2>
+                <h2 className="text-lg text-green-500">
                   {petSitterDetail.experience} Years Exp.
                 </h2>
               </div>
@@ -240,18 +253,18 @@ function PetSitterDetail() {
                   alt="locationIcon"
                   className="w-5 h-5"
                 />
-                <h3 className="text-gray-700 ml-2">
+                <h3 className="text-gray-700 ml-2 text-lg">
                   {petSitterDetail.my_place}
                 </h3>
               </div>
-              <div className="mt-4 ">
+              <div className="mt-4 my-5 rounded-full flex flex-row items-center justify-center">
                 {petSitterDetail.pet_type.map((pet, index) => (
                   <span className="mx-1" key={index}>
                     {handleChip(pet)}
                   </span>
                 ))}
               </div>
-
+              <hr />
               <div className="p-5 flex justify-center">
                 <button
                   className="w-[300px] h-[50px] py-2 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3 "
@@ -269,109 +282,113 @@ function PetSitterDetail() {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-560 h-438 bg-white border rounded-lg shadow-md p-4">
-                    <div className="flex justify-between items-center">
-                      <h1 className="text-2xl font-bold mb-4">Booking</h1>
+                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[560px] h-[438px] bg-white border rounded-lg shadow-md py-4 ">
+                    <div className="flex justify-between items-center px-8">
+                      <h1 className="text-2xl font-bold mb-4 ">Booking</h1>
                       <button
                         onClick={handleClose}
-                        className="text-gray-500 hover:text-gray-700 focus:outline-none"
+                        className="text-gray-500 hover:text-gray-700 focus:outline-none "
                       >
                         <CloseIcon />
                       </button>
                     </div>
-                    <hr className="border-gray-300 my-4" />
-                    <div>
-                      <h2 className="text-sm font-semibold text-gray-500 mb-2">
-                        Select a date and time for your booking
-                      </h2>
-                    </div>
-                    <div className="space-y-6">
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DemoContainer components={["DatePicker"]}>
-                          <DatePicker
-                            sx={{
-                              "& .MuiOutlinedInput-root": {
-                                "& fieldset": {
-                                  borderColor: "#AEB1C3",
+                    <hr className="border-gray-300 my-2" />
+                    <div className="flex items-center justify-center flex-col my-3">
+                      <div className="px-5 ">
+                        <h2 className="text-xl font-semibold text-gray-500 mb-2 ">
+                          Select a date and time you want to schedule the
+                          service.
+                        </h2>
+                      </div>
+                      <div className="space-y-6 w-[440px] ">
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DatePicker"]}>
+                            <DatePicker
+                              sx={{
+                                "& .MuiOutlinedInput-root": {
+                                  "& fieldset": {
+                                    borderColor: "#AEB1C3",
+                                  },
+                                  "&:hover fieldset": {
+                                    borderColor: "#FF7037",
+                                  },
+                                  "&.Mui-focused fieldset": {
+                                    borderColor: "#FF7037",
+                                  },
                                 },
-                                "&:hover fieldset": {
-                                  borderColor: "#FF7037",
-                                },
-                                "&.Mui-focused fieldset": {
-                                  borderColor: "#FF7037",
-                                },
-                              },
-                            }}
-                            label=""
-                            value={selectedDate}
-                            onChange={handleDateChange}
-                            className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
-                          />
-                        </DemoContainer>
-                      </LocalizationProvider>
-                      <div>
-                        <div className="flex space-x-4">
-                          <div className="flex flex-col">
-                            <label className="text-sm text-gray-600">
-                              Start Time:
-                            </label>
-                            <select
-                              className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white"
-                              value={startTime}
-                              onChange={handleStartTimeChange}
-                            >
-                              {generateTimeOptions().map((time) => (
-                                <option key={time} value={time}>
-                                  {time}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="flex flex-col">
-                            <label className="text-sm text-gray-600">
-                              End Time:
-                            </label>
-                            <select
-                              className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white"
-                              value={endTime}
-                              onChange={handleEndTimeChange}
-                            >
-                              {generateTimeOptions().map((time) => (
-                                <option
-                                  key={time}
-                                  value={time}
-                                  disabled={selectedTimes.includes(time)}
-                                >
-                                  {time}
-                                </option>
-                              ))}
-                            </select>
+                              }}
+                              label=""
+                              value={selectedDate}
+                              onChange={handleDateChange}
+                              className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+                        <div className="flex items-center">
+                          <div className="flex space-x-4">
+                            <div className="flex flex-col">
+                              <label className="text-sm text-gray-600">
+                                Start Time:
+                              </label>
+                              <select
+                                className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white w-[208.5px]"
+                                value={startTime}
+                                onChange={handleStartTimeChange}
+                              >
+                                {generateTimeOptions().map((time) => (
+                                  <option key={time} value={time}>
+                                    {time}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                            <div className="flex flex-col">
+                              <label className="text-sm text-gray-600">
+                                End Time:
+                              </label>
+                              <select
+                                className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white w-[208.5px]"
+                                value={endTime}
+                                onChange={handleEndTimeChange}
+                              >
+                                {generateTimeOptions().map((time) => (
+                                  <option
+                                    key={time}
+                                    value={time}
+                                    disabled={selectedTimes.includes(time)}
+                                  >
+                                    {time}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="mt-4 py-5 right-0">
-                      <button
-                        className="w-full bg-gradient-to-r from-primaryOrange2 to-primaryOrange3 hover:from-primaryOrange1 hover:to-primaryOrange2 text-white py-2 rounded-md font-semibold hover:shadow-md transition duration-300 ease-in-out"
-                        onClick={() => {
-                          handleClose();
-                          navigate("/booking/yourPet", {
-                            state: {
-                              bookingDetails: {
-                                selectedBookingDate:
-                                  selectedDate.format("YYYY-MM-DD"),
-                                startTime,
-                                endTime,
-                                petSitterName: petSitterDetail.pet_sitter_name,
-                                petSitterUsername: petSitterDetail.username,
-                                petSitterId: petSitterDetail.petsitter_id,
+                      <div className="mt-4 py-5 right-0">
+                        <button
+                          className="rounded-full bg-gradient-to-r from-primaryOrange2 to-primaryOrange3 hover:from-primaryOrange1 hover:to-primaryOrange2 text-white py-2 font-semibold hover:shadow-md transition duration-300 ease-in-out w-[480px]"
+                          onClick={() => {
+                            handleClose();
+                            navigate("/booking/yourPet", {
+                              state: {
+                                bookingDetails: {
+                                  selectedBookingDate:
+                                    selectedDate.format("YYYY-MM-DD"),
+                                  startTime,
+                                  endTime,
+                                  petSitterName:
+                                    petSitterDetail.pet_sitter_name,
+                                  petSitterUsername: petSitterDetail.username,
+                                  petSitterId: petSitterDetail.petsitter_id,
+                                },
                               },
-                            },
-                          });
-                        }}
-                      >
-                        Continue
-                      </button>
+                            });
+                          }}
+                        >
+                          Continue
+                        </button>
+                      </div>
                     </div>
                   </Box>
                 </Modal>

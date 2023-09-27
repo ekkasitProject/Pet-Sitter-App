@@ -12,11 +12,15 @@ const BookingConfirmation = (props) => {
     useContext(ToggleContext);
   const ratePerPet = 300; // Replace with your actual rate per pet
 
-  const calculateTotalPrice = () => {
-    const price =
-      durationInMinutes * 300 + props.selectedPets.length * ratePerPet;
-    return price;
-  };
+const calculateTotalPrice = () => {
+  let price = durationInMinutes * 300; // Calculate price for the first pet
+
+  if (props.selectedPets.length >= 2) {
+    price += (props.selectedPets.length - 1) * ratePerPet; // Add price for the second and subsequent pets
+  }
+
+  return price;
+};
 
   // Initialize totalPriceInTHB with the initial calculation
   const [totalPriceInTHB, setTotalPriceInTHB] = useState(calculateTotalPrice());
@@ -77,7 +81,7 @@ const BookingConfirmation = (props) => {
 
       <div className="absolute flex items-center w-[100%] bottom-0 py-8 mt-12 justify-between bg-black ">
         <p className="mx-8 text-white">Total</p>
-        <p className="mx-8 text-white"> {totalPriceInTHB} THB</p>
+        <p className="mx-8 text-white"> {totalPriceInTHB}.00 THB</p>
       </div>
     </div>
   );
