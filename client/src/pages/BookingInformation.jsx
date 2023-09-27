@@ -149,7 +149,6 @@ const BookingInformation = () => {
                   <textarea
                     id="additionalMessage"
                     name="additionalMessage"
-                    required
                     value={messageAdditional}
                     onChange={(event) =>
                       setMessageAdditional(event.target.value)
@@ -157,6 +156,7 @@ const BookingInformation = () => {
                     className="mt-1 p-2 block w-full h-[140px] rounded-xl border  border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                 </div>
+
                 <div className="mt-[8rem] flex justify-between">
                   <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
                     Back

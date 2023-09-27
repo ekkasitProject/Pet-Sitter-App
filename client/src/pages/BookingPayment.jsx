@@ -61,6 +61,12 @@ const BookingPayment = () => {
   };
 
   const handleConfirmBooking = () => {
+    if (paymentType === "creditCard") {
+      if (!creditCardNumber || !expiry || !cvv) {
+        alert("กรุณากรอข้อมูลให้ครบ");
+        return;
+      }
+    }
     setIsModalOpen(true); // Open the modal when "Confirm Booking" is clicked
   };
 
@@ -159,6 +165,21 @@ const BookingPayment = () => {
     setExpiry(input);
   };
 
+  const [cvv, setCvv] = useState("");
+  const handleCvvChange = (e) => {
+    let input = e.target.value;
+
+    // Remove non-numeric characters
+    input = input.replace(/\D/g, "");
+
+    // Limit the CVV length to 3 characters
+    if (input.length > 3) {
+      input = input.slice(0, 3);
+    }
+
+    // Update the state with the new CVV value
+    setCvv(input);
+  };
   return (
     <div>
       <HeaderAuth />
@@ -192,7 +213,7 @@ const BookingPayment = () => {
               <div className="flex justify-between">
                 <button
                   onClick={() => handlePaymentChange("creditCard")}
-                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full 
+                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full
               ${
                 paymentType === "creditCard"
                   ? "border border-orange-500 text-[#FF7037]"
@@ -203,7 +224,7 @@ const BookingPayment = () => {
                 </button>
                 <button
                   onClick={() => handlePaymentChange("cash")}
-                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full 
+                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full
               ${
                 paymentType === "cash"
                   ? "border border-orange-500 text-[#FF7037]"
@@ -214,7 +235,7 @@ const BookingPayment = () => {
                 </button>
               </div>
               {paymentType === "creditCard" ? (
-                <>
+                <form>
                   <div className="mt-12 flex">
                     <div className="w-[50%] mr-12">
                       <label htmlFor="CardNumber">Card Number*</label>
@@ -266,12 +287,14 @@ const BookingPayment = () => {
                         type="text"
                         placeholder="xxx"
                         required
+                        value={cvv}
+                        onChange={handleCvvChange}
                         maxLength={3}
                         className="mt-1 p-2 w-full h-14 block rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
                     </div>
                   </div>
-                </>
+                </form>
               ) : (
                 <>
                   <div className="bg-[#F6F6F9] flex h-[281px] flex-col justify-center items-center rounded-2xl mt-12">
