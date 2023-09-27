@@ -30,6 +30,15 @@ function BookingList() {
     const durationInHours = (endTime - startTime) / (1000 * 60 * 60);
     return durationInHours;
   };
+  console.log(status);
+
+  const filteredSearchData = bookingList.filter(
+    (searchItem) =>
+      searchItem.petowner.username
+        .toLowerCase()
+        .includes(search.toLowerCase()) &&
+      searchItem.status_booking.toLowerCase().includes(status.toLowerCase())
+  );
 
   return (
     <>
@@ -64,9 +73,7 @@ function BookingList() {
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                   >
-                    <option disabled value="">
-                      All status
-                    </option>
+                    <option value="">All status</option>
                     <option value="Success">Success</option>
                     <option value="Waiting for service">
                       Waiting for service
@@ -89,7 +96,8 @@ function BookingList() {
                 <div className="w-3/12">Status</div>
               </div>
               {/*map divนี้ */}
-              {bookingList.map((booking) => {
+
+              {filteredSearchData.map((booking) => {
                 return (
                   <div
                     key={booking.booking_id}
@@ -102,7 +110,6 @@ function BookingList() {
                     <div className="w-1/12">{booking.petdetails.length}</div>
                     <div className="w-1/12">
                       {calculateDuration(booking.startTime, booking.endTime)}{" "}
-                      hours
                     </div>
                     <div className="w-3/12">
                       {formatDate(booking.startTime)}{" "}

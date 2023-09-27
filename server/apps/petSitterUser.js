@@ -223,12 +223,18 @@ petSitterUser.put("/:id", avatarUpload, async (req, res) => {
         ? { image_profile: avatarUrls }
         : { image_profile: oldImageUrl }),
     };
+    let petTypeArray;
+    if (pet_type) {
+      petTypeArray = pet_type.split(",").map((type) => type.trim());
+    }
+
+    // console.log(petTypeArray);
     const updatePetSitterDetailData = {
       pet_sitter_name,
       services,
       my_place,
       experience,
-      pet_type,
+      ...(pet_type ? { pet_type: petTypeArray } : pet_type),
     };
 
     const updateAddressData = {

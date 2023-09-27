@@ -199,25 +199,21 @@ function PetSitterProfile() {
       formData.append("province", province);
       formData.append("post_code", postcode);
       formData.append("oldImageUrl", oldImageUrl);
-      // formData.append("pet_type", "dog,cat");
-      // formData.append("pet_type", allpets);
-      /*allpets.forEach((pet) => {
-        formData.append("pet_type", pet);
-      });*/
+      formData.append("pet_type", allpetsString);
+
       for (let key in gallery) {
         formData.append("gallery", gallery[key]);
       }
       // formData.append("gallery", gallery);
-
-      console.log(allpets);
+      // console.log(allpets);
       //console.log(avatars);
       //console.log(formData);
       updatePetSitterProfile(formData);
       setIsAlert(true);
 
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
+      // formData.forEach((value, key) => {
+      //   console.log(`${key}: ${value}`);
+      // });
     }
   };
 
@@ -225,18 +221,17 @@ function PetSitterProfile() {
     setIsAlert(false);
   }, 3000);
 
-  useEffect(() => {
-    //console.log(pettype);
-    if (petsitterProfile) {
-      const petsArray = [...allpets];
-      if (!allpets.includes(pettype) && pettype !== "") {
-        petsArray.push(pettype);
-        setAllpets(petsArray);
-      }
-
-      console.log(allpets);
+  let allpetsString;
+  if (petsitterProfile) {
+    const petsArray = [...allpets];
+    if (!allpets.includes(pettype) && pettype !== "") {
+      petsArray.push(pettype);
+      setAllpets(petsArray);
     }
-  }, [pettype]);
+
+    allpetsString = allpets.join(",");
+    console.log(allpetsString);
+  }
 
   const handleRemovePet = (pet) => {
     if (allpets.includes(pet)) {
@@ -273,8 +268,6 @@ function PetSitterProfile() {
     delete gallery[galleryKey];
     setGallery({ ...gallery });
   };
-
-  //console.log(gallery);
 
   return (
     <>
