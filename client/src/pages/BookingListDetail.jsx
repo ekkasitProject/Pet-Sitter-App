@@ -320,99 +320,112 @@ function BookingListDetail() {
                 <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
                   Pet Detail
                 </div>
-                <div className="">
-                  <div
-                    // onClick={() => handleToggleViewPet("id")}
-                    onClick={handleOpenPetModal}
-                    className="pet-card cursor-pointer border-2 border-primaryGray5 w-[200px] h-[230px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
-                  >
-                    <img
-                      src={profile_user}
-                      className="rounded-full w-[80px] h-[80px] mt-4"
-                      alt="pet sitter profile picture"
-                    />
-                    <h1 className="text-headLine3">petname</h1>
-                    pettype
-                    {/* popuptoggle ตอนที่กดpetcard ที่map มา */}
-                    <Modal
-                      className="flex items-center justify-center"
-                      open={OpenPetModal}
-                      onClose={handleClosePetModal}
-                      aria-labelledby="modal-modal-title"
-                      aria-describedby="modal-modal-description"
-                    >
-                      <Box className="flex items-center justify-center w-[800px] h-[552px] bg-white rounded-2xl">
-                        <div className="w-full h-full py-5">
-                          <div className="flex items-center py-3 px-10">
-                            <h1 className="text-2xl font-semibold ">Daisy</h1>
-                            <img
-                              src={closeIcon}
-                              className="ml-auto px-5"
-                              onClick={handleClosePetModal}
-                              alt="Close Icon"
-                            />
-                          </div>
-                          <hr className="border-t-2 h-4 w-full" />
-                          <div className="flex items-center space-x-12 p-8">
-                            <div>
-                              <img
-                                src={profile_user}
-                                alt="Profile"
-                                className="w-[240px] h-[240px] rounded-full"
-                              />
-                              <div className="flex items-center justify-center">
-                                <h1 className="text-xl font-semibold">Daisy</h1>
+                <div className="grid grid-cols-5 gap-20">
+                  {bookingList[index].petdetails.map((pet, index) => {
+                    return (
+                      <>
+                        <div
+                          key={index}
+                          // onClick={() => handleToggleViewPet("id")}
+                          onClick={handleOpenPetModal}
+                          onClose={handleClosePetModal}
+                          className="pet-card cursor-pointer border-2 border-primaryGray5 w-[200px] h-[230px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
+                        >
+                          <img
+                            src={pet.image_profile}
+                            className="rounded-full w-[80px] h-[80px] mt-4"
+                            alt="pet sitter profile picture"
+                          />
+                          <h1 className="text-headLine3">{pet.petname}</h1>
+                          {pet.pettype}
+                          {/* popuptoggle ตอนที่กดpetcard ที่map มา */}
+                          <Modal
+                            className="flex items-center justify-center"
+                            open={OpenPetModal}
+                            onClose={handleClosePetModal}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                          >
+                            <Box className="flex items-center justify-center w-[800px] h-[552px] bg-white rounded-2xl">
+                              <div className="w-full h-full py-5">
+                                <div className="flex items-center py-3 px-10">
+                                  <h1 className="text-2xl font-semibold ">
+                                    {pet.petname}
+                                  </h1>
+                                  <img
+                                    src={closeIcon}
+                                    className="ml-auto px-5"
+                                    onClick={handleClosePetModal}
+                                    alt="Close Icon"
+                                  />
+                                </div>
+                                <hr className="border-t-2 h-4 w-full" />
+                                <div className="flex items-center space-x-12 p-8">
+                                  <div>
+                                    <img
+                                      src={pet.image_profile}
+                                      alt="Profile"
+                                      className="w-[240px] h-[240px] rounded-full"
+                                    />
+                                    <div className="flex items-center justify-center">
+                                      <h1 className="text-xl font-semibold">
+                                        {pet.petname}
+                                      </h1>
+                                    </div>
+                                  </div>
+                                  <div className="grid grid-cols-2 gap-4 bg-primaryGray7 w-[440px] h-[394px] p-8 rounded-2xl">
+                                    <div className="mb-2">
+                                      <h1 className="text-lg font-semibold text-primaryGray4">
+                                        Pet Type
+                                      </h1>
+                                      <a>{pet.pettype}</a>
+                                    </div>
+                                    <div className="mb-2">
+                                      <h1 className="text-lg font-semibold text-primaryGray4">
+                                        Breed
+                                      </h1>
+                                      <a>{pet.breed}</a>
+                                    </div>
+                                    <div className="mb-2">
+                                      <h1 className="text-lg font-semibold text-primaryGray4">
+                                        Sex
+                                      </h1>
+                                      <a>{pet.sex}</a>
+                                    </div>
+                                    <div className="mb-2">
+                                      <h1 className="text-lg font-semibold text-primaryGray4">
+                                        Age
+                                      </h1>
+                                      <a>{pet.age} year(s)</a>
+                                    </div>
+                                    <div className="mb-2">
+                                      <h1 className="text-lg font-semibold text-primaryGray4">
+                                        Color
+                                      </h1>
+                                      <a>{pet.color}</a>
+                                    </div>
+                                    <div className="mb-2">
+                                      <h1 className="text-lg font-semibold text-primaryGray4">
+                                        Weight
+                                      </h1>
+                                      {pet.weight} Kilogram
+                                    </div>
+                                    <div className="mb-2">
+                                      <h1 className="text-lg font-semibold text-primaryGray4">
+                                        About
+                                      </h1>
+                                      <a>{pet.about}</a>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4 bg-primaryGray7 w-[440px] h-[394px] p-8 rounded-2xl">
-                              <div className="mb-2">
-                                <h1 className="text-lg font-semibold text-primaryGray4">
-                                  Pet Type
-                                </h1>
-                                <a>Dog</a>
-                              </div>
-                              <div className="mb-2">
-                                <h1 className="text-lg font-semibold text-primaryGray4">
-                                  Breed
-                                </h1>
-                                <a>Beagle</a>
-                              </div>
-                              <div className="mb-2">
-                                <h1 className="text-lg font-semibold text-primaryGray4">
-                                  Sex
-                                </h1>
-                                <a>Female</a>
-                              </div>
-                              <div className="mb-2">
-                                <h1 className="text-lg font-semibold text-primaryGray4">
-                                  Age
-                                </h1>
-                                <a>0.6 month</a>
-                              </div>
-                              <div className="mb-2">
-                                <h1 className="text-lg font-semibold text-primaryGray4">
-                                  Color
-                                </h1>
-                                <a>Black, White, Brown</a>
-                              </div>
-                              <div className="mb-2">
-                                <h1 className="text-lg font-semibold text-primaryGray4">
-                                  Weight
-                                </h1>
-                                1 Kilogram
-                              </div>
-                              <div className="mb-2">
-                                <h1 className="text-lg font-semibold text-primaryGray4">
-                                  About
-                                </h1>
-                                <a>Woof Woof</a>
-                              </div>
-                            </div>
-                          </div>
+                            </Box>
+                          </Modal>
                         </div>
-                      </Box>
-                    </Modal>
-                  </div>
+                      </>
+                    );
+                  })}
+
                   {/* {allpets.map((pet) => {
                 return (
                   <div
