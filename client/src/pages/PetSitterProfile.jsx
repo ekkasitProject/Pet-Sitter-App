@@ -489,7 +489,6 @@ function PetSitterProfile() {
                       name="pettype"
                       className="text-white invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
                       value={pettype}
-                      required
                       onChange={(e) => {
                         setPettype(e.target.value);
                       }}
