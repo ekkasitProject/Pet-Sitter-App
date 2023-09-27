@@ -53,6 +53,7 @@ const AuthenticatedApp = () => {
   const [selectedPetsitterUser, setSelectedPetsitterUser] = useState("");
   const [bookingListDetails, setBookingListDetails] = useState({});
   const [bookingList, setBookingList] = useState([]);
+  const [index, setIndex] = useState("");
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -109,6 +110,8 @@ const AuthenticatedApp = () => {
           setBookingListDetails,
           bookingList,
           setBookingList,
+          index,
+          setIndex,
         }}
       >
         <Routes>

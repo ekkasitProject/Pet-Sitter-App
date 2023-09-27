@@ -322,6 +322,7 @@ const fetchUserData = () => {
 
       // console.log(result);
       setBookingList(result.data.bookings);
+      console.log(result.data.bookings);
       /* const newArray = bookingList.filter((booking) => {
         return booking.booking_id == bookingID;
       });
@@ -397,7 +398,7 @@ const fetchUserData = () => {
       );
 
       setIsLoading(false);
-      // navigate(`/user/profile/${petOwnerID}`);
+      // navigate(`/petsitter/bookinglist/${petSitterID}`);
     } catch (error) {
       console.log(error);
     }

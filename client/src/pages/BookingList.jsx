@@ -26,6 +26,8 @@ function BookingList() {
     setBookingID,
     petSitterID,
     setPetSitterID,
+    index,
+    setIndex,
   } = useContext(ToggleContext);
 
   useEffect(() => {
@@ -98,13 +100,14 @@ function BookingList() {
                 <div className="w-3/12">Status</div>
               </div>
               {/*map divนี้ */}
-              {bookingList.map((booking) => {
+              {bookingList.map((booking, index) => {
                 return (
                   <div
                     key={booking.booking_id}
                     onClick={() => {
                       setPetOwnerID(booking.petowner.petowner_id);
                       setBookingID(booking.booking_id);
+                      setIndex(index);
                       navigate(
                         `/petsitter/bookinglistdetail/${booking.petowner.petowner_id}/${booking.booking_id}`
                       );
