@@ -44,12 +44,12 @@ const AdvancedCarousel = () => {
         <img
           src={icon_arrow1}
           onClick={() => prev()}
-          className="bg-white text-gray-500 px-4  py-2 rounded-full ml-2 absolute left-10 transform -translate-y-1/2 top-1/2 rotate-90"
+          className="bg-white text-gray-500 px-4  py-2 rounded-full ml-2 absolute left-10 transform -translate-y-1/2 top-1/2 rotate-90 w-[56px] h-[56px]"
         />
         <img
           src={icon_arrow2}
           onClick={() => next()}
-          className="bg-white text-gray-500 w-{24px} h-{24px} px-4 py-2 rounded-full ml-2 absolute right-10 transform -translate-y-1/2 top-1/2 rotate-90"
+          className="bg-white text-gray-500 w-{24px} h-{24px} px-4 py-2 rounded-full ml-2 absolute right-10 transform -translate-y-1/2 top-1/2 rotate-90 w-[56px] h-[56px]"
         />
       </div>
       {/* <div>
