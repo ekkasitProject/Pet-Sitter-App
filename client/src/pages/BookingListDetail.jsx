@@ -15,6 +15,12 @@ import {
   formatTime,
   calculateDuration,
 } from "../components/calculateDate";
+import {
+  ChipsOrange,
+  ChipsPink,
+  ChipsGreen,
+  ChipsBlue,
+} from "../components/Chips.jsx";
 
 function BookingListDetail() {
   const {
@@ -100,6 +106,21 @@ function BookingListDetail() {
     //getBookingDetail(bookingList, bookingID);
   }, []);
 
+  const handleChip = (pet) => {
+    if (pet === "dog") {
+      return <ChipsGreen petType="Dog" />;
+    }
+    if (pet === "cat") {
+      return <ChipsPink petType="Cat" />;
+    }
+    if (pet === "bird") {
+      return <ChipsBlue petType="Bird" />;
+    }
+    if (pet === "rabbit") {
+      return <ChipsOrange petType="Rabbit" />;
+    }
+  };
+
   return (
     <>
       <div className="w-screen min-h-screen flex flex-row justify-center font-satoshi">
@@ -143,8 +164,6 @@ function BookingListDetail() {
               </div>
 
               <div className="flex gap-3">
-                {/* อันนี้mockไว้ */}
-
                 {bookingList[index].status_booking == "Success" ? (
                   <button className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray5 disabled:text-primaryGray3">
                     Success
@@ -337,90 +356,90 @@ function BookingListDetail() {
                             alt="pet sitter profile picture"
                           />
                           <h1 className="text-headLine3">{pet.petname}</h1>
-                          {pet.pettype}
+                          {handleChip(pet.pettype)}
                           {/* popuptoggle ตอนที่กดpetcard ที่map มา */}
-                          <Modal
-                            className="flex items-center justify-center"
-                            open={OpenPetModal}
-                            onClose={handleClosePetModal}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                          >
-                            <Box className="flex items-center justify-center w-[800px] h-[552px] bg-white rounded-2xl">
-                              <div className="w-full h-full py-5">
-                                <div className="flex items-center py-3 px-10">
-                                  <h1 className="text-2xl font-semibold ">
-                                    {pet.petname}
-                                  </h1>
-                                  <img
-                                    src={closeIcon}
-                                    className="ml-auto px-5"
-                                    onClick={handleClosePetModal}
-                                    alt="Close Icon"
-                                  />
-                                </div>
-                                <hr className="border-t-2 h-4 w-full" />
-                                <div className="flex items-center space-x-12 p-8">
-                                  <div>
+                          {OpenPetModal ? (
+                            <div
+                              className="modal font-satoshi bg-neutral-700/80 w-screen h-screen z-10 top-0 left-0 right-0 bottom-0 fixed flex justify-center items-center"
+                              open={OpenPetModal}
+                              onClose={handleClosePetModal}
+                            >
+                              <div className="flex items-center justify-center w-[800px] h-[552px] bg-white rounded-2xl">
+                                <div className="w-full h-full py-5">
+                                  <div className="flex items-center py-3 px-10">
+                                    <h1 className="text-2xl font-semibold ">
+                                      {pet.petname}
+                                    </h1>
                                     <img
-                                      src={pet.image_profile}
-                                      alt="Profile"
-                                      className="w-[240px] h-[240px] rounded-full"
+                                      src={closeIcon}
+                                      className="ml-auto px-5"
+                                      onClick={handleClosePetModal}
+                                      alt="Close Icon"
                                     />
-                                    <div className="flex items-center justify-center">
-                                      <h1 className="text-xl font-semibold">
-                                        {pet.petname}
-                                      </h1>
-                                    </div>
                                   </div>
-                                  <div className="grid grid-cols-2 gap-4 bg-primaryGray7 w-[440px] h-[394px] p-8 rounded-2xl">
-                                    <div className="mb-2">
-                                      <h1 className="text-lg font-semibold text-primaryGray4">
-                                        Pet Type
-                                      </h1>
-                                      <a>{pet.pettype}</a>
+                                  <hr className="border-t-2 h-4 w-full" />
+                                  <div className="flex items-center space-x-12 p-8">
+                                    <div>
+                                      <img
+                                        src={pet.image_profile}
+                                        alt="Profile"
+                                        className="w-[240px] h-[240px] rounded-full"
+                                      />
+                                      <div className="flex items-center justify-center">
+                                        <h1 className="text-xl font-semibold">
+                                          {pet.petname}
+                                        </h1>
+                                      </div>
                                     </div>
-                                    <div className="mb-2">
-                                      <h1 className="text-lg font-semibold text-primaryGray4">
-                                        Breed
-                                      </h1>
-                                      <a>{pet.breed}</a>
-                                    </div>
-                                    <div className="mb-2">
-                                      <h1 className="text-lg font-semibold text-primaryGray4">
-                                        Sex
-                                      </h1>
-                                      <a>{pet.sex}</a>
-                                    </div>
-                                    <div className="mb-2">
-                                      <h1 className="text-lg font-semibold text-primaryGray4">
-                                        Age
-                                      </h1>
-                                      <a>{pet.age} year(s)</a>
-                                    </div>
-                                    <div className="mb-2">
-                                      <h1 className="text-lg font-semibold text-primaryGray4">
-                                        Color
-                                      </h1>
-                                      <a>{pet.color}</a>
-                                    </div>
-                                    <div className="mb-2">
-                                      <h1 className="text-lg font-semibold text-primaryGray4">
-                                        Weight
-                                      </h1>
-                                      {pet.weight} Kilogram
-                                    </div>
-                                    <div className="mb-2">
-                                      <h1 className="text-lg font-semibold text-primaryGray4">
-                                        About
-                                      </h1>
-                                      <a>{pet.about}</a>
+                                    <div className="grid grid-cols-2 gap-4 bg-primaryGray7 w-[440px] h-[394px] p-8 rounded-2xl">
+                                      <div className="mb-2">
+                                        <h1 className="text-lg font-semibold text-primaryGray4">
+                                          Pet Type
+                                        </h1>
+                                        <a>{pet.pettype}</a>
+                                      </div>
+                                      <div className="mb-2">
+                                        <h1 className="text-lg font-semibold text-primaryGray4">
+                                          Breed
+                                        </h1>
+                                        <a>{pet.breed}</a>
+                                      </div>
+                                      <div className="mb-2">
+                                        <h1 className="text-lg font-semibold text-primaryGray4">
+                                          Sex
+                                        </h1>
+                                        <a>{pet.sex}</a>
+                                      </div>
+                                      <div className="mb-2">
+                                        <h1 className="text-lg font-semibold text-primaryGray4">
+                                          Age
+                                        </h1>
+                                        <a>{pet.age} year(s)</a>
+                                      </div>
+                                      <div className="mb-2">
+                                        <h1 className="text-lg font-semibold text-primaryGray4">
+                                          Color
+                                        </h1>
+                                        <a>{pet.color}</a>
+                                      </div>
+                                      <div className="mb-2">
+                                        <h1 className="text-lg font-semibold text-primaryGray4">
+                                          Weight
+                                        </h1>
+                                        {pet.weight} Kilogram
+                                      </div>
+                                      <div className="mb-2">
+                                        <h1 className="text-lg font-semibold text-primaryGray4">
+                                          About
+                                        </h1>
+                                        <a>{pet.about}</a>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
                               </div>
-                            </Box>
-                          </Modal>
+                            </div>
+                          ) : null}
                         </div>
                       </>
                     );
