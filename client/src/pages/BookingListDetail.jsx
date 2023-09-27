@@ -10,6 +10,7 @@ import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import closeIcon from "../assets/icons/iconClose.svg";
 import fetchUserData from "../hooks/fetchUserData";
+import BookingListModal from "../components/BookingListModal";
 import {
   formatDate,
   formatTime,
@@ -24,6 +25,8 @@ import {
 
 function BookingListDetail() {
   const {
+    petID,
+    setPetID,
     petOwnerID,
     setPetOwnerID,
     bookingID,
@@ -35,6 +38,8 @@ function BookingListDetail() {
     bookingList,
     setBookingList,
     index,
+    OpenPetModal,
+    setOpenPetModal,
     setIndex,
   } = useContext(ToggleContext);
   const {
@@ -49,10 +54,10 @@ function BookingListDetail() {
   const [allpets, setAllpets] = useState([]);
   const [booking, setBooking] = useState({});
   const [toggleViewPet, setToggleViewPet] = useState(false);
-  const [petID, setPetID] = useState("");
+  //const [petID, setPetID] = useState("");
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [viewProfileModalOpen, setViewProfileModalOpen] = useState(false);
-  const [OpenPetModal, setOpenPetModal] = useState(false);
+  /// const [OpenPetModal, setOpenPetModal] = useState(false);
   // reject popup
   const handleOpenRejectModal = () => setRejectModalOpen(true);
   const handleCloseRejectModal = () => setRejectModalOpen(false);
@@ -60,8 +65,16 @@ function BookingListDetail() {
   const handleOpenViewProfileModal = () => setViewProfileModalOpen(true);
   const handleCloseViewProfileModal = () => setViewProfileModalOpen(false);
   // open pet profile
-  const handleOpenPetModal = () => setOpenPetModal(true);
+
   const handleClosePetModal = () => setOpenPetModal(false);
+  const handleOpenPetModal = (ownerId, petId) => {
+    setPetID(petId);
+    setPetOwnerID(ownerId);
+    setOpenPetModal(true);
+    console.log(bookingID);
+    console.log(petId);
+    console.log(ownerId);
+  };
 
   const navigate = useNavigate();
 
@@ -339,6 +352,7 @@ function BookingListDetail() {
                 <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
                   Pet Detail
                 </div>
+                {OpenPetModal ? <BookingListModal /> : null}
                 <div className="grid grid-cols-5 gap-20">
                   {bookingList[index].petdetails.map((pet, index) => {
                     return (
@@ -346,8 +360,12 @@ function BookingListDetail() {
                         <div
                           key={index}
                           // onClick={() => handleToggleViewPet("id")}
-                          onClick={handleOpenPetModal}
-                          onClose={handleClosePetModal}
+                          onClick={() =>
+                            handleOpenPetModal(
+                              bookingList[index].petowner.petowner_id,
+                              pet.pet_id
+                            )
+                          }
                           className="pet-card cursor-pointer border-2 border-primaryGray5 w-[200px] h-[230px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
                         >
                           <img
@@ -358,88 +376,6 @@ function BookingListDetail() {
                           <h1 className="text-headLine3">{pet.petname}</h1>
                           {handleChip(pet.pettype)}
                           {/* popuptoggle ตอนที่กดpetcard ที่map มา */}
-                          {OpenPetModal ? (
-                            <div
-                              className="modal font-satoshi bg-neutral-700/80 w-screen h-screen z-10 top-0 left-0 right-0 bottom-0 fixed flex justify-center items-center"
-                              open={OpenPetModal}
-                              onClose={handleClosePetModal}
-                            >
-                              <div className="flex items-center justify-center w-[800px] h-[552px] bg-white rounded-2xl">
-                                <div className="w-full h-full py-5">
-                                  <div className="flex items-center py-3 px-10">
-                                    <h1 className="text-2xl font-semibold ">
-                                      {pet.petname}
-                                    </h1>
-                                    <img
-                                      src={closeIcon}
-                                      className="ml-auto px-5"
-                                      onClick={handleClosePetModal}
-                                      alt="Close Icon"
-                                    />
-                                  </div>
-                                  <hr className="border-t-2 h-4 w-full" />
-                                  <div className="flex items-center space-x-12 p-8">
-                                    <div>
-                                      <img
-                                        src={pet.image_profile}
-                                        alt="Profile"
-                                        className="w-[240px] h-[240px] rounded-full"
-                                      />
-                                      <div className="flex items-center justify-center">
-                                        <h1 className="text-xl font-semibold">
-                                          {pet.petname}
-                                        </h1>
-                                      </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4 bg-primaryGray7 w-[440px] h-[394px] p-8 rounded-2xl">
-                                      <div className="mb-2">
-                                        <h1 className="text-lg font-semibold text-primaryGray4">
-                                          Pet Type
-                                        </h1>
-                                        <a>{pet.pettype}</a>
-                                      </div>
-                                      <div className="mb-2">
-                                        <h1 className="text-lg font-semibold text-primaryGray4">
-                                          Breed
-                                        </h1>
-                                        <a>{pet.breed}</a>
-                                      </div>
-                                      <div className="mb-2">
-                                        <h1 className="text-lg font-semibold text-primaryGray4">
-                                          Sex
-                                        </h1>
-                                        <a>{pet.sex}</a>
-                                      </div>
-                                      <div className="mb-2">
-                                        <h1 className="text-lg font-semibold text-primaryGray4">
-                                          Age
-                                        </h1>
-                                        <a>{pet.age} year(s)</a>
-                                      </div>
-                                      <div className="mb-2">
-                                        <h1 className="text-lg font-semibold text-primaryGray4">
-                                          Color
-                                        </h1>
-                                        <a>{pet.color}</a>
-                                      </div>
-                                      <div className="mb-2">
-                                        <h1 className="text-lg font-semibold text-primaryGray4">
-                                          Weight
-                                        </h1>
-                                        {pet.weight} Kilogram
-                                      </div>
-                                      <div className="mb-2">
-                                        <h1 className="text-lg font-semibold text-primaryGray4">
-                                          About
-                                        </h1>
-                                        <a>{pet.about}</a>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ) : null}
                         </div>
                       </>
                     );

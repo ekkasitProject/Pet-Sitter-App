@@ -29,6 +29,7 @@ const AuthenticatedApp = () => {
   const userDataFromToken = jwtDecode(token);
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
+  const [OpenPetModal, setOpenPetModal] = useState(false);
   const [toggleViewPet, setToggleViewPet] = useState(false);
   const [toggleViewBooking, setToggleViewBooking] = useState(false);
   const [petID, setPetID] = useState("1");
@@ -112,6 +113,8 @@ const AuthenticatedApp = () => {
           setBookingList,
           index,
           setIndex,
+          OpenPetModal,
+          setOpenPetModal,
         }}
       >
         <Routes>

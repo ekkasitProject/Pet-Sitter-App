@@ -145,7 +145,8 @@ const fetchUserData = () => {
           },
         }
       );
-      //console.log(result);
+      console.log(petOwnerID);
+      console.log(petID);
       setPetDetail(result.data.pet);
       //setIsLoading(false);
     } catch (error) {
