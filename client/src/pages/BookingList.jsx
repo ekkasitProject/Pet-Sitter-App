@@ -19,6 +19,15 @@ function BookingList() {
   const { bookingList, setBookingList, getBookingList, isError, isLoading } =
     fetchUserData();
 
+  const {
+    petOwnerID,
+    setPetOwnerID,
+    bookingID,
+    setBookingID,
+    petSitterID,
+    setPetSitterID,
+  } = useContext(ToggleContext);
+
   useEffect(() => {
     getBookingList();
     // console.log(petsitterProfile);
@@ -94,7 +103,11 @@ function BookingList() {
                   <div
                     key={booking.booking_id}
                     onClick={() => {
-                      navigate("/petsitter/bookinglistdetail/:petsitterId");
+                      setPetOwnerID(booking.petowner.petowner_id);
+                      setBookingID(booking.booking_id);
+                      navigate(
+                        `/petsitter/bookinglistdetail/${booking.petowner.petowner_id}/${booking.booking_id}`
+                      );
                     }}
                     className="cursor-pointer bg-white px-5 w-full h-[70px] flex flex-row items-center justify-between"
                   >

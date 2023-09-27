@@ -51,6 +51,8 @@ const AuthenticatedApp = () => {
   const [selectedPetsitterID, setSelectedPetsitterID] = useState("");
   const [selectedPetsitterName, setSelectedPetsitterName] = useState("");
   const [selectedPetsitterUser, setSelectedPetsitterUser] = useState("");
+  const [bookingListDetails, setBookingListDetails] = useState({});
+  const [bookingList, setBookingList] = useState([]);
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -103,6 +105,10 @@ const AuthenticatedApp = () => {
           setSelectedPetsName,
           petSitterID,
           setPetSitterID,
+          bookingListDetails,
+          setBookingListDetails,
+          bookingList,
+          setBookingList,
         }}
       >
         <Routes>
@@ -134,7 +140,7 @@ const AuthenticatedApp = () => {
               element={<BookingList />}
             />
             <Route
-              path="/petsitter/bookinglistdetail/:petsitterId"
+              path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
               element={<BookingListDetail />}
             />
           </Route>

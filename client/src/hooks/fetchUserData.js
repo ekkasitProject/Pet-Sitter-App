@@ -15,7 +15,8 @@ const fetchUserData = () => {
   const [bookingHistory, setBookingHistory] = useState([]);
   const [booking, setBooking] = useState({});
   const [petsitterProfile, setPetsitterProfile] = useState(null);
-  const [bookingList, setBookingList] = useState([]);
+
+  const [bookingListById, setBookingListById] = useState({});
 
   const {
     petID,
@@ -30,6 +31,10 @@ const fetchUserData = () => {
     setBookingID,
     petSitterID,
     setPetSitterID,
+    bookingListDetails,
+    setBookingListDetails,
+    bookingList,
+    setBookingList,
   } = useContext(ToggleContext);
 
   const getPetOwnerProfile = async () => {
@@ -47,6 +52,7 @@ const fetchUserData = () => {
       );
       setIsLoading(false);
       setPetOwnerProfile(result.data.petOwnerUser);
+      // console.log(result);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -139,7 +145,7 @@ const fetchUserData = () => {
           },
         }
       );
-      console.log(result);
+      //console.log(result);
       setPetDetail(result.data.pet);
       //setIsLoading(false);
     } catch (error) {
@@ -289,7 +295,7 @@ const fetchUserData = () => {
         }
       );
 
-      console.log(result);
+      //console.log(result);
 
       setPetsitterProfile(result.data.petSitterUser);
       //setpetSitterID(result.data.petOwnerUser.petowner_id);
@@ -314,9 +320,15 @@ const fetchUserData = () => {
         }
       );
 
-      console.log(result);
-
+      // console.log(result);
       setBookingList(result.data.bookings);
+      /* const newArray = bookingList.filter((booking) => {
+        return booking.booking_id == bookingID;
+      });
+      console.log(newArray[0]);
+      setBookingListDetails(newArray[0]);
+      console.log(result);
+      console.log(bookingListDetails);*/
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
@@ -338,6 +350,52 @@ const fetchUserData = () => {
           },
         }
       );
+
+      setIsLoading(false);
+      // navigate(`/user/profile/${petOwnerID}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getBookingListById = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const result = await axios.get(
+        `http://localhost:6543/booking/petowner/${params.petownerId}/${params.bookingId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      //console.log(result);
+      setBookingList(result.data.bookings);
+    } catch (error) {
+      // Handle authentication error here
+      console.error("Authentication error:", error);
+    }
+  };
+
+  const confirmBooking = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const data = {
+        bookingId: bookingID,
+      };
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:6543/booking/petsitter/${petSitterID}/comfirm`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       setIsLoading(false);
       // navigate(`/user/profile/${petOwnerID}`);
     } catch (error) {
@@ -373,6 +431,10 @@ const fetchUserData = () => {
     setBookingList,
     getBookingList,
     updatePetSitterProfile,
+    getBookingListById,
+    bookingListById,
+    setBookingListById,
+    confirmBooking,
   };
 };
 

@@ -9,24 +9,44 @@ import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import closeIcon from "../assets/icons/iconClose.svg";
+import fetchUserData from "../hooks/fetchUserData";
 
 function BookingListDetail() {
+  const {
+    petOwnerID,
+    setPetOwnerID,
+    bookingID,
+    setBookingID,
+    petSitterID,
+    setPetSitterID,
+    bookingListDetails,
+    setBookingListDetails,
+  } = useContext(ToggleContext);
+  const {
+    bookingList,
+    setBookingList,
+    getBookingList,
+    isError,
+    isLoading,
+    confirmBooking,
+  } = fetchUserData();
   const [allpets, setAllpets] = useState([]);
+  const [booking, setBooking] = useState({});
   const [toggleViewPet, setToggleViewPet] = useState(false);
   const [petID, setPetID] = useState("");
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [viewProfileModalOpen, setViewProfileModalOpen] = useState(false);
-  const [OpenPetModal,setOpenPetModal] = useState(false);
+  const [OpenPetModal, setOpenPetModal] = useState(false);
   // reject popup
   const handleOpenRejectModal = () => setRejectModalOpen(true);
   const handleCloseRejectModal = () => setRejectModalOpen(false);
-  // open user profile 
+  // open user profile
   const handleOpenViewProfileModal = () => setViewProfileModalOpen(true);
   const handleCloseViewProfileModal = () => setViewProfileModalOpen(false);
   // open pet profile
   const handleOpenPetModal = () => setOpenPetModal(true);
   const handleClosePetModal = () => setOpenPetModal(false);
-  
+
   const navigate = useNavigate();
 
   const handleToggleViewPet = (id) => {
@@ -34,24 +54,40 @@ function BookingListDetail() {
     setToggleViewPet(true);
     // console.log(petID);
   };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
+  /*
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-      const data = {
-        petDetailIds: selectedPets,
-        petSitterId: selectedPetsitterID,
-        datetime: newStartDate,
-        startTime: newStartDate,
-        endTime: newEndDate,
-        additionalMessage: messageAdditional,
-        totalPrice: prices,
-      };
-      submitBooking(data);
-      console.log(data);
-      navigate(`/booking/bill`);
+    const data = {
+      petDetailIds: selectedPets,
+      petSitterId: selectedPetsitterID,
+      datetime: newStartDate,
+      startTime: newStartDate,
+      endTime: newEndDate,
+      additionalMessage: messageAdditional,
+      totalPrice: prices,
     };
+    submitBooking(data);
+    console.log(data);
+    navigate(`/booking/bill`);
+  };*/
 
+  const handleSubmit = () => {
+    confirmBooking();
+  };
+
+  const getBookingDetail = (bookingList, bookingID) => {
+    const newArray = bookingList.filter((booking) => {
+      return booking.booking_id == bookingID;
+    });
+    console.log(newArray[0]);
+    setBooking(newArray[0]);
+  };
+
+  useEffect(() => {
+    getBookingList();
+    //getBookingDetail(bookingList, bookingID);
+  }, []);
 
   return (
     <>
@@ -179,7 +215,7 @@ function BookingListDetail() {
                   Pet Owner Name
                 </div>
                 <div className="flex flex-row items-center justify-between">
-                  <div className="">Name</div>
+                  <div className="">name</div>
                   <div>
                     <button
                       onClick={handleOpenViewProfileModal}
@@ -282,8 +318,8 @@ function BookingListDetail() {
                       className="rounded-full w-[80px] h-[80px] mt-4"
                       alt="pet sitter profile picture"
                     />
-                    <h1 className="text-headLine3">Name</h1>
-                    Type
+                    <h1 className="text-headLine3">petname</h1>
+                    pettype
                     {/* popuptoggle ตอนที่กดpetcard ที่map มา */}
                     <Modal
                       className="flex items-center justify-center"
@@ -295,9 +331,7 @@ function BookingListDetail() {
                       <Box className="flex items-center justify-center w-[800px] h-[552px] bg-white rounded-2xl">
                         <div className="w-full h-full py-5">
                           <div className="flex items-center py-3 px-10">
-                            <h1 className="text-2xl font-semibold ">
-                              Daisy
-                            </h1>
+                            <h1 className="text-2xl font-semibold ">Daisy</h1>
                             <img
                               src={closeIcon}
                               className="ml-auto px-5"
