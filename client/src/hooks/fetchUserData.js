@@ -289,7 +289,7 @@ const fetchUserData = () => {
         }
       );
 
-      console.log(result);
+      // console.log(result);
 
       setPetsitterProfile(result.data.petSitterUser);
       //setpetSitterID(result.data.petOwnerUser.petowner_id);

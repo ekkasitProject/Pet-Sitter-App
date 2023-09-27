@@ -5,270 +5,335 @@ import SideBarPetsitter from "../components/SideBarPetsitter";
 import HeaderPetsitter from "../components/HeaderPetsitter";
 import profile_user from "../assets/icons/profile.svg";
 import { useParams } from "react-router-dom";
-import fetchUserData from "../hooks/fetchUserData";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { PlusIcon, AddIcon, CloseIcon } from "../components/Icons";
-import Datepicker from "react-tailwindcss-datepicker";
-
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import fetchUserData from "../hooks/fetchUserData";
 function PetSitterProfile() {
-  const { petSitterID, setPetSitterID } = useContext(ToggleContext);
-  const navigate = useNavigate();
-
-  const {
-    petsitterProfile,
-    setPetsitterProfile,
-    getPetsitterProfile,
-    updatePetSitterProfile,
-    isError,
-    isLoading,
-  } = fetchUserData();
-  const params = useParams();
-  const [value, setValue] = useState({
-    startDate: null,
-    endDate: null,
+  const { updatePetSitterProfile, isError, isLoading } = fetchUserData();
+  const [fileGallery, setFileGallery] = useState([]);
+  const [fileAvatar, setFileAvatar] = useState([]);
+  const [formData, setFormData] = useState({
+    avatars: [],
+    username: "",
+    idNumber: "",
+    phone: "",
+    email: "",
+    introduction: "",
+    tradename: "",
+    experience: "",
+    pettype: [],
+    services: "",
+    place: "",
+    gallery: [],
+    addressId: "",
+    petsitterdetailId: "",
+    address: "",
+    district: "",
+    subDistrict: "",
+    province: "",
+    postcode: "",
+    petSitterId: null,
+    isAlert: false,
   });
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [idNumber, setIDNumber] = useState("");
-  // const [dateOfBirth, setDateOfBirth] = useState();
-  const [errors, setErrors] = useState({});
-  const [isAlert, setIsAlert] = useState(false);
-  const [avatars, setAvatars] = useState("");
-  const [photo, setPhoto] = useState("");
-  const [experience, setExperience] = useState("");
-  const [introduction, setIntroduction] = useState("");
-  const [address, setAddress] = useState("");
-  const [district, setDistrict] = useState("");
-  const [subDistrict, setSubDistrict] = useState("");
-  const [province, setProvince] = useState("");
-  const [postcode, setPostcode] = useState("");
-  const [tradename, setTradename] = useState("");
-  const [services, setServices] = useState("");
-  const [place, setPlace] = useState("");
-  const [pettype, setPettype] = useState("");
-  const [allpets, setAllpets] = useState([]);
-  const [petsitterdetailId, setPetsitterdetailId] = useState("");
-  const [addressId, setAddressId] = useState("");
-  const [gallery, setGallery] = useState({});
-  const [oldImageUrl, setOldImageUrl] = useState("");
-  const [showGallery, setShowGallery] = useState([]);
-
+  const [formErrors, setFormErrors] = useState({
+    fullName: "",
+    idNumber: "",
+    phone: "",
+    email: "",
+    address: "",
+    district: "",
+    subDistrict: "",
+    province: "",
+    postcode: "",
+  });
   useEffect(() => {
-    getPetsitterProfile();
+    const token = localStorage.getItem("token");
+    const getData = async () => {
+      try {
+        if (!token) {
+          return;
+        }
+        const decodedToken = jwtDecode(token);
+        // console.log("Decoded Token:", decodedToken);
+        if (decodedToken.petsitterId) {
+          const petSitterID = decodedToken.petsitterId;
+          // console.log("petSitterID:", petSitterID);
+
+          const result = await axios.get(
+            `http://localhost:6543/petSitterUser/${petSitterID}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          //console.log(result.data.petSitterUser);
+
+          setFormData((prevFormData) => ({
+            ...prevFormData,
+            petSitterId: petSitterID,
+            avatars: result.data.petSitterUser.image_profile,
+            fullName: result.data.petSitterUser.username,
+            idNumber: result.data.petSitterUser.id_card_number,
+            petsitterdetailId:
+              result.data.petSitterUser.petsitterdetail[0].petsitterdetail_id,
+            tradename:
+              result.data.petSitterUser.petsitterdetail[0].pet_sitter_name,
+            experience: result.data.petSitterUser.petsitterdetail[0].experience,
+            pettype: result.data.petSitterUser.petsitterdetail[0].pet_type,
+            place: result.data.petSitterUser.petsitterdetail[0].my_place,
+            services: result.data.petSitterUser.petsitterdetail[0].services,
+            gallery: result.data.petSitterUser.petsitterdetail[0].image_gallery,
+            addressId: result.data.petSitterUser.addresses[0].address_id,
+            address: result.data.petSitterUser.addresses[0].address_detail,
+            district: result.data.petSitterUser.addresses[0].district,
+            province: result.data.petSitterUser.addresses[0].province,
+            subDistrict: result.data.petSitterUser.addresses[0].sub_district,
+            postcode: result.data.petSitterUser.addresses[0].post_code,
+
+            ...result.data.petSitterUser,
+          }));
+          setFileAvatar(result.data.petSitterUser.image_profile);
+        } else {
+          console.error("JWT does not contain petSitterID");
+        }
+      } catch (error) {
+        console.error("An error occurred while fetching data:", error);
+      }
+    };
+
+    getData();
   }, []);
 
-  function formatDate(isoDate) {
-    const date = new Date(isoDate);
+  // update state
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
 
-    // Extract year, month, and day components
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Adding 1 to month (zero-indexed) and zero-padding
-    const day = String(date.getDate()).padStart(2, "0"); // Zero-padding day
+    // Validate input on change
+    validateInput(name, value);
+  };
+  let allPetString = formData.pettype.join(",");
 
-    // Construct the formatted date string
-    const formattedDate = `${day}-${month}-${year}`;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const newFormData = new FormData();
 
-    return formattedDate;
-  }
+    newFormData.append("username", formData.fullName);
+    newFormData.append("email", formData.email);
+    newFormData.append("phone", formData.phone);
+    newFormData.append("id_card_number", formData.idNumber);
+    newFormData.append("avatar", fileAvatar);
+    newFormData.append("introduction", formData.introduction);
+    newFormData.append("pet_sitter_name", formData.tradename);
+    newFormData.append("petsitterdetail_id", formData.petsitterdetailId);
+    newFormData.append("services", formData.services);
+    newFormData.append("my_place", formData.place);
+    newFormData.append("experience", formData.experience);
+    newFormData.append("address_id", formData.addressId);
+    newFormData.append("address_detail", formData.address);
+    newFormData.append("district", formData.district);
+    newFormData.append("sub_district", formData.subDistrict);
+    newFormData.append("province", formData.province);
+    newFormData.append("post_code", formData.postcode);
+    // newFormData.append("oldImageUrl", oldImageUrl);
+    newFormData.append("pet_type", allPetString);
+
+    for (let file of fileGallery) {
+      newFormData.append("gallery", file);
+    }
+    // newFormData.forEach((value, key) => {
+    //   console.log(`${key}: ${value}`);
+    // });
+    const isFormValid = Object.values(formErrors).every(
+      (error) => error === ""
+    );
+
+    if (isFormValid) {
+      // ถ้าข้อมูลถูกต้องทั้งหมดให้ดำเนินการส่งแบบฟอร์ม
+      try {
+        await updatePetSitterProfile(newFormData);
+
+        // อัปเดตสถานะ isAlert เพื่อแสดงการแจ้งเตือน
+        setFormData({ ...formData, isAlert: true });
+
+        // กำหนดให้ isAlert เป็น false หลังจากผ่านเวลา 1 วินาที
+        setTimeout(() => {
+          setFormData({ ...formData, isAlert: false });
+        }, 1000);
+      } catch (error) {
+        // จัดการข้อผิดพลาดที่เกิดขึ้นในการส่งข้อมูลไปยังเซิร์ฟเวอร์
+        console.error("Error updating profile:", error);
+      }
+    } else {
+      // ถ้าข้อมูลไม่ถูกต้อง ให้แสดงข้อความหรือทำอย่างอื่นตามที่คุณต้องการ
+      console.error("Form contains errors. Please fix them before submitting.");
+    }
+  };
 
   useEffect(() => {
-    if (petsitterProfile) {
-      setFullname(petsitterProfile.username);
-      setEmail(petsitterProfile.email);
-      setPhone(petsitterProfile.phone);
-      setPetsitterdetailId(
-        petsitterProfile.petsitterdetail[0].petsitterdetail_id
-      );
-      setAddressId(petsitterProfile.addresses[0].address_id);
-      setIDNumber(petsitterProfile.id_card_number);
-      setExperience(petsitterProfile.petsitterdetail[0].experience);
-      setPhoto(petsitterProfile.image_profile);
-      setShowGallery(petsitterProfile.petsitterdetail[0].image_gallery);
-      setOldImageUrl(petsitterProfile.image_profile);
-      setIntroduction(petsitterProfile.introduction);
-      setAddress(petsitterProfile.addresses[0].address_detail);
-      setDistrict(petsitterProfile.addresses[0].district);
-      setSubDistrict(petsitterProfile.addresses[0].sub_district);
-      setProvince(petsitterProfile.addresses[0].province);
-      setPostcode(petsitterProfile.addresses[0].post_code);
-      setTradename(petsitterProfile.petsitterdetail[0].pet_sitter_name);
-      setServices(petsitterProfile.petsitterdetail[0].services);
-      setPlace(petsitterProfile.petsitterdetail[0].my_place);
-      setAllpets(petsitterProfile.petsitterdetail[0].pet_type);
-      /*  const uniqueId = Date.now();
-      setAvatars({
-        [uniqueId]: petsitterProfile.image_profile,
-      });*/
-    }
-  }, [petsitterProfile]);
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    /* Validate Name
-    if (username.length < 6 || username.length > 20) {
-      newErrors.username = "Username must be between 6 and 20 characters";
-      let input = document.getElementById(`userName`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`userName`);
-      input.classList.remove("border-red-500");
-    }*/
-
-    // Validate Email
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!email.match(emailPattern)) {
-      newErrors.email = "Invalid email format";
-      let input = document.getElementById(`email`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`email`);
-      input.classList.remove("border-red-500");
-    }
-
-    // Validate Phone
-    const phonePattern = /^0[0-9]{9}$/;
-    if (!phone.match(phonePattern)) {
-      newErrors.phone = "Invalid phone number format";
-      let input = document.getElementById(`phoneNumber`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`phoneNumber`);
-      input.classList.remove("border-red-500");
-    }
-
-    // Validate ID Number
-    const idNumberPattern = /^\d{13}$/;
-    if (!idNumberPattern.test(idNumber)) {
-      newErrors.idNumber = "ID Number must be 13 characters";
-      let input = document.getElementById(`idNumber`);
-      input.classList.add("border-red-500");
-    } else {
-      let input = document.getElementById(`idNumber`);
-      input.classList.remove("border-red-500");
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleValueChange = (newValue) => {
-    console.log(newValue);
-    setValue(newValue);
-    setDateOfBirth(value.startDate);
-    console.log(dateOfBirth);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    //console.log(dateOfBirth);
-    /*
-    if (validateForm()) {
-      const data = {
-        username,
-        email,
-        phone,
-        id_card_number: idNumber,
-        date_of_birth: dateOfBirth,
-      };
-      console.log(data);
-      updatepetsitterProfile(data);
-      setIsAlert(true);
-    }
-*/
-    if (validateForm()) {
-      const formData = new FormData();
-
-      formData.append("username", fullname);
-      formData.append("email", email);
-      formData.append("phone", phone);
-      formData.append("id_card_number", idNumber);
-      formData.append("avatar", avatars);
-      formData.append("introduction", introduction);
-      formData.append("pet_sitter_name", tradename);
-      formData.append("petsitterdetail_id", petsitterdetailId);
-      formData.append("services", services);
-      formData.append("my_place", place);
-      formData.append("experience", experience);
-      formData.append("address_id", addressId);
-      formData.append("address_detail", address);
-      formData.append("district", district);
-      formData.append("sub_district", subDistrict);
-      formData.append("province", province);
-      formData.append("post_code", postcode);
-      formData.append("oldImageUrl", oldImageUrl);
-      formData.append("pet_type", allpetsString);
-
-      for (let key in gallery) {
-        formData.append("gallery", gallery[key]);
+    const galleryImg = formData.gallery || [];
+    const filesPromises = galleryImg.map(async (imageUrl) => {
+      try {
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const blob = await response.blob();
+        const filename = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+        return new File([blob], filename, { type: blob.type });
+      } catch (error) {
+        console.error("Error loading file from URL:", error);
+        return null;
       }
-      // formData.append("gallery", gallery);
-      // console.log(allpets);
-      //console.log(avatars);
-      //console.log(formData);
-      updatePetSitterProfile(formData);
-      setIsAlert(true);
-
-      // formData.forEach((value, key) => {
-      //   console.log(`${key}: ${value}`);
-      // });
-    }
-  };
-
-  setTimeout(() => {
-    setIsAlert(false);
-  }, 3000);
-
-  let allpetsString;
-  if (petsitterProfile) {
-    const petsArray = [...allpets];
-    if (!allpets.includes(pettype) && pettype !== "") {
-      petsArray.push(pettype);
-      setAllpets(petsArray);
-    }
-
-    allpetsString = allpets.join(",");
-    console.log(allpetsString);
-  }
-
-  const handleRemovePet = (pet) => {
-    if (allpets.includes(pet)) {
-      setAllpets(
-        allpets.filter((item) => {
-          return item !== pet;
-        })
-      );
-    }
-  };
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setAvatars(file);
-    setPhoto(URL.createObjectURL(file));
-    console.log(avatars);
-  };
-
-  const handleGalleryChange = (event) => {
-    const uniqueId = Date.now();
-    setGallery({
-      ...gallery,
-      [uniqueId]: event.target.files[0],
     });
-    setShowGallery([
-      ...showGallery,
-      URL.createObjectURL(event.target.files[0]),
-    ]);
-    console.log(event.target.files[0]);
+    Promise.all(filesPromises)
+      .then((files) => setFileGallery(files.filter((file) => file !== null)))
+      .catch((error) => console.error("Error loading files from URLs:", error));
+  }, [formData.gallery]);
+
+  const handleRemovePet = (petName) => {
+    const updatedPettype = formData.pettype.filter((pet) => pet !== petName);
+
+    setFormData({
+      ...formData,
+      pettype: updatedPettype,
+    });
   };
 
-  const handleRemoveImage = (event, galleryKey) => {
-    event.preventDefault();
-    delete gallery[galleryKey];
-    setGallery({ ...gallery });
+  const handleUpdatePet = (e) => {
+    const selectedPetType = e.target.value;
+    if (!formData.pettype.includes(selectedPetType)) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        pettype: [...prevFormData.pettype, selectedPetType],
+      }));
+    }
   };
 
+  const remove = (index) => {
+    let updatedFiles = [...fileGallery];
+    updatedFiles.splice(index, 1);
+    setFileGallery(updatedFiles);
+  };
+
+  const handleGalleryChange = (e) => {
+    const newFiles = Array.from(e.target.files);
+    const updatedFiles = [...fileGallery, ...newFiles];
+    setFileGallery(updatedFiles);
+  };
+  const handleProfileChange = (event) => {
+    const uniqueId = Date.now();
+    const file = event.target.files[0];
+    setFileAvatar(file);
+
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      avatars: URL.createObjectURL(file),
+    }));
+  };
+
+  // const validateForm = () => {
+  //   const errors = {};
+
+  //   if (formData.fullName.trim() === "") {
+  //     errors.fullName = "Full name is required";
+  //   }
+
+  //   if (formData.idNumber.trim() === "" || formData.idNumber.length !== 13) {
+  //     errors.idNumber = "ID Number must be 13 characters";
+  //   }
+
+  //   const phonePattern = /^[0-9]{10}$/;
+  //   if (!phonePattern.test(formData.phone)) {
+  //     errors.phone = "Invalid phone number format";
+  //   }
+
+  //   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  //   if (!emailPattern.test(formData.email)) {
+  //     errors.email = "Invalid email format";
+  //   }
+
+  //   if (formData.address.trim() === "") {
+  //     errors.address = "Address Detail is required";
+  //   }
+
+  //   if (formData.district.trim() === "") {
+  //     errors.district = "District is required";
+  //   }
+
+  //   if (formData.subDistrict.trim() === "") {
+  //     errors.subDistrict = "Sub-district is required";
+  //   }
+
+  //   if (formData.province.trim() === "") {
+  //     errors.province = "Province is required";
+  //   }
+
+  //   const postalCodePattern = /^[0-9]{5}$/;
+  //   if (!postalCodePattern.test(formData.postcode)) {
+  //     errors.postcode = "Invalid postcode format (should be 5 digits)";
+  //   }
+
+  //   setFormErrors(errors);
+
+  //   // Check if there are no errors
+  //   return Object.keys(errors).length === 0;
+  // };
+
+  const validateInput = (name, value) => {
+    let error = "";
+
+    if (name === "fullName") {
+      if (value.trim() === "") {
+        error = "Full name is required";
+      }
+    } else if (name === "idNumber") {
+      if (value.length !== 13) {
+        error = "ID Number must be 13 characters";
+      }
+    } else if (name === "phone") {
+      if (!value.startsWith("0") || value.length !== 10) {
+        error = "Invalid phone number format";
+      }
+    } else if (name === "email") {
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailPattern.test(value)) {
+        error = "Invalid email format";
+      }
+    } else if (name === "address") {
+      if (value.trim() === "") {
+        error = "Address is required";
+      }
+    } else if (name === "district") {
+      if (value.trim() === "") {
+        error = "District is required";
+      }
+    } else if (name === "subDistrict") {
+      if (value.trim() === "") {
+        error = "Sub-district is required";
+      }
+    } else if (name === "province") {
+      if (value.trim() === "") {
+        error = "Province is required";
+      }
+    } else if (name === "postcode") {
+      if (value.trim() === "") {
+        error = "Postcode is required";
+      }
+    }
+
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error,
+    }));
+  };
   return (
     <>
       <div className="w-screen h-auto flex flex-row justify-center font-satoshi">
@@ -280,14 +345,13 @@ function PetSitterProfile() {
             onSubmit={handleSubmit}
             className="min-h-[2900px] w-full px-14 flex flex-col pt-4 pb-20 bg-[#F6F6F9]"
           >
-            {isAlert ? (
+            {formData.isAlert ? (
               <div className="fixed top-24 right-[660px] z-10">
                 <Alert severity="success">
                   <AlertTitle>Update Success!!</AlertTitle>
                 </Alert>
               </div>
             ) : null}
-
             <div className="h-[100px] w-full flex justify-between items-center ">
               <div className="text-headLine3">Pet Sitter Profile</div>
               <button
@@ -310,7 +374,7 @@ function PetSitterProfile() {
                     <div className="flex justify-center relative items-center my-8 w-[220px] h-[220px] rounded-full bg-slate-200">
                       <img
                         className="object-fit w-[220px] h-[220px] rounded-full"
-                        src={photo}
+                        src={formData.avatars}
                         alt=""
                       />
 
@@ -323,13 +387,13 @@ function PetSitterProfile() {
                           id="upload1"
                           name="avatar"
                           type="file"
-                          onChange={handleFileChange}
+                          onChange={handleProfileChange}
                           hidden
                         />
                       </label>
                     </div>
                     <div className="">
-                      {avatars ? null : (
+                      {formData.avatars ? null : (
                         <div className="text-red-500">
                           Please, upload 1 of your photo
                         </div>
@@ -343,55 +407,57 @@ function PetSitterProfile() {
                       <input
                         id="fullName"
                         name="fullName"
-                        type="fullName"
-                        value={fullname}
-                        onChange={(event) => setFullname(event.target.value)}
-                        //placeholder="your fullname "
+                        type="text"
+                        value={formData.fullName}
+                        //placeholder="your fullName "
+                        onChange={handleInputChange}
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.fullName && (
+                      {formErrors.fullName && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.fullName}
+                          {formErrors.fullName}
                         </p>
                       )}
                     </div>
                     <div className="flex-1">
                       <label htmlFor="idNumber">ID Number*</label>
                       <input
-                        type="text"
+                        type="tel"
                         id="idNumber"
                         name="idNumber"
+                        maxLength={13}
+                        value={formData.idNumber}
+                        onChange={handleInputChange}
                         required
                         placeholder="Enter your ID number"
-                        value={idNumber}
-                        onChange={(event) => setIDNumber(event.target.value)}
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
 
-                      {errors.idNumber && (
+                      {formErrors.idNumber && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.idNumber}
+                          {formErrors.idNumber}
                         </p>
                       )}
                     </div>
                   </div>
                   <div className="flex gap-10 flex-1 w-full">
                     <div className="flex flex-col w-full gap-1 flex-1">
-                      <label htmlFor="phoneNumber">Phone Number*</label>
+                      <label htmlFor="phone">Phone Number*</label>
                       <input
-                        id="phoneNumber"
-                        name="phoneNumber"
+                        id="phone"
+                        name="phone"
                         type="tel"
-                        value={phone}
-                        onChange={(event) => setPhone(event.target.value)}
+                        maxLength={10}
+                        value={formData.phone}
+                        onChange={handleInputChange}
                         placeholder="Your phone number"
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.phone && (
+                      {formErrors.phone && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.phone}
+                          {formErrors.phone}
                         </p>
                       )}
                     </div>
@@ -401,15 +467,15 @@ function PetSitterProfile() {
                         id="email"
                         name="email"
                         type="email"
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
+                        value={formData.email}
+                        onChange={handleInputChange}
                         placeholder="example@email.com"
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.email && (
+                      {formErrors.email && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.email}
+                          {formErrors.email}
                         </p>
                       )}
                     </div>
@@ -425,8 +491,8 @@ function PetSitterProfile() {
                       id="introduction"
                       name="introduction"
                       required
-                      value={introduction}
-                      onChange={(event) => setIntroduction(event.target.value)}
+                      value={formData.introduction}
+                      onChange={handleInputChange}
                       className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                     />
                   </div>
@@ -444,16 +510,14 @@ function PetSitterProfile() {
                         id="tradename"
                         name="tradename"
                         type="text"
-                        value={tradename}
+                        value={formData.tradename}
+                        onChange={handleInputChange}
                         required
-                        onChange={(event) => setTradename(event.target.value)}
-                        //placeholder="your username "
-
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.tradename && (
+                      {formErrors.tradename && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.tradename}
+                          {formErrors.tradename}
                         </p>
                       )}
                     </div>
@@ -465,8 +529,8 @@ function PetSitterProfile() {
                         id="experience"
                         name="experience"
                         type="number"
-                        value={experience}
-                        onChange={(event) => setExperience(event.target.value)}
+                        value={formData.experience}
+                        onChange={handleInputChange}
                         placeholder="0"
                         required
                         min="0"
@@ -481,10 +545,9 @@ function PetSitterProfile() {
                       id="pettype"
                       name="pettype"
                       className="text-white invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full py-2 px-3 mt-2 h-[45px] focus:border-primaryOrange2 focus:outline-none"
-                      value={pettype}
-                      onChange={(e) => {
-                        setPettype(e.target.value);
-                      }}
+                      value={formData.pettype}
+                      onChange={handleUpdatePet}
+                      //multiple={true}
                     >
                       <option disabled value=""></option>
                       <option className="text-black" value="dog">
@@ -501,26 +564,20 @@ function PetSitterProfile() {
                       </option>
                     </select>
                     <div className=" w-[1px] h-[38px] absolute top-10 left-3 flex flex-row items-center gap-2">
-                      {allpets
-                        ? allpets.map((pet, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="h-[32px] w-auto z-10 text-primaryOrange2 bg-primaryOrange6 border-2 border-primaryOrange6 rounded-full  flex justify-between items-center px-3 gap-4"
-                              >
-                                <span>{pet}</span>
+                      {formData.pettype.map((pet, index) => {
+                        return (
+                          <div
+                            key={index}
+                            className="h-[32px] w-auto z-10 text-primaryOrange2 bg-primaryOrange6 border-2 border-primaryOrange6 rounded-full  flex justify-between items-center px-3 gap-4"
+                          >
+                            <span>{pet}</span>
 
-                                <button
-                                  onClick={() => {
-                                    handleRemovePet(pet);
-                                  }}
-                                >
-                                  x
-                                </button>
-                              </div>
-                            );
-                          })
-                        : null}
+                            <button onClick={() => handleRemovePet(pet)}>
+                              x
+                            </button>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                   <div className="flex flex-col w-full gap-1 flex-1">
@@ -534,8 +591,8 @@ function PetSitterProfile() {
                       id="services"
                       name="services"
                       required
-                      value={services}
-                      onChange={(event) => setServices(event.target.value)}
+                      value={formData.services}
+                      onChange={handleInputChange}
                       className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                     />
                   </div>
@@ -550,8 +607,8 @@ function PetSitterProfile() {
                       id="place"
                       name="place"
                       required
-                      value={place}
-                      onChange={(event) => setPlace(event.target.value)}
+                      value={formData.place}
+                      onChange={handleInputChange}
                       className="placeholder:pt-2 resize-none invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                     />
                   </div>
@@ -561,7 +618,7 @@ function PetSitterProfile() {
                       Image Gallery* (Maximum 10 images)
                     </label>
                     <div className="grid grid-cols-5 gap-4 ">
-                      {showGallery.map((gallery, index) => {
+                      {fileGallery.map((gallery, index) => {
                         return (
                           <div
                             key={index}
@@ -570,39 +627,39 @@ function PetSitterProfile() {
                             <div className="bg-primaryGray6 w-[180px] h-[180px] rounded-xl overflow-hidden ">
                               <img
                                 className="image-preview object-contain w-[180px] h-[180px] "
-                                src={gallery}
+                                src={URL.createObjectURL(gallery)}
                                 alt=""
                               />
                             </div>
 
                             <button
                               className="image-remove-button z-10 absolute top-[-5px] right-[-5px] w-[24px] h-[24px] rounded-full bg-primaryGray3 text-white flex justify-center items-center"
-                              onClick={(event) =>
-                                handleRemoveImage(event, galleryKey)
-                              }
+                              onClick={() => remove(index)}
                             >
                               <span>x</span>
                             </button>
                           </div>
                         );
                       })}
-                      <label htmlFor="upload2">
-                        <div className="relative cursor-pointer border-2  w-[180px] h-[180px] rounded-xl flex flex-col justify-center items-center hover:border-primaryOrange4 bg-primaryOrange6">
-                          <div className=" cursor-pointer text-primaryOrange2">
-                            <AddIcon />
+                      {fileGallery && fileGallery.length <= 9 ? (
+                        <label htmlFor="upload2">
+                          <div className="relative cursor-pointer border-2  w-[180px] h-[180px] rounded-xl flex flex-col justify-center items-center hover:border-primaryOrange4 bg-primaryOrange6">
+                            <div className=" cursor-pointer text-primaryOrange2">
+                              <AddIcon />
+                            </div>
+                            <h1 className="text-lg text-primaryOrange2 flex flex-col justify-center items-center w-full">
+                              Upload Image
+                            </h1>
                           </div>
-                          <h1 className="text-lg text-primaryOrange2 flex flex-col justify-center items-center w-full">
-                            Upload Image
-                          </h1>
-                        </div>
-                        <input
-                          id="upload2"
-                          name="gallery"
-                          type="file"
-                          onChange={handleGalleryChange}
-                          hidden
-                        />
-                      </label>
+                          <input
+                            id="upload2"
+                            name="gallery"
+                            type="file"
+                            onChange={handleGalleryChange}
+                            hidden
+                          />
+                        </label>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -616,15 +673,15 @@ function PetSitterProfile() {
                       id="address"
                       name="address"
                       type="text"
-                      value={address}
-                      onChange={(event) => setAddress(event.target.value)}
+                      value={formData.address}
+                      onChange={handleInputChange}
                       //placeholder="your username "
                       required
                       className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                     />
-                    {errors.address && (
+                    {formErrors.address && (
                       <p className="mt-2 text-sm text-red-600">
-                        {errors.address}
+                        {formErrors.address}
                       </p>
                     )}
                   </div>
@@ -636,15 +693,15 @@ function PetSitterProfile() {
                         id="district"
                         name="district"
                         type="district"
-                        value={district}
-                        onChange={(event) => setDistrict(event.target.value)}
+                        value={formData.district}
+                        onChange={handleInputChange}
                         // placeholder="your district "
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.district && (
+                      {formErrors.district && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.district}
+                          {formErrors.district}
                         </p>
                       )}
                     </div>
@@ -654,15 +711,15 @@ function PetSitterProfile() {
                         id="subDistrict"
                         name="subDistrict"
                         type="subDistrict"
-                        value={subDistrict}
-                        onChange={(event) => setSubDistrict(event.target.value)}
+                        value={formData.subDistrict}
+                        onChange={handleInputChange}
                         //  placeholder="your subDistrict "
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.district && (
+                      {formErrors.subDistrict && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.district}
+                          {formErrors.subDistrict}
                         </p>
                       )}
                     </div>
@@ -674,15 +731,14 @@ function PetSitterProfile() {
                         id="province"
                         name="province"
                         type="text"
-                        value={province}
-                        onChange={(event) => setProvince(event.target.value)}
-                        //placeholder="Your phone number"
+                        value={formData.province}
+                        onChange={handleInputChange}
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.province && (
+                      {formErrors.province && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.province}
+                          {formErrors.province}
                         </p>
                       )}
                     </div>
@@ -692,15 +748,15 @@ function PetSitterProfile() {
                         id="postcode"
                         name="postcode"
                         type="text"
-                        value={postcode}
-                        onChange={(event) => setPostcode(event.target.value)}
+                        value={formData.postcode}
+                        onChange={handleInputChange}
                         //placeholder="example@postcode.com"
                         required
                         className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                       />
-                      {errors.postcode && (
+                      {formErrors.postcode && (
                         <p className="mt-2 text-sm text-red-600">
-                          {errors.postcode}
+                          {formErrors.postcode}
                         </p>
                       )}
                     </div>
