@@ -16,6 +16,7 @@ export default {
         primaryGray4: "#AEB1C3",
         primaryGray5: "#DCDFED",
         primaryGray6: "#F6F6F9",
+        primaryGray7: "#FAFAFB",
         primaryOrange1: "#E44A0C",
         primaryOrange2: "#FF7037",
         primaryOrange3: "#FF986F",
