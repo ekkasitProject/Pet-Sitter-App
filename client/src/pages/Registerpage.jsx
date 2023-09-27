@@ -11,8 +11,9 @@ function RegistrationForm() {
   const [petOwner, setPetOwner] = useState(false);
   const [petSitter, setPetSitter] = useState(false);
   const [errors, setErrors] = useState({});
+  const [role, setRole] = useState("");
 
-  const { register } = useAuth();
+  const { registerPetowner, registerPetsitter } = useAuth();
 
   const handlePetOwnerChange = (e) => {
     setPetOwner(e.target.checked);
@@ -63,6 +64,20 @@ function RegistrationForm() {
         petOwner,
         petSitter,
       };
+
+      if (role == "petowner") {
+        registerPetowner(data);
+      }
+
+      if (role == "petsitter") {
+        registerPetsitter(data);
+      }
+
+      if (role == "") {
+        alert("please choose role");
+      }
+
+      /*
       register(data);
 
       if (petOwner) {
@@ -72,6 +87,7 @@ function RegistrationForm() {
       if (petSitter) {
         console.log("User selected Pet Sitter role");
       }
+      */
     }
   };
 
@@ -105,7 +121,7 @@ function RegistrationForm() {
                 type="userName"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
-                placeholder="your username "
+                placeholder="your full name "
                 required
                 className="mt-1 p-2 block w-full rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -185,21 +201,31 @@ function RegistrationForm() {
               <div className="flex space-x-2">
                 <label className="flex items-center">
                   <input
-                    type="checkbox"
-                    name="petOwner"
-                    checked={petOwner}
-                    onChange={handlePetOwnerChange}
-                    className="form-checkbox h-4 w-4 text-indigo-600"
+                    type="radio"
+                    name="role"
+                    value="petowner"
+                    onClick={(e) => {
+                      setRole(e.target.value);
+                      console.log(role);
+                    }}
+                    // checked={petOwner}
+                    // onChange={handlePetOwnerChange}
+                    className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Owner</span>
                 </label>
                 <label className="flex items-center">
                   <input
-                    type="checkbox"
-                    name="petSitter"
-                    checked={petSitter}
-                    onChange={handlePetSitterChange}
-                    className="form-checkbox h-4 w-4 text-indigo-600"
+                    type="radio"
+                    name="role"
+                    value="petsitter"
+                    onClick={(e) => {
+                      setRole(e.target.value);
+                      console.log(role);
+                    }}
+                    //  checked={petSitter}
+                    //  onChange={handlePetSitterChange}
+                    className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
                 </label>

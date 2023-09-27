@@ -12,12 +12,17 @@ function AuthProvider(props) {
     user: null,
   });
 
-  const register = async (data) => {
+  const registerPetowner = async (data) => {
     await axios.post("http://localhost:6543/petOwnerUser/register", data);
     navigate("/login");
   };
 
-  const login = async (data) => {
+  const registerPetsitter = async (data) => {
+    await axios.post("http://localhost:6543/petSitterUser/register", data);
+    navigate("/login");
+  };
+
+  const loginPetowner = async (data) => {
     try {
       const result = await axios.post(
         "http://localhost:6543/petOwnerUser/login",
@@ -37,6 +42,26 @@ function AuthProvider(props) {
     }
   };
 
+  const loginPetsitter = async (data) => {
+    try {
+      const result = await axios.post(
+        "http://localhost:6543/petSitterUser/login",
+        data
+      );
+      const token = result.data.token;
+      //const id = result.data.user.petowner_id;
+      localStorage.setItem("token", token);
+      // localStorage.setItem("id", id);
+      const userDataFromToken = jwtDecode(token);
+      setState({ ...state, user: userDataFromToken });
+      //console.log(userDataFromToken.userId);
+      navigate(`/petsitter/profile/${userDataFromToken.petsitterId}`);
+    } catch (error) {
+      console.error("Login error:", error);
+      // You can display an error message to the user here.
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem("token");
     setState({ ...state, user: null });
@@ -47,7 +72,15 @@ function AuthProvider(props) {
 
   return (
     <AuthContext.Provider
-      value={{ state, login, logout, register, isAuthenticated }}
+      value={{
+        state,
+        loginPetowner,
+        loginPetsitter,
+        logout,
+        registerPetowner,
+        registerPetsitter,
+        isAuthenticated,
+      }}
     >
       {props.children}
     </AuthContext.Provider>

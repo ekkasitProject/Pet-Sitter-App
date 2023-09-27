@@ -7,7 +7,7 @@ import logo from "../assets/images/elements/logo.svg";
 
 function SideBarPetsitter() {
   const { logout } = useAuth();
-  //const { petOwnerID } = useContext(ToggleContext);
+  const { petSitterID } = useContext(ToggleContext);
   const navigate = useNavigate();
   const profileRef = useRef(null);
   const bookingRef = useRef(null);
@@ -26,27 +26,18 @@ function SideBarPetsitter() {
     checkURL();
   }, []);
 
-  const handleToHome = () => {
-    navigate("/");
-  };
-
   return (
     <>
       <div className="h-screen w-1/6 flex flex-col justify-between border-r-2 ">
         <div className="">
           <div className="w-full h-[120px] flex justify-center items-center ">
-            <img
-              onClick={handleToHome}
-              src={logo}
-              alt="logo"
-              className="cursor-pointer"
-            />
+            <img src={logo} alt="logo" />
           </div>
 
           <div className=" w-full h-[72px] flex flex-col ">
             <button
               ref={profileRef}
-              onClick={() => navigate(`/petsitter/profile/:petsitterId`)}
+              onClick={() => navigate(`/petsitter/profile/${petSitterID}`)}
               className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
             >
               <ProfileIcon />
@@ -55,7 +46,7 @@ function SideBarPetsitter() {
 
             <button
               ref={bookingRef}
-              onClick={() => navigate(`/petsitter/bookinglist/:petsitterId`)}
+              onClick={() => navigate(`/petsitter/bookinglist/${petSitterID}`)}
               className="text-headLine5 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
             >
               <MenuIcon />

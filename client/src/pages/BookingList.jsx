@@ -1,14 +1,35 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import React, { useState, useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import SideBarPetsitter from "../components/SideBarPetsitter";
 import HeaderPetsitter from "../components/HeaderPetsitter";
 import { SearchIcon } from "../components/Icons";
+import fetchUserData from "../hooks/fetchUserData";
+import {
+  calculateDuration,
+  formatDate,
+  formatTime,
+} from "../components/calculateDate";
 
 function BookingList() {
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const params = useParams();
+  const { bookingList, setBookingList, getBookingList, isError, isLoading } =
+    fetchUserData();
+
+  useEffect(() => {
+    getBookingList();
+    // console.log(petsitterProfile);
+  }, []);
+
+  const duration = (start, end) => {
+    const startTime = new Date(`2023-09-15 ${start}`);
+    const endTime = new Date(`2023-09-15 ${end}`);
+    const durationInHours = (endTime - startTime) / (1000 * 60 * 60);
+    return durationInHours;
+  };
 
   return (
     <>
@@ -68,21 +89,28 @@ function BookingList() {
                 <div className="w-3/12">Status</div>
               </div>
               {/*map divนี้ */}
-              <div
-                onClick={() => {
-                  navigate("/petsitter/bookinglistdetail/:petsitterId");
-                }}
-                className="cursor-pointer bg-white px-5 w-full h-[70px] flex flex-row items-center justify-between"
-              >
-                <div className="w-3/12">Pet Owner Name</div>
-                <div className="w-1/12">2</div>
-                <div className="w-1/12">3.5 hours</div>
-                <div className="w-3/12">25 Sep 7.30 AM - 10.00 AM</div>
-                <div className="w-3/12">
-                  {" "}
-                  Waiting for service
-                  {/*
-              <span
+              {bookingList.map((booking) => {
+                return (
+                  <div
+                    key={booking.booking_id}
+                    onClick={() => {
+                      navigate("/petsitter/bookinglistdetail/:petsitterId");
+                    }}
+                    className="cursor-pointer bg-white px-5 w-full h-[70px] flex flex-row items-center justify-between"
+                  >
+                    <div className="w-3/12">{booking.petowner.username}</div>
+                    <div className="w-1/12">{booking.petdetails.length}</div>
+                    <div className="w-1/12">
+                      {calculateDuration(booking.startTime, booking.endTime)}{" "}
+                      hours
+                    </div>
+                    <div className="w-3/12">
+                      {formatDate(booking.startTime)}{" "}
+                      {formatTime(booking.startTime)} -{" "}
+                      {formatTime(booking.endTime)}
+                    </div>
+                    <div className="w-3/12">
+                      <span
                         className={
                           booking.status_booking == "Success"
                             ? "text-secondaryGreen1"
@@ -99,9 +127,10 @@ function BookingList() {
                       >
                         ● {booking.status_booking}
                       </span>
-              */}
-                </div>
-              </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
