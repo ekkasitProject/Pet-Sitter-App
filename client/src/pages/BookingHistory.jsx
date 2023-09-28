@@ -11,6 +11,7 @@ import {
   formatDate,
   formatTime,
 } from "../components/calculateDate";
+import axios from "axios";
 
 function BookingHistory() {
   const { getBooking, bookingHistory, setBookingHistory, isError, isLoading } =
@@ -27,10 +28,161 @@ function BookingHistory() {
     console.log(bookingID);
   };
 
+  // useEffect(() => {
+  //   getBooking();
+  //   console.log(bookingHistory);
+  // }, []);
+
   useEffect(() => {
-    getBooking();
-    console.log(bookingHistory);
-  }, []);
+    const fetchData = async () => {
+      await getBooking();
+      console.log(bookingHistory);
+
+      for (let index = 0; index < bookingHistory.length; index++) {
+        const booking = bookingHistory[index];
+        const currentTime = new Date().toISOString();
+
+        if (currentTime > booking.endTime) {
+          await isBookingTimePassed(
+            booking.booking_id,
+            booking.status_booking,
+            booking.petSitter.petSitterDetail[0].petsitter_id
+          );
+        }
+
+        if (currentTime > booking.startTime) {
+          if (
+            currentTime >= booking.startTime &&
+            currentTime <= booking.endTime
+          ) {
+            await isDuringBookingTime(
+              booking.booking_id,
+              booking.status_booking,
+              booking.petSitter.petSitterDetail[0].petsitter_id
+            );
+          } else {
+            await isBookingTimeNotConfirm(
+              booking.booking_id,
+              booking.status_booking,
+              booking.petSitter.petSitterDetail[0].petsitter_id
+            );
+          }
+        }
+      }
+    };
+
+    fetchData();
+  }, [bookingHistory]);
+
+  const isBookingTimeNotConfirm = async (
+    bookingID,
+    bookingStatus,
+    petSitterID
+  ) => {
+    if (bookingStatus === "Waiting for confirm") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return res.json({ message: "isBookingTimeNotConfirm ok" });
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("petsitter not confirm during booking time");
+      return null;
+    } else {
+      return null;
+    }
+  };
+
+  const isBookingTimePassed = async (bookingID, bookingStatus, petSitterID) => {
+    if (bookingStatus === "In service") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/end-service`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return res.json({ message: "isBookingTimePassed ok" });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("error booking time passed");
+      return null;
+    }
+  };
+
+  const isDuringBookingTime = async (bookingID, bookingStatus, petSitterID) => {
+    if (bookingStatus === "Waiting for service") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/in-service`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        return res.json({ message: "isDuringBookingTime ok" });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      console.log("during booking time");
+      return null;
+    }
+  };
+
+  // bookingHistory.forEach(async (booking, index) => {
+  //   const currentTime = new Date().toISOString();
+  //   if (currentTime > booking.endTime) {
+  //     await isBookingTimePassed(
+  //       booking.booking_id,
+  //       booking.status_booking,
+  //       booking.petSitter.petSitterDetail[0].petsitter_id
+  //     );
+  //   }
+  //   if (currentTime > booking.startTime) {
+  //     if (currentTime >= booking.startTime && currentTime <= booking.endTime) {
+  //       await isDuringBookingTime(
+  //         booking.booking_id,
+  //         booking.status_booking,
+  //         booking.petSitter.petSitterDetail[0].petsitter_id
+  //       );
+  //     } else {
+  //       await isBookingTimeNotConfirm(
+  //         booking.booking_id,
+  //         booking.status_booking,
+  //         booking.petSitter.petSitterDetail[0].petsitter_id
+  //       );
+  //     }
+  //   }
+  //   return null;
+  // });
 
   return (
     <>
