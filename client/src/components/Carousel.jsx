@@ -1,55 +1,100 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSnapCarousel } from "react-snap-carousel";
 import dog1 from "../assets/images/elements/dog1.svg";
 import dog2 from "../assets/images/elements/dog2.svg";
 import dog3 from "../assets/images/elements/dog3.svg";
 import icon_arrow1 from "../assets/icons/iconarrow1.svg";
 import icon_arrow2 from "../assets/icons/iconarrow2.svg";
-
+import axios from "axios";
 import fetchUserData from "../hooks/fetchUserData";
 import { useNavigate } from "react-router-dom";
 import { ToggleContext } from "../pages/AuthenticatedApp";
-
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useContext } from "react";
+import useFilter from "../hooks/useFilter";
 
 const AdvancedCarousel = () => {
+  const {
+    selectedDate,
+    setSelectedDate,
+    startTime,
+    setStartTime,
+    endTime,
+    setEndTime,
+    selectedTimes,
+    setSelectedTimes,
+    loading,
+    setLoading,
+    open,
+    setOpen,
+    bookingDetails,
+    setBookingDetails,
+    selectedPetsitterID,
+    setSelectedPetsitterID,
+    selectedPetsitterName,
+    setSelectedPetsitterName,
+    selectedPetsitterUser,
+    setSelectedPetsitterUser,
+  } = useContext(ToggleContext);
+  const { petSitter, getPetSitterById } = useFilter();
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
-
+  const { petsitter_id } = useParams();
   // Define the number of items to show at a time
   const itemsToShow = 3;
-  // Create an array of images to loop through
-  const images = [dog1, dog2, dog3];
 
-  // Duplicate the images to create an infinite loop
-  const duplicatedImages = [
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ...images,
-    ,
-    ...images,
-    ...images,
-    ,
-    ...images,
-    ...images,
-  ];
+  // Create an array of images to loop through
+  const [petImages, setPetImages] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:6543/petsitteruser/${petsitter_id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // Assuming this updates the petSitter state
+        getPetSitterById(petsitter_id);
+
+        // Store the image gallery data in the petImages state
+        setPetImages(response.data.image_gallery);
+
+        setLoading(false);
+      } catch (error) {
+        // Handle error here
+        console.error("Error fetching pet sitter data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="relative">
-      <ul
-        ref={scrollRef}
-        className="flex justify-between overflow-x-hidden overflow-y-hidden scroll-snap-type-x-mandatory z-0"
-      >
-        {duplicatedImages.map((image, index) => (
-          <li key={index} className=" flex-shrink-0 px-3">
-            <img
-              src={image}
-              alt={`Image ${index + 1}`}
-              className="w-[550px] h-[413px]"
-            />
-          </li>
-        ))}
-      </ul>
+      {petImages && (
+        <ul
+          ref={scrollRef}
+          className="flex justify-between overflow-x-hidden overflow-y-hidden scroll-snap-type-x-mandatory z-0 h-[493px]"
+        >
+          {petImages.map((image, index) => (
+            <li key={index} className="flex-shrink-0 px-3">
+              <img
+                src={image}
+                alt={`Image ${index + 1}`}
+                className="w-[550px] h-[413px]"
+              />
+            </li>
+          ))}
+        </ul>
+      )}
 
       <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center ">
         <img
