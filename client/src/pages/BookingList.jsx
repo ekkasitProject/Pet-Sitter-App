@@ -50,6 +50,31 @@ function BookingList() {
         .includes(search.toLowerCase()) &&
       searchItem.status_booking.toLowerCase().includes(status.toLowerCase())
   );
+  const isBookingTimeNotConfirm = async (bookingID, bookingStatus) => {
+    if (bookingStatus === "Waiting for confirm") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("petsitter not confirm during booking time");
+      return null;
+    } else {
+      return null;
+    }
+  };
 
   const isBookingTimePassed = async (bookingID, bookingStatus) => {
     if (bookingStatus === "In service") {
@@ -60,44 +85,6 @@ function BookingList() {
         };
         await axios.put(
           `http://localhost:6543/booking/petsitter/${petSitterID}/end-service`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (bookingStatus === "Waiting for confirm") {
-      try {
-        const token = localStorage.getItem("token");
-        const data = {
-          bookingId: bookingID,
-        };
-        await axios.put(
-          `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
-          data,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    if (bookingStatus === "Waiting for confirm") {
-      try {
-        const token = localStorage.getItem("token");
-        const data = {
-          bookingId: bookingID,
-        };
-        await axios.put(
-          `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
           data,
           {
             headers: {
@@ -135,6 +122,23 @@ function BookingList() {
     }
     return null;
   };
+
+  bookingList.map(async (booking, index) => {
+    const currentTime = new Date().toISOString();
+    if (currentTime > booking.endTime) {
+      await isBookingTimePassed(booking.booking_id, booking.status_booking);
+    }
+    if (currentTime > booking.startTime) {
+      if (currentTime >= booking.startTime && currentTime <= booking.endTime) {
+        await isDuringBookingTime(booking.booking_id, booking.status_booking);
+      } else {
+        await isBookingTimeNotConfirm(
+          booking.booking_id,
+          booking.status_booking
+        );
+      }
+    }
+  });
 
   return (
     <>
@@ -215,19 +219,6 @@ function BookingList() {
                       {formatDate(booking.startTime)}{" "}
                       {formatTime(booking.startTime)} -{" "}
                       {formatTime(booking.endTime)}
-                      {new Date() > booking.endTime
-                        ? isBookingTimePassed(
-                            booking.booking_id,
-                            booking.status_booking
-                          )
-                        : null}
-                      {new Date() >= booking.startTime &&
-                      new Date() <= booking.endTime
-                        ? isDuringBookingTime(
-                            booking.booking_id,
-                            booking.status_booking
-                          )
-                        : null}
                     </div>
                     <div className="w-3/12">
                       <span
