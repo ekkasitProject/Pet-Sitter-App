@@ -163,13 +163,13 @@ petSitterDetail.post("/:userId", async (req, res) => {
     });
 
     return res.status(201).json({
-      message: "สร้างรายละเอียดของสัตว์เลี้ยงสำเร็จ",
+      message: "สร้างรายละเอียดพี่เลี้ยงสำเร็จ",
       petDetail: createdPet,
     });
   } catch (error) {
-    console.error("เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง", error);
+    console.error("เกิดข้อผิดพลาดในการสร้างรายละเอียดของพี่เลี้ยง", error);
     return res.status(500).json({
-      message: "เกิดข้อผิดพลาดในการสร้างรายละเอียดของสัตว์เลี้ยง",
+      message: "เกิดข้อผิดพลาดในการสร้างรายละเอียดของพี่เลี้ยง",
     });
   }
 });
@@ -213,7 +213,7 @@ petSitterDetail.put("/:userId", async (req, res) => {
     });
 
     return res.status(200).json({
-      message: "อัพเดทรายละเอียดพี่เลี้ยงสัตว์สำเร็จ",
+      message: "อัพเดทรายละเอียดพี่เลี้ยงสำเร็จ",
       petDetail: updatedDetail,
     });
   } catch (error) {
