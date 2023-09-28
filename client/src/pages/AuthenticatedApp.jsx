@@ -123,7 +123,7 @@ const AuthenticatedApp = () => {
 
           {petSitterID ? (
             <>
-              <Route path="*" element={<LoginPage />} />
+              <Route path="*" element={<PetSitterProfile />} />
               <Route path="/petsitter">
                 <Route
                   path="/petsitter/profile/:petsitterId"

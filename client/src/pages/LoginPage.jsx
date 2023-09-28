@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Frame_427321178 from "../assets/images/elements/Frame_427321178.svg";
 import Frame_427320934 from "../assets/images/elements/Frame_427320934.svg";
 import Facebook_logo from "../assets/images/elements/Facebook_logo.svg";
@@ -7,7 +7,7 @@ import { useAuth } from "../context/authentication";
 
 function LoginPage() {
   const [role, setRole] = useState("");
-  const { loginPetowner, loginPetsitter } = useAuth();
+  const { loginPetowner, loginPetsitter, logout } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
