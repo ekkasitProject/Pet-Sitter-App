@@ -399,7 +399,7 @@ const fetchUserData = () => {
       );
 
       setIsLoading(false);
-      // navigate(`/petsitter/bookinglist/${petSitterID}`);
+      navigate(`/petsitter/bookinglist/${petSitterID}`);
     } catch (error) {
       console.log(error);
     }

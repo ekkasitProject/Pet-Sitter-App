@@ -365,7 +365,7 @@ booking.put("/petsitter/:sitterId/confirm", async (req, res) => {
     const updatedBooking = await prisma.booking.update({
       where: { booking_id: bookingId },
       data: {
-        status_booking: "Waiting for confirm",
+        status_booking: "Waiting for service",
       },
     });
 
