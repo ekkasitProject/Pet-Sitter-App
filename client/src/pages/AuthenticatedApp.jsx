@@ -120,8 +120,10 @@ const AuthenticatedApp = () => {
         <Routes>
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginPage />} />
+
           {petOwnerID ? (
             <>
+              <Route path="*" element={<Homepage />} />
               <Route path="/petsitterlist" element={<PetSitterList />} />
               <Route path="/" element={<Homepage />} />
 
@@ -151,20 +153,23 @@ const AuthenticatedApp = () => {
               </Route>
             </>
           ) : (
-            <Route path="/petsitter">
-              <Route
-                path="/petsitter/profile/:petsitterId"
-                element={<PetSitterProfile />}
-              />
-              <Route
-                path="/petsitter/bookinglist/:petsitterId"
-                element={<BookingList />}
-              />
-              <Route
-                path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
-                element={<BookingListDetail />}
-              />
-            </Route>
+            <>
+              <Route path="*" element={<LoginPage />} />
+              <Route path="/petsitter">
+                <Route
+                  path="/petsitter/profile/:petsitterId"
+                  element={<PetSitterProfile />}
+                />
+                <Route
+                  path="/petsitter/bookinglist/:petsitterId"
+                  element={<BookingList />}
+                />
+                <Route
+                  path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
+                  element={<BookingListDetail />}
+                />
+              </Route>
+            </>
           )}
         </Routes>
       </ToggleContext.Provider>
