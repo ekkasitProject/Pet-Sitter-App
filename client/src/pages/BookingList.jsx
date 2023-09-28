@@ -10,6 +10,7 @@ import {
   formatDate,
   formatTime,
 } from "../components/calculateDate";
+import axios from "axios";
 
 function BookingList() {
   const [status, setStatus] = useState("");
@@ -41,7 +42,6 @@ function BookingList() {
     const durationInHours = (endTime - startTime) / (1000 * 60 * 60);
     return durationInHours;
   };
-  console.log(status);
 
   const filteredSearchData = bookingList.filter(
     (searchItem) =>
@@ -50,6 +50,91 @@ function BookingList() {
         .includes(search.toLowerCase()) &&
       searchItem.status_booking.toLowerCase().includes(status.toLowerCase())
   );
+
+  const isBookingTimePassed = async (bookingID, bookingStatus) => {
+    if (bookingStatus === "In service") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/end-service`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (bookingStatus === "Waiting for confirm") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (bookingStatus === "Waiting for confirm") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    return null;
+  };
+
+  const isDuringBookingTime = async (bookingID, bookingStatus) => {
+    if (bookingStatus === "Waiting for service") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/in-service`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    return null;
+  };
 
   return (
     <>
@@ -107,7 +192,7 @@ function BookingList() {
                 <div className="w-3/12">Status</div>
               </div>
               {/*map divนี้ */}
-              {bookingList.map((booking, index) => {
+              {filteredSearchData.map((booking, index) => {
                 return (
                   <div
                     key={booking.booking_id}
@@ -130,6 +215,19 @@ function BookingList() {
                       {formatDate(booking.startTime)}{" "}
                       {formatTime(booking.startTime)} -{" "}
                       {formatTime(booking.endTime)}
+                      {new Date() > booking.endTime
+                        ? isBookingTimePassed(
+                            booking.booking_id,
+                            booking.status_booking
+                          )
+                        : null}
+                      {new Date() <= booking.startTime &&
+                      new Date() >= booking.endTime
+                        ? isDuringBookingTime(
+                            booking.booking_id,
+                            booking.status_booking
+                          )
+                        : null}
                     </div>
                     <div className="w-3/12">
                       <span

@@ -310,7 +310,7 @@ booking.put("/petsitter/:sitterId/cancel", async (req, res) => {
       const updatedBooking = await prisma.booking.update({
         where: { booking_id: bookingId },
         data: {
-          status_booking: "canceled",
+          status_booking: "Canceled",
         },
       });
 
@@ -370,7 +370,7 @@ booking.put("/petsitter/:sitterId/confirm", async (req, res) => {
     });
 
     res.status(200).json({
-      message: "Booking confirmed and status updated to waiting in service.",
+      message: "Booking confirmed and status updated to waiting for service.",
       updatedBooking,
     });
   } catch (error) {
@@ -387,7 +387,7 @@ booking.put("/petsitter/:sitterId/in-service", async (req, res) => {
       where: {
         booking_id: bookingId,
         petsitter_id: sitterId,
-        status_booking: "waiting in service",
+        // status_booking: "waiting in service",
       },
     });
 
@@ -400,7 +400,7 @@ booking.put("/petsitter/:sitterId/in-service", async (req, res) => {
     const updatedBooking = await prisma.booking.update({
       where: { booking_id: bookingId },
       data: {
-        status_booking: "in service",
+        status_booking: "In service",
       },
     });
 
@@ -420,7 +420,7 @@ booking.put("/petsitter/:sitterId/end-service", async (req, res) => {
       where: {
         booking_id: bookingId,
         petsitter_id: sitterId,
-        status_booking: "in service",
+        // status_booking: "in service",
       },
     });
     if (!booking) {
@@ -446,7 +446,7 @@ booking.put("/petsitter/:sitterId/end-service", async (req, res) => {
       const updatedBooking = await prisma.booking.update({
         where: { booking_id: bookingId },
         data: {
-          status_booking: "success",
+          status_booking: "Success",
         },
       });
 

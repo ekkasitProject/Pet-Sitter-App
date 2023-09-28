@@ -323,7 +323,7 @@ const fetchUserData = () => {
 
       // console.log(result);
       setBookingList(result.data.bookings);
-      console.log(result.data.bookings);
+      console.log(result.data);
       /* const newArray = bookingList.filter((booking) => {
         return booking.booking_id == bookingID;
       });
