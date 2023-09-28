@@ -14,6 +14,8 @@ import fetchUserData from "../hooks/fetchUserData";
 
 const HeaderAuth = () => {
   const {
+    toggleCreatePet,
+    setToggleCreatePet,
     toggleViewPet,
     setToggleViewPet,
     toggleDeletePet,
@@ -123,21 +125,30 @@ const HeaderAuth = () => {
                 <div className="absolute top-12 right-[-10rem] mt-2 bg-white border rounded shadow-md w-[186px]     z-50">
                   <div className="">
                     <div
-                      onClick={() => navigate(`/user/profile/${petOwnerID}`)}
+                      onClick={() => {
+                        navigate(`/user/profile/${petOwnerID}`);
+                        setToggleCreatePet(false);
+                      }}
                       className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
                     >
                       <img className="ml-4 " src={profile_user} alt="" />
                       <span className="ml-4 ">Profile</span>
                     </div>
                     <div
-                      onClick={() => navigate(`/user/yourpet/${petOwnerID}`)}
+                      onClick={() => {
+                        navigate(`/user/yourpet/${petOwnerID}`);
+                        setToggleCreatePet(false);
+                      }}
                       className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
                     >
                       <img className="ml-4" src={pet} alt="" />
                       <span className="ml-4">Your Pet</span>
                     </div>
                     <div
-                      onClick={() => navigate(`/user/history/${petOwnerID}`)}
+                      onClick={() => {
+                        navigate(`/user/history/${petOwnerID}`);
+                        setToggleCreatePet(false);
+                      }}
                       className="flex  items-center h-[50px] hover:bg-slate-100 cursor-pointer"
                     >
                       <img className="ml-4" src={history} alt="" />
@@ -162,7 +173,10 @@ const HeaderAuth = () => {
           )}
           <button
             className="bg-[#FF7037] px-3 py-2 rounded-full text-white font-medium "
-            onClick={handleToFindAPetSitter}
+            onClick={() => {
+              handleToFindAPetSitter();
+              setToggleCreatePet(false);
+            }}
           >
             Find A Pet Sitter
           </button>
