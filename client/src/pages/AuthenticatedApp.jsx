@@ -29,6 +29,7 @@ const AuthenticatedApp = () => {
   const userDataFromToken = jwtDecode(token);
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
+  const [OpenPetModal, setOpenPetModal] = useState(false);
   const [toggleViewPet, setToggleViewPet] = useState(false);
   const [toggleViewBooking, setToggleViewBooking] = useState(false);
   const [petID, setPetID] = useState("1");
@@ -51,6 +52,9 @@ const AuthenticatedApp = () => {
   const [selectedPetsitterID, setSelectedPetsitterID] = useState("");
   const [selectedPetsitterName, setSelectedPetsitterName] = useState("");
   const [selectedPetsitterUser, setSelectedPetsitterUser] = useState("");
+  const [bookingListDetails, setBookingListDetails] = useState({});
+  const [bookingList, setBookingList] = useState([]);
+  const [index, setIndex] = useState("");
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -103,6 +107,14 @@ const AuthenticatedApp = () => {
           setSelectedPetsName,
           petSitterID,
           setPetSitterID,
+          bookingListDetails,
+          setBookingListDetails,
+          bookingList,
+          setBookingList,
+          index,
+          setIndex,
+          OpenPetModal,
+          setOpenPetModal,
         }}
       >
         <Routes>
@@ -134,7 +146,7 @@ const AuthenticatedApp = () => {
               element={<BookingList />}
             />
             <Route
-              path="/petsitter/bookinglistdetail/:petsitterId"
+              path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
               element={<BookingListDetail />}
             />
           </Route>
