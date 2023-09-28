@@ -19,6 +19,7 @@ const HeaderPetsitter = () => {
   //const [profile, setProfile] = useState(null);
   //const [petSitterID, setpetSitterID] = useState(null);
   const { petSitterID, setPetSitterID } = useContext(ToggleContext);
+
   const {
     petsitterProfile,
     setPetsitterProfile,
@@ -30,7 +31,7 @@ const HeaderPetsitter = () => {
   useEffect(() => {
     getPetsitterProfile();
     //console.log(petSitterID);
-  }, []);
+  }, [petsitterProfile]);
 
   const dropDownChange = () => {
     setIsDropdownOpen(!isDropdownOpen);
