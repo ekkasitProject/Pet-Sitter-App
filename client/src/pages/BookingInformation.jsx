@@ -158,9 +158,11 @@ const BookingInformation = () => {
                 </div>
 
                 <div className="mt-[8rem] flex justify-between">
-                  <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
-                    Back
-                  </button>
+                  <Link to="/booking/yourPet">
+                    <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
+                      Back
+                    </button>
+                  </Link>
 
                   <Link to="/booking/payment">
                     <button className=" bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">

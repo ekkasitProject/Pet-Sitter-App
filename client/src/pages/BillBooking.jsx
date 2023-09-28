@@ -3,6 +3,7 @@ import greenCircle from "../assets/images/bill/greencircle.svg";
 import dogFoot from "../assets/images/bill/Dogfoot.svg";
 import blueStar from "../assets/images/bill/blueStar.svg";
 import catYellow from "../assets/images/bill/catyellow.svg";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ToggleContext } from "./AuthenticatedApp";
 import React, { useState, useContext, useEffect } from "react";
@@ -14,6 +15,7 @@ import {
 import axios from "axios";
 
 const BillBooking = () => {
+  const navigate = useNavigate();
   const duration = (start, end) => {
     const startTime = new Date(`2023-09-15 ${start}`);
     const endTime = new Date(`2023-09-15 ${end}`);
@@ -145,9 +147,13 @@ const BillBooking = () => {
         </div>
         <div className="w-full flex justify-center mt-6">
           <div className="mt-4 flex  px-8 pb-4">
-            <button className="px-6 py-3 mr-2 text-sm bg-[#FFF1EC]  text-[#FF7037]  rounded-full font-semibold">
+            <button
+              onClick={() => navigate(`/user/history/${petOwnerID}`)}
+              className="px-6 py-3 mr-2 text-sm bg-[#FFF1EC]  text-[#FF7037]  rounded-full font-semibold"
+            >
               Booking Detail
             </button>
+
             <Link to="/">
               <button className="px-6 py-3 bg-[#FF7037] text-sm text-white rounded-full font-semibold">
                 Back To Home
