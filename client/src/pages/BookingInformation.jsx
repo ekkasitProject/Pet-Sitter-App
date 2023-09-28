@@ -158,7 +158,7 @@ const BookingInformation = () => {
                 </div>
 
                 <div className="mt-[8rem] flex justify-between">
-                  <Link to="/booking/yourPet">
+                  <Link to={`/petsitterlist/view/${selectedPetsitterID}`}>
                     <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
                       Back
                     </button>
