@@ -23,7 +23,7 @@ import BookingList from "./BookingList";
 import BookingListDetail from "./BookingListDetail";
 
 export const ToggleContext = React.createContext();
-
+const today = dayjs();
 const AuthenticatedApp = () => {
   const token = localStorage.getItem("token");
   const userDataFromToken = jwtDecode(token);
@@ -39,7 +39,7 @@ const AuthenticatedApp = () => {
   const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
   const [petSitterID, setPetSitterID] = useState(userDataFromToken.petsitterId);
   const [messageAdditional, setMessageAdditional] = useState("");
-  const [selectedDate, setSelectedDate] = useState(dayjs("2023-0-22"));
+  const [selectedDate, setSelectedDate] = useState(today);
   const [startTime, setStartTime] = useState("12:00 AM");
   const [endTime, setEndTime] = useState("12:30 AM");
   const [selectedTimes, setSelectedTimes] = useState([]);
@@ -118,38 +118,59 @@ const AuthenticatedApp = () => {
         }}
       >
         <Routes>
-          <Route path="/" element={<Homepage />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/petsitterlist" element={<PetSitterList />} />
-          <Route path="/booking/yourPet" element={<BookingYourPet />} />
-          <Route path="/booking/information" element={<BookingInformation />} />
-          <Route path="/booking/payment" element={<BookingPayment />} />
-          <Route path="/booking/bill" element={<BillBooking />} />
-          <Route
-            path="/petsitterlist/view/:petsitter_id"
-            element={<PetSitterDetail />}
-          />
-          <Route path="/test/:petsitter_id" element={<UploadComponent />} />
-          <Route path="/user">
-            <Route path="/user/profile/:userId" element={<UserManagement />} />
-            <Route path="/user/yourpet/:userId" element={<YourPet />} />
-            <Route path="/user/history/:userId" element={<BookingHistory />} />
-          </Route>
-          <Route path="/petsitter">
-            <Route
-              path="/petsitter/profile/:petsitterId"
-              element={<PetSitterProfile />}
-            />
-            <Route
-              path="/petsitter/bookinglist/:petsitterId"
-              element={<BookingList />}
-            />
-            <Route
-              path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
-              element={<BookingListDetail />}
-            />
-          </Route>
+
+          {petSitterID ? (
+            <>
+              <Route path="*" element={<PetSitterProfile />} />
+              <Route path="/petsitter">
+                <Route
+                  path="/petsitter/profile/:petsitterId"
+                  element={<PetSitterProfile />}
+                />
+                <Route
+                  path="/petsitter/bookinglist/:petsitterId"
+                  element={<BookingList />}
+                />
+                <Route
+                  path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
+                  element={<BookingListDetail />}
+                />
+              </Route>
+            </>
+          ) : (
+            <>
+              <Route path="*" element={<Homepage />} />
+              <Route path="/petsitterlist" element={<PetSitterList />} />
+              <Route path="/" element={<Homepage />} />
+
+              <Route path="/booking/yourPet" element={<BookingYourPet />} />
+              <Route
+                path="/booking/information"
+                element={<BookingInformation />}
+              />
+              <Route path="/booking/payment" element={<BookingPayment />} />
+              <Route path="/booking/bill" element={<BillBooking />} />
+              <Route
+                path="/petsitterlist/view/:petsitter_id"
+                element={<PetSitterDetail />}
+              />
+              <Route path="/test/:petsitter_id" element={<UploadComponent />} />
+
+              <Route path="/user">
+                <Route
+                  path="/user/profile/:userId"
+                  element={<UserManagement />}
+                />
+                <Route path="/user/yourpet/:userId" element={<YourPet />} />
+                <Route
+                  path="/user/history/:userId"
+                  element={<BookingHistory />}
+                />
+              </Route>
+            </>
+          )}
         </Routes>
       </ToggleContext.Provider>
     </ThemeProvider>

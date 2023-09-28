@@ -3,8 +3,8 @@ import LocationIcon from "../assets/icons/icon_location.svg";
 import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
-import icon_arrow1 from "../assets/icons/iconarrow1.svg"
-import icon_arrow2 from "../assets/icons/iconarrow2.svg"
+import icon_arrow1 from "../assets/icons/iconarrow1.svg";
+import icon_arrow2 from "../assets/icons/iconarrow2.svg";
 
 import {
   ChipsOrange,
@@ -29,6 +29,9 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
 import { CloseIcon } from "../components/Icons.jsx";
+
+const today = dayjs();
+const tomorrow = dayjs().add(1, "day");
 
 function PetSitterDetail() {
   const {
@@ -167,20 +170,20 @@ function PetSitterDetail() {
   const handleDateChange = (newDate) => {
     setSelectedDate(newDate);
   };
-const handleChip = (pet) => {
-  if (pet === "dog") {
-    return <ChipsGreen petType="Dog" />;
-  }
-  if (pet === "cat") {
-    return <ChipsPink petType="Cat" />;
-  }
-  if (pet === "bird") {
-    return <ChipsBlue petType="Bird" />;
-  }
-  if (pet === "rabbit") {
-    return <ChipsOrange petType="Rabbit" />;
-  }
-};
+  const handleChip = (pet) => {
+    if (pet === "dog") {
+      return <ChipsGreen petType="Dog" />;
+    }
+    if (pet === "cat") {
+      return <ChipsPink petType="Cat" />;
+    }
+    if (pet === "bird") {
+      return <ChipsBlue petType="Bird" />;
+    }
+    if (pet === "rabbit") {
+      return <ChipsOrange petType="Rabbit" />;
+    }
+  };
 
   if (loading) {
     // Optionally, you can render a loading indicator here
@@ -318,6 +321,8 @@ const handleChip = (pet) => {
                                 },
                               }}
                               label=""
+                              defaultValue={today}
+                              minDate={tomorrow}
                               value={selectedDate}
                               onChange={handleDateChange}
                               className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"

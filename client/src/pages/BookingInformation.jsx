@@ -158,9 +158,11 @@ const BookingInformation = () => {
                 </div>
 
                 <div className="mt-[8rem] flex justify-between">
-                  <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
-                    Back
-                  </button>
+                  <Link to={`/petsitterlist/view/${selectedPetsitterID}`}>
+                    <button className=" bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold">
+                      Back
+                    </button>
+                  </Link>
 
                   <Link to="/booking/payment">
                     <button className=" bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold">
@@ -198,8 +200,13 @@ const BookingInformation = () => {
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                {selectedPetsName.map((pet) => {
-                  return `${pet}`;
+                {selectedPetsName.map((pet, index) => {
+                  return (
+                    <span key={index}>
+                      {pet}
+                      {index < selectedPetsName.length - 1 && ", "}
+                    </span>
+                  );
                 })}
               </p>
             </div>
