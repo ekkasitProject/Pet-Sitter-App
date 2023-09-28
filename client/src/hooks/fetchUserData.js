@@ -74,6 +74,7 @@ const fetchUserData = () => {
           },
         }
       );
+      setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
       navigate(`/user/profile/${petOwnerID}`);
     } catch (error) {
