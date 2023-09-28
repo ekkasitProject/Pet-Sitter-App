@@ -347,7 +347,7 @@ function PetSitterList() {
           </div>
           {/* Pet Sitter List Section */}
           <div className="pet-sitter-list-section px-6 h-full w-3/5 flex flex-col items-center">
-            {isError ? <h1>Request failed,Please, try again later</h1> : null}
+            {isError ? <h1>Request failed. Please, try again later</h1> : null}
             {isLoading ? <h1>Loading ....</h1> : null}
 
             {petSitterLists.map((petSitter) => {
