@@ -1,5 +1,5 @@
 import { Button2 } from "./Button";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import profile_user from "../assets/icons/profile.svg";
 import { useParams } from "react-router-dom";
 import fetchUserData from "../hooks/fetchUserData";
@@ -7,8 +7,19 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { PlusIcon } from "./Icons";
 import Datepicker from "react-tailwindcss-datepicker";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 
 function UserProfile() {
+  const {
+    toggleViewPet,
+    setToggleViewPet,
+    toggleDeletePet,
+    setToggleDeletePet,
+    petID,
+    setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
+  } = useContext(ToggleContext);
   const {
     getPetOwnerProfile,
     petOwnerProfile,
@@ -155,6 +166,7 @@ function UserProfile() {
       //console.log(avatars);
       //console.log(formData);
       updatePetOwnerProfile(formData);
+      setIsAllPetChange(!isAllPetChange);
       setIsAlert(true);
     }
   };

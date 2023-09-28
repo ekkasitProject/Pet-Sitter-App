@@ -10,8 +10,27 @@ import logout_user from "../assets/icons/logout.svg";
 import { dropdown } from "../data/dropdownprofile";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import jwtDecode from "jwt-decode";
+import fetchUserData from "../hooks/fetchUserData";
 
 const HeaderAuth = () => {
+  const {
+    toggleViewPet,
+    setToggleViewPet,
+    toggleDeletePet,
+    setToggleDeletePet,
+    petID,
+    setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
+  } = useContext(ToggleContext);
+  const {
+    getPetOwnerProfile,
+    petOwnerProfile,
+    setPetOwnerProfile,
+    updatePetOwnerProfile,
+    isError,
+    isLoading,
+  } = fetchUserData();
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -64,7 +83,7 @@ const HeaderAuth = () => {
     getProfile();
     //console.log("HaederAuth");
     //console.log(petOwnerID);
-  }, []);
+  }, [isAllPetChange]);
 
   const dropDownChange = () => {
     setIsDropdownOpen(!isDropdownOpen);
