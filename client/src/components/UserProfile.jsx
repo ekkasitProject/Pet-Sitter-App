@@ -163,10 +163,11 @@ function UserProfile() {
       formData.append("date_of_birth", newDate);
       formData.append("avatar", avatars);
       console.log(newDate);
+
       //console.log(avatars);
       //console.log(formData);
       updatePetOwnerProfile(formData);
-      setIsAllPetChange(!isAllPetChange);
+
       setIsAlert(true);
     }
   };
