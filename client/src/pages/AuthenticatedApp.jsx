@@ -121,7 +121,25 @@ const AuthenticatedApp = () => {
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginPage />} />
 
-          {petOwnerID ? (
+          {petSitterID ? (
+            <>
+              <Route path="*" element={<LoginPage />} />
+              <Route path="/petsitter">
+                <Route
+                  path="/petsitter/profile/:petsitterId"
+                  element={<PetSitterProfile />}
+                />
+                <Route
+                  path="/petsitter/bookinglist/:petsitterId"
+                  element={<BookingList />}
+                />
+                <Route
+                  path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
+                  element={<BookingListDetail />}
+                />
+              </Route>
+            </>
+          ) : (
             <>
               <Route path="*" element={<Homepage />} />
               <Route path="/petsitterlist" element={<PetSitterList />} />
@@ -149,24 +167,6 @@ const AuthenticatedApp = () => {
                 <Route
                   path="/user/history/:userId"
                   element={<BookingHistory />}
-                />
-              </Route>
-            </>
-          ) : (
-            <>
-              <Route path="*" element={<LoginPage />} />
-              <Route path="/petsitter">
-                <Route
-                  path="/petsitter/profile/:petsitterId"
-                  element={<PetSitterProfile />}
-                />
-                <Route
-                  path="/petsitter/bookinglist/:petsitterId"
-                  element={<BookingList />}
-                />
-                <Route
-                  path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
-                  element={<BookingListDetail />}
                 />
               </Route>
             </>
