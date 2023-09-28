@@ -221,8 +221,8 @@ function BookingList() {
                             booking.status_booking
                           )
                         : null}
-                      {new Date() <= booking.startTime &&
-                      new Date() >= booking.endTime
+                      {new Date() >= booking.startTime &&
+                      new Date() <= booking.endTime
                         ? isDuringBookingTime(
                             booking.booking_id,
                             booking.status_booking
