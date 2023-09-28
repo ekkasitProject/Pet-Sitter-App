@@ -389,7 +389,7 @@ const fetchUserData = () => {
       };
       setIsLoading(true);
       await axios.put(
-        `http://localhost:6543/booking/petsitter/${petSitterID}/comfirm`,
+        `http://localhost:6543/booking/petsitter/${petSitterID}/confirm`,
         data,
         {
           headers: {
