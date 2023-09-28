@@ -118,38 +118,54 @@ const AuthenticatedApp = () => {
         }}
       >
         <Routes>
-          <Route path="/" element={<Homepage />} />
           <Route path="/register" element={<RegistrationForm />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/petsitterlist" element={<PetSitterList />} />
-          <Route path="/booking/yourPet" element={<BookingYourPet />} />
-          <Route path="/booking/information" element={<BookingInformation />} />
-          <Route path="/booking/payment" element={<BookingPayment />} />
-          <Route path="/booking/bill" element={<BillBooking />} />
-          <Route
-            path="/petsitterlist/view/:petsitter_id"
-            element={<PetSitterDetail />}
-          />
-          <Route path="/test/:petsitter_id" element={<UploadComponent />} />
-          <Route path="/user">
-            <Route path="/user/profile/:userId" element={<UserManagement />} />
-            <Route path="/user/yourpet/:userId" element={<YourPet />} />
-            <Route path="/user/history/:userId" element={<BookingHistory />} />
-          </Route>
-          <Route path="/petsitter">
-            <Route
-              path="/petsitter/profile/:petsitterId"
-              element={<PetSitterProfile />}
-            />
-            <Route
-              path="/petsitter/bookinglist/:petsitterId"
-              element={<BookingList />}
-            />
-            <Route
-              path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
-              element={<BookingListDetail />}
-            />
-          </Route>
+          {petOwnerID ? (
+            <>
+              <Route path="/petsitterlist" element={<PetSitterList />} />
+              <Route path="/" element={<Homepage />} />
+
+              <Route path="/booking/yourPet" element={<BookingYourPet />} />
+              <Route
+                path="/booking/information"
+                element={<BookingInformation />}
+              />
+              <Route path="/booking/payment" element={<BookingPayment />} />
+              <Route path="/booking/bill" element={<BillBooking />} />
+              <Route
+                path="/petsitterlist/view/:petsitter_id"
+                element={<PetSitterDetail />}
+              />
+              <Route path="/test/:petsitter_id" element={<UploadComponent />} />
+
+              <Route path="/user">
+                <Route
+                  path="/user/profile/:userId"
+                  element={<UserManagement />}
+                />
+                <Route path="/user/yourpet/:userId" element={<YourPet />} />
+                <Route
+                  path="/user/history/:userId"
+                  element={<BookingHistory />}
+                />
+              </Route>
+            </>
+          ) : (
+            <Route path="/petsitter">
+              <Route
+                path="/petsitter/profile/:petsitterId"
+                element={<PetSitterProfile />}
+              />
+              <Route
+                path="/petsitter/bookinglist/:petsitterId"
+                element={<BookingList />}
+              />
+              <Route
+                path="/petsitter/bookinglistdetail/:petownerId/:bookingId"
+                element={<BookingListDetail />}
+              />
+            </Route>
+          )}
         </Routes>
       </ToggleContext.Provider>
     </ThemeProvider>
