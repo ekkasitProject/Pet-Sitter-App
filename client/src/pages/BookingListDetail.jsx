@@ -71,9 +71,9 @@ function BookingListDetail() {
     setPetID(petId);
     setPetOwnerID(ownerId);
     setOpenPetModal(true);
-    console.log(bookingID);
-    console.log(petId);
-    console.log(ownerId);
+    //  console.log(bookingID);
+    //console.log(petId);
+    // console.log(ownerId);
   };
 
   const navigate = useNavigate();
@@ -354,7 +354,7 @@ function BookingListDetail() {
                 </div>
                 {OpenPetModal ? <BookingListModal /> : null}
                 <div className="grid grid-cols-5 gap-20">
-                  {bookingList[index].petdetails.map((pet, index) => {
+                  {bookingList[index].petdetails.map((pet) => {
                     return (
                       <>
                         <div
