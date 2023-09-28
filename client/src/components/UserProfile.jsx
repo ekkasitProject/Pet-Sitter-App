@@ -71,6 +71,7 @@ function UserProfile() {
       const newDate = formatDate(petOwnerProfile.date_of_birth);
       setDateOfBirth(newDate);
       setPhoto(petOwnerProfile.image_profile);
+      setValue({ ...value, startDate: petOwnerProfile.date_of_birth });
       /*  const uniqueId = Date.now();
       setAvatars({
         [uniqueId]: petOwnerProfile.image_profile,
