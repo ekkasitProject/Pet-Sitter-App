@@ -134,6 +134,8 @@ const fetchUserData = () => {
 
   const getPetByID = async () => {
     try {
+      console.log(petOwnerID);
+      console.log(petID);
       const token = localStorage.getItem("token");
       setIsError(false);
       // setIsLoading(true);
@@ -145,8 +147,7 @@ const fetchUserData = () => {
           },
         }
       );
-      console.log(petOwnerID);
-      console.log(petID);
+
       setPetDetail(result.data.pet);
       //setIsLoading(false);
     } catch (error) {
