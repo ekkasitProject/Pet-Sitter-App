@@ -323,7 +323,7 @@ const fetchUserData = () => {
 
       // console.log(result);
       setBookingList(result.data.bookings);
-      console.log(result.data.bookings);
+      console.log(result.data);
       /* const newArray = bookingList.filter((booking) => {
         return booking.booking_id == bookingID;
       });
@@ -389,7 +389,31 @@ const fetchUserData = () => {
       };
       setIsLoading(true);
       await axios.put(
-        `http://localhost:6543/booking/petsitter/${petSitterID}/comfirm`,
+        `http://localhost:6543/booking/petsitter/${petSitterID}/confirm`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setIsLoading(false);
+      navigate(`/petsitter/bookinglist/${petSitterID}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const rejectBooking = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const data = {
+        bookingId: bookingID,
+      };
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
         data,
         {
           headers: {
@@ -437,6 +461,7 @@ const fetchUserData = () => {
     bookingListById,
     setBookingListById,
     confirmBooking,
+    rejectBooking,
   };
 };
 
