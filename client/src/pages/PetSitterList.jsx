@@ -148,7 +148,7 @@ function PetSitterList() {
       <HeaderAuth />
       <div className="pet-sitter-page-wrapper w-screen h-auto font-satoshi flex flex-col ">
         <header className="w-screen h-auto  py-10 mb-10 px-16">
-          <h1 className="text-headLine3 text-primaryGray2">
+          <h1 className="text-headLine3 text-primaryGray2 w-[85%] mx-auto">
             Search For Pet Sitter
           </h1>
         </header>
@@ -425,7 +425,7 @@ function PetSitterList() {
             */}
           </div>
         </div>
-        {/* 
+        {/*
         <Pagination
           className="flex items-center justify-center my-16"
           color="secondary"
