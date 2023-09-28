@@ -405,6 +405,30 @@ const fetchUserData = () => {
     }
   };
 
+  const rejectBooking = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const data = {
+        bookingId: bookingID,
+      };
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setIsLoading(false);
+      // navigate(`/petsitter/bookinglist/${petSitterID}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     getPetOwnerProfile,
     petOwnerProfile,
@@ -437,6 +461,7 @@ const fetchUserData = () => {
     bookingListById,
     setBookingListById,
     confirmBooking,
+    rejectBooking,
   };
 };
 

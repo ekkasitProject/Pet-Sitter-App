@@ -47,6 +47,7 @@ function BookingListDetail() {
     isError,
     isLoading,
     confirmBooking,
+    rejectBooking,
     petsitterProfile,
     setPetsitterProfile,
     getPetsitterProfile,
@@ -101,7 +102,11 @@ function BookingListDetail() {
     navigate(`/booking/bill`);
   };*/
 
-  const handleConfirm = () => {
+  const handleConfirmReject = () => {
+    rejectBooking();
+  };
+
+  const handleConfirmBooking = () => {
     confirmBooking();
   };
 
@@ -198,7 +203,10 @@ function BookingListDetail() {
                       >
                         Reject Booking
                       </button>
-                      <button className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray5 disabled:text-primaryGray3">
+                      <button
+                        className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray5 disabled:text-primaryGray3"
+                        onClick={handleConfirmBooking}
+                      >
                         Confirm Booking
                       </button>
                       <Modal
@@ -226,7 +234,7 @@ function BookingListDetail() {
                                 </button>
                                 <Link to="/booking/bill">
                                   <button
-                                    //onClick={handleConfirm}
+                                    onClick={handleConfirmReject}
                                     className="px-4 py-2 bg-[#FF7037] text-sm text-white rounded-full font-semibold"
                                   >
                                     Yes i'm sure
@@ -278,6 +286,7 @@ function BookingListDetail() {
                               {bookingList[index].petowner.username}
                             </h1>
                             <img
+                              alt=""
                               src={closeIcon}
                               className="ml-auto px-10"
                               onClick={handleCloseViewProfileModal}
