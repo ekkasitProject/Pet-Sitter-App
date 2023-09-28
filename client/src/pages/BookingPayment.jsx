@@ -409,8 +409,13 @@ const BookingPayment = () => {
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                {selectedPetsName.map((pet) => {
-                  return `${pet}`;
+                {selectedPetsName.map((pet, index) => {
+                  return (
+                    <span key={index}>
+                      {pet}
+                      {index < selectedPetsName.length - 1 && ", "}
+                    </span>
+                  );
                 })}
               </p>
             </div>
