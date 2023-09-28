@@ -195,7 +195,7 @@ function UserProfile() {
             </Alert>
           </div>
         ) : null}
-        {isError ? <h1>Request failed</h1> : null}
+        {isError ? <h1>Request failed,Please, try again later</h1> : null}
         {isLoading ? <h1>Loading ....</h1> : null}
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
