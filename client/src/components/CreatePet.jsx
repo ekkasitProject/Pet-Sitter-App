@@ -96,7 +96,11 @@ function CreatePet() {
             <div className="flex justify-center relative items-center my-10 w-[220px] h-[220px] rounded-full bg-slate-200">
               <img
                 className="object-fit w-[220px] h-[220px] rounded-full"
-                src={photo}
+                src={
+                  photo.length === 0
+                    ? "https://mbxgvfscdghfnvxpfyqi.supabase.co/storage/v1/object/public/default-image/pet-profile"
+                    : photo
+                }
                 alt="pet photo"
               />
               <label
