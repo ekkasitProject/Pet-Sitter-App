@@ -6,38 +6,49 @@ import dog3 from "../assets/images/elements/dog3.svg";
 import icon_arrow1 from "../assets/icons/iconarrow1.svg";
 import icon_arrow2 from "../assets/icons/iconarrow2.svg";
 
+import fetchUserData from "../hooks/fetchUserData";
+import { useNavigate } from "react-router-dom";
+import { ToggleContext } from "../pages/AuthenticatedApp";
+
+
 const AdvancedCarousel = () => {
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
 
   // Define the number of items to show at a time
   const itemsToShow = 3;
+  // Create an array of images to loop through
+  const images = [dog1, dog2, dog3];
 
+  // Duplicate the images to create an infinite loop
+  const duplicatedImages = [
+    ...images,
+    ...images,
+    ...images,
+    ...images,
+    ...images,
+    ,
+    ...images,
+    ...images,
+    ,
+    ...images,
+    ...images,
+  ];
   return (
     <div className="relative">
       <ul
         ref={scrollRef}
-        className="flex justify-between overflow-x-auto scroll-snap-type-x-mandatory z-0 "
+        className="flex justify-between overflow-x-hidden overflow-y-hidden scroll-snap-type-x-mandatory z-0"
       >
-        <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog2} alt="Image 1" className="w-full h-full px-3" />
-        </li>
-        <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog1} alt="Image 2" className="w-full h-full px-3" />
-        </li>
-        <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog3} alt="Image 3" className="w-full h-full px-3" />
-        </li>
-        <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog2} alt="Image 1" className="w-full h-full px-3" />
-        </li>
-        <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog1} alt="Image 2" className="w-full h-full px-3" />
-        </li>
-        <li className="w-550 h-413 flex-shrink-0">
-          <img src={dog3} alt="Image 3" className="w-full h-full px-3" />
-        </li>
-        {/* Add more images as needed */}
+        {duplicatedImages.map((image, index) => (
+          <li key={index} className=" flex-shrink-0 px-3">
+            <img
+              src={image}
+              alt={`Image ${index + 1}`}
+              className="w-[550px] h-[413px]"
+            />
+          </li>
+        ))}
       </ul>
 
       <div className="absolute top-0 left-0 w-full h-full flex justify-center items-center ">

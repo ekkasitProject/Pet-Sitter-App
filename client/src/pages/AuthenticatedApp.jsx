@@ -27,6 +27,7 @@ export const ToggleContext = React.createContext();
 const AuthenticatedApp = () => {
   const token = localStorage.getItem("token");
   const userDataFromToken = jwtDecode(token);
+  const currentDate = dayjs();
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
   const [toggleViewPet, setToggleViewPet] = useState(false);
@@ -38,7 +39,7 @@ const AuthenticatedApp = () => {
   const [petOwnerID, setPetOwnerID] = useState(userDataFromToken.userId);
   const [petSitterID, setPetSitterID] = useState(userDataFromToken.petsitterId);
   const [messageAdditional, setMessageAdditional] = useState("");
-  const [selectedDate, setSelectedDate] = useState(dayjs("2023-0-22"));
+  const [selectedDate, setSelectedDate] = useState(currentDate);
   const [startTime, setStartTime] = useState("12:00 AM");
   const [endTime, setEndTime] = useState("12:30 AM");
   const [selectedTimes, setSelectedTimes] = useState([]);
@@ -51,6 +52,8 @@ const AuthenticatedApp = () => {
   const [selectedPetsitterID, setSelectedPetsitterID] = useState("");
   const [selectedPetsitterName, setSelectedPetsitterName] = useState("");
   const [selectedPetsitterUser, setSelectedPetsitterUser] = useState("");
+  const [petImage, setPageImage] = useState("");
+
   return (
     <ThemeProvider theme={theme}>
       <ToggleContext.Provider
@@ -103,6 +106,8 @@ const AuthenticatedApp = () => {
           setSelectedPetsName,
           petSitterID,
           setPetSitterID,
+          petImage,
+          setPageImage,
         }}
       >
         <Routes>
