@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import LocationIcon from "../assets/icons/icon_location.svg";
 import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
-import icon_arrow1 from "../assets/icons/iconarrow1.svg";
-import icon_arrow2 from "../assets/icons/iconarrow2.svg";
+
 import calendarIcon from "../assets/icons/icon=calender.svg";
 import clockIcon from "../assets/icons/icon=clock.svg";
 import {
@@ -16,16 +15,14 @@ import {
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
+
 import Modal from "@mui/material/Modal";
 import dayjs from "dayjs";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import Datetime from "../components/dateTime";
-import TimeRangePicker from "../components/TimeRange";
+
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
@@ -48,13 +45,13 @@ function PetSitterDetail() {
     setLoading,
     open,
     setOpen,
-    bookingDetails,
+
     setBookingDetails,
     selectedPetsitterID,
     setSelectedPetsitterID,
-    selectedPetsitterName,
+
     setSelectedPetsitterName,
-    selectedPetsitterUser,
+
     setSelectedPetsitterUser,
   } = useContext(ToggleContext);
 
@@ -64,8 +61,6 @@ function PetSitterDetail() {
   const today = new Date();
   const futureDate = new Date(today);
   futureDate.setDate(today.getDate() + 7); // Limit to the next 7 days
-
-  //console.log(startTime,endTime,selectedDate);
 
   const handleClose = () => {
     // Generate booking details based on the selected date, start time, and end time
@@ -83,7 +78,6 @@ function PetSitterDetail() {
     setOpen(false);
 
     // Navigate to the booking confirmation page with the booking details
-    // navigate("/booking/yourPet", { state: { bookingDetails } });
   };
   const navigate = useNavigate();
   const generateTimeOptions = () => {
@@ -145,11 +139,10 @@ function PetSitterDetail() {
       return time1WithoutAMPM.localeCompare(time2WithoutAMPM);
     }
   };
-  //แก้ด้วยfetch 2 รอบ
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Replace 'YOUR_ACCESS_TOKEN' with your actual access token or API key
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `http://localhost:6543/petsitteruser/${petsitter_id}`,
@@ -279,7 +272,6 @@ function PetSitterDetail() {
                     handleOpen();
                     handleContinue();
                   }}
-                  // onClick={handleOpen}
                 >
                   Book Now
                 </button>
@@ -345,7 +337,11 @@ function PetSitterDetail() {
                           <div className="flex space-x-4">
                             <div className="flex flex-row items-center justify-between gap-1">
                               <div>
-                                <img src={clockIcon} alt="Clock_Icon" className="px-1" />
+                                <img
+                                  src={clockIcon}
+                                  alt="Clock_Icon"
+                                  className="px-1"
+                                />
                               </div>
                               <select
                                 className="border border-primaryGray4 rounded-md py-3 px-2 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-[180px] "

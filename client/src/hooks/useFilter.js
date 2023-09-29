@@ -49,59 +49,14 @@ const useFilter = () => {
       console.error("Error fetching petSitter:", error);
     }
   };
-  /*
-  const createPetsitter = async (data) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.post(`http://localhost:6543/petsitterProfile`, data);
-      setIsLoading(false);
-      navigate("/");
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
 
-  const updatePetsitterById = async (petSitterId, data) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.put(`http://localhost:6543/petsitterProfile/${petSitterId}`, data);
-      setIsLoading(false);
-      navigate("/");
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-  const deletePetsitter = async (petSitterId) => {
-    try {
-      setIsError(false);
-      setIsLoading(true);
-      await axios.delete(`http://localhost:6543/petsitterProfile/${petSitterId}`);
-      const newPetSitterLists = petSitterLists.filter((petSitter) => {
-        return petSitter.petsitter_id !== petSitterId;
-      });
-      setPetSitterLists(newPetSitterLists);
-      setIsLoading(false);
-    } catch (error) {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-*/
   return {
     petSitterLists,
     totalPages,
     petSitter,
     getPetSitterLists,
     getPetSitterById,
-    /*  
-   createPetsitter,
-    updatePetsitterById,
-    deletePetsitter,
-    */
+
     isError,
     isLoading,
   };

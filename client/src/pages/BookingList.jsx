@@ -10,30 +10,24 @@ import {
   formatDate,
   formatTime,
 } from "../components/calculateDate";
-import axios from "axios";
 
 function BookingList() {
   const [status, setStatus] = useState("");
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
   const params = useParams();
-  const { bookingList, setBookingList, getBookingList, isError, isLoading } =
-    fetchUserData();
+  const { bookingList, getBookingList } = fetchUserData();
 
   const {
-    petOwnerID,
     setPetOwnerID,
-    bookingID,
+
     setBookingID,
-    petSitterID,
-    setPetSitterID,
-    index,
+
     setIndex,
   } = useContext(ToggleContext);
 
   useEffect(() => {
     getBookingList();
-    // console.log(petsitterProfile);
   }, []);
 
   const duration = (start, end) => {
@@ -50,96 +44,6 @@ function BookingList() {
         .includes(search.toLowerCase()) &&
       searchItem.status_booking.toLowerCase().includes(status.toLowerCase())
   );
-
-  // const isBookingTimeNotConfirm = async (bookingID, bookingStatus) => {
-  //   if (bookingStatus === "Waiting for confirm") {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const data = {
-  //         bookingId: bookingID,
-  //       };
-  //       await axios.put(
-  //         `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
-  //         data,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //     console.log("petsitter not confirm during booking time");
-  //     return null;
-  //   } else {
-  //     return null;
-  //   }
-  // };
-
-  // const isBookingTimePassed = async (bookingID, bookingStatus) => {
-  //   if (bookingStatus === "In service") {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const data = {
-  //         bookingId: bookingID,
-  //       };
-  //       await axios.put(
-  //         `http://localhost:6543/booking/petsitter/${petSitterID}/end-service`,
-  //         data,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-
-  //   return null;
-  // };
-
-  // const isDuringBookingTime = async (bookingID, bookingStatus) => {
-  //   if (bookingStatus === "Waiting for service") {
-  //     try {
-  //       const token = localStorage.getItem("token");
-  //       const data = {
-  //         bookingId: bookingID,
-  //       };
-  //       await axios.put(
-  //         `http://localhost:6543/booking/petsitter/${petSitterID}/in-service`,
-  //         data,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         }
-  //       );
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  //   return null;
-  // };
-
-  // bookingList.map(async (booking, index) => {
-  //   const currentTime = new Date().toISOString();
-  //   if (currentTime > booking.endTime) {
-  //     await isBookingTimePassed(booking.booking_id, booking.status_booking);
-  //   }
-  //   if (currentTime > booking.startTime) {
-  //     if (currentTime >= booking.startTime && currentTime <= booking.endTime) {
-  //       await isDuringBookingTime(booking.booking_id, booking.status_booking);
-  //     } else {
-  //       await isBookingTimeNotConfirm(
-  //         booking.booking_id,
-  //         booking.status_booking
-  //       );
-  //     }
-  //   }
-  // });
 
   return (
     <>
@@ -196,7 +100,7 @@ function BookingList() {
                 <div className="w-3/12">Booked Date</div>
                 <div className="w-3/12">Status</div>
               </div>
-              {/*map divนี้ */}
+
               {filteredSearchData.map((booking, index) => {
                 return (
                   <div

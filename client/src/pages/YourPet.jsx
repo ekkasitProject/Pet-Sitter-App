@@ -1,7 +1,6 @@
-import { Button2 } from "../components/Button";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
-import profile_user from "../assets/icons/profile.svg";
+
 import CreatePet from "../components/CreatePet";
 import DeleteModal from "../components/DeleteModal";
 import ViewPet from "../components/ViewPet";
@@ -18,20 +17,19 @@ import {
 
 function YourPet() {
   const { getAllPets, isError, isLoading } = fetchUserData();
-  const navigate = useNavigate();
+
   const {
     toggleCreatePet,
     setToggleCreatePet,
     toggleDeletePet,
-    setToggleDeletePet,
+
     toggleViewPet,
     setToggleViewPet,
     petID,
     setPetID,
     isAllPetChange,
-    setIsAllPetChange,
+
     allpets,
-    setAllpets,
   } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
@@ -46,9 +44,6 @@ function YourPet() {
 
   useEffect(() => {
     getAllPets();
-
-    // console.log(isAllPetChange);
-    // console.log(allpets);
   }, [isAllPetChange]);
 
   const handleChip = (pet) => {
@@ -93,20 +88,7 @@ function YourPet() {
                 <h1>Request failed. Please, try again later</h1>
               ) : null}
               {isLoading ? <h1>Loading ....</h1> : null}
-              {/* 
-              <div
-                onClick={() => handleToggleViewPet("id")}
-                className="pet-card cursor-pointer border-2 border-primaryGray5 w-[220px] h-[250px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
-              >
-                <img
-                  src={profile_user}
-                  className="rounded-full w-[80px] h-[80px] mt-4"
-                  alt="pet sitter profile picture"
-                />
-                <h1 className="text-headLine3">Name</h1>
-                Type
-              </div>
-              */}
+
               {allpets.map((pet) => {
                 return (
                   <div

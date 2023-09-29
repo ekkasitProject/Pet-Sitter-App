@@ -27,7 +27,7 @@ const today = dayjs();
 const AuthenticatedApp = () => {
   const token = localStorage.getItem("token");
   const userDataFromToken = jwtDecode(token);
-  const currentDate = dayjs();
+
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
   const [OpenPetModal, setOpenPetModal] = useState(false);

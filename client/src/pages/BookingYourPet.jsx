@@ -3,10 +3,9 @@ import HeaderAuth from "../components/HeaderAuth.jsx";
 import greenStar from "../assets/star/greenstar.svg";
 import shapeBlue from "../assets/star/shapeblue.svg";
 import { Link } from "react-router-dom";
-import axios from "axios";
-//import PetBookingCard from "../components/PetBookingCard";
+
 import BookingConfirmation from "../components/BookingConfirmation";
-//import addIcon from "../assets/icons/addIcon.svg";
+
 import fetchUserData from "../hooks/fetchUserData";
 import { useNavigate } from "react-router-dom";
 import { ToggleContext } from "./AuthenticatedApp";
@@ -26,9 +25,9 @@ const BookingYourPet = (props) => {
   const [numberOfSelectedPets, setNumberOfSelectedPets] = useState(0);
   const [selectedPetId, setSelectedPetId] = useState(null);
   const [totalCost, setTotalCost] = useState(0); //
-  const { getAllPets, isError, isLoading } = fetchUserData();
+  const { getAllPets } = fetchUserData();
   const navigate = useNavigate();
-  //const [selectedPets, setSelectedPets] = useState([]);
+
   const [petID, setPetID] = useState(0);
 
   const {
@@ -37,7 +36,7 @@ const BookingYourPet = (props) => {
     allpets,
     selectedPets,
     setSelectedPets,
-    selectedPetsName,
+
     selectedPetsitterID,
     setSelectedPetsName,
   } = useContext(ToggleContext);
@@ -78,9 +77,6 @@ const BookingYourPet = (props) => {
 
   useEffect(() => {
     getAllPets();
-
-    // console.log(isAllPetChange);
-    // console.log(allpets);
   }, [isAllPetChange]);
 
   const handleChip = (pet) => {
@@ -98,22 +94,6 @@ const BookingYourPet = (props) => {
     }
   };
 
-  const handleDateChange = (newDate) => {
-    setSelectedBookingDate(newDate);
-  };
-
-  const handleStartTimeChange = (newStartTime) => {
-    setStartTime(newStartTime);
-  };
-
-  const handleEndTimeChange = (newEndTime) => {
-    setEndTime(newEndTime);
-  };
-
-  const handlePetSelection = (selectedPets) => {
-    setNumberOfSelectedPets(selectedPets);
-  };
-
   const calculateDuration = (startTime, endTime) => {
     const startTimeObj = new Date(`2023-09-15 ${startTime}`);
     const endTimeObj = new Date(`2023-09-15 ${endTime}`);
@@ -123,8 +103,6 @@ const BookingYourPet = (props) => {
 
   const duration = calculateDuration(startTime, endTime);
   const total = duration * 200 + selectedPets.length * 300;
-
-  const cardClasses = `pet-sitter-list-card shadow-custom2 w-[240px] h-[240px] my-6 mx-3 p-2 rounded-md flex flex-col justify-center items-center cursor-pointer border-2 bg-orange-200`;
 
   const handleNext = () => {
     if (selectedPets.length > 0) {
@@ -161,7 +139,6 @@ const BookingYourPet = (props) => {
               </div>
             </div>
 
-            {/* form */}
             <div className="bg-white h-[720px] w-full rounded-xl p-14 flex flex-col ">
               <div className="text-xl font-semibold px-10">
                 <h1>Choose your pet</h1>
@@ -198,12 +175,6 @@ const BookingYourPet = (props) => {
                           width: "24px",
                           height: "24px",
                         }}
-                        // sx={{
-                        //   color: "#DCDFED",
-                        //   "&.Mui-checked": {
-                        //     color: "#FF7037",
-                        //   },
-                        // }}
                       />
                       <img
                         src={pet.image_profile}
@@ -238,8 +209,6 @@ const BookingYourPet = (props) => {
               </div>
               <div className=" flex justify-between items-end ">
                 <Link to={`/petsitterlist/view/${selectedPetsitterID}`}>
-                  {" "}
-                  {/* Updated link */}
                   <button className="bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold ">
                     Back
                   </button>

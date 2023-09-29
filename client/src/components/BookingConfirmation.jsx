@@ -8,19 +8,18 @@ const BookingConfirmation = (props) => {
   const startTime = new Date(`2023-09-15 ${bookingDetails.startTime}`);
   const endTime = new Date(`2023-09-15 ${bookingDetails.endTime}`);
   const durationInMinutes = (endTime - startTime) / (1000 * 60 * 60);
-  const { prices, setPrices, selectedPetsName, setSelectedPetsName } =
-    useContext(ToggleContext);
+  const { prices, setPrices } = useContext(ToggleContext);
   const ratePerPet = 300; // Replace with your actual rate per pet
 
-const calculateTotalPrice = () => {
-  let price = durationInMinutes * 300; // Calculate price for the first pet
+  const calculateTotalPrice = () => {
+    let price = durationInMinutes * 300; // Calculate price for the first pet
 
-  if (props.selectedPets.length >= 2) {
-    price += (props.selectedPets.length - 1) * ratePerPet; // Add price for the second and subsequent pets
-  }
+    if (props.selectedPets.length >= 2) {
+      price += (props.selectedPets.length - 1) * ratePerPet; // Add price for the second and subsequent pets
+    }
 
-  return price;
-};
+    return price;
+  };
 
   // Initialize totalPriceInTHB with the initial calculation
   const [totalPriceInTHB, setTotalPriceInTHB] = useState(calculateTotalPrice());

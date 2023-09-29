@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authentication";
-import { ProfileIcon, PetIcon, MenuIcon, LogoutIcon } from "./Icons";
+import { ProfileIcon, MenuIcon, LogoutIcon } from "./Icons";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import logo from "../assets/images/elements/logo.svg";
 
