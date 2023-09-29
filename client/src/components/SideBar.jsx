@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authentication";
 import { ProfileIcon, PetIcon, MenuIcon } from "./Icons";
 import { ToggleContext } from "../pages/AuthenticatedApp";
 
@@ -11,18 +10,7 @@ function SideBar() {
   const yourpetRef = useRef(null);
   const historyRef = useRef(null);
 
-  const {
-    toggleCreatePet,
-    setToggleCreatePet,
-    toggleViewPet,
-    setToggleViewPet,
-    toggleDeletePet,
-    setToggleDeletePet,
-    petID,
-    setPetID,
-    isAllPetChange,
-    setIsAllPetChange,
-  } = useContext(ToggleContext);
+  const { setToggleCreatePet } = useContext(ToggleContext);
 
   const currentURL = window.location.href;
   const checkURL = () => {

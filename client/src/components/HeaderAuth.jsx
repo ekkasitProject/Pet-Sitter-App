@@ -7,48 +7,23 @@ import profile_user from "../assets/icons/profile.svg";
 import pet from "../assets/icons/pet1.svg";
 import history from "../assets/icons/history.svg";
 import logout_user from "../assets/icons/logout.svg";
-import { dropdown } from "../data/dropdownprofile";
+
 import { ToggleContext } from "../pages/AuthenticatedApp";
 import jwtDecode from "jwt-decode";
 import fetchUserData from "../hooks/fetchUserData";
 
 const HeaderAuth = () => {
-  const {
-    toggleCreatePet,
-    setToggleCreatePet,
-    toggleViewPet,
-    setToggleViewPet,
-    toggleDeletePet,
-    setToggleDeletePet,
-    petID,
-    setPetID,
-    isAllPetChange,
-    setIsAllPetChange,
-  } = useContext(ToggleContext);
-  const {
-    getPetOwnerProfile,
-    petOwnerProfile,
-    setPetOwnerProfile,
-    updatePetOwnerProfile,
-    isError,
-    isLoading,
-  } = fetchUserData();
+  const { setToggleCreatePet, isAllPetChange } = useContext(ToggleContext);
+  const {} = fetchUserData();
   const { logout } = useAuth();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [profile, setProfile] = useState(null);
-  //const [petOwnerID, setPetOwnerID] = useState(null);
   const { petOwnerID, setPetOwnerID } = useContext(ToggleContext);
 
   const getProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      // const id = localStorage.getItem("id");
-      // setPetOwnerID(id);
-
-      // const userDataFromToken = jwtDecode(token);
-      //setPetOwnerID(userDataFromToken.userId);
-      // console.log(petOwnerID);
 
       const result = await axios.get(
         `http://localhost:6543/petOwnerUser/${petOwnerID}`,
@@ -59,22 +34,7 @@ const HeaderAuth = () => {
         }
       );
 
-      //console.log(result.data.petOwnerUser);
-
       setProfile(result.data.petOwnerUser);
-      //setPetOwnerID(result.data.petOwnerUser.petowner_id);
-      // console.log(petOwnerID);
-      //setProfile(result.data[0]);
-
-      /*
-      const result = await axios.get("http://localhost:6543/petOwnerUser", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setProfile(result.data[0]);
-      setPetOwnerID(id);
-      */
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
@@ -83,8 +43,6 @@ const HeaderAuth = () => {
 
   useEffect(() => {
     getProfile();
-    //console.log("HaederAuth");
-    //console.log(petOwnerID);
   }, [isAllPetChange]);
 
   const dropDownChange = () => {

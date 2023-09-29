@@ -7,41 +7,31 @@ import axios from "axios";
 import { useState } from "react";
 import fetchUserData from "../hooks/fetchUserData";
 import { ToggleContext } from "./AuthenticatedApp";
-import {
-  calculateDuration,
-  formatDate,
-  formatTime,
-} from "../components/calculateDate";
+import { formatDate } from "../components/calculateDate";
 
 const BookingInformation = () => {
-  const { submitBooking } = fetchUserData();
   const [data, setData] = useState([]);
 
   const {
-    selectedPets,
-    setSelectedPets,
     petOwnerID,
-    setPetOwnerID,
+
     messageAdditional,
     setMessageAdditional,
     selectedPetsitterID,
-    setSelectedPetsitterID,
+
     selectedPetsitterName,
-    setSelectedPetsitterName,
+
     selectedPetsitterUser,
-    setSelectedPetsitterUser,
+
     selectedDate,
-    setSelectedDate,
+
     startTime,
-    setStartTime,
+
     endTime,
-    setEndTime,
+
     prices,
-    setPrices,
-    selectedTimes,
-    setSelectedTimes,
+
     selectedPetsName,
-    setSelectedPetsName,
   } = useContext(ToggleContext);
 
   const getProfile = async () => {
@@ -98,8 +88,6 @@ const BookingInformation = () => {
                 <p className="text-[1.2rem] ml-4 text-[#7B7E8F]">Payment</p>
               </div>
             </div>
-
-            {/* form */}
 
             <div className="bg-white h-[720px] rounded-xl p-12">
               <form action="">

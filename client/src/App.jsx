@@ -8,13 +8,9 @@ import jwtDecode from "jwt-decode";
 export const FilterContext = React.createContext();
 
 function App() {
-  // const [filter, setFilter] = useState({});
   const [petType, setPetType] = useState("");
   const [experience, setExperience] = useState("");
-  /*
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />;
-  */
+
   const auth = useAuth();
   return (
     <FilterContext.Provider

@@ -15,14 +15,6 @@ function RegistrationForm() {
 
   const { registerPetowner, registerPetsitter } = useAuth();
 
-  const handlePetOwnerChange = (e) => {
-    setPetOwner(e.target.checked);
-  };
-
-  const handlePetSitterChange = (e) => {
-    setPetSitter(e.target.checked);
-  };
-
   const validateForm = () => {
     const newErrors = {};
 
@@ -76,18 +68,6 @@ function RegistrationForm() {
       if (role == "") {
         alert("please choose role");
       }
-
-      /*
-      register(data);
-
-      if (petOwner) {
-        console.log("User selected Pet Owner role");
-      }
-
-      if (petSitter) {
-        console.log("User selected Pet Sitter role");
-      }
-      */
     }
   };
 
@@ -208,8 +188,6 @@ function RegistrationForm() {
                       setRole(e.target.value);
                       console.log(role);
                     }}
-                    // checked={petOwner}
-                    // onChange={handlePetOwnerChange}
                     className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Owner</span>
@@ -223,8 +201,6 @@ function RegistrationForm() {
                       setRole(e.target.value);
                       console.log(role);
                     }}
-                    //  checked={petSitter}
-                    //  onChange={handlePetSitterChange}
                     className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
@@ -241,25 +217,7 @@ function RegistrationForm() {
               </button>
             </div>
           </form>
-          {/* <div className="mt-6">
-            <p className="text-center text-sm text-gray-600">
-              Or continue with
-            </p>
-            <div className="flex justify-center mt-2">
-              <button
-                type="button"
-                className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-              >
-                Facebook
-              </button>
-              <button
-                type="button"
-                className="ml-3 group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-              >
-                Gmail
-              </button>
-            </div>
-          </div> */}
+
           <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
               Already have an account?{" "}

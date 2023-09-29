@@ -24,7 +24,6 @@ const PetCareSlogan = () => {
   const { petType, setPetType, experience, setExperience } =
     useContext(FilterContext);
   const [selectedAnimals, setSelectedAnimals] = useState([]);
-  // const [experience, setExperience] = useState(""); // Initialize experience state
 
   const handleToggleAnimal = (value) => {
     // Check if the selected animal is already in the array

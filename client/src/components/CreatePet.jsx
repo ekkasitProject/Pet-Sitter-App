@@ -20,12 +20,7 @@ function CreatePet() {
   const [avatars, setAvatars] = useState("");
   const [photo, setPhoto] = useState("");
 
-  const {
-    toggleCreatePet,
-    setToggleCreatePet,
-    isAllPetChange,
-    setIsAllPetChange,
-  } = useContext(ToggleContext);
+  const { setToggleCreatePet } = useContext(ToggleContext);
 
   const handleToggleCreatePet = () => {
     setToggleCreatePet(false);
@@ -44,7 +39,6 @@ function CreatePet() {
     formData.append("color", color);
     formData.append("weight", weight);
     formData.append("about", about);
-    //formData.append("image_profile", avatars);
     formData.append("avatar", avatars);
 
     formData.forEach((value, key) => {
@@ -56,27 +50,11 @@ function CreatePet() {
 
     createPet(formData);
     handleToggleCreatePet();
-
-    /*
-    const data = {
-      petname,
-      pettype: petType,
-      breed,
-      sex,
-      age,
-      color,
-      weight,
-      about,
-    };
-    console.log(data);
-    createPet(data);
-    handleToggleCreatePet();
-    */
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    //setAvatars(URL.createObjectURL(file));
+
     setAvatars(file);
     setPhoto(URL.createObjectURL(file));
     console.log(avatars);
