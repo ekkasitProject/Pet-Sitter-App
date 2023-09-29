@@ -328,12 +328,8 @@ function PetSitterDetail() {
                                     "&.Mui-focused fieldset": {
                                       borderColor: "#FF7037",
                                     },
-                                  },
-                                  "&.Mui-focused fieldset": {
-                                    borderColor: "#FF7037",
-                                  },
-                                },
-                              }}
+                                  }}}
+                                  
                               label=""
                               defaultValue={today}
                               minDate={tomorrow}
@@ -343,6 +339,7 @@ function PetSitterDetail() {
                             />
                           </DemoContainer>
                         </LocalizationProvider>
+                        </div>
                         <div className="flex items-center">
                           <div className="flex space-x-4">
                             <div>
