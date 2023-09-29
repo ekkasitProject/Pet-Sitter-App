@@ -218,7 +218,7 @@ const BookingInformation = () => {
             </div>
             <div className="absolute flex w-[100%] bottom-0 py-4 mt-12 justify-between bg-black ">
               <p className="mx-8  text-white">Total</p>
-              <p className="mx-8  text-white">{prices} THB</p>
+              <p className="mx-8  text-white">{prices}.00 THB</p>
             </div>
           </div>
         </div>

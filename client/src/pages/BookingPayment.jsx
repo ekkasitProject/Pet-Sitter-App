@@ -124,7 +124,22 @@ const BookingPayment = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateForm()) {
+    if (paymentType == "creditCard") {
+      if (validateForm()) {
+        const data = {
+          petDetailIds: selectedPets,
+          petSitterId: selectedPetsitterID,
+          datetime: newStartDate,
+          startTime: newStartDate,
+          endTime: newEndDate,
+          additionalMessage: messageAdditional,
+          totalPrice: prices,
+        };
+        submitBooking(data);
+        console.log(data);
+        navigate(`/booking/bill`);
+      }
+    } else {
       const data = {
         petDetailIds: selectedPets,
         petSitterId: selectedPetsitterID,

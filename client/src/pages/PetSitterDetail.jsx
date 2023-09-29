@@ -3,10 +3,10 @@ import LocationIcon from "../assets/icons/icon_location.svg";
 import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
-import icon_arrow1 from "../assets/icons/iconarrow1.svg"
-import icon_arrow2 from "../assets/icons/iconarrow2.svg"
-import calendarIcon from "../assets/icons/icon=calender.svg"
-import clockIcon from "../assets/icons/icon=clock.svg"
+import icon_arrow1 from "../assets/icons/iconarrow1.svg";
+import icon_arrow2 from "../assets/icons/iconarrow2.svg";
+import calendarIcon from "../assets/icons/icon=calender.svg";
+import clockIcon from "../assets/icons/icon=clock.svg";
 import {
   ChipsOrange,
   ChipsPink,
@@ -329,20 +329,17 @@ function PetSitterDetail() {
                                       borderColor: "#FF7037",
                                     },
                                   },
-                                  "&.Mui-focused fieldset": {
-                                    borderColor: "#FF7037",
-                                  },
-                                },
-                              }}
-                              label=""
-                              defaultValue={today}
-                              minDate={tomorrow}
-                              value={selectedDate}
-                              onChange={handleDateChange}
-                              className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
-                            />
-                          </DemoContainer>
-                        </LocalizationProvider>
+                                }}
+                                label=""
+                                defaultValue={today}
+                                minDate={tomorrow}
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
+                              />
+                            </DemoContainer>
+                          </LocalizationProvider>
+                        </div>
                         <div className="flex items-center">
                           <div className="flex space-x-4">
                             <div>

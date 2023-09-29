@@ -147,7 +147,7 @@ const BillBooking = () => {
           </div>
           <div className="py-8  mt-2s  flex  justify-between">
             <p className="mx-8 ">Total</p>
-            <p className="mx-8 ">{prices} THB</p>
+            <p className="mx-8 ">{prices}.00 THB</p>
           </div>
         </div>
         <div className="w-full flex justify-center mt-6">
