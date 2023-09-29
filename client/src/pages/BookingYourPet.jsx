@@ -45,34 +45,40 @@ const BookingYourPet = (props) => {
     if (e.target.checked) {
       // Add 1 to the selectedPets.length when a checkbox is checked
       setSelectedPets([...selectedPets, petId]);
-      setSelectedPetsName((prevPets) => [...prevPets, petName]);
+      setSelectedPetsName([...selectedPetsName, petName]);
     } else {
       // Remove the petId from the selectedPets array if it's unchecked
       setSelectedPets(selectedPets.filter((pet) => pet !== petId));
-      setSelectedPetsName((prevPets) => prevPets.filter((p) => p !== petName));
+      setSelectedPetsName(selectedPetsName.filter((p) => p !== petName));
     }
-    console.log(selectedPets);
   };
 
-  const handleToggleViewPet = (e, id) => {
+  const handleToggleViewPet = (id, petName) => {
+    // กำหนดค่า petID เพื่อให้สามารถใช้ไปต่อในโค้ดอื่น
     setPetID(id);
-    setToggleViewPet(true);
+
+    // กำหนดสถานะของ selectedPetId โดยให้มันเป็น null ถ้า pet ที่ถูกคลิกนั้นถูกเลือกอยู่แล้ว หรือเป็น id ของ pet นั้นถ้ามันยังไม่ถูกเลือก
     setSelectedPetId((prevSelectedPetId) =>
       prevSelectedPetId === id ? null : id
     );
 
-    // Declare and initialize isPetSelected as a boolean variable
-    let isPetSelected = false;
+    // ใช้ฟังก์ชันที่ให้คุณสามารถอัปเดต selectedPets ได้
+    setSelectedPets((prevSelectedPets) => {
+      if (prevSelectedPets.includes(id)) {
+        return prevSelectedPets.filter((petId) => petId !== id);
+      } else {
+        return [...prevSelectedPets, id];
+      }
+    });
 
-    // Check if the pet is already selected
-    if (selectedPets.includes(id)) {
-      isPetSelected = true;
-      // If it's selected, remove it from the array
-      setSelectedPets(selectedPets.filter((petId) => petId !== id));
-    } else {
-      // If it's not selected, add it to the array
-      setSelectedPets([...selectedPets, id]);
-    }
+    // ใช้ฟังก์ชันที่ให้คุณสามารถอัปเดต selectedPetsName ได้
+    setSelectedPetsName((prevSelectedPetsName) => {
+      if (prevSelectedPetsName.includes(petName)) {
+        return prevSelectedPetsName.filter((p) => p !== petName);
+      } else {
+        return [...prevSelectedPetsName, petName];
+      }
+    });
   };
 
   useEffect(() => {
@@ -155,27 +161,41 @@ const BookingYourPet = (props) => {
                   return (
                     <div
                       key={pet.pet_id}
-                      onClick={() => handleToggleViewPet(pet.pet_id)} // Ensure this function is correct
-                      className={cardClasses}
+                      onClick={() => {
+                        if (pet.status_pet === false) {
+                          handleToggleViewPet(pet.pet_id);
+                        }
+                      }}
+                      className={`${cardClasses} ${
+                        pet.status_pet === true
+                          ? "disabled-pet opacity-70 bg-gray-200/50 cursor-not-allowed   hover:border-primaryGray5"
+                          : ""
+                      }`}
                       style={{ position: "relative" }}
                     >
-                      <input
-                        type="checkbox"
-                        id={`checkbox-${pet.pet_id}`}
-                        className="absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-600"
-                        value={pet.pet_id}
-                        onChange={(e) =>
-                          handleCheckboxChange(e, pet.pet_id, pet.petname)
-                        } // Ensure this function is correct
-                        checked={selectedPets.includes(pet.pet_id)} // This determines checkbox state
-                        style={{
-                          position: "absolute",
-                          top: "10px",
-                          right: "20px",
-                          width: "24px",
-                          height: "24px",
-                        }}
-                      />
+                      {pet.status_pet === false ? (
+                        <input
+                          type="checkbox"
+                          id={`checkbox-${pet.pet_id}`}
+                          className={`absolute top-2 right-2 cursor-pointer checked-checkbox accent-orange-600 `}
+                          value={pet.pet_id}
+                          onChange={(e) => {
+                            if (pet.status_pet === false) {
+                              handleCheckboxChange(e, pet.pet_id, pet.petname);
+                            }
+                          }}
+                          checked={selectedPets.includes(pet.pet_id)}
+                          style={{
+                            position: "absolute",
+                            top: "10px",
+                            right: "20px",
+                            width: "24px",
+                            height: "24px",
+                          }}
+                          disabled={pet.status_pet} // ถ้า status_pet เป็น true จะทำให้ checkbox ไม่สามารถคลิกได้
+                        />
+                      ) : null}
+
                       <img
                         src={pet.image_profile}
                         className="rounded-full w-[80px] h-[80px] mt-4"
