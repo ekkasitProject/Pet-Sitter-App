@@ -308,40 +308,47 @@ function PetSitterDetail() {
                         </h2>
                       </div>
                       <div className="space-y-6 w-[440px] ">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DemoContainer components={["DatePicker"]}>
-                            <DatePicker
-                              sx={{
-                                "& .MuiOutlinedInput-root": {
-                                  "& fieldset": {
-                                    borderColor: "#AEB1C3",
+                        <div className="flex flex-row ">
+                          <img
+                            src={calendarIcon}
+                            alt="calendarIcon"
+                            className="px-1"
+                          />
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={["DatePicker"]}>
+                              <DatePicker
+                                sx={{
+                                  "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {
+                                      borderColor: "#AEB1C3",
+                                    },
+                                    "&:hover fieldset": {
+                                      borderColor: "#FF7037",
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                      borderColor: "#FF7037",
+                                    },
                                   },
-                                  "&:hover fieldset": {
-                                    borderColor: "#FF7037",
-                                  },
-                                  "&.Mui-focused fieldset": {
-                                    borderColor: "#FF7037",
-                                  },
-                                },
-                              }}
-                              label=""
-                              defaultValue={today}
-                              minDate={tomorrow}
-                              value={selectedDate}
-                              onChange={handleDateChange}
-                              className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
-                            />
-                          </DemoContainer>
-                        </LocalizationProvider>
+                                }}
+                                label=""
+                                defaultValue={today}
+                                minDate={tomorrow}
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                className=" border rounded-md p-2 focus:ring focus:ring-blue-200 w-[450px]"
+                              />
+                            </DemoContainer>
+                          </LocalizationProvider>
+                        </div>
 
                         <div className="flex items-center">
                           <div className="flex space-x-4">
                             <div className="flex flex-row items-center justify-between gap-1">
                               <div>
-                                <img src={clockIcon} alt="Clock_Icon" />
+                                <img src={clockIcon} alt="Clock_Icon" className="px-1" />
                               </div>
                               <select
-                                className="border border-primaryGray4 rounded-md py-3 px-12 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-full "
+                                className="border border-primaryGray4 rounded-md py-3 px-2 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-[180px] "
                                 value={startTime}
                                 onChange={handleStartTimeChange}
                               >
@@ -357,7 +364,7 @@ function PetSitterDetail() {
                             </div>
                             <div className="flex flex-col">
                               <select
-                                className="border border-primaryGray4 rounded-md py-3 px-12 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-full"
+                                className="border border-primaryGray4 rounded-md py-3 px-5 w-[180px] focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white "
                                 value={endTime}
                                 onChange={handleEndTimeChange}
                               >
