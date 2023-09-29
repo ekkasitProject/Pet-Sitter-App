@@ -41,7 +41,7 @@ function BookingHistory() {
         <div className="w-full h-full flex flex-col justify-start shadow-custom3 rounded-lg p-12 mr-20">
           <div className="text-headLine3">Booking History</div>
           <div className="booking-wrapper">
-            {isError ? <h1>Request failed</h1> : null}
+            {isError ? <h1>Request failed. Please, try again later</h1> : null}
             {isLoading ? <h1>Loading ....</h1> : null}
             {/*mapping */}
             {bookingHistory.map((booking) => {

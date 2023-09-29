@@ -1,5 +1,5 @@
 import { Button2 } from "./Button";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import profile_user from "../assets/icons/profile.svg";
 import { useParams } from "react-router-dom";
 import fetchUserData from "../hooks/fetchUserData";
@@ -7,8 +7,19 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { PlusIcon } from "./Icons";
 import Datepicker from "react-tailwindcss-datepicker";
+import { ToggleContext } from "../pages/AuthenticatedApp";
 
 function UserProfile() {
+  const {
+    toggleViewPet,
+    setToggleViewPet,
+    toggleDeletePet,
+    setToggleDeletePet,
+    petID,
+    setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
+  } = useContext(ToggleContext);
   const {
     getPetOwnerProfile,
     petOwnerProfile,
@@ -60,6 +71,7 @@ function UserProfile() {
       const newDate = formatDate(petOwnerProfile.date_of_birth);
       setDateOfBirth(newDate);
       setPhoto(petOwnerProfile.image_profile);
+      setValue({ ...value, startDate: petOwnerProfile.date_of_birth });
       /*  const uniqueId = Date.now();
       setAvatars({
         [uniqueId]: petOwnerProfile.image_profile,
@@ -152,9 +164,11 @@ function UserProfile() {
       formData.append("date_of_birth", newDate);
       formData.append("avatar", avatars);
       console.log(newDate);
+
       //console.log(avatars);
       //console.log(formData);
       updatePetOwnerProfile(formData);
+
       setIsAlert(true);
     }
   };
@@ -182,7 +196,7 @@ function UserProfile() {
             </Alert>
           </div>
         ) : null}
-        {isError ? <h1>Request failed</h1> : null}
+        {isError ? <h1>Request failed. Please, try again later</h1> : null}
         {isLoading ? <h1>Loading ....</h1> : null}
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">

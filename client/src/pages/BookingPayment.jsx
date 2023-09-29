@@ -21,6 +21,7 @@ const BookingPayment = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
   const [newStartDate, setNewStartDate] = useState("");
   const [newEndDate, setNewEndDate] = useState("");
+  const [errors, setErrors] = useState({});
 
   const {
     selectedPets,
@@ -61,6 +62,12 @@ const BookingPayment = () => {
   };
 
   const handleConfirmBooking = () => {
+    if (paymentType === "creditCard") {
+      if (!creditCardNumber || !expiry || !cvv) {
+        alert("กรุณากรอข้อมูลให้ครบ");
+        return;
+      }
+    }
     setIsModalOpen(true); // Open the modal when "Confirm Booking" is clicked
   };
 
@@ -84,21 +91,53 @@ const BookingPayment = () => {
     //console.log(changeFormat(selectedDate, endTime));
   }, []);
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    // Validate Name
+    if (fullname.length < 6 && fullname) {
+      newErrors.fullname = "please insert your full name";
+    }
+    const fullnamePattern = /^[a-zA-Z\s]+$/;
+    if (!fullname.match(fullnamePattern)) {
+      newErrors.fullname = "Invalid fullname format";
+    }
+
+    // Validate creditCardNumber
+    if (creditCardNumber.length < 19) {
+      newErrors.creditCardNumber = "Invalid credit Card Number format";
+    }
+
+    // Validate cvv
+    if (cvv.length < 3) {
+      newErrors.cvv = "Invalid cvv format";
+    }
+
+    // Validate expiry
+    if (expiry.length < 5) {
+      newErrors.expiry = "Invalid expiry format";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const data = {
-      petDetailIds: selectedPets,
-      petSitterId: selectedPetsitterID,
-      datetime: newStartDate,
-      startTime: newStartDate,
-      endTime: newEndDate,
-      additionalMessage: messageAdditional,
-      totalPrice: prices,
-    };
-    submitBooking(data);
-    console.log(data);
-    navigate(`/booking/bill`);
+    if (validateForm()) {
+      const data = {
+        petDetailIds: selectedPets,
+        petSitterId: selectedPetsitterID,
+        datetime: newStartDate,
+        startTime: newStartDate,
+        endTime: newEndDate,
+        additionalMessage: messageAdditional,
+        totalPrice: prices,
+      };
+      submitBooking(data);
+      console.log(data);
+      navigate(`/booking/bill`);
+    }
   };
 
   /*
@@ -122,7 +161,7 @@ const BookingPayment = () => {
   };
 */
   const [creditCardNumber, setCreditCardNumber] = useState("");
-
+  const [fullname, setFullname] = useState("");
   const handleCreditCardChange = (e) => {
     let input = e.target.value;
     input = input.replace(/\D/g, ""); // Remove non-numeric characters
@@ -159,6 +198,21 @@ const BookingPayment = () => {
     setExpiry(input);
   };
 
+  const [cvv, setCvv] = useState("");
+  const handleCvvChange = (e) => {
+    let input = e.target.value;
+
+    // Remove non-numeric characters
+    input = input.replace(/\D/g, "");
+
+    // Limit the CVV length to 3 characters
+    if (input.length > 3) {
+      input = input.slice(0, 3);
+    }
+
+    // Update the state with the new CVV value
+    setCvv(input);
+  };
   return (
     <div>
       <HeaderAuth />
@@ -192,7 +246,7 @@ const BookingPayment = () => {
               <div className="flex justify-between">
                 <button
                   onClick={() => handlePaymentChange("creditCard")}
-                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full 
+                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full
               ${
                 paymentType === "creditCard"
                   ? "border border-orange-500 text-[#FF7037]"
@@ -203,7 +257,7 @@ const BookingPayment = () => {
                 </button>
                 <button
                   onClick={() => handlePaymentChange("cash")}
-                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full 
+                  className={`text-[1.2rem] w-[48%] h-[80px] rounded-full
               ${
                 paymentType === "cash"
                   ? "border border-orange-500 text-[#FF7037]"
@@ -214,7 +268,7 @@ const BookingPayment = () => {
                 </button>
               </div>
               {paymentType === "creditCard" ? (
-                <>
+                <form>
                   <div className="mt-12 flex">
                     <div className="w-[50%] mr-12">
                       <label htmlFor="CardNumber">Card Number*</label>
@@ -229,6 +283,11 @@ const BookingPayment = () => {
                         maxLength={19} // Adjust maxLength to include hyphens
                         className="mt-1 p-2 w-full h-14 block text-xl rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
+                      {errors.creditCardNumber && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.creditCardNumber}
+                        </p>
+                      )}
                     </div>
                     <div className="w-[50%]">
                       <label htmlFor="cardOwner">Card Owner*</label>
@@ -236,11 +295,19 @@ const BookingPayment = () => {
                         id="cardOwner"
                         name="cardOwner"
                         type="text"
+                        onChange={(e) => {
+                          setFullname(e.target.value);
+                        }}
                         maxLength={13}
                         placeholder="Card owner name"
                         required
                         className="mt-1 p-2 w-full h-14 block placeholder:tracking-wide rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
+                      {errors.fullname && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.fullname}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -257,6 +324,11 @@ const BookingPayment = () => {
                         onChange={handleExpiryChange}
                         className="mt-1 p-2 w-full h-14 block rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
+                      {errors.expiry && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.expiry}
+                        </p>
+                      )}
                     </div>
                     <div className="w-[50%]">
                       <label htmlFor="CardVerification">CVC/CVV*</label>
@@ -266,12 +338,19 @@ const BookingPayment = () => {
                         type="text"
                         placeholder="xxx"
                         required
+                        value={cvv}
+                        onChange={handleCvvChange}
                         maxLength={3}
                         className="mt-1 p-2 w-full h-14 block rounded-md border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                       />
+                      {errors.cvv && (
+                        <p className="mt-2 text-sm text-red-600">
+                          {errors.cvv}
+                        </p>
+                      )}
                     </div>
                   </div>
-                </>
+                </form>
               ) : (
                 <>
                   <div className="bg-[#F6F6F9] flex h-[281px] flex-col justify-center items-center rounded-2xl mt-12">
@@ -330,8 +409,13 @@ const BookingPayment = () => {
             <div className="px-8  mt-4">
               <h3 className="text-[#7B7E8F] tracking-wide">Pet:</h3>
               <p className="tracking-wide text-[#3A3B46]">
-                {selectedPetsName.map((pet) => {
-                  return `${pet}`;
+                {selectedPetsName.map((pet, index) => {
+                  return (
+                    <span key={index}>
+                      {pet}
+                      {index < selectedPetsName.length - 1 && ", "}
+                    </span>
+                  );
                 })}
               </p>
             </div>

@@ -10,6 +10,7 @@ import {
   formatDate,
   formatTime,
 } from "../components/calculateDate";
+import axios from "axios";
 
 function BookingList() {
   const [status, setStatus] = useState("");
@@ -18,6 +19,17 @@ function BookingList() {
   const params = useParams();
   const { bookingList, setBookingList, getBookingList, isError, isLoading } =
     fetchUserData();
+
+  const {
+    petOwnerID,
+    setPetOwnerID,
+    bookingID,
+    setBookingID,
+    petSitterID,
+    setPetSitterID,
+    index,
+    setIndex,
+  } = useContext(ToggleContext);
 
   useEffect(() => {
     getBookingList();
@@ -30,6 +42,103 @@ function BookingList() {
     const durationInHours = (endTime - startTime) / (1000 * 60 * 60);
     return durationInHours;
   };
+
+  const filteredSearchData = bookingList.filter(
+    (searchItem) =>
+      searchItem.petowner.username
+        .toLowerCase()
+        .includes(search.toLowerCase()) &&
+      searchItem.status_booking.toLowerCase().includes(status.toLowerCase())
+  );
+  const isBookingTimeNotConfirm = async (bookingID, bookingStatus) => {
+    if (bookingStatus === "Waiting for confirm") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/cancel`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("petsitter not confirm during booking time");
+      return null;
+    } else {
+      return null;
+    }
+  };
+
+  const isBookingTimePassed = async (bookingID, bookingStatus) => {
+    if (bookingStatus === "In service") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/end-service`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    return null;
+  };
+
+  const isDuringBookingTime = async (bookingID, bookingStatus) => {
+    if (bookingStatus === "Waiting for service") {
+      try {
+        const token = localStorage.getItem("token");
+        const data = {
+          bookingId: bookingID,
+        };
+        await axios.put(
+          `http://localhost:6543/booking/petsitter/${petSitterID}/in-service`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    return null;
+  };
+
+  bookingList.map(async (booking, index) => {
+    const currentTime = new Date().toISOString();
+    if (currentTime > booking.endTime) {
+      await isBookingTimePassed(booking.booking_id, booking.status_booking);
+    }
+    if (currentTime > booking.startTime) {
+      if (currentTime >= booking.startTime && currentTime <= booking.endTime) {
+        await isDuringBookingTime(booking.booking_id, booking.status_booking);
+      } else {
+        await isBookingTimeNotConfirm(
+          booking.booking_id,
+          booking.status_booking
+        );
+      }
+    }
+  });
 
   return (
     <>
@@ -64,9 +173,7 @@ function BookingList() {
                     value={status}
                     onChange={(e) => setStatus(e.target.value)}
                   >
-                    <option disabled value="">
-                      All status
-                    </option>
+                    <option value="">All status</option>
                     <option value="Success">Success</option>
                     <option value="Waiting for service">
                       Waiting for service
@@ -89,12 +196,17 @@ function BookingList() {
                 <div className="w-3/12">Status</div>
               </div>
               {/*map divนี้ */}
-              {bookingList.map((booking) => {
+              {filteredSearchData.map((booking, index) => {
                 return (
                   <div
                     key={booking.booking_id}
                     onClick={() => {
-                      navigate("/petsitter/bookinglistdetail/:petsitterId");
+                      setPetOwnerID(booking.petowner.petowner_id);
+                      setBookingID(booking.booking_id);
+                      setIndex(index);
+                      navigate(
+                        `/petsitter/bookinglistdetail/${booking.petowner.petowner_id}/${booking.booking_id}`
+                      );
                     }}
                     className="cursor-pointer bg-white px-5 w-full h-[70px] flex flex-row items-center justify-between"
                   >
@@ -102,7 +214,6 @@ function BookingList() {
                     <div className="w-1/12">{booking.petdetails.length}</div>
                     <div className="w-1/12">
                       {calculateDuration(booking.startTime, booking.endTime)}{" "}
-                      hours
                     </div>
                     <div className="w-3/12">
                       {formatDate(booking.startTime)}{" "}

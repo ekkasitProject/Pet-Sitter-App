@@ -89,7 +89,9 @@ function YourPet() {
             </div>
 
             <div className="pet-wrapper py-12 grid grid-cols-4 gap-4 mt-5 ">
-              {isError ? <h1>Request failed</h1> : null}
+              {isError ? (
+                <h1>Request failed. Please, try again later</h1>
+              ) : null}
               {isLoading ? <h1>Loading ....</h1> : null}
               {/* 
               <div

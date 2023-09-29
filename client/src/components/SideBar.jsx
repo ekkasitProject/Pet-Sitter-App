@@ -11,6 +11,19 @@ function SideBar() {
   const yourpetRef = useRef(null);
   const historyRef = useRef(null);
 
+  const {
+    toggleCreatePet,
+    setToggleCreatePet,
+    toggleViewPet,
+    setToggleViewPet,
+    toggleDeletePet,
+    setToggleDeletePet,
+    petID,
+    setPetID,
+    isAllPetChange,
+    setIsAllPetChange,
+  } = useContext(ToggleContext);
+
   const currentURL = window.location.href;
   const checkURL = () => {
     if (currentURL.includes("profile")) {
@@ -37,7 +50,10 @@ function SideBar() {
           </div>
           <button
             ref={profileRef}
-            onClick={() => navigate(`/user/profile/${petOwnerID}`)}
+            onClick={() => {
+              navigate(`/user/profile/${petOwnerID}`);
+              setToggleCreatePet(false);
+            }}
             className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
           >
             <ProfileIcon />
@@ -45,7 +61,10 @@ function SideBar() {
           </button>
           <button
             ref={yourpetRef}
-            onClick={() => navigate(`/user/yourpet/${petOwnerID}`)}
+            onClick={() => {
+              navigate(`/user/yourpet/${petOwnerID}`);
+              setToggleCreatePet(false);
+            }}
             className="text-headLine5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
           >
             <PetIcon />
@@ -53,7 +72,10 @@ function SideBar() {
           </button>
           <button
             ref={historyRef}
-            onClick={() => navigate(`/user/history/${petOwnerID}`)}
+            onClick={() => {
+              navigate(`/user/history/${petOwnerID}`);
+              setToggleCreatePet(false);
+            }}
             className="text-headLine5 pb-5 gap-4 text-primaryGray3  flex justify-start items-center p-4 pl-7 hover:text-primaryOrange2 active:text-primaryOrange2 active:bg-primaryOrange6 focus:text-primaryOrange2 focus:bg-primaryOrange6 hover:fill-primaryOrange2 focus:fill-primaryOrange2 active:fill-primaryOrange2"
           >
             <MenuIcon />

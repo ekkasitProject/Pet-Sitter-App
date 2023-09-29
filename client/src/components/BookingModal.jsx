@@ -89,8 +89,13 @@ export default function BookingModal() {
               <div className="text-primaryGray3">Pet:</div>
               <div className="text-black">
                 {booking.petdetails
-                  ? booking.petdetails.map((pet) => {
-                      return `${pet} `;
+                  ? booking.petdetails.map((pet, index) => {
+                      return (
+                        <span key={index}>
+                          {pet}
+                          {index < booking.petdetails.length - 1 && ", "}
+                        </span>
+                      );
                     })
                   : null}
               </div>

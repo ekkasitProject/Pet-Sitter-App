@@ -31,6 +31,9 @@ import { useContext } from "react";
 import { ToggleContext } from "./AuthenticatedApp";
 import { CloseIcon } from "../components/Icons.jsx";
 
+const today = dayjs();
+const tomorrow = dayjs().add(1, "day");
+
 function PetSitterDetail() {
   const {
     selectedDate,
@@ -326,18 +329,20 @@ function PetSitterDetail() {
                                       borderColor: "#FF7037",
                                     },
                                   },
-                                }}
-                                label=""
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                minDate={selectedDate}
-                                
-                                className="w- border rounded-md p-2 focus:ring focus:ring-blue-200 w-[440px]"
-                              />
-                            </DemoContainer>
-                          </LocalizationProvider>
-                        </div>
-
+                                  "&.Mui-focused fieldset": {
+                                    borderColor: "#FF7037",
+                                  },
+                                },
+                              }}
+                              label=""
+                              defaultValue={today}
+                              minDate={tomorrow}
+                              value={selectedDate}
+                              onChange={handleDateChange}
+                              className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
                         <div className="flex items-center">
                           <div className="flex space-x-4">
                             <div>

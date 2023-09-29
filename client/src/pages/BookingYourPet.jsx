@@ -38,6 +38,7 @@ const BookingYourPet = (props) => {
     selectedPets,
     setSelectedPets,
     selectedPetsName,
+    selectedPetsitterID,
     setSelectedPetsName,
   } = useContext(ToggleContext);
 
@@ -124,6 +125,14 @@ const BookingYourPet = (props) => {
   const total = duration * 200 + selectedPets.length * 300;
 
   const cardClasses = `pet-sitter-list-card shadow-custom2 w-[240px] h-[240px] my-6 mx-3 p-2 rounded-md flex flex-col justify-center items-center cursor-pointer border-2 bg-orange-200`;
+
+  const handleNext = () => {
+    if (selectedPets.length > 0) {
+      navigate(`/booking/information`);
+    } else {
+      alert("select at least 1 pet");
+    }
+  };
 
   return (
     <div>
@@ -228,18 +237,20 @@ const BookingYourPet = (props) => {
                 </Link>
               </div>
               <div className=" flex justify-between items-end ">
-                <Link to={`/petsitterlist/view/${props.petsitterId}`}>
+                <Link to={`/petsitterlist/view/${selectedPetsitterID}`}>
                   {" "}
                   {/* Updated link */}
                   <button className="bg-[#FFF1EC] text-[#FF7037] px-10 py-3 rounded-3xl font-bold ">
                     Back
                   </button>
                 </Link>
-                <Link to="/booking/information">
-                  <button className="bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold ">
-                    Next
-                  </button>
-                </Link>
+
+                <button
+                  onClick={handleNext}
+                  className="bg-[#FF7037] text-white px-10 py-3 rounded-3xl font-bold "
+                >
+                  Next
+                </button>
               </div>
             </div>
           </div>
