@@ -210,11 +210,11 @@ function PetSitterDetail() {
   return (
     <div className="flex-row">
       <HeaderAuth />
-      <div className="py-10 bg-primaryGray6">
+      <div className="py-5 bg-primaryGray6">
         <AdvancedCarousel />
       </div>
 
-      <div className="flex p-10 bg-primaryGray6">
+      <div className="flex p-5 bg-primaryGray6">
         <div className="flex-1 py-8 bg-primaryGray6 p-10">
           <h1 className="text-5xl font-bold text-black ">
             {petSitterDetail.pet_sitter_name}

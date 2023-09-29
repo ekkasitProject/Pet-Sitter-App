@@ -16,74 +16,55 @@ import useFilter from "../hooks/useFilter";
 
 const AdvancedCarousel = () => {
   const {
-    selectedDate,
-    setSelectedDate,
-    startTime,
-    setStartTime,
-    endTime,
-    setEndTime,
-    selectedTimes,
-    setSelectedTimes,
-    loading,
-    setLoading,
-    open,
-    setOpen,
-    bookingDetails,
-    setBookingDetails,
-    selectedPetsitterID,
-    setSelectedPetsitterID,
-    selectedPetsitterName,
-    setSelectedPetsitterName,
-    selectedPetsitterUser,
-    setSelectedPetsitterUser,
+    setLoading
   } = useContext(ToggleContext);
   const { petSitter, getPetSitterById } = useFilter();
+
   const { scrollRef, pages, activePageIndex, next, prev, goTo } =
     useSnapCarousel();
+
   const { petsitter_id } = useParams();
   // Define the number of items to show at a time
   const itemsToShow = 3;
 
   // Create an array of images to loop through
-  const [petImages, setPetImages] = useState([]);
+const [petImages, setPetImages] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await axios.get(
-          `http://localhost:6543/petsitteruser/${petsitter_id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+useEffect(() => {
+  const fetchImage = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get(
+        `http://localhost:6543/petsitteruser/${petsitter_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        // Assuming this updates the petSitter state
-        getPetSitterById(petsitter_id);
+      // Assuming this updates the petSitter state
+      getPetSitterById(petsitter_id);
 
-        // Store the image gallery data in the petImages state
-        setPetImages(response.data.image_gallery);
+      // Store the image gallery data in the petImages state
+      setPetImages(
+        response.data.petSitterUser.petsitterdetail[0].image_gallery
+      );
+      setLoading(false);
+    } catch (error) {
+      // Handle error here
+      console.error("Error fetching pet sitter data:", error);
+      setLoading(false);
+    }
+  };
 
-        setLoading(false);
-      } catch (error) {
-        // Handle error here
-        console.error("Error fetching pet sitter data:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  fetchImage();
+}, []);
 
   return (
     <div className="relative">
       {petImages && (
-        <ul
-          ref={scrollRef}
-          className="flex justify-between overflow-x-hidden overflow-y-hidden scroll-snap-type-x-mandatory z-0 h-[493px]"
-        >
+        <ul className="flex justify-between overflow-x-hidden overflow-y-hidden scroll-snap-type-x-mandatory z-0 h-[493px]">
           {petImages.map((image, index) => (
             <li key={index} className="flex-shrink-0 px-3">
               <img
@@ -100,7 +81,7 @@ const AdvancedCarousel = () => {
         <img
           src={icon_arrow1}
           onClick={() => prev()}
-          className="bg-white text-gray-500 px-4  py-2 rounded-full ml-2 absolute left-10 transform -translate-y-1/2 top-1/2 rotate-90 w-[56px] h-[56px]"
+          className="bg-white text-gray-500 px-4 py-2 rounded-full ml-2 absolute left-10 transform -translate-y-1/2 top-1/2 rotate-90 w-[56px] h-[56px]"
         />
         <img
           src={icon_arrow2}
