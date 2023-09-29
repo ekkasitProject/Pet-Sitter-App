@@ -118,6 +118,9 @@ booking.get("/petowner/:ownerId", async (req, res) => {
           },
         },
       },
+      orderBy: {
+        datetime: "desc",
+      },
     });
 
     if (!bookings || bookings.length === 0) {
@@ -189,6 +192,9 @@ booking.get("/petowner/:ownerId/:bookingId", async (req, res) => {
             petsitterdetail: true,
           },
         },
+        orderBy: {
+          datetime: "desc",
+        },
       },
     });
 
@@ -236,6 +242,9 @@ booking.get("/petsitter/:sitterId", async (req, res) => {
       },
       include: {
         petowner: true,
+      },
+      orderBy: {
+        datetime: "desc",
       },
     });
 

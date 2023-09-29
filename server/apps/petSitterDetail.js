@@ -71,6 +71,9 @@ petSitterDetail.get("/alldetail", async (req, res) => {
       include: {
         petsitter: true,
       },
+      orderBy: {
+        experience: "asc", // เรียงตามประสบการณ์จากน้อยไปมาก
+      },
     });
     //console.log(petSitter.petsitter.status_update);
     const statusEnable = petSitter.filter(
