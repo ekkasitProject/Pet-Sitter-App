@@ -9,15 +9,15 @@ function PetSitterCard(props) {
       <div className="pet-sitter-image-card  w-1/3 h-full cursor-pointer">
         <img
           src={props.petSitterImage}
-          className="rounded-lg w-[300px] h-[250px] object-fill "
+          className="rounded-lg w-[300px] h-[250px] object-cover "
           alt="pet sitter picture"
         />
       </div>
-      <div className="pet-sitter-profile w-2/3 h-auto pl-10 flex flex-col justify-around">
+      <div className="pet-sitter-profile w-2/3 h-auto pl-10 flex flex-col justify-around ">
         <div className="flex flex-row gap-5">
           <img
             src={props.petSitterProfileImage}
-            className="rounded-full w-[60px] h-[60px]"
+            className="rounded-full w-[60px] h-[60px] object-cover"
             alt="pet sitter profile picture"
           />
           <div className="flex flex-col justify-center w-2/3">
