@@ -20,7 +20,7 @@ const AdvancedCarousel = () => {
   } = useContext(ToggleContext);
   const { petSitter, getPetSitterById } = useFilter();
 
-  const { scrollRef, pages, activePageIndex, next, prev, goTo } =
+  const { scrollRef, pages, activePageIndex, next, prev, goTo, onSnapToItem } =
     useSnapCarousel();
 
   const { petsitter_id } = useParams();
@@ -29,6 +29,7 @@ const AdvancedCarousel = () => {
 
   // Create an array of images to loop through
 const [petImages, setPetImages] = useState([]);
+
 
 useEffect(() => {
   const fetchImage = async () => {
@@ -64,7 +65,10 @@ useEffect(() => {
   return (
     <div className="relative">
       {petImages && (
-        <ul className="flex justify-between overflow-x-hidden overflow-y-hidden scroll-snap-type-x-mandatory z-0 h-[493px]">
+        <ul
+          ref={scrollRef}
+          className="flex justify-between overflow-x-hidden overflow-y-hidden scroll-snap-type-x-mandatory z-0 h-[493px]"
+        >
           {petImages.map((image, index) => (
             <li key={index} className="flex-shrink-0 px-3">
               <img
