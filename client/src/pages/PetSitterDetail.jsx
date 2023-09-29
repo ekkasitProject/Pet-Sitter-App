@@ -3,9 +3,10 @@ import LocationIcon from "../assets/icons/icon_location.svg";
 import HeaderAuth from "../components/HeaderAuth";
 import AdvancedCarousel from "../components/Carousel";
 import useFilter from "../hooks/useFilter";
-import icon_arrow1 from "../assets/icons/iconarrow1.svg";
-import icon_arrow2 from "../assets/icons/iconarrow2.svg";
-
+import icon_arrow1 from "../assets/icons/iconarrow1.svg"
+import icon_arrow2 from "../assets/icons/iconarrow2.svg"
+import calendarIcon from "../assets/icons/icon=calender.svg"
+import clockIcon from "../assets/icons/icon=clock.svg"
 import {
   ChipsOrange,
   ChipsPink,
@@ -60,6 +61,9 @@ function PetSitterDetail() {
   const { petsitter_id } = useParams();
   const { petSitter, getPetSitterById } = useFilter();
   const handleOpen = () => setOpen(true);
+  const today = new Date();
+  const futureDate = new Date(today);
+  futureDate.setDate(today.getDate() + 7); // Limit to the next 7 days
 
   //console.log(startTime,endTime,selectedDate);
 
@@ -209,11 +213,11 @@ function PetSitterDetail() {
   return (
     <div className="flex-row">
       <HeaderAuth />
-      <div className="py-10 bg-primaryGray6">
+      <div className="py-5 bg-primaryGray6">
         <AdvancedCarousel />
       </div>
 
-      <div className="flex p-10 bg-primaryGray6">
+      <div className="flex p-5 bg-primaryGray6">
         <div className="flex-1 py-8 bg-primaryGray6 p-10">
           <h1 className="text-5xl font-bold text-black ">
             {petSitterDetail.pet_sitter_name}
@@ -231,16 +235,16 @@ function PetSitterDetail() {
             <p className="text-gray-700 mt-2">{petSitterDetail.my_place}</p>
           </section>
         </div>
-        <div className="sticky p-5 bg-primaryGray6 rounded-2xl h-[512px]">
-          <div className="flex flex-col items-center justify-center bg-white rounded-2xl just p-5 w-[416px] h-[512px] ">
-            <div className="flex items-center justify-center">
+        <div className="sticky bg-white m-4 rounded-2xl w-[416px] h-[550px] ">
+          <div className="flex flex-col items-center justify-center bg-white rounded-2xl just h-full w-full ">
+            <div className="flex items-center justify-center ">
               <img
                 src={petSitter.image_profile}
                 alt="profileImg"
-                className="w-32 h-32"
+                className="w-[160px] h-[160px] rounded-full"
               />
             </div>
-            <div className="text-center mt-4">
+            <div className="text-center mt-4 w-full">
               <h1 className="text-4xl font-bold">
                 {petSitterDetail.pet_sitter_name}
               </h1>
@@ -267,7 +271,7 @@ function PetSitterDetail() {
                   </span>
                 ))}
               </div>
-              <hr />
+              <hr className="border-primaryGray5 border-t-2 " />
               <div className="p-5 flex justify-center">
                 <button
                   className="w-[300px] h-[50px] py-2 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3 "
@@ -285,7 +289,7 @@ function PetSitterDetail() {
                   aria-labelledby="modal-modal-title"
                   aria-describedby="modal-modal-description"
                 >
-                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[560px] h-[438px] bg-white border rounded-lg shadow-md py-4 ">
+                  <Box className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[560px] bg-white border rounded-lg shadow-md py-4 ">
                     <div className="flex justify-between items-center px-8">
                       <h1 className="text-2xl font-bold mb-4 ">Booking</h1>
                       <button
@@ -298,22 +302,32 @@ function PetSitterDetail() {
                     <hr className="border-gray-300 my-2" />
                     <div className="flex items-center justify-center flex-col my-3">
                       <div className="px-5 ">
-                        <h2 className="text-xl font-semibold text-gray-500 mb-2 ">
+                        <h2 className="text-gray-500 mb-2 ">
                           Select a date and time you want to schedule the
                           service.
                         </h2>
                       </div>
                       <div className="space-y-6 w-[440px] ">
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                          <DemoContainer components={["DatePicker"]}>
-                            <DatePicker
-                              sx={{
-                                "& .MuiOutlinedInput-root": {
-                                  "& fieldset": {
-                                    borderColor: "#AEB1C3",
-                                  },
-                                  "&:hover fieldset": {
-                                    borderColor: "#FF7037",
+                        <div className="flex flex-row ">
+                          <img
+                            src={calendarIcon}
+                            alt="calendarIcon"
+                            className="px-1"
+                          />
+                          <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DemoContainer components={["DatePicker"]}>
+                              <DatePicker
+                                sx={{
+                                  "& .MuiOutlinedInput-root": {
+                                    "& fieldset": {
+                                      borderColor: "#AEB1C3",
+                                    },
+                                    "&:hover fieldset": {
+                                      borderColor: "#FF7037",
+                                    },
+                                    "&.Mui-focused fieldset": {
+                                      borderColor: "#FF7037",
+                                    },
                                   },
                                   "&.Mui-focused fieldset": {
                                     borderColor: "#FF7037",
@@ -331,12 +345,12 @@ function PetSitterDetail() {
                         </LocalizationProvider>
                         <div className="flex items-center">
                           <div className="flex space-x-4">
+                            <div>
+                              <img src={clockIcon} alt="Clock_Icon" />
+                            </div>
                             <div className="flex flex-col">
-                              <label className="text-sm text-gray-600">
-                                Start Time:
-                              </label>
                               <select
-                                className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white w-[208.5px]"
+                                className="border border-primaryGray4 rounded-md py-3 px-12 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-full "
                                 value={startTime}
                                 onChange={handleStartTimeChange}
                               >
@@ -347,12 +361,12 @@ function PetSitterDetail() {
                                 ))}
                               </select>
                             </div>
+                            <div className="text-primaryGray4">
+                              <h1>_</h1>
+                            </div>
                             <div className="flex flex-col">
-                              <label className="text-sm text-gray-600">
-                                End Time:
-                              </label>
                               <select
-                                className="border rounded-md py-3 px-12 focus:ring-2 focus:ring-blue-200 focus:border-blue-500 bg-white w-[208.5px]"
+                                className="border border-primaryGray4 rounded-md py-3 px-12 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-full"
                                 value={endTime}
                                 onChange={handleEndTimeChange}
                               >
@@ -384,7 +398,7 @@ function PetSitterDetail() {
                                   endTime,
                                   petSitterName:
                                     petSitterDetail.pet_sitter_name,
-                                  petSitterUsername: petSitterDetail.username,
+                                  petSitterUsername: petSitter.username,
                                   petSitterId: petSitterDetail.petsitter_id,
                                 },
                               },

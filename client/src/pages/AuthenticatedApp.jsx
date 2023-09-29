@@ -27,6 +27,7 @@ const today = dayjs();
 const AuthenticatedApp = () => {
   const token = localStorage.getItem("token");
   const userDataFromToken = jwtDecode(token);
+  const currentDate = dayjs();
   const [toggleCreatePet, setToggleCreatePet] = useState(false);
   const [toggleDeletePet, setToggleDeletePet] = useState(false);
   const [OpenPetModal, setOpenPetModal] = useState(false);
@@ -52,6 +53,7 @@ const AuthenticatedApp = () => {
   const [selectedPetsitterID, setSelectedPetsitterID] = useState("");
   const [selectedPetsitterName, setSelectedPetsitterName] = useState("");
   const [selectedPetsitterUser, setSelectedPetsitterUser] = useState("");
+  const [petImage, setPageImage] = useState("");
   const [bookingListDetails, setBookingListDetails] = useState({});
   const [bookingList, setBookingList] = useState([]);
   const [index, setIndex] = useState("");
@@ -107,6 +109,8 @@ const AuthenticatedApp = () => {
           setSelectedPetsName,
           petSitterID,
           setPetSitterID,
+          petImage,
+          setPageImage,
           bookingListDetails,
           setBookingListDetails,
           bookingList,

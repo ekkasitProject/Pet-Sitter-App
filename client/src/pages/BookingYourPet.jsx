@@ -10,6 +10,7 @@ import BookingConfirmation from "../components/BookingConfirmation";
 import fetchUserData from "../hooks/fetchUserData";
 import { useNavigate } from "react-router-dom";
 import { ToggleContext } from "./AuthenticatedApp";
+
 import {
   ChipsOrange,
   ChipsPink,
@@ -161,8 +162,11 @@ const BookingYourPet = (props) => {
             </div>
 
             {/* form */}
-            <div className="bg-white h-[720px] rounded-xl p-12">
-              <div className="flex flex-wrap justify-start w-full gap-20 ml-3 ">
+            <div className="bg-white h-[720px] w-full rounded-xl p-14 flex flex-col ">
+              <div className="text-xl font-semibold px-10">
+                <h1>Choose your pet</h1>
+              </div>
+              <div className="flex flex-wrap px-10 py-3 justify-start w-full ml-3  gap-x-10">
                 {allpets.map((pet) => {
                   // Create a CSS class for the card based on whether the pet is selected or not
                   const cardClasses = `pet-card cursor-pointer mb-5 border-2 w-[240px] h-[240px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4 ${

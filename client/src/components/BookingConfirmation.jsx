@@ -39,7 +39,7 @@ const calculateTotalPrice = () => {
       <div className="px-8 pt-4">
         <h3 className="text-[#7B7E8F] tracking-wide">Pet Sitter:</h3>
         <p className="tracking-wide text-[#3A3B46]">
-          {bookingDetails.petSitterName}
+          {bookingDetails.petSitterName} by {bookingDetails.petSitterUsername}
         </p>
       </div>
 

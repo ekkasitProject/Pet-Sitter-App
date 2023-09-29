@@ -13,6 +13,22 @@ function jwtInterceptor() {
 
     return req;
   });
+// if tokken was invalid return to landing page 
+  axios.interceptors.response.use(
+    (req) => {
+      return req;
+    },
+    (error) => {
+      if (
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        window.localStorage.removeItem("token");
+        window.location.replace("/");
+      }
+    }
+  );
+
 }
 
 export default jwtInterceptor;
