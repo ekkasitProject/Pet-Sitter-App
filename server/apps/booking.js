@@ -118,6 +118,9 @@ booking.get("/petowner/:ownerId", async (req, res) => {
           },
         },
       },
+      orderBy: {
+        datetime: "asc",
+      },
     });
 
     if (!bookings || bookings.length === 0) {
@@ -236,6 +239,9 @@ booking.get("/petsitter/:sitterId", async (req, res) => {
       },
       include: {
         petowner: true,
+      },
+      orderBy: {
+        datetime: "asc", // จัดเรียงตาม datetime ในลักษณะตรงกันข้าม (ascending)
       },
     });
 
