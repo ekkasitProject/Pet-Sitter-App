@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/authentication";
+
 import { ToggleContext } from "../pages/AuthenticatedApp";
 
 const fetchUserData = () => {
@@ -20,19 +20,17 @@ const fetchUserData = () => {
 
   const {
     petID,
-    setPetID,
+
     isAllPetChange,
     setIsAllPetChange,
     allpets,
     setAllpets,
     petOwnerID,
-    setPetOwnerID,
+
     bookingID,
-    setBookingID,
+
     petSitterID,
-    setPetSitterID,
-    bookingListDetails,
-    setBookingListDetails,
+
     bookingList,
     setBookingList,
   } = useContext(ToggleContext);
@@ -100,12 +98,11 @@ const fetchUserData = () => {
       );
       setIsAllPetChange(!isAllPetChange);
       setIsLoading(false);
-      // alert(response.data.message);
+
       navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
-      //alert(error.message);
     }
   };
 
@@ -113,7 +110,7 @@ const fetchUserData = () => {
     try {
       const token = localStorage.getItem("token");
       setIsError(false);
-      // setIsLoading(true);
+
       const result = await axios.get(
         `http://localhost:6543/petOwnerUser/petdetail/${petOwnerID}`,
         {
@@ -122,10 +119,8 @@ const fetchUserData = () => {
           },
         }
       );
-      // console.log(result);
+
       setAllpets(result.data.owner.pets);
-      //console.log(allpets);
-      //setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -139,7 +134,7 @@ const fetchUserData = () => {
       console.log(petID);
       const token = localStorage.getItem("token");
       setIsError(false);
-      // setIsLoading(true);
+
       const result = await axios.get(
         `http://localhost:6543/petowneruser/petdetail/${petOwnerID}/pet/${petID}`,
         {
@@ -150,7 +145,6 @@ const fetchUserData = () => {
       );
 
       setPetDetail(result.data.pet);
-      //setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -221,7 +215,7 @@ const fetchUserData = () => {
           },
         }
       );
-      // console.log(result);
+
       setIsLoading(false);
       setBookingHistory(result.data.bookings);
       console.log(result.data.bookings);
@@ -248,8 +242,6 @@ const fetchUserData = () => {
       console.log(result);
       setBooking(result.data.booking);
       console.log(result.data.booking);
-      // console.log(booking);
-      //setIsLoading(false);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
@@ -270,24 +262,15 @@ const fetchUserData = () => {
       });
 
       setIsLoading(false);
-      // alert(response.data.message);
-      // navigate(`/user/yourpet/${petOwnerID}`);
     } catch (error) {
       setIsError(true);
       setIsLoading(false);
-      //alert(error.message);
     }
   };
 
   const getPetsitterProfile = async () => {
     try {
       const token = localStorage.getItem("token");
-      // const id = localStorage.getItem("id");
-      // setPetOwnerID(id);
-
-      // const userDataFromToken = jwtDecode(token);
-      //setPetOwnerID(userDataFromToken.userId);
-      // console.log(petOwnerID);
 
       const result = await axios.get(
         `http://localhost:6543/petSitterUser/${petSitterID}`,
@@ -298,12 +281,7 @@ const fetchUserData = () => {
         }
       );
 
-      // console.log(result);
-
       setPetsitterProfile(result.data.petSitterUser);
-      //setpetSitterID(result.data.petOwnerUser.petowner_id);
-      // console.log(petSitterID);
-      //setProfile(result.data[0]);
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
@@ -323,16 +301,8 @@ const fetchUserData = () => {
         }
       );
 
-      // console.log(result);
       setBookingList(result.data.bookings);
       console.log(result.data);
-      /* const newArray = bookingList.filter((booking) => {
-        return booking.booking_id == bookingID;
-      });
-      console.log(newArray[0]);
-      setBookingListDetails(newArray[0]);
-      console.log(result);
-      console.log(bookingListDetails);*/
     } catch (error) {
       // Handle authentication error here
       console.error("Authentication error:", error);
@@ -356,7 +326,6 @@ const fetchUserData = () => {
       );
 
       setIsLoading(false);
-      // navigate(`/user/profile/${petOwnerID}`);
     } catch (error) {
       console.log(error);
     }
@@ -375,7 +344,6 @@ const fetchUserData = () => {
         }
       );
 
-      //console.log(result);
       setBookingList(result.data.bookings);
     } catch (error) {
       // Handle authentication error here

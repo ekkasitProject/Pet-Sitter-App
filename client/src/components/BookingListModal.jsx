@@ -1,40 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
-import { Button1, Button2 } from "./Button";
 import fetchUserData from "../hooks/fetchUserData";
-import closeIcon from "../assets/icons/iconClose.svg";
 import { CloseIcon } from "./Icons";
-
-import {
-  calculateDuration,
-  formatDate,
-  formatTime,
-} from "../components/calculateDate";
 
 export default function BookingListModal() {
   const {
     petID,
-    setPetID,
-    toggleViewBooking,
+
     setToggleViewBooking,
-    bookingID,
-    setBookingID,
+
     OpenPetModal,
     setOpenPetModal,
   } = useContext(ToggleContext);
-  const {
-    booking,
-    setBooking,
-    getBookingByID,
-    isError,
-    isLoading,
-    getPetByID,
-    petDetail,
-    setPetDetail,
-  } = fetchUserData();
-  const toggleBookingModal = () => {
-    setToggleViewBooking(false);
-  };
+  const { getPetByID, petDetail } = fetchUserData();
 
   const handleClosePetModal = () => {
     setOpenPetModal(false);

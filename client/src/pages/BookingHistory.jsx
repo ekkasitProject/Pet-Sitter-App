@@ -13,13 +13,9 @@ import {
 } from "../components/calculateDate";
 
 function BookingHistory() {
-  const { getBooking, bookingHistory, setBookingHistory, isError, isLoading } =
-    fetchUserData();
+  const { getBooking, bookingHistory, isError, isLoading } = fetchUserData();
   const { toggleViewBooking, setToggleViewBooking, bookingID, setBookingID } =
     useContext(ToggleContext);
-  const toggleBookingModal = () => {
-    setToggleViewBooking(true);
-  };
 
   const handleToggleBookingModal = (id) => {
     setBookingID(id);
@@ -43,7 +39,7 @@ function BookingHistory() {
           <div className="booking-wrapper">
             {isError ? <h1>Request failed. Please, try again later</h1> : null}
             {isLoading ? <h1>Loading ....</h1> : null}
-            {/*mapping */}
+
             {bookingHistory.map((booking) => {
               return (
                 <div

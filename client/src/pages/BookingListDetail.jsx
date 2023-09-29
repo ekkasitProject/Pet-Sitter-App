@@ -4,7 +4,7 @@ import { ToggleContext } from "../pages/AuthenticatedApp";
 import SideBarPetsitter from "../components/SideBarPetsitter";
 import HeaderPetsitter from "../components/HeaderPetsitter";
 import { BackIcon, EyeIcon } from "../components/Icons";
-import profile_user from "../assets/icons/profile.svg";
+
 import Modal from "@mui/material/Modal";
 import { Box } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -25,42 +25,33 @@ import {
 
 function BookingListDetail() {
   const {
-    petID,
     setPetID,
-    petOwnerID,
+
     setPetOwnerID,
-    bookingID,
-    setBookingID,
+
     petSitterID,
-    setPetSitterID,
-    bookingListDetails,
-    setBookingListDetails,
+
     bookingList,
-    setBookingList,
+
     index,
     OpenPetModal,
     setOpenPetModal,
-    setIndex,
   } = useContext(ToggleContext);
   const {
     getBookingList,
-    isError,
-    isLoading,
+
     confirmBooking,
     rejectBooking,
     inServiceBooking,
     successBooking,
-    petsitterProfile,
-    setPetsitterProfile,
-    getPetsitterProfile,
   } = fetchUserData();
   const [allpets, setAllpets] = useState([]);
   const [booking, setBooking] = useState({});
   const [toggleViewPet, setToggleViewPet] = useState(false);
-  //const [petID, setPetID] = useState("");
+
   const [rejectModalOpen, setRejectModalOpen] = useState(false);
   const [viewProfileModalOpen, setViewProfileModalOpen] = useState(false);
-  /// const [OpenPetModal, setOpenPetModal] = useState(false);
+
   // reject popup
   const handleOpenRejectModal = () => setRejectModalOpen(true);
   const handleCloseRejectModal = () => setRejectModalOpen(false);
@@ -74,9 +65,6 @@ function BookingListDetail() {
     setPetID(petId);
     setPetOwnerID(ownerId);
     setOpenPetModal(true);
-    //  console.log(bookingID);
-    //console.log(petId);
-    // console.log(ownerId);
   };
 
   const navigate = useNavigate();
@@ -84,25 +72,7 @@ function BookingListDetail() {
   const handleToggleViewPet = (id) => {
     setPetID(id);
     setToggleViewPet(true);
-    // console.log(petID);
   };
-  /*
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const data = {
-      petDetailIds: selectedPets,
-      petSitterId: selectedPetsitterID,
-      datetime: newStartDate,
-      startTime: newStartDate,
-      endTime: newEndDate,
-      additionalMessage: messageAdditional,
-      totalPrice: prices,
-    };
-    submitBooking(data);
-    console.log(data);
-    navigate(`/booking/bill`);
-  };*/
 
   const handleConfirmReject = () => {
     rejectBooking();
@@ -129,9 +99,7 @@ function BookingListDetail() {
   };
 
   useEffect(() => {
-    // getPetsitterProfile();
     getBookingList();
-    //getBookingDetail(bookingList, bookingID);
   }, []);
 
   const handleChip = (pet) => {
@@ -165,9 +133,7 @@ function BookingListDetail() {
                 >
                   <BackIcon />
                 </button>
-                <div className="text-headLine3 text-black">
-                  {/*petsitterProfile.username*/}
-                </div>
+                <div className="text-headLine3 text-black"></div>
                 <div className="">
                   <span
                     className={
@@ -381,7 +347,6 @@ function BookingListDetail() {
                       <>
                         <div
                           key={index}
-                          // onClick={() => handleToggleViewPet("id")}
                           onClick={() =>
                             handleOpenPetModal(
                               bookingList[index].petowner.petowner_id,
@@ -397,29 +362,10 @@ function BookingListDetail() {
                           />
                           <h1 className="text-headLine3">{pet.petname}</h1>
                           {handleChip(pet.pettype)}
-                          {/* popuptoggle ตอนที่กดpetcard ที่map มา */}
                         </div>
                       </>
                     );
                   })}
-
-                  {/* {allpets.map((pet) => {
-                return (
-                  <div
-                    key={pet.pet_id}
-                    onClick={() => handleToggleViewPet(pet.pet_id)}
-                    className="pet-card cursor-pointer mb-5 border-2 border-primaryGray5 w-[200px] h-[230px] rounded-3xl flex flex-col justify-evenly items-center hover:border-primaryOrange4"
-                  >
-                    <img
-                      src={pet.image_profile}
-                      className="rounded-full w-[80px] h-[80px] mt-4"
-                      alt="pet sitter profile picture"
-                    />
-                    <h1 className="text-headLine3">{pet.petname}</h1>
-                    {handleChip(pet.pettype)}
-                  </div>
-                );
-              })} */}
                 </div>
               </div>
               <div className="flex flex-col gap-1">

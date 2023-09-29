@@ -25,13 +25,6 @@ function LoginPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = formData;
-    /*
-    console.log(email);
-    console.log(password);
-    login({
-      email,
-      password,
-    });*/
 
     if (role == "petowner") {
       loginPetowner({
@@ -103,32 +96,7 @@ function LoginPage() {
                 placeholder="Password"
               />
             </div>
-            {/*<div className="flex items-center justify-between">
-               <div className="flex items-center">
-                <input
-                  id="rememberMe"
-                  name="rememberMe"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  checked={formData.rememberMe}
-                  onChange={handleChange}
-                />
-                <label
-                  htmlFor="rememberMe"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-              <div className="text-sm">
-                <a
-                  href="#"
-                  className="font-medium text-orange-600 hover:text-orange-500"
-                >
-                  Forgot your password?
-                </a>
-              </div> 
-            </div>*/}
+
             <div className="flex items-center gap-4">
               <label className="block text-sm font-medium text-gray-700">
                 Role Selection:
@@ -142,8 +110,6 @@ function LoginPage() {
                     onClick={(e) => {
                       setRole(e.target.value);
                     }}
-                    // checked={petOwner}
-                    // onChange={handlePetOwnerChange}
                     className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Owner</span>
@@ -156,8 +122,6 @@ function LoginPage() {
                     onClick={(e) => {
                       setRole(e.target.value);
                     }}
-                    //  checked={petSitter}
-                    //  onChange={handlePetSitterChange}
                     className="form-checkbox h-4 w-4 accent-orange-600"
                   />
                   <span className="ml-2 text-sm text-gray-600">Pet Sitter</span>
@@ -173,26 +137,7 @@ function LoginPage() {
               </button>
             </div>
           </form>
-          {/* <div className="mt-6">
-            <p className="text-center text-sm text-gray-600">
-              Or continue with
-            </p>
-            <div className="flex justify-center mt-2">
-              <button
-                type="button"
-                className="group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-full text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-              >
-                <icon src={Facebook_logo} alt="" /> Facebook
-              </button>
-              <button
-                src={google_logo}
-                type="button"
-                className="ml-3 group relative w-full flex justify-center py-2 px-4 border border-gray-300 text-sm font-medium rounded-full text-gray-700 bg-gray-100 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-              >
-                Gmail
-              </button>
-            </div>
-          </div> */}
+
           <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
               Didn't have an account?{" "}

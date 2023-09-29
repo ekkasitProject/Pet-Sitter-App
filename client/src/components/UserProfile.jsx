@@ -1,6 +1,5 @@
-import { Button2 } from "./Button";
 import React, { useState, useEffect, useContext } from "react";
-import profile_user from "../assets/icons/profile.svg";
+
 import { useParams } from "react-router-dom";
 import fetchUserData from "../hooks/fetchUserData";
 import Alert from "@mui/material/Alert";
@@ -11,16 +10,6 @@ import { ToggleContext } from "../pages/AuthenticatedApp";
 
 function UserProfile() {
   const {
-    toggleViewPet,
-    setToggleViewPet,
-    toggleDeletePet,
-    setToggleDeletePet,
-    petID,
-    setPetID,
-    isAllPetChange,
-    setIsAllPetChange,
-  } = useContext(ToggleContext);
-  const {
     getPetOwnerProfile,
     petOwnerProfile,
     setPetOwnerProfile,
@@ -28,7 +17,7 @@ function UserProfile() {
     isError,
     isLoading,
   } = fetchUserData();
-  const params = useParams();
+
   const [value, setValue] = useState({
     startDate: null,
     endDate: null,
@@ -72,10 +61,6 @@ function UserProfile() {
       setDateOfBirth(newDate);
       setPhoto(petOwnerProfile.image_profile);
       setValue({ ...value, startDate: petOwnerProfile.date_of_birth });
-      /*  const uniqueId = Date.now();
-      setAvatars({
-        [uniqueId]: petOwnerProfile.image_profile,
-      });*/
     }
   }, [petOwnerProfile]);
 
@@ -138,21 +123,7 @@ function UserProfile() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //console.log(dateOfBirth);
-    /*
-    if (validateForm()) {
-      const data = {
-        username,
-        email,
-        phone,
-        id_card_number: idNumber,
-        date_of_birth: dateOfBirth,
-      };
-      console.log(data);
-      updatePetOwnerProfile(data);
-      setIsAlert(true);
-    }
-*/
+
     if (validateForm()) {
       const formData = new FormData();
       const newDate = new Date(value.startDate);
@@ -165,8 +136,6 @@ function UserProfile() {
       formData.append("avatar", avatars);
       console.log(newDate);
 
-      //console.log(avatars);
-      //console.log(formData);
       updatePetOwnerProfile(formData);
 
       setIsAlert(true);
@@ -175,7 +144,7 @@ function UserProfile() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    //setAvatars(URL.createObjectURL(file));
+
     setAvatars(file);
     setPhoto(URL.createObjectURL(file));
     console.log(avatars);
@@ -205,28 +174,6 @@ function UserProfile() {
               src={photo}
               alt="Profile Avatar"
             />
-            {/*
-            {Object.keys(avatars).map((avatarKey) => {
-              const file = avatars[avatarKey];
-              return (
-                <div key={avatarKey} className="image-preview-container">
-                  <img
-                    className="object-fit w-[220px] h-[220px] rounded-full z-10"
-                    src={URL.createObjectURL(file)}
-                    alt={file.name}
-                  />
-                </div>
-              );
-            })}
-            */}
-            {/* 
-             <img
-              className="object-fit"
-              src={profile_user}
-              //src={petOwnerProfile.image_profile}
-              alt=""
-            />
-            */}
 
             <label
               htmlFor="upload"
@@ -241,11 +188,6 @@ function UserProfile() {
                 hidden
               />
             </label>
-            {/*
-          <button className="w-[60px] h-[60px] text-primaryOrange2 rounded-full bg-primaryOrange6 absolute bottom-[10px] right-0 flex justify-center items-center">
-              <PlusIcon />
-            </button>
-          */}
           </div>
           <div className="flex flex-col gap-1">
             <label htmlFor="userName">Your Name*</label>
@@ -328,17 +270,6 @@ function UserProfile() {
                 placeholder={dateOfBirth}
                 inputClassName="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
               />
-              {/* 
-              <label htmlFor="dateOfBirth">Date Of Birth</label>
-              <input
-                type="date"
-                id="dateOfBirth"
-                name="dateOfBirth"
-                value={dateOfBirth}
-                onChange={(event) => setDateOfBirth(event.target.value)}
-                className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 px-3 focus:outline-none focus:border-primaryOrange3"
-              />
-              */}
             </div>
           </div>
           <div className="flex justify-end items-center ">

@@ -6,22 +6,13 @@ import { CloseIcon } from "./Icons";
 
 export default function DeleteModal() {
   const {
-    toggleDeletePet,
     setToggleDeletePet,
-    petID,
-    setPetID,
+
     setToggleViewPet,
     isAllPetChange,
     setIsAllPetChange,
   } = useContext(ToggleContext);
-  const {
-    getPetByID,
-    petDetail,
-    setPetDetail,
-    updatePet,
-    getAllPets,
-    deletePet,
-  } = fetchUserData();
+  const { deletePet } = fetchUserData();
 
   const toggleDeleteModal = () => {
     setToggleDeletePet(false);

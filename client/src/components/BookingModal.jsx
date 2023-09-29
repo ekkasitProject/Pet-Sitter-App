@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { ToggleContext } from "../pages/AuthenticatedApp";
-import { Button1, Button2 } from "./Button";
 import { CloseIcon } from "./Icons";
 import fetchUserData from "../hooks/fetchUserData";
 import {
@@ -10,18 +9,14 @@ import {
 } from "../components/calculateDate";
 
 export default function BookingModal() {
-  const { toggleViewBooking, setToggleViewBooking, bookingID, setBookingID } =
-    useContext(ToggleContext);
-  const { booking, setBooking, getBookingByID, isError, isLoading } =
-    fetchUserData();
+  const { setToggleViewBooking, bookingID } = useContext(ToggleContext);
+  const { booking, getBookingByID } = fetchUserData();
   const toggleBookingModal = () => {
     setToggleViewBooking(false);
   };
 
   useEffect(() => {
     getBookingByID();
-    //console.log(bookingID);
-    // console.log(booking);
   }, [bookingID]);
 
   return (

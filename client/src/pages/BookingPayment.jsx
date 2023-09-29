@@ -7,12 +7,7 @@ import { Link } from "react-router-dom";
 import { ToggleContext } from "./AuthenticatedApp";
 import fetchUserData from "../hooks/fetchUserData";
 import { useNavigate } from "react-router-dom";
-import {
-  calculateDuration,
-  formatDate,
-  formatTime,
-} from "../components/calculateDate";
-import axios from "axios";
+import { formatDate } from "../components/calculateDate";
 
 const BookingPayment = () => {
   const navigate = useNavigate();
@@ -25,29 +20,24 @@ const BookingPayment = () => {
 
   const {
     selectedPets,
-    setSelectedPets,
-    petOwnerID,
-    setPetOwnerID,
+
     messageAdditional,
-    setMessageAdditional,
+
     selectedPetsitterID,
-    setSelectedPetsitterID,
+
     selectedPetsitterName,
-    setSelectedPetsitterName,
+
     selectedPetsitterUser,
-    setSelectedPetsitterUser,
+
     selectedDate,
-    setSelectedDate,
+
     startTime,
-    setStartTime,
+
     endTime,
-    setEndTime,
+
     prices,
-    setPrices,
-    selectedTimes,
-    setSelectedTimes,
+
     selectedPetsName,
-    setSelectedPetsName,
   } = useContext(ToggleContext);
 
   const duration = (start, end) => {
@@ -77,18 +67,13 @@ const BookingPayment = () => {
 
   const changeFormat = (date, time) => {
     const newDate = formatDate(date); // Date in YYYY-MM-DD format
-    // const timeStr = '10:00:00';   // Time in HH:MM:SS format
     const newTime = new Date(`${newDate} ${time}`);
-    //const combinedDateTimeStr = `${dateStr}T${timeStr}Z`;
-    /// const combinedDateTime = new Date(combinedDateTimeStr);
     return newTime;
   };
 
   useEffect(() => {
     setNewStartDate(changeFormat(selectedDate, startTime));
     setNewEndDate(changeFormat(selectedDate, endTime));
-    //console.log(new Date(selectedDate));
-    //console.log(changeFormat(selectedDate, endTime));
   }, []);
 
   const validateForm = () => {
@@ -155,26 +140,6 @@ const BookingPayment = () => {
     }
   };
 
-  /*
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const data = {
-      petDetailIds: [
-        "ce9b62dc-531f-434b-b2f4-06701fac2320",
-        "f72b8551-0180-4024-9f24-be775ce1fd59",
-      ],
-      petSitterId: "a43b4cdf-062b-46d5-ad56-87ba05d3fc37",
-      datetime: "2023-09-25T10:00:00Z",
-      startTime: "2023-09-25T10:00:00Z",
-      endTime: "2023-09-25T12:00:00Z",
-      additionalMessage: messageAdditional,
-      totalPrice: 500,
-    };
-    submitBooking(data);
-    console.log(data);
-    navigate(`/booking/bill`);
-  };
-*/
   const [creditCardNumber, setCreditCardNumber] = useState("");
   const [fullname, setFullname] = useState("");
   const handleCreditCardChange = (e) => {
@@ -254,8 +219,6 @@ const BookingPayment = () => {
                 <p className="text-[1.2rem] ml-4 text-[#FF7037]">Payment</p>
               </div>
             </div>
-
-            {/* Payment Credit Card or Cash */}
 
             <div className="bg-white h-[720px] rounded-xl p-12">
               <div className="flex justify-between">
@@ -458,7 +421,6 @@ const BookingPayment = () => {
         />
       </section>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center z-50 bg-black bg-opacity-30">
           <div className="bg-white  rounded-xl shadow-lg">

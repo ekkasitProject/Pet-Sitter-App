@@ -7,11 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ToggleContext } from "./AuthenticatedApp";
 import React, { useState, useContext, useEffect } from "react";
-import {
-  calculateDuration,
-  formatDate,
-  formatTime,
-} from "../components/calculateDate";
+import { formatDate } from "../components/calculateDate";
 import axios from "axios";
 
 const BillBooking = () => {
@@ -24,30 +20,21 @@ const BillBooking = () => {
   };
 
   const {
-    selectedPets,
-    setSelectedPets,
     petOwnerID,
-    setPetOwnerID,
-    messageAdditional,
-    setMessageAdditional,
-    selectedPetsitterID,
-    setSelectedPetsitterID,
+
     selectedPetsitterName,
-    setSelectedPetsitterName,
+
     selectedPetsitterUser,
-    setSelectedPetsitterUser,
+
     selectedDate,
-    setSelectedDate,
+
     startTime,
-    setStartTime,
+
     endTime,
-    setEndTime,
+
     prices,
-    setPrices,
-    selectedTimes,
-    setSelectedTimes,
+
     selectedPetsName,
-    setSelectedPetsName,
   } = useContext(ToggleContext);
 
   const current = new Date();
@@ -62,7 +49,7 @@ const BillBooking = () => {
     const res = await axios.get(
       `http://localhost:6543/booking/petowner/${petOwnerID}`
     );
-    // console.log(res.data.bookings);
+
     const bookings = res.data.bookings;
 
     if (bookings.length > 0) {
@@ -82,7 +69,7 @@ const BillBooking = () => {
     const resBookingId = await axios.get(
       `http://localhost:6543/booking/petowner/${petOwnerID}/${lastBookingId.booking_id}`
     );
-    // console.log(resBookingId.data.booking);
+
     setBillData(resBookingId.data.booking);
   };
 

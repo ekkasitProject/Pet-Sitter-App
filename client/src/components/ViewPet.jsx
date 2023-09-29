@@ -25,14 +25,10 @@ function ViewPet() {
   const [photo, setPhoto] = useState("");
 
   const {
-    toggleViewPet,
     setToggleViewPet,
-    toggleDeletePet,
+
     setToggleDeletePet,
     petID,
-    setPetID,
-    isAllPetChange,
-    setIsAllPetChange,
   } = useContext(ToggleContext);
 
   const handleToggleViewPet = () => {
@@ -45,8 +41,6 @@ function ViewPet() {
 
   useEffect(() => {
     getPetByID();
-    // console.log(petID);
-    // console.log(petDetail);
   }, [petID]);
 
   useEffect(() => {
@@ -75,7 +69,7 @@ function ViewPet() {
     formData.append("color", color);
     formData.append("weight", weight);
     formData.append("about", about);
-    //formData.append("image_profile", avatars);
+
     formData.append("avatar", avatars);
 
     formData.forEach((value, key) => {
@@ -84,27 +78,15 @@ function ViewPet() {
 
     console.log(avatars);
     console.log(formData);
-    /*
-    const data = {
-      petname,
-      pettype: petType,
-      breed,
-      sex,
-      age,
-      color,
-      weight,
-      about,
-    };
-    */
-    // console.log(data);
+
     updatePet(formData);
-    // setToggleViewPet(false);
+
     setIsAlert(true);
   };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    //setAvatars(URL.createObjectURL(file));
+
     setAvatars(file);
     setPhoto(URL.createObjectURL(file));
     console.log(avatars);

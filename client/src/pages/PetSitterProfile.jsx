@@ -1,13 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import React, { useState, useContext, useEffect } from "react";
-import { ToggleContext } from "./AuthenticatedApp";
+
 import SideBarPetsitter from "../components/SideBarPetsitter";
 import HeaderPetsitter from "../components/HeaderPetsitter";
-import profile_user from "../assets/icons/profile.svg";
-import { useParams } from "react-router-dom";
+
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { PlusIcon, AddIcon, CloseIcon } from "../components/Icons";
+import { PlusIcon, AddIcon } from "../components/Icons";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import fetchUserData from "../hooks/fetchUserData";
@@ -57,10 +55,8 @@ function PetSitterProfile() {
           return;
         }
         const decodedToken = jwtDecode(token);
-        // console.log("Decoded Token:", decodedToken);
         if (decodedToken.petsitterId) {
           const petSitterID = decodedToken.petsitterId;
-          // console.log("petSitterID:", petSitterID);
 
           const result = await axios.get(
             `http://localhost:6543/petSitterUser/${petSitterID}`,
@@ -70,7 +66,6 @@ function PetSitterProfile() {
               },
             }
           );
-          //console.log(result.data.petSitterUser);
 
           setFormData((prevFormData) => ({
             ...prevFormData,
@@ -142,15 +137,11 @@ function PetSitterProfile() {
     newFormData.append("sub_district", formData.subDistrict);
     newFormData.append("province", formData.province);
     newFormData.append("post_code", formData.postcode);
-    // newFormData.append("oldImageUrl", oldImageUrl);
     newFormData.append("pet_type", allPetString);
 
     for (let file of fileGallery) {
       newFormData.append("gallery", file);
     }
-    // newFormData.forEach((value, key) => {
-    //   console.log(`${key}: ${value}`);
-    // });
     const isFormValid = Object.values(formErrors).every(
       (error) => error === ""
     );
@@ -238,54 +229,6 @@ function PetSitterProfile() {
       avatars: URL.createObjectURL(file),
     }));
   };
-
-  // const validateForm = () => {
-  //   const errors = {};
-
-  //   if (formData.fullName.trim() === "") {
-  //     errors.fullName = "Full name is required";
-  //   }
-
-  //   if (formData.idNumber.trim() === "" || formData.idNumber.length !== 13) {
-  //     errors.idNumber = "ID Number must be 13 characters";
-  //   }
-
-  //   const phonePattern = /^[0-9]{10}$/;
-  //   if (!phonePattern.test(formData.phone)) {
-  //     errors.phone = "Invalid phone number format";
-  //   }
-
-  //   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  //   if (!emailPattern.test(formData.email)) {
-  //     errors.email = "Invalid email format";
-  //   }
-
-  //   if (formData.address.trim() === "") {
-  //     errors.address = "Address Detail is required";
-  //   }
-
-  //   if (formData.district.trim() === "") {
-  //     errors.district = "District is required";
-  //   }
-
-  //   if (formData.subDistrict.trim() === "") {
-  //     errors.subDistrict = "Sub-district is required";
-  //   }
-
-  //   if (formData.province.trim() === "") {
-  //     errors.province = "Province is required";
-  //   }
-
-  //   const postalCodePattern = /^[0-9]{5}$/;
-  //   if (!postalCodePattern.test(formData.postcode)) {
-  //     errors.postcode = "Invalid postcode format (should be 5 digits)";
-  //   }
-
-  //   setFormErrors(errors);
-
-  //   // Check if there are no errors
-  //   return Object.keys(errors).length === 0;
-  // };
 
   const validateInput = (name, value) => {
     let error = "";
@@ -675,7 +618,6 @@ function PetSitterProfile() {
                       type="text"
                       value={formData.address}
                       onChange={handleInputChange}
-                      //placeholder="your username "
                       required
                       className="invalid:border-red-500 border-primaryGray5 border-2 rounded-lg w-full h-[45px] mt-2 text-primaryGray2 pl-3 focus:outline-none focus:border-primaryOrange3"
                     />
