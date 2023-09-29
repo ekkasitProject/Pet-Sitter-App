@@ -308,44 +308,38 @@ function PetSitterDetail() {
                         </h2>
                       </div>
                       <div className="space-y-6 w-[440px] ">
-                        <div className="flex flex-row ">
-                          <img
-                            src={calendarIcon}
-                            alt="calendarIcon"
-                            className="px-1"
-                          />
-                          <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <DemoContainer components={["DatePicker"]}>
-                              <DatePicker
-                                sx={{
-                                  "& .MuiOutlinedInput-root": {
-                                    "& fieldset": {
-                                      borderColor: "#AEB1C3",
-                                    },
-                                    "&:hover fieldset": {
-                                      borderColor: "#FF7037",
-                                    },
-                                    "&.Mui-focused fieldset": {
-                                      borderColor: "#FF7037",
-                                    },
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                          <DemoContainer components={["DatePicker"]}>
+                            <DatePicker
+                              sx={{
+                                "& .MuiOutlinedInput-root": {
+                                  "& fieldset": {
+                                    borderColor: "#AEB1C3",
                                   },
-                                }}
-                                label=""
-                                defaultValue={today}
-                                minDate={tomorrow}
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
-                              />
-                            </DemoContainer>
-                          </LocalizationProvider>
-                        </div>
+                                  "&:hover fieldset": {
+                                    borderColor: "#FF7037",
+                                  },
+                                  "&.Mui-focused fieldset": {
+                                    borderColor: "#FF7037",
+                                  },
+                                },
+                              }}
+                              label=""
+                              defaultValue={today}
+                              minDate={tomorrow}
+                              value={selectedDate}
+                              onChange={handleDateChange}
+                              className="w-full border rounded-md p-2 focus:ring focus:ring-blue-200"
+                            />
+                          </DemoContainer>
+                        </LocalizationProvider>
+
                         <div className="flex items-center">
                           <div className="flex space-x-4">
-                            <div>
-                              <img src={clockIcon} alt="Clock_Icon" />
-                            </div>
-                            <div className="flex flex-col">
+                            <div className="flex flex-row items-center justify-between gap-1">
+                              <div>
+                                <img src={clockIcon} alt="Clock_Icon" />
+                              </div>
                               <select
                                 className="border border-primaryGray4 rounded-md py-3 px-12 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-full "
                                 value={startTime}
