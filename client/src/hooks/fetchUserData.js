@@ -425,12 +425,58 @@ const fetchUserData = () => {
       );
 
       setIsLoading(false);
-      // navigate(`/petsitter/bookinglist/${petSitterID}`);
+      navigate(`/petsitter/bookinglist/${petSitterID}`);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const inServiceBooking = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const data = {
+        bookingId: bookingID,
+      };
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:6543/booking/petsitter/${petSitterID}/in-service`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setIsLoading(false);
+      navigate(`/petsitter/bookinglist/${petSitterID}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const successBooking = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const data = {
+        bookingId: bookingID,
+      };
+      setIsLoading(true);
+      await axios.put(
+        `http://localhost:6543/booking/petsitter/${petSitterID}/end-service`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setIsLoading(false);
+      navigate(`/petsitter/bookinglist/${petSitterID}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return {
     getPetOwnerProfile,
     petOwnerProfile,
@@ -464,6 +510,8 @@ const fetchUserData = () => {
     setBookingListById,
     confirmBooking,
     rejectBooking,
+    inServiceBooking,
+    successBooking,
   };
 };
 

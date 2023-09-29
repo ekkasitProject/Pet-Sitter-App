@@ -266,6 +266,7 @@ booking.get("/petsitter/:sitterId", async (req, res) => {
           status_booking: booking.status_booking,
           petowner: booking.petowner,
           petdetails: petDetails,
+          transaction_no: booking.transaction_no,
         };
       })
     );
@@ -431,7 +432,7 @@ booking.put("/petsitter/:sitterId/end-service", async (req, res) => {
     const currentDatetime = new Date();
     const bookingEndTime = new Date(booking.endTime);
     if (currentDatetime >= bookingEndTime) {
-      // อัปเดต status_pet เป็น false เมื่อ petsitter เสร็จสิ้นการบริการ
+      //อัปเดต status_pet เป็น false เมื่อ petsitter เสร็จสิ้นการบริการ
       await prisma.petDetail.updateMany({
         where: {
           pet_id: {

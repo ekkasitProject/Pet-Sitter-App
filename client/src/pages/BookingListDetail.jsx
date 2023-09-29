@@ -48,6 +48,8 @@ function BookingListDetail() {
     isLoading,
     confirmBooking,
     rejectBooking,
+    inServiceBooking,
+    successBooking,
     petsitterProfile,
     setPetsitterProfile,
     getPetsitterProfile,
@@ -108,6 +110,14 @@ function BookingListDetail() {
 
   const handleConfirmBooking = () => {
     confirmBooking();
+  };
+
+  const handleInServiceBooking = () => {
+    inServiceBooking();
+  };
+
+  const handleSucceedBooking = () => {
+    successBooking();
   };
 
   const getBookingDetail = (bookingList, bookingID) => {
@@ -188,8 +198,8 @@ function BookingListDetail() {
                   </button>
                 ) : bookingList[index].status_booking == "In service" ? (
                   <button
-                    disabled
-                    className=" h-[50px] px-5 py-1 rounded-full disabled:bg-primaryGray4 disabled:text-primaryGray3"
+                    className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray5 disabled:text-primaryGray3"
+                    onClick={handleSucceedBooking}
                   >
                     Success
                   </button>
@@ -249,7 +259,10 @@ function BookingListDetail() {
                   </>
                 ) : bookingList[index].status_booking ==
                   "Waiting for service" ? (
-                  <button className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3">
+                  <button
+                    className=" h-[50px] px-5 py-1 bg-primaryOrange2 rounded-full active:bg-primaryOrange1 text-white hover:bg-primaryOrange3 disabled:bg-primaryGray4 disabled:text-primaryGray3"
+                    onClick={handleInServiceBooking}
+                  >
                     In Service
                   </button>
                 ) : bookingList[index].status_booking ==
@@ -433,19 +446,10 @@ function BookingListDetail() {
               </div>
               <div className="flex flex-col gap-1">
                 <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
-                  Transaction Date
-                </div>
-                <div className="">
-                  {formatDate(bookingList[index].startTime)}
-                </div>
-              </div>
-              {/*<div className="flex flex-col gap-1">
-                 <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
                   Transaction No
                 </div>
-                <div className="">2</div>
-                
-              </div>*/}
+                <div className=""> {bookingList[index].transaction_no}</div>
+              </div>
               <div className="flex flex-col gap-1">
                 <div className="text-headLine4 text-primaryGray4 w-full flex flex-row justify-start">
                   Additional Message
