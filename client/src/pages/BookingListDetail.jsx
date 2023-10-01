@@ -431,7 +431,6 @@ function BookingListDetail() {
                     bookingList[index].startTime,
                     bookingList[index].endTime
                   )}{" "}
-                  hours
                 </div>
               </div>
               <div className="flex flex-col gap-1">
