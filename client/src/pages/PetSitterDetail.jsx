@@ -331,7 +331,7 @@ function PetSitterDetail() {
                                   },
                                 }}
                                 label=""
-                                defaultValue={today}
+                                defaultValue={tomorrow}
                                 minDate={tomorrow}
                                 value={selectedDate}
                                 onChange={handleDateChange}
@@ -345,7 +345,11 @@ function PetSitterDetail() {
                           <div className="flex space-x-4">
                             <div className="flex flex-row items-center justify-between gap-1">
                               <div>
-                                <img src={clockIcon} alt="Clock_Icon" className="px-1" />
+                                <img
+                                  src={clockIcon}
+                                  alt="Clock_Icon"
+                                  className="px-1"
+                                />
                               </div>
                               <select
                                 className="border border-primaryGray4 rounded-md py-3 px-2 focus:ring-2 focus:ring-orange-200 focus:border-orange-500 bg-white w-[180px] "
