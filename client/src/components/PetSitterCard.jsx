@@ -9,7 +9,7 @@ function PetSitterCard(props) {
       <div className="pet-sitter-image-card  w-1/3 h-full cursor-pointer">
         <img
           src={props.petSitterImage}
-          className="rounded-lg w-[300px] h-[250px] object-fill "
+          className="rounded-lg w-[300px] h-[250px] object-cover "
           alt="pet sitter picture"
         />
       </div>

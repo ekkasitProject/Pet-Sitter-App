@@ -373,7 +373,7 @@ function PetSitterProfile() {
                   <div className="">
                     <div className="flex justify-center relative items-center my-8 w-[220px] h-[220px] rounded-full bg-slate-200">
                       <img
-                        className="object-fit w-[220px] h-[220px] rounded-full"
+                        className="object-cover w-[220px] h-[220px] rounded-full"
                         src={formData.avatars}
                         alt=""
                       />

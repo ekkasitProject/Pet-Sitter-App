@@ -133,7 +133,7 @@ function ViewPet() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img
-              className="object-fit w-[220px] h-[220px] rounded-full"
+              className="object-cover w-[220px] h-[220px] rounded-full"
               src={photo}
               alt="pet photo"
             />

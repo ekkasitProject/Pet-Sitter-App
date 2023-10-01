@@ -201,7 +201,7 @@ function UserProfile() {
         <form onSubmit={handleSubmit} className="flex flex-col gap-10">
           <div className="flex justify-center relative items-center my-14 w-[220px] h-[220px] rounded-full bg-slate-200">
             <img
-              className="object-fit w-[220px] h-[220px] rounded-full"
+              className="object-cover w-[220px] h-[220px] rounded-full"
               src={photo}
               alt="Profile Avatar"
             />
@@ -211,7 +211,7 @@ function UserProfile() {
               return (
                 <div key={avatarKey} className="image-preview-container">
                   <img
-                    className="object-fit w-[220px] h-[220px] rounded-full z-10"
+                    className="object-cover w-[220px] h-[220px] rounded-full z-10"
                     src={URL.createObjectURL(file)}
                     alt={file.name}
                   />
@@ -221,7 +221,7 @@ function UserProfile() {
             */}
             {/* 
              <img
-              className="object-fit"
+              className="object-cover"
               src={profile_user}
               //src={petOwnerProfile.image_profile}
               alt=""

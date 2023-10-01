@@ -377,7 +377,7 @@ function PetSitterList() {
               <div className="pet-sitter-image-card  w-1/3 h-full cursor-pointer">
                 <img
                   src="https://cdn.pic.in.th/file/picinth/test2b3994a0bf0671b1.jpeg"
-                  className="rounded-lg w-[300px] h-[250px] object-fill "
+                  className="rounded-lg w-[300px] h-[250px] object-cover "
                   alt="pet sitter picture"
                 />
               </div>
